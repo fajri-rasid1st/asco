@@ -2,24 +2,21 @@
 import 'package:equatable/equatable.dart';
 
 class DataResponse extends Equatable {
-  final int? code;
-  final String? message;
+  final String? status;
   final dynamic data;
 
   const DataResponse({
-    this.code,
-    this.message,
+    this.status,
     this.data,
   });
 
   factory DataResponse.fromJson(Map<String, dynamic> json) {
     return DataResponse(
-      code: json['code'],
-      message: json['message'],
+      status: json['status'],
       data: json['data'],
     );
   }
 
   @override
-  List<Object?> get props => [code, message, data];
+  List<Object?> get props => [status, data];
 }

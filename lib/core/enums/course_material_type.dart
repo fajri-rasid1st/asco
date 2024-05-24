@@ -1,1 +1,0 @@
-enum CourseMaterialType { article, quiz }

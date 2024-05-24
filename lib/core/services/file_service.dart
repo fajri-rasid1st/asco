@@ -10,7 +10,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 // Project imports:
-import 'package:law_app/core/utils/http_client.dart';
+import 'package:asco/core/utils/http_client.dart';
 
 class FileService {
   static Future<String?> downloadFile({

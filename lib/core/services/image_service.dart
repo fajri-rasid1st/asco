@@ -9,10 +9,7 @@ class ImageService {
   static Future<String?> pickImage(ImageSource source) async {
     final ImagePicker picker = ImagePicker();
 
-    final XFile? image = await picker.pickImage(
-      source: source,
-      imageQuality: 70,
-    );
+    final XFile? image = await picker.pickImage(source: source);
 
     return image?.path;
   }
@@ -26,7 +23,7 @@ class ImageService {
       aspectRatio: aspectRatio,
       maxWidth: 500,
       maxHeight: 500,
-      compressQuality: 70,
+      compressQuality: 50,
       uiSettings: [
         AndroidUiSettings(
           toolbarTitle: 'Crop Gambar',
