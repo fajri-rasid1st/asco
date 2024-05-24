@@ -1,0 +1,1 @@
+enum BookFileType { cover, file }
