@@ -1,6 +1,8 @@
 // Flutter imports:
-import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:flutter/material.dart';
+
+// Project imports:
+import 'package:asco/core/enums/snack_bar_type.dart';
 
 /// A collection of widget utility functions that are reusable for this app
 class WidgetUtils {

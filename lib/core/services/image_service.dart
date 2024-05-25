@@ -3,7 +3,7 @@ import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 // Project imports:
-import 'package:law_app/core/styles/color_scheme.dart';
+import 'package:asco/core/styles/color_scheme.dart';
 
 class ImageService {
   static Future<String?> pickImage(ImageSource source) async {
@@ -18,7 +18,9 @@ class ImageService {
     required String imagePath,
     CropAspectRatio? aspectRatio,
   }) async {
-    final CroppedFile? croppedFile = await ImageCropper().cropImage(
+    final ImageCropper cropper = ImageCropper();
+
+    final CroppedFile? croppedImage = await cropper.cropImage(
       sourcePath: imagePath,
       aspectRatio: aspectRatio,
       maxWidth: 500,
@@ -27,9 +29,9 @@ class ImageService {
       uiSettings: [
         AndroidUiSettings(
           toolbarTitle: 'Crop Gambar',
-          toolbarColor: primaryColor,
-          toolbarWidgetColor: scaffoldBackgroundColor,
-          activeControlsWidgetColor: primaryColor,
+          toolbarColor: purple2,
+          toolbarWidgetColor: backgroundColor,
+          activeControlsWidgetColor: purple3,
           backgroundColor: scaffoldBackgroundColor,
           hideBottomControls: true,
         ),
@@ -43,6 +45,6 @@ class ImageService {
       ],
     );
 
-    return croppedFile?.path;
+    return croppedImage?.path;
   }
 }

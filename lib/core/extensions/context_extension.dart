@@ -2,16 +2,13 @@
 import 'dart:async';
 
 // Flutter imports:
+import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/core/utils/widget_utils.dart';
-import 'package:flutter/material.dart';
-
-extension NavigationExtension on BuildContext {
-  void back() {
-    navigatorKey.currentState?.pop();
-  }
-}
+import 'package:asco/src/presentation/shared/widgets/loading_indicator.dart';
 
 extension DialogExtension on BuildContext {
   Future<Object?> showLoadingDialog() {
@@ -24,7 +21,7 @@ extension DialogExtension on BuildContext {
 }
 
 extension SnackBarExtension on BuildContext {
-  void showBanner({
+  void showSnackBar({
     required String message,
     required SnackBarType type,
   }) {
@@ -39,18 +36,18 @@ extension SnackBarExtension on BuildContext {
   }
 }
 
-extension ModalBottomSheetExtension on BuildContext {
-  Future<Object?> showNetworkErrorModalBottomSheet({
-    VoidCallback? onPressedPrimaryButton,
-  }) {
-    return showModalBottomSheet(
-      context: this,
-      isScrollControlled: true,
-      isDismissible: false,
-      enableDrag: false,
-      builder: (context) => NetworkErrorBottomSheet(
-        onPressedPrimaryButton: onPressedPrimaryButton,
-      ),
-    );
-  }
-}
+// extension ModalBottomSheetExtension on BuildContext {
+//   Future<Object?> showNetworkErrorModalBottomSheet({
+//     VoidCallback? onPressedPrimaryButton,
+//   }) {
+//     return showModalBottomSheet(
+//       context: this,
+//       isScrollControlled: true,
+//       isDismissible: false,
+//       enableDrag: false,
+//       builder: (context) => NetworkErrorBottomSheet(
+//         onPressedPrimaryButton: onPressedPrimaryButton,
+//       ),
+//     );
+//   }
+// }

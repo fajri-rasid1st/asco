@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_riverpod: ^2.5.1
+  flutter_spinkit: ^5.2.1
   http: ^1.2.1
   image_cropper: ^6.0.0
   image_picker: ^1.1.1
@@ -26,6 +27,7 @@ dependencies:
 dev_dependencies:
   build_runner: ^2.4.9
   custom_lint: ^0.6.4
+  flutter_launcher_icons: ^0.13.1
   flutter_lints: ^3.0.0
   flutter_test:
     sdk: flutter
@@ -35,3 +37,19 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/
+    - assets/icons/
+    - assets/images/
+    - assets/vectors/
+    - assets/rive_animations/
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: fonts/Poppins-Bold.ttf
+        - asset: fonts/Poppins-SemiBold.ttf
+        - asset: fonts/Poppins-Medium.ttf
+        - asset: fonts/Poppins-Regular.ttf
+        - asset: fonts/Poppins-Light.ttf

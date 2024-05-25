@@ -1,7 +1,9 @@
 // Package imports:
+import 'package:shared_preferences/shared_preferences.dart';
+
+// Project imports:
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/credential_saver.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthPreferencesHelper {
   static AuthPreferencesHelper? _instance;

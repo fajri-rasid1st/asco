@@ -2,17 +2,16 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:law_app/core/styles/color_scheme.dart';
-import 'package:law_app/core/styles/text_style.dart';
+import 'package:asco/core/styles/color_scheme.dart';
 
 final filledButtonTheme = FilledButtonThemeData(
   style: FilledButton.styleFrom(
     backgroundColor: primaryColor,
-    foregroundColor: secondaryColor,
-    disabledBackgroundColor: backgroundColor,
-    disabledForegroundColor: secondaryTextColor,
+    foregroundColor: backgroundColor,
+    disabledBackgroundColor: disabledColor,
+    disabledForegroundColor: disabledTextColor,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(10),
     ),
   ),
 );
@@ -20,10 +19,10 @@ final filledButtonTheme = FilledButtonThemeData(
 final outlinedButtonTheme = OutlinedButtonThemeData(
   style: OutlinedButton.styleFrom(
     foregroundColor: primaryColor,
-    disabledForegroundColor: secondaryTextColor,
+    disabledForegroundColor: disabledTextColor,
     side: const BorderSide(color: primaryColor),
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(10),
     ),
   ),
 );
@@ -31,9 +30,9 @@ final outlinedButtonTheme = OutlinedButtonThemeData(
 final textButtonTheme = TextButtonThemeData(
   style: TextButton.styleFrom(
     foregroundColor: primaryColor,
-    disabledForegroundColor: secondaryTextColor,
+    disabledForegroundColor: disabledTextColor,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(10),
     ),
   ),
 );

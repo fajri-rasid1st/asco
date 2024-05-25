@@ -1,7 +1,9 @@
 // Package imports:
-import 'package:asco/core/errors/exceptions.dart';
 import 'package:equatable/equatable.dart';
 import 'package:http/http.dart';
+
+// Project imports:
+import 'package:asco/core/errors/exceptions.dart';
 
 /// A base Failure class.
 abstract class Failure extends Equatable {

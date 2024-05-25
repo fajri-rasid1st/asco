@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:law_app/core/styles/color_scheme.dart';
+import 'package:asco/core/styles/color_scheme.dart';
 
 final textTheme = const TextTheme(
   displayLarge: TextStyle(
@@ -59,7 +59,7 @@ final textTheme = const TextTheme(
     fontWeight: FontWeight.w400,
   ),
 ).apply(
-  fontFamily: 'Raleway',
+  fontFamily: 'Poppins',
   bodyColor: primaryTextColor,
   displayColor: primaryTextColor,
 );
