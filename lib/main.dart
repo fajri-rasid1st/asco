@@ -1,22 +1,29 @@
 // Flutter imports:
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-void main() {
-  runApp(const MainApp());
-}
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+// Project imports:
+import 'package:asco/app.dart';
 
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        body: Center(
-          child: Text("Hello World"),
-        ),
-      ),
-    );
-  }
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Init credential saver
+  await CredentialSaver.init();
+
+  // Prevent landscape orientation
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
+
+  runApp(
+    const ProviderScope(
+      child: AscoApp(),
+    ),
+  );
 }

@@ -11,7 +11,6 @@ import 'package:after_layout/after_layout.dart';
 import 'package:asco/core/configs/app_configs.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
-import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
@@ -26,7 +25,7 @@ class _SplashPageState extends State<SplashPage> with AfterLayoutMixin<SplashPag
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) {
     Timer(const Duration(seconds: 3), () async {
-      await navigatorKey.currentState!.pushReplacementNamed(loginRoute);
+      await navigatorKey.currentState!.pushReplacementNamed(onBoardingRoute);
     });
   }
 
@@ -61,10 +60,13 @@ class _SplashPageState extends State<SplashPage> with AfterLayoutMixin<SplashPag
                 const SvgAsset(
                   assetName: 'logo1.svg',
                 ),
-                const SizedBox(height: 4),
                 Text(
                   AppConfigs.title,
-                  style: textTheme.displaySmall,
+                  style: const TextStyle(
+                    color: backgroundColor,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 44,
+                  ),
                 ),
               ],
             ),

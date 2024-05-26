@@ -18,6 +18,9 @@ ThemeData get lightTheme {
     textButtonTheme: textButtonTheme,
     inputDecorationTheme: inputDecorationTheme,
     scaffoldBackgroundColor: scaffoldBackgroundColor,
+    hintColor: hintColor,
+    dividerColor: dividerColor,
+    cardColor: backgroundColor,
     pageTransitionsTheme: const PageTransitionsTheme(
       builders: {
         TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),

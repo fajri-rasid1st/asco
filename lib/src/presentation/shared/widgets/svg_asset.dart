@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:asco/core/helpers/asset_path.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -21,7 +22,7 @@ class SvgAsset extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SvgPicture.asset(
-      assetName,
+      AssetPath.getVector(assetName),
       width: width,
       height: height,
       colorFilter: color != null ? ColorFilter.mode(color!, BlendMode.srcIn) : null,
