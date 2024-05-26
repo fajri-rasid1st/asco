@@ -2,5 +2,6 @@
 
 // Auth routes
 const wrapperRoute = '/wrapper';
-const loginRoute = '/login';
-const homeRoute = '/home';
+const onBoardingRoute = '/on-boarding';
+
+const homeRoute = '/';
