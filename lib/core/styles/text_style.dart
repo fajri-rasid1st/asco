@@ -17,6 +17,10 @@ final textTheme = const TextTheme(
     fontSize: 36,
     fontWeight: FontWeight.w600,
   ),
+  headlineLarge: TextStyle(
+    fontSize: 32,
+    fontWeight: FontWeight.w700,
+  ),
   headlineMedium: TextStyle(
     fontSize: 28,
     fontWeight: FontWeight.w700,
@@ -45,14 +49,14 @@ final textTheme = const TextTheme(
     fontSize: 14,
     fontWeight: FontWeight.w400,
   ),
-  labelLarge: TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w700,
-    letterSpacing: 1.25,
-  ),
   bodySmall: TextStyle(
     fontSize: 12,
     fontWeight: FontWeight.w400,
+  ),
+  labelLarge: TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    letterSpacing: .1,
   ),
   labelSmall: TextStyle(
     fontSize: 10,

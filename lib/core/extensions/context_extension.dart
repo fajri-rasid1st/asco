@@ -22,10 +22,12 @@ extension DialogExtension on BuildContext {
 
 extension SnackBarExtension on BuildContext {
   void showSnackBar({
+    required String title,
     required String message,
-    required SnackBarType type,
+    SnackBarType type = SnackBarType.success,
   }) {
     final snackBar = WidgetUtils.createSnackBar(
+      title: title,
       message: message,
       type: type,
     );
@@ -35,19 +37,3 @@ extension SnackBarExtension on BuildContext {
       ..showSnackBar(snackBar);
   }
 }
-
-// extension ModalBottomSheetExtension on BuildContext {
-//   Future<Object?> showNetworkErrorModalBottomSheet({
-//     VoidCallback? onPressedPrimaryButton,
-//   }) {
-//     return showModalBottomSheet(
-//       context: this,
-//       isScrollControlled: true,
-//       isDismissible: false,
-//       enableDrag: false,
-//       builder: (context) => NetworkErrorBottomSheet(
-//         onPressedPrimaryButton: onPressedPrimaryButton,
-//       ),
-//     );
-//   }
-// }

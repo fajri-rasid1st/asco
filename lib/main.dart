@@ -1,5 +1,4 @@
 // Flutter imports:
-import 'package:asco/core/utils/credential_saver.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -8,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:asco/app.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -10,7 +10,7 @@ enum SnackBarType {
   warning(warningColor),
   info(infoColor);
 
-  final Color backgroundColor;
+  final Color color;
 
-  const SnackBarType(this.backgroundColor);
+  const SnackBarType(this.color);
 }
