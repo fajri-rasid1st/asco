@@ -25,7 +25,7 @@ class LoadingIndicator extends StatelessWidget {
       child: SpinKitCubeGrid(
         color: primaryColor,
         size: 50.0,
-        duration: Duration(milliseconds: 1500),
+        duration: Duration(milliseconds: 1000),
       ),
     );
   }

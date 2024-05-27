@@ -1,24 +1,22 @@
 // Flutter imports:
-import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:asco/core/extensions/context_extension.dart';
+import 'package:asco/src/presentation/shared/widgets/input_fields/search_field.dart';
 
 class OnBoardingPage extends StatelessWidget {
   const OnBoardingPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
-        child: FilledButton(
-          onPressed: () => context.showSnackBar(
-            title: 'Login Gagal Pfpsa audpasos psaa!',
-            message: 'Username atau password yang kamu masukkan salah aofhs hfasofh oafhaso',
-            type: SnackBarType.success,
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20),
+          child: SearchField(
+            text: 'sss',
+            hintText: 'Cari nama atau username',
           ),
-          child: const Text('Press Me!'),
         ),
       ),
     );

@@ -42,7 +42,7 @@ const primaryColor = Color(0xFF744BE4);
 const secondaryColor = Color(0xFFBBAEF2);
 
 // Text colors
-const primaryTextColor = Color(0xFF252525);
+const primaryTextColor = Color(0xFF2B2638);
 const secondaryTextColor = Color(0xFF97979A);
 const errorTextColor = Color(0xFFE44B70);
 const disabledTextColor = Color(0xFF6884B6);
@@ -55,7 +55,7 @@ const scaffoldBackgroundColor = Color(0xFFF2F6FE);
 // Component colors
 const borderColor = Color(0xFF85A2D6);
 const disabledColor = Color(0xFFF1F5F9);
-const hintColor = Color(0xFFD1D5DB);
+const hintColor = Color(0xFFC8CED7);
 const dividerColor = Color(0xFFD6DCE5);
 const errorColor = Color(0xFFFA78A6);
 const successColor = Color(0xFF744BE4);

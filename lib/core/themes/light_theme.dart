@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/themes/button_theme.dart';
+import 'package:asco/core/themes/dialog_theme.dart';
 import 'package:asco/core/themes/input_decoration_theme.dart';
 
 ThemeData get lightTheme {
@@ -16,6 +17,7 @@ ThemeData get lightTheme {
     filledButtonTheme: filledButtonTheme,
     outlinedButtonTheme: outlinedButtonTheme,
     textButtonTheme: textButtonTheme,
+    dialogTheme: dialogTheme,
     inputDecorationTheme: inputDecorationTheme,
     scaffoldBackgroundColor: scaffoldBackgroundColor,
     hintColor: hintColor,

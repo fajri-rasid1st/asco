@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/core/utils/widget_utils.dart';
+import 'package:asco/src/presentation/shared/widgets/dialogs/confirm_dialog.dart';
 import 'package:asco/src/presentation/shared/widgets/loading_indicator.dart';
 
 extension DialogExtension on BuildContext {
@@ -16,6 +17,24 @@ extension DialogExtension on BuildContext {
       context: this,
       barrierDismissible: false,
       builder: (_) => const LoadingIndicator(),
+    );
+  }
+
+  Future<Object?> showConfirmDialog({
+    required String title,
+    required String message,
+    String? primaryButtonText,
+    VoidCallback? onPressedPrimaryButton,
+  }) {
+    return showDialog(
+      context: this,
+      barrierDismissible: false,
+      builder: (_) => ConfirmDialog(
+        title: title,
+        message: message,
+        primaryButtonText: primaryButtonText,
+        onPressedPrimaryButton: onPressedPrimaryButton,
+      ),
     );
   }
 }

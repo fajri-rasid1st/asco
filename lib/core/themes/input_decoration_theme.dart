@@ -19,6 +19,12 @@ final inputDecorationTheme = InputDecorationTheme(
       color: errorTextColor,
     ),
   ),
+  disabledBorder: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(12),
+    borderSide: const BorderSide(
+      color: borderColor,
+    ),
+  ),
   enabledBorder: OutlineInputBorder(
     borderRadius: BorderRadius.circular(12),
     borderSide: const BorderSide(
