@@ -41,7 +41,7 @@ class SortingDialog extends StatelessWidget {
               initialValue: values.first,
               onChanged: (_) {},
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             CustomDropdownField(
               name: 'sortingOrder',
               label: 'Urutkan Secara',

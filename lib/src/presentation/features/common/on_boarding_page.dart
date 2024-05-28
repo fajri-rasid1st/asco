@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 // Project imports:
-import 'package:asco/src/presentation/shared/widgets/dialogs/github_repository_dialog.dart';
+import 'package:asco/src/presentation/shared/widgets/dialogs/classroom_form_dialog.dart';
 
 class OnBoardingPage extends StatelessWidget {
   const OnBoardingPage({super.key});
@@ -24,7 +24,11 @@ class OnBoardingPage extends StatelessWidget {
             onPressed: () => showDialog(
               context: context,
               barrierDismissible: false,
-              builder: (_) => const GithubRepositoryDialog(),
+              builder: (_) => ClassroomFormDialog(
+                onSubmitted: (value) {
+                  print(value);
+                },
+              ),
             ),
             child: const Text('Press Me!'),
           ),
