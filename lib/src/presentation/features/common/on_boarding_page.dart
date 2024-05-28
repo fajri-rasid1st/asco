@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:asco/src/presentation/shared/widgets/input_fields/markdown_field.dart';
+import 'package:asco/src/presentation/shared/widgets/dialogs/github_repository_dialog.dart';
 
 class OnBoardingPage extends StatelessWidget {
   const OnBoardingPage({super.key});
@@ -11,14 +11,13 @@ class OnBoardingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: MarkdownField(
-            name: '',
-            label: 'Informasi',
-            onChanged: (text) {},
-            hintText: 'Masukkan informasi selengkap mungkin',
+        child: OutlinedButton(
+          onPressed: () => showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (_) => const GithubRepositoryDialog(),
           ),
+          child: const Text('Press Me!'),
         ),
       ),
     );

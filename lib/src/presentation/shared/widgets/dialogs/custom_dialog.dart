@@ -18,7 +18,7 @@ class CustomDialog extends StatelessWidget {
     super.key,
     required this.title,
     required this.child,
-    this.childPadding = const EdgeInsets.fromLTRB(20, 12, 20, 24),
+    this.childPadding = const EdgeInsets.fromLTRB(20, 8, 20, 24),
     this.onPressedPrimaryAction,
   });
 
@@ -33,34 +33,38 @@ class CustomDialog extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Row(
-              children: <Widget>[
-                IconButton(
-                  onPressed: () => navigatorKey.currentState!.pop(),
-                  icon: SvgAsset(
-                    assetName: AssetPath.getIcon('close_outlined.svg'),
-                    color: primaryTextColor,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(4, 8, 4, 0),
+              child: Row(
+                children: <Widget>[
+                  IconButton(
+                    onPressed: () => navigatorKey.currentState!.pop(),
+                    icon: SvgAsset(
+                      assetName: AssetPath.getIcon('close_outlined.svg'),
+                      color: primaryTextColor,
+                    ),
+                    tooltip: 'Close',
                   ),
-                  tooltip: 'Close',
-                ),
-                Expanded(
-                  child: Text(
-                    title,
-                    textAlign: TextAlign.center,
-                    style: textTheme.titleSmall!.copyWith(
-                      color: purple2,
+                  Expanded(
+                    child: Text(
+                      title,
+                      textAlign: TextAlign.center,
+                      style: textTheme.titleMedium!.copyWith(
+                        color: purple2,
+                      ),
                     ),
                   ),
-                ),
-                IconButton(
-                  onPressed: onPressedPrimaryAction,
-                  icon: SvgAsset(
-                    assetName: AssetPath.getIcon('check_outlined.svg'),
-                    color: primaryColor,
+                  IconButton(
+                    onPressed: onPressedPrimaryAction,
+                    icon: SvgAsset(
+                      assetName: AssetPath.getIcon('check_outlined.svg'),
+                      color: primaryColor,
+                      width: 26,
+                    ),
+                    tooltip: 'Submit',
                   ),
-                  tooltip: 'Submit',
-                ),
-              ],
+                ],
+              ),
             ),
             Padding(
               padding: childPadding,

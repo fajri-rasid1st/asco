@@ -9,6 +9,7 @@ import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/core/utils/widget_utils.dart';
 import 'package:asco/src/presentation/shared/widgets/dialogs/confirm_dialog.dart';
+import 'package:asco/src/presentation/shared/widgets/dialogs/sorting_dialog.dart';
 import 'package:asco/src/presentation/shared/widgets/loading_indicator.dart';
 
 extension DialogExtension on BuildContext {
@@ -37,6 +38,22 @@ extension DialogExtension on BuildContext {
       ),
     );
   }
+
+  Future<Object?> showSortingDialog({
+    required List<String> items,
+    required List<String> values,
+    void Function(Map<String, dynamic> value)? onSubmitted,
+  }) {
+    return showDialog(
+      context: this,
+      barrierDismissible: false,
+      builder: (_) => SortingDialog(
+        items: items,
+        values: values,
+        onSubmitted: onSubmitted,
+      ),
+    );
+  }
 }
 
 extension SnackBarExtension on BuildContext {
@@ -45,14 +62,14 @@ extension SnackBarExtension on BuildContext {
     required String message,
     SnackBarType type = SnackBarType.success,
   }) {
-    final snackBar = WidgetUtils.createSnackBar(
-      title: title,
-      message: message,
-      type: type,
-    );
-
     scaffoldMessengerKey.currentState!
       ..hideCurrentSnackBar()
-      ..showSnackBar(snackBar);
+      ..showSnackBar(
+        WidgetUtils.createSnackBar(
+          title: title,
+          message: message,
+          type: type,
+        ),
+      );
   }
 }
