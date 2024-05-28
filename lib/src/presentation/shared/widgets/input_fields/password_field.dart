@@ -13,7 +13,7 @@ class PasswordField extends StatefulWidget {
   final String name;
   final String label;
   final String? hintText;
-  final TextInputType? textInputType;
+  final TextInputType textInputType;
   final TextInputAction textInputAction;
   final TextCapitalization textCapitalization;
   final List<String? Function(String?)>? validators;
@@ -60,7 +60,9 @@ class _PasswordFieldState extends State<PasswordField> {
       children: [
         Text(
           widget.label,
-          style: textTheme.titleSmall!.copyWith(fontWeight: FontWeight.w600),
+          style: textTheme.titleSmall!.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
         ),
         const SizedBox(height: 6),
         buildPasswordField()

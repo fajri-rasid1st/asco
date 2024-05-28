@@ -14,7 +14,7 @@ class SearchField extends StatefulWidget {
   final String? hintText;
   final bool delayOnChanged;
   final Duration delay;
-  final ValueChanged<String>? onChanged;
+  final ValueChanged<String> onChanged;
 
   const SearchField({
     super.key,
@@ -22,7 +22,7 @@ class SearchField extends StatefulWidget {
     this.hintText,
     this.delayOnChanged = true,
     this.delay = const Duration(milliseconds: 800),
-    this.onChanged,
+    required this.onChanged,
   });
 
   @override
@@ -53,27 +53,24 @@ class _SearchFieldState extends State<SearchField> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 48,
-      child: Focus(
-        onFocusChange: (value) => isFocus.value = value,
-        child: TextField(
-          controller: controller,
-          textAlignVertical: TextAlignVertical.center,
-          textInputAction: TextInputAction.search,
-          decoration: InputDecoration(
-            hintText: widget.hintText,
-            isDense: true,
-            filled: true,
-            fillColor: backgroundColor,
-            contentPadding: EdgeInsets.zero,
-            prefixIcon: buildPrefixIcon(),
-            suffixIcon: buildSuffixIcon(),
-          ),
-          onChanged: widget.delayOnChanged
-              ? (text) => debounce(() => widget.onChanged!(text))
-              : widget.onChanged,
+    return Focus(
+      onFocusChange: (value) => isFocus.value = value,
+      child: TextField(
+        controller: controller,
+        textAlignVertical: TextAlignVertical.center,
+        textInputAction: TextInputAction.search,
+        decoration: InputDecoration(
+          hintText: widget.hintText,
+          isDense: true,
+          filled: true,
+          fillColor: backgroundColor,
+          contentPadding: EdgeInsets.zero,
+          prefixIcon: buildPrefixIcon(),
+          suffixIcon: buildSuffixIcon(),
         ),
+        onChanged: widget.delayOnChanged
+            ? (text) => debounce(() => widget.onChanged(text))
+            : widget.onChanged,
       ),
     );
   }
@@ -116,6 +113,6 @@ class _SearchFieldState extends State<SearchField> {
 
   void resetQuery() {
     controller.clear();
-    widget.onChanged!('');
+    widget.onChanged('');
   }
 }
