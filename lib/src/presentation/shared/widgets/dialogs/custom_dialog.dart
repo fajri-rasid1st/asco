@@ -27,7 +27,7 @@ class CustomDialog extends StatelessWidget {
     return Dialog(
       insetPadding: const EdgeInsets.symmetric(
         vertical: 24,
-        horizontal: 36,
+        horizontal: 32,
       ),
       child: SingleChildScrollView(
         child: Column(
@@ -36,7 +36,7 @@ class CustomDialog extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(4, 8, 4, 0),
               child: Row(
-                children: <Widget>[
+                children: [
                   IconButton(
                     onPressed: () => navigatorKey.currentState!.pop(),
                     icon: SvgAsset(

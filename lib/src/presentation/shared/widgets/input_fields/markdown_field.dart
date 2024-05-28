@@ -83,7 +83,7 @@ class _MarkdownFieldState extends State<MarkdownField> {
           valueListenable: isFocus,
           builder: (context, isFocus, child) {
             return Column(
-              children: <Widget>[
+              children: [
                 Focus(
                   onFocusChange: (value) => this.isFocus.value = value,
                   child: FormBuilderTextField(

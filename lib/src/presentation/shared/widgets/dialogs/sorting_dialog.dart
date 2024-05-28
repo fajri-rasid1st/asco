@@ -23,7 +23,7 @@ class SortingDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormBuilderState>();
-    final sortingOrders = {'asc': 'Meningkat', 'desc': 'Menurun'};
+    final orders = {'asc': 'Meningkat', 'desc': 'Menurun'};
 
     return CustomDialog(
       title: 'Urutkan Data',
@@ -33,9 +33,9 @@ class SortingDialog extends StatelessWidget {
         child: Column(
           children: [
             CustomDropdownField(
-              isSmall: true,
               name: 'sortingBy',
-              label: 'Urutkan berdasarkan',
+              label: 'Urutkan Berdasarkan',
+              isSmall: true,
               items: items,
               values: values,
               initialValue: values.first,
@@ -43,12 +43,12 @@ class SortingDialog extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             CustomDropdownField(
-              isSmall: true,
               name: 'sortingOrder',
               label: 'Urutkan Secara',
-              items: sortingOrders.values.toList(),
-              values: sortingOrders.keys.toList(),
-              initialValue: sortingOrders.keys.first,
+              isSmall: true,
+              items: orders.values.toList(),
+              values: orders.keys.toList(),
+              initialValue: orders.keys.first,
               onChanged: (_) {},
             ),
           ],

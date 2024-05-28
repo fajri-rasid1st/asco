@@ -32,7 +32,7 @@ class CustomSnackBar extends StatelessWidget {
 
     return Stack(
       clipBehavior: Clip.none,
-      children: <Widget>[
+      children: [
         Container(
           padding: EdgeInsets.fromLTRB(
             width * 0.06,
@@ -45,16 +45,16 @@ class CustomSnackBar extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           child: Row(
-            children: <Widget>[
+            children: [
               const Spacer(),
               Expanded(
                 flex: 8,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
+                  children: [
                     Row(
-                      children: <Widget>[
+                      children: [
                         Expanded(
                           child: Text(
                             title,
@@ -108,7 +108,7 @@ class CustomSnackBar extends StatelessWidget {
           left: width * 0.03,
           child: Stack(
             alignment: Alignment.center,
-            children: <Widget>[
+            children: [
               SvgAsset(
                 assetName: AssetPath.getVector('message_bubble.svg'),
                 height: height * 0.06,

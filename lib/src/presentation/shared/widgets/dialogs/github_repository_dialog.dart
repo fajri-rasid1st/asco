@@ -23,15 +23,15 @@ class GithubRepositoryDialog extends StatelessWidget {
     return Dialog(
       insetPadding: const EdgeInsets.symmetric(
         vertical: 24,
-        horizontal: 36,
+        horizontal: 32,
       ),
       child: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
+          children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
+              children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 8, left: 4),
                   child: IconButton(
@@ -48,7 +48,7 @@ class GithubRepositoryDialog extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 20),
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
+                      children: [
                         Text(
                           'Link Repository',
                           textAlign: TextAlign.center,

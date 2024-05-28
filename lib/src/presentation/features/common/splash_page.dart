@@ -3,6 +3,7 @@ import 'dart:async';
 
 // Flutter imports:
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 // Package imports:
 import 'package:after_layout/after_layout.dart';
@@ -25,54 +26,60 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> with AfterLayoutMixin<SplashPage> {
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) {
-    Timer(const Duration(seconds: 3), () async {
+    Timer(const Duration(seconds: 4), () async {
       await navigatorKey.currentState!.pushReplacementNamed(onBoardingRoute);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: purple2,
-      body: Stack(
-        children: <Widget>[
-          Positioned(
-            top: 0,
-            left: 0,
-            child: SvgAsset(
-              assetName: AssetPath.getVector('bg_attribute.svg'),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            right: 0,
-            child: RotatedBox(
-              quarterTurns: -2,
+    return AnnotatedRegion(
+      value: SystemChrome.setEnabledSystemUIMode(
+        SystemUiMode.manual,
+        overlays: [SystemUiOverlay.top],
+      ),
+      child: Scaffold(
+        backgroundColor: purple2,
+        body: Stack(
+          children: [
+            Positioned(
+              top: 0,
+              left: 0,
               child: SvgAsset(
                 assetName: AssetPath.getVector('bg_attribute.svg'),
               ),
             ),
-          ),
-          Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SvgAsset(
-                  assetName: AssetPath.getVector('logo1.svg'),
+            Positioned(
+              bottom: 0,
+              right: 0,
+              child: RotatedBox(
+                quarterTurns: -2,
+                child: SvgAsset(
+                  assetName: AssetPath.getVector('bg_attribute.svg'),
                 ),
-                Text(
-                  AppConfigs.title,
-                  style: const TextStyle(
-                    color: backgroundColor,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 44,
-                  ),
-                ),
-              ],
+              ),
             ),
-          ),
-        ],
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgAsset(
+                    assetName: AssetPath.getVector('logo1.svg'),
+                  ),
+                  Text(
+                    AppConfigs.title,
+                    style: const TextStyle(
+                      color: backgroundColor,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 44,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
