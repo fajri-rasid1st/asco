@@ -16,10 +16,13 @@ void main() async {
   await CredentialSaver.init();
 
   // Prevent landscape orientation
-  SystemChrome.setPreferredOrientations([
+  await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
+
+  // Hide status and navigation bar on first screen
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
 
   runApp(
     const ProviderScope(

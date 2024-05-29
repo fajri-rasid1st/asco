@@ -14,6 +14,7 @@ import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
+import 'package:flutter/services.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -25,8 +26,16 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> with AfterLayoutMixin<SplashPage> {
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) {
-    Timer(const Duration(seconds: 4), () async {
-      await navigatorKey.currentState!.pushReplacementNamed(onBoardingRoute);
+    Timer(const Duration(seconds: 3), () {
+      SystemChrome.setEnabledSystemUIMode(
+        SystemUiMode.manual,
+        overlays: [
+          SystemUiOverlay.top,
+          SystemUiOverlay.bottom,
+        ],
+      );
+
+      navigatorKey.currentState!.pushReplacementNamed(onBoardingRoute);
     });
   }
 
