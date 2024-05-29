@@ -1,8 +1,5 @@
-// Flutter imports:
+import 'package:asco/src/presentation/shared/widgets/dialogs/practicum_score_dialog.dart';
 import 'package:flutter/material.dart';
-
-// Project imports:
-import 'package:asco/src/presentation/shared/widgets/dialogs/assistance_dialog.dart';
 
 class OnBoardingPage extends StatelessWidget {
   const OnBoardingPage({super.key});
@@ -15,7 +12,7 @@ class OnBoardingPage extends StatelessWidget {
           onPressed: () => showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (_) => const AssistanceDialog(number: 1),
+            builder: (_) => const PracticumScoreDialog(meetingNumber: 1),
           ),
           child: const Text('Press Me!'),
         ),
