@@ -10,34 +10,34 @@ final inputDecorationTheme = InputDecorationTheme(
   errorBorder: OutlineInputBorder(
     borderRadius: BorderRadius.circular(12),
     borderSide: const BorderSide(
-      color: errorTextColor,
+      color: Palette.errorText,
     ),
   ),
   focusedErrorBorder: OutlineInputBorder(
     borderRadius: BorderRadius.circular(12),
     borderSide: const BorderSide(
-      color: errorTextColor,
+      color: Palette.errorText,
     ),
   ),
   disabledBorder: OutlineInputBorder(
     borderRadius: BorderRadius.circular(12),
     borderSide: const BorderSide(
-      color: borderColor,
+      color: Palette.border,
     ),
   ),
   enabledBorder: OutlineInputBorder(
     borderRadius: BorderRadius.circular(12),
     borderSide: const BorderSide(
-      color: borderColor,
+      color: Palette.border,
     ),
   ),
   focusedBorder: OutlineInputBorder(
     borderRadius: BorderRadius.circular(12),
     borderSide: const BorderSide(
-      color: purple2,
+      color: Palette.purple2,
     ),
   ),
   hintStyle: textTheme.bodyLarge!.copyWith(
-    color: hintColor,
+    color: Palette.hint,
   ),
 );

@@ -49,14 +49,14 @@ class AssistanceStatusDialog extends StatelessWidget {
                   'Asistensi 1',
                   textAlign: TextAlign.center,
                   style: textTheme.titleLarge!.copyWith(
-                    color: purple2,
+                    color: Palette.purple2,
                   ),
                 ),
                 Text(
                   isDone ? 'Hadir' : 'Tidak Hadir',
                   textAlign: TextAlign.center,
                   style: textTheme.titleSmall!.copyWith(
-                    color: isDone ? successColor : errorColor,
+                    color: isDone ? Palette.success : Palette.error,
                   ),
                 ),
                 const SizedBox(height: 28),

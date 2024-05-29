@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 
 enum SnackBarType {
-  error(errorColor),
-  success(successColor),
-  warning(warningColor),
-  info(infoColor);
+  error(Palette.error),
+  success(Palette.success),
+  warning(Palette.warning),
+  info(Palette.info);
 
   final Color color;
 

@@ -29,10 +29,10 @@ class ImageService {
       uiSettings: [
         AndroidUiSettings(
           toolbarTitle: 'Crop Gambar',
-          toolbarColor: purple2,
-          toolbarWidgetColor: backgroundColor,
-          activeControlsWidgetColor: purple3,
-          backgroundColor: scaffoldBackgroundColor,
+          toolbarColor: Palette.purple2,
+          toolbarWidgetColor: Palette.background,
+          activeControlsWidgetColor: Palette.purple3,
+          backgroundColor: Palette.scaffoldBackground,
           hideBottomControls: true,
         ),
         IOSUiSettings(

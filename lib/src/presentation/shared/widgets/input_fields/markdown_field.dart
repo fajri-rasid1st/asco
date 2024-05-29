@@ -96,11 +96,11 @@ class _MarkdownFieldState extends State<MarkdownField> {
                     decoration: InputDecoration(
                       hintText: widget.hintText,
                       filled: true,
-                      fillColor: backgroundColor,
+                      fillColor: Palette.background,
                       contentPadding: const EdgeInsets.all(16),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: isFocus ? purple2 : borderColor,
+                          color: isFocus ? Palette.purple2 : Palette.border,
                         ),
                         borderRadius: const BorderRadius.vertical(
                           top: Radius.circular(12),
@@ -108,7 +108,7 @@ class _MarkdownFieldState extends State<MarkdownField> {
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                          color: isFocus ? purple2 : borderColor,
+                          color: isFocus ? Palette.purple2 : Palette.border,
                         ),
                         borderRadius: const BorderRadius.vertical(
                           top: Radius.circular(12),
@@ -122,13 +122,13 @@ class _MarkdownFieldState extends State<MarkdownField> {
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: isFocus ? purple2 : borderColor,
+                        color: isFocus ? Palette.purple2 : Palette.border,
                       ),
                       left: BorderSide(
-                        color: isFocus ? purple2 : borderColor,
+                        color: isFocus ? Palette.purple2 : Palette.border,
                       ),
                       right: BorderSide(
-                        color: isFocus ? purple2 : borderColor,
+                        color: isFocus ? Palette.purple2 : Palette.border,
                       ),
                     ),
                     borderRadius: const BorderRadius.vertical(
@@ -179,7 +179,7 @@ class _MarkdownFieldState extends State<MarkdownField> {
                               padding: const EdgeInsets.all(8),
                               child: Icon(
                                 type.icon,
-                                color: primaryTextColor,
+                                color: Palette.primaryText,
                               ),
                             ),
                           );

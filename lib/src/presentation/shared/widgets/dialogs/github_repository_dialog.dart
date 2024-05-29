@@ -38,7 +38,7 @@ class GithubRepositoryDialog extends StatelessWidget {
                     onPressed: () => navigatorKey.currentState!.pop(),
                     icon: SvgAsset(
                       assetName: AssetPath.getIcon('close_outlined.svg'),
-                      color: primaryTextColor,
+                      color: Palette.primaryText,
                     ),
                     tooltip: 'Close',
                   ),
@@ -53,7 +53,7 @@ class GithubRepositoryDialog extends StatelessWidget {
                           'Link Repository',
                           textAlign: TextAlign.center,
                           style: textTheme.titleMedium!.copyWith(
-                            color: purple2,
+                            color: Palette.purple2,
                           ),
                         ),
                         const SizedBox(height: 2),
@@ -61,7 +61,7 @@ class GithubRepositoryDialog extends StatelessWidget {
                           'Pemrograman Mobile A (Grup 3)',
                           textAlign: TextAlign.center,
                           style: textTheme.bodySmall!.copyWith(
-                            color: purple3,
+                            color: Palette.purple3,
                           ),
                         ),
                       ],
@@ -74,7 +74,7 @@ class GithubRepositoryDialog extends StatelessWidget {
                     onPressed: () => submit(formKey),
                     icon: SvgAsset(
                       assetName: AssetPath.getIcon('check_outlined.svg'),
-                      color: primaryColor,
+                      color: Palette.primary,
                       width: 26,
                     ),
                     tooltip: 'Submit',

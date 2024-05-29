@@ -63,7 +63,7 @@ class _SearchFieldState extends State<SearchField> {
           hintText: widget.hintText,
           isDense: true,
           filled: true,
-          fillColor: backgroundColor,
+          fillColor: Palette.background,
           contentPadding: EdgeInsets.zero,
           prefixIcon: buildPrefixIcon(),
           suffixIcon: buildSuffixIcon(),
@@ -86,7 +86,7 @@ class _SearchFieldState extends State<SearchField> {
         builder: (context, isFocus, child) {
           return SvgAsset(
             assetName: AssetPath.getIcon('search_outlined.svg'),
-            color: isFocus ? purple2 : hintColor,
+            color: isFocus ? Palette.purple2 : Palette.hint,
           );
         },
       ),
@@ -100,7 +100,7 @@ class _SearchFieldState extends State<SearchField> {
       onPressed: resetQuery,
       icon: SvgAsset(
         assetName: AssetPath.getIcon('close_outlined.svg'),
-        color: primaryTextColor,
+        color: Palette.primaryText,
         width: 20,
       ),
     );

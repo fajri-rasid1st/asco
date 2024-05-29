@@ -42,7 +42,7 @@ class _SplashPageState extends State<SplashPage> with AfterLayoutMixin<SplashPag
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: purple2,
+      backgroundColor: Palette.purple2,
       body: Stack(
         children: [
           Positioned(
@@ -73,7 +73,7 @@ class _SplashPageState extends State<SplashPage> with AfterLayoutMixin<SplashPag
                 Text(
                   AppConfigs.title,
                   style: const TextStyle(
-                    color: backgroundColor,
+                    color: Palette.background,
                     fontWeight: FontWeight.bold,
                     fontSize: 44,
                   ),

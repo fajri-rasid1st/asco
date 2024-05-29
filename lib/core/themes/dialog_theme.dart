@@ -6,8 +6,8 @@ import 'package:asco/core/styles/color_scheme.dart';
 
 final dialogTheme = DialogTheme(
   elevation: 0,
-  backgroundColor: secondaryBackgroundColor,
-  surfaceTintColor: secondaryBackgroundColor,
+  backgroundColor: Palette.secondaryBackground,
+  surfaceTintColor: Palette.secondaryBackground,
   shape: RoundedRectangleBorder(
     borderRadius: BorderRadius.circular(12),
   ),

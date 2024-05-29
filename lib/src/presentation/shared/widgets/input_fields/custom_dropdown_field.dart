@@ -72,11 +72,11 @@ class _CustomDropdownFieldState extends State<CustomDropdownField> {
             name: widget.name,
             initialValue: widget.initialValue,
             elevation: 1,
-            dropdownColor: backgroundColor,
+            dropdownColor: Palette.background,
             style: widget.isSmall ? textTheme.bodyMedium : textTheme.bodyLarge,
             decoration: InputDecoration(
               filled: true,
-              fillColor: backgroundColor,
+              fillColor: Palette.background,
               contentPadding: widget.isSmall
                   ? const EdgeInsets.fromLTRB(16, 12, 12, 12)
                   : const EdgeInsets.fromLTRB(16, 16, 12, 16),
@@ -93,7 +93,7 @@ class _CustomDropdownFieldState extends State<CustomDropdownField> {
               builder: (context, isFocus, child) {
                 return Icon(
                   Icons.expand_more_rounded,
-                  color: isFocus ? purple2 : disabledTextColor,
+                  color: isFocus ? Palette.purple2 : Palette.disabledText,
                 );
               },
             ),

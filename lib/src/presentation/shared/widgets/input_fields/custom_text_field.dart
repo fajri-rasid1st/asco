@@ -106,20 +106,20 @@ class _CustomTextFieldState extends State<CustomTextField> {
       textAlignVertical: TextAlignVertical.center,
       style: widget.isSmall
           ? textTheme.bodyMedium!.copyWith(
-              color: widget.enabled ? primaryTextColor : disabledTextColor,
+              color: widget.enabled ? Palette.primaryText : Palette.disabledText,
             )
           : textTheme.bodyLarge!.copyWith(
-              color: widget.enabled ? primaryTextColor : disabledTextColor,
+              color: widget.enabled ? Palette.primaryText : Palette.disabledText,
             ),
       decoration: InputDecoration(
         filled: true,
-        fillColor: widget.enabled ? backgroundColor : disabledColor,
+        fillColor: widget.enabled ? Palette.background : Palette.disabled,
         prefixIcon: widget.prefixIconName != null ? buildPrefixIcon() : null,
         suffixIcon: widget.suffixIconName != null ? buildSuffixIcon() : null,
         hintText: widget.hintText,
         hintStyle: widget.isSmall
             ? textTheme.bodyMedium!.copyWith(
-                color: hintColor,
+                color: Palette.hint,
                 height: 1,
               )
             : null,
@@ -144,7 +144,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         builder: (context, isFocus, child) {
           return SvgAsset(
             assetName: AssetPath.getIcon(widget.prefixIconName!),
-            color: isFocus ? purple2 : hintColor,
+            color: isFocus ? Palette.purple2 : Palette.hint,
             width: widget.isSmall ? 16 : null,
           );
         },
@@ -157,7 +157,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       padding: const EdgeInsets.fromLTRB(10, 0, 16, 0),
       child: SvgAsset(
         assetName: AssetPath.getIcon(widget.suffixIconName!),
-        color: primaryTextColor,
+        color: Palette.primaryText,
         width: widget.isSmall ? 16 : 20,
       ),
     );

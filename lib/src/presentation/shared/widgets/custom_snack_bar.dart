@@ -61,7 +61,7 @@ class CustomSnackBar extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: textTheme.titleLarge!.copyWith(
-                              color: backgroundColor,
+                              color: Palette.background,
                             ),
                           ),
                         ),
@@ -81,7 +81,7 @@ class CustomSnackBar extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: textTheme.bodyMedium!.copyWith(
-                        color: scaffoldBackgroundColor,
+                        color: Palette.scaffoldBackground,
                       ),
                     ),
                   ],

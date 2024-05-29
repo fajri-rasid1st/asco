@@ -12,6 +12,7 @@ class CustomDialog extends StatelessWidget {
   final String title;
   final Widget child;
   final EdgeInsetsGeometry childPadding;
+  final Color? backgroundColor;
   final VoidCallback? onPressedPrimaryAction;
 
   const CustomDialog({
@@ -19,12 +20,15 @@ class CustomDialog extends StatelessWidget {
     required this.title,
     required this.child,
     this.childPadding = const EdgeInsets.fromLTRB(20, 8, 20, 24),
+    this.backgroundColor,
     this.onPressedPrimaryAction,
   });
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      backgroundColor: backgroundColor,
+      surfaceTintColor: backgroundColor,
       insetPadding: const EdgeInsets.symmetric(
         vertical: 24,
         horizontal: 32,
@@ -41,7 +45,7 @@ class CustomDialog extends StatelessWidget {
                     onPressed: () => navigatorKey.currentState!.pop(),
                     icon: SvgAsset(
                       assetName: AssetPath.getIcon('close_outlined.svg'),
-                      color: primaryTextColor,
+                      color: Palette.primaryText,
                     ),
                     tooltip: 'Close',
                   ),
@@ -50,7 +54,7 @@ class CustomDialog extends StatelessWidget {
                       title,
                       textAlign: TextAlign.center,
                       style: textTheme.titleMedium!.copyWith(
-                        color: purple2,
+                        color: Palette.purple2,
                       ),
                     ),
                   ),
@@ -58,7 +62,7 @@ class CustomDialog extends StatelessWidget {
                     onPressed: onPressedPrimaryAction,
                     icon: SvgAsset(
                       assetName: AssetPath.getIcon('check_outlined.svg'),
-                      color: primaryColor,
+                      color: Palette.primary,
                       width: 26,
                     ),
                     tooltip: 'Submit',

@@ -64,6 +64,6 @@ final textTheme = const TextTheme(
   ),
 ).apply(
   fontFamily: 'Poppins',
-  bodyColor: primaryTextColor,
-  displayColor: primaryTextColor,
+  bodyColor: Palette.primaryText,
+  displayColor: Palette.primaryText,
 );

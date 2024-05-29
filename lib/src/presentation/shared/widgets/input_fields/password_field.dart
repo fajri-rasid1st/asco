@@ -84,7 +84,7 @@ class _PasswordFieldState extends State<PasswordField> {
           style: textTheme.bodyLarge,
           decoration: InputDecoration(
             filled: true,
-            fillColor: backgroundColor,
+            fillColor: Palette.background,
             suffixIcon: buildSuffixIcon(isVisible),
             hintText: widget.hintText,
             contentPadding: const EdgeInsets.all(16),
@@ -101,7 +101,7 @@ class _PasswordFieldState extends State<PasswordField> {
     return IconButton(
       icon: Icon(
         isVisible ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-        color: primaryTextColor,
+        color: Palette.primaryText,
         size: 20,
       ),
       onPressed: () => this.isVisible.value = !isVisible,

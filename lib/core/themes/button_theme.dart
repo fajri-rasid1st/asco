@@ -6,10 +6,10 @@ import 'package:asco/core/styles/color_scheme.dart';
 
 final filledButtonTheme = FilledButtonThemeData(
   style: FilledButton.styleFrom(
-    backgroundColor: primaryColor,
-    foregroundColor: backgroundColor,
-    disabledBackgroundColor: disabledColor,
-    disabledForegroundColor: disabledTextColor,
+    backgroundColor: Palette.primary,
+    foregroundColor: Palette.background,
+    disabledBackgroundColor: Palette.disabled,
+    disabledForegroundColor: Palette.disabledText,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10),
     ),
@@ -18,9 +18,9 @@ final filledButtonTheme = FilledButtonThemeData(
 
 final outlinedButtonTheme = OutlinedButtonThemeData(
   style: OutlinedButton.styleFrom(
-    foregroundColor: primaryColor,
-    disabledForegroundColor: disabledTextColor,
-    side: const BorderSide(color: primaryColor),
+    foregroundColor: Palette.primary,
+    disabledForegroundColor: Palette.disabledText,
+    side: const BorderSide(color: Palette.primary),
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10),
     ),
@@ -29,8 +29,8 @@ final outlinedButtonTheme = OutlinedButtonThemeData(
 
 final textButtonTheme = TextButtonThemeData(
   style: TextButton.styleFrom(
-    foregroundColor: primaryColor,
-    disabledForegroundColor: disabledTextColor,
+    foregroundColor: Palette.primary,
+    disabledForegroundColor: Palette.disabledText,
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(10),
     ),
