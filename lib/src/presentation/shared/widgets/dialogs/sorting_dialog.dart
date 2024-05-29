@@ -48,7 +48,7 @@ class SortingDialog extends StatelessWidget {
               isSmall: true,
               items: orders.keys.toList(),
               values: orders.values.toList(),
-              initialValue: orders.keys.first,
+              initialValue: orders.values.first,
               onChanged: (_) {},
             ),
           ],

@@ -145,7 +145,7 @@ class _AttendanceDialogState extends State<AttendanceDialog> {
                             isSmall: true,
                             hintText: 'Tambahkan catatan',
                             maxLines: 4,
-                            textInputAction: TextInputAction.done,
+                            textInputAction: TextInputAction.newline,
                           ),
                         );
                       },

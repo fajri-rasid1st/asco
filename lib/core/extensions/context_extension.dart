@@ -9,6 +9,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 // Project imports:
 import 'package:asco/core/enums/snack_bar_type.dart';
+import 'package:asco/core/extensions/datetime_extension.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/core/utils/widget_utils.dart';
 import 'package:asco/src/presentation/shared/widgets/dialogs/confirm_dialog.dart';
@@ -84,7 +85,7 @@ extension TimePickerExtension on BuildContext {
     required String fieldKey,
     String? helpText,
   }) async {
-    final timeOfDay = await showTimePicker(
+    final time = await showTimePicker(
       context: this,
       initialTime: initialTime,
       initialEntryMode: TimePickerEntryMode.inputOnly,
@@ -100,10 +101,37 @@ extension TimePickerExtension on BuildContext {
       },
     );
 
-    if (timeOfDay != null) {
-      formKey.currentState!.fields[fieldKey]!.didChange(timeOfDay.format(this));
+    if (time != null) {
+      formKey.currentState!.fields[fieldKey]!.didChange(time.format(this));
     }
 
-    return timeOfDay;
+    return time;
+  }
+}
+
+extension DatePickerExtension on BuildContext {
+  Future<DateTime?> showCustomDatePicker({
+    required DateTime initialdate,
+    required GlobalKey<FormBuilderState> formKey,
+    required String fieldKey,
+    String? helpText,
+  }) async {
+    final date = await showDatePicker(
+      context: this,
+      initialDate: initialdate,
+      firstDate: DateTime(initialdate.year),
+      lastDate: DateTime.now(),
+      initialEntryMode: DatePickerEntryMode.calendarOnly,
+      helpText: helpText,
+      cancelText: 'Kembali',
+      confirmText: 'Konfirmasi',
+      locale: const Locale('id', 'ID'),
+    );
+
+    if (date != null) {
+      formKey.currentState!.fields[fieldKey]!.didChange(date.toStringPattern('d MMMM yyyy'));
+    }
+
+    return date;
   }
 }

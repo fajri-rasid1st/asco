@@ -25,6 +25,7 @@ class CustomTextField extends StatefulWidget {
   final String? suffixIconName;
   final List<String? Function(String?)>? validators;
   final VoidCallback? onTap;
+  final VoidCallback? onSuffixIconTap;
   final bool isSmall;
 
   const CustomTextField({
@@ -42,6 +43,7 @@ class CustomTextField extends StatefulWidget {
     this.suffixIconName,
     this.validators,
     this.onTap,
+    this.onSuffixIconTap,
     this.isSmall = false,
   });
 
@@ -155,10 +157,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
   Padding buildSuffixIcon() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 0, 16, 0),
-      child: SvgAsset(
-        assetName: AssetPath.getIcon(widget.suffixIconName!),
-        color: Palette.primaryText,
-        width: widget.isSmall ? 16 : 20,
+      child: GestureDetector(
+        onTap: widget.onSuffixIconTap,
+        child: SvgAsset(
+          assetName: AssetPath.getIcon(widget.suffixIconName!),
+          color: Palette.primaryText,
+          width: widget.isSmall ? 16 : 20,
+        ),
       ),
     );
   }

@@ -89,8 +89,8 @@ class GithubRepositoryDialog extends StatelessWidget {
                 child: CustomTextField(
                   name: 'githubRepoLink',
                   label: 'Link Repository Github',
-                  hintText: 'Link repository Github',
                   isSmall: true,
+                  hintText: 'Link repository Github',
                   prefixIconName: 'github_filled.svg',
                   textInputType: TextInputType.url,
                   textInputAction: TextInputAction.done,

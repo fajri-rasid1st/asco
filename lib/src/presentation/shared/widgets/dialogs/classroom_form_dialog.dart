@@ -13,9 +13,7 @@ import 'package:asco/src/presentation/shared/widgets/input_fields/custom_dropdow
 import 'package:asco/src/presentation/shared/widgets/input_fields/custom_text_field.dart';
 
 class ClassroomFormDialog extends StatelessWidget {
-  final void Function(Map<String, dynamic> value)? onSubmitted;
-
-  const ClassroomFormDialog({super.key, this.onSubmitted});
+  const ClassroomFormDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +43,7 @@ class ClassroomFormDialog extends StatelessWidget {
               isSmall: true,
               items: dayOfWeek.keys.toList(),
               values: dayOfWeek.values.toList(),
-              initialValue: dayOfWeek.keys.first,
+              initialValue: dayOfWeek.values.first,
               onChanged: (_) {},
             ),
             const SizedBox(height: 12),
@@ -63,7 +61,7 @@ class ClassroomFormDialog extends StatelessWidget {
                         initialTime: startTime,
                         formKey: formKey,
                         fieldKey: 'startTime',
-                        helpText: 'Masukkan waktu kelas dimulai',
+                        helpText: 'Masukkan Waktu Kelas Dimulai',
                       );
 
                       if (time != null) startTime = time;
@@ -83,7 +81,7 @@ class ClassroomFormDialog extends StatelessWidget {
                         initialTime: endTime,
                         formKey: formKey,
                         fieldKey: 'endTime',
-                        helpText: 'Masukkan waktu kelas selesai',
+                        helpText: 'Masukkan Waktu Kelas Selesai',
                       );
 
                       if (time != null) endTime = time;
@@ -99,12 +97,10 @@ class ClassroomFormDialog extends StatelessWidget {
   }
 
   void submit(GlobalKey<FormBuilderState> formKey) {
-    if (onSubmitted != null) {
-      FocusManager.instance.primaryFocus?.unfocus();
+    FocusManager.instance.primaryFocus?.unfocus();
 
-      if (formKey.currentState!.saveAndValidate()) {
-        onSubmitted!(formKey.currentState!.value);
-      }
+    if (formKey.currentState!.saveAndValidate()) {
+      debugPrint(formKey.currentState!.value.toString());
     }
   }
 }
