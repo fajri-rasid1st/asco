@@ -1,379 +1,263 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_svg/flutter_svg.dart';
-// import 'package:asco/core/helpers/asset_path.dart';
-// class AttendanceDialog extends StatefulWidget {
-//   final ProfileEntity student;
-//   final AttendanceEntity attendance;
-//   final List<AttendanceEntity> listAttendances;
+// Flutter imports:
+import 'package:flutter/material.dart';
 
-//   const AttendanceDialog({
-//     super.key,
-//     required this.student,
-//     required this.attendance,
-//     required this.listAttendances,
-//   });
+// Package imports:
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 
-//   @override
-//   State<AttendanceDialog> createState() => _AttendanceDialogState();
-// }
+// Project imports:
+import 'package:asco/core/helpers/asset_path.dart';
+import 'package:asco/core/styles/color_scheme.dart';
+import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/core/utils/const.dart';
+import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
+import 'package:asco/src/presentation/shared/widgets/dialogs/custom_dialog.dart';
+import 'package:asco/src/presentation/shared/widgets/input_fields/custom_text_field.dart';
+import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
-// class _AttendanceDialogState extends State<AttendanceDialog> {
-//   final _listStatus = <FaceStatus>[
-//     const FaceStatus(
-//       status: 'Alfa',
-//       icon: 'face_dizzy_filled.svg',
-//       color: Color(0xFFFA78A6),
-//     ),
-//     const FaceStatus(
-//       status: 'Izin',
-//       icon: 'face_neutral_filled.svg',
-//       color: Color(0xFF788DFA),
-//     ),
-//     const FaceStatus(
-//       status: 'Sakit',
-//       icon: 'face_sick_filled.svg',
-//       color: Color(0xFFFAC678),
-//     ),
-//     const FaceStatus(
-//       status: 'Hadir',
-//       icon: 'face_smile_filled.svg',
-//       color: Palette.purple60,
-//     ),
-//   ];
+class AttendanceDialog extends StatefulWidget {
+  const AttendanceDialog({super.key});
 
-//   final _listPoints = <int>[5, 10, 15, 20, 25, 30];
+  @override
+  State<AttendanceDialog> createState() => _AttendanceDialogState();
+}
 
-//   late final ValueNotifier<FaceStatus> _statusNotifier;
-//   late final ValueNotifier<int> _pointNotifier;
-//   late final TextEditingController _noteController;
+class _AttendanceDialogState extends State<AttendanceDialog> {
+  late final List<FaceStatus> status;
+  late final List<int> points;
+  late final GlobalKey<FormBuilderState> formKey;
+  late final ValueNotifier<FaceStatus> statusNotifier;
+  late final ValueNotifier<int?> pointNotifier;
 
-//   @override
-//   void initState() {
-//     _statusNotifier = ValueNotifier(
-//       widget.attendance.attendanceStatus == null
-//           ? _listStatus.first
-//           : _listStatus[widget.attendance.attendanceStatus!],
-//     );
+  @override
+  void initState() {
+    status = [
+      const FaceStatus(
+        name: 'Alpa',
+        icon: 'face_dizzy.svg',
+        color: Palette.error,
+      ),
+      const FaceStatus(
+        name: 'Izin',
+        icon: 'face_neutral.svg',
+        color: Palette.info,
+      ),
+      const FaceStatus(
+        name: 'Sakit',
+        icon: 'face_sick.svg',
+        color: Palette.warning,
+      ),
+      const FaceStatus(
+        name: 'Hadir',
+        icon: 'face_smile.svg',
+        color: Palette.success,
+      ),
+    ];
+    points = [5, 10, 15, 20, 25, 30];
+    formKey = GlobalKey<FormBuilderState>();
+    statusNotifier = ValueNotifier(status.last);
+    pointNotifier = ValueNotifier(null);
 
-//     _pointNotifier = ValueNotifier(
-//       widget.attendance.pointPlus == null
-//           ? _listPoints.first
-//           : _listPoints.firstWhere((e) => e == widget.attendance.pointPlus!),
-//     );
+    super.initState();
+  }
 
-//     _noteController = TextEditingController();
+  @override
+  void dispose() {
+    statusNotifier.dispose();
+    pointNotifier.dispose();
 
-//     super.initState();
-//   }
+    super.dispose();
+  }
 
-//   @override
-//   void dispose() {
-//     _statusNotifier.dispose();
-//     _pointNotifier.dispose();
-//     _noteController.dispose();
+  @override
+  Widget build(BuildContext context) {
+    return CustomDialog(
+      title: 'Absensi',
+      backgroundColor: Palette.background,
+      onPressedPrimaryAction: submit,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'H071191049',
+            style: textTheme.bodyMedium!.copyWith(
+              color: Palette.purple3,
+            ),
+          ),
+          Text(
+            'Muh. Ikhsan',
+            style: textTheme.titleLarge!.copyWith(
+              color: Palette.purple2,
+            ),
+          ),
+          const SizedBox(height: 12),
+          ValueListenableBuilder(
+            valueListenable: statusNotifier,
+            builder: (context, currentStatus, child) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: List<FaceStatusWidget>.generate(
+                      status.length,
+                      (index) => FaceStatusWidget(
+                        status: status[index],
+                        isSelected: currentStatus == status[index],
+                        onTap: () => statusNotifier.value = status[index],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  if (currentStatus == status.last) ...[
+                    Text(
+                      'Beri Extra Poin',
+                      style: textTheme.bodyLarge,
+                    ),
+                    const SizedBox(height: 8),
+                    ValueListenableBuilder(
+                      valueListenable: pointNotifier,
+                      builder: (context, currentPoint, child) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: List<ExtraPointWidget>.generate(
+                            points.length,
+                            (index) => ExtraPointWidget(
+                              point: points[index],
+                              isSelected: currentPoint == points[index],
+                              onTap: () => pointNotifier.value = points[index],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ] else ...[
+                    Builder(
+                      builder: (context) {
+                        pointNotifier.value = null;
 
-//     super.dispose();
-//   }
+                        return FormBuilder(
+                          key: formKey,
+                          child: const CustomTextField(
+                            name: 'note',
+                            label: 'Catatan',
+                            isSmall: true,
+                            hintText: 'Tambahkan catatan',
+                            maxLines: 4,
+                            textInputAction: TextInputAction.done,
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Dialog(
-//       elevation: 0,
-//       insetPadding: const EdgeInsets.symmetric(
-//         horizontal: 36.0,
-//         vertical: 24.0,
-//       ),
-//       shape: RoundedRectangleBorder(
-//         borderRadius: BorderRadius.circular(12),
-//       ),
-//       child: SingleChildScrollView(
-//         padding: const EdgeInsets.only(
-//           top: 8,
-//           bottom: 24,
-//         ),
-//         child: Column(
-//           mainAxisSize: MainAxisSize.min,
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: <Widget>[
-//             Padding(
-//               padding: const EdgeInsets.symmetric(horizontal: 4),
-//               child: Row(
-//                 children: <Widget>[
-//                   IconButton(
-//                     onPressed: () => Navigator.pop(context),
-//                     icon: const Icon(
-//                       Icons.close_rounded,
-//                       color: Palette.purple100,
-//                     ),
-//                     tooltip: 'Close',
-//                   ),
-//                   Expanded(
-//                     child: Text(
-//                       'Absensi',
-//                       textAlign: TextAlign.center,
-//                       style: kTextTheme.titleSmall?.copyWith(
-//                         fontWeight: FontWeight.w700,
-//                         color: Palette.purple100,
-//                       ),
-//                     ),
-//                   ),
-//                   IconButton(
-//                     onPressed: () {
-//                       final index = _listStatus.indexWhere((e) {
-//                         return e.status == _statusNotifier.value.status;
-//                       });
+  void submit() {
+    FocusManager.instance.primaryFocus?.unfocus();
 
-//                       final point = _pointNotifier.value;
+    formKey.currentState?.save();
 
-//                       final result = UpdateDataHelper.updateAttendance(
-//                         studentUid: widget.student.uid ?? '',
-//                         attendanceList: widget.listAttendances,
-//                         updateAttendance: AttendanceEntity(
-//                           attendanceStatus: index,
-//                           attendanceTime: DateTime.now(),
-//                           note: index == 3 ? null : _noteController.text,
-//                           pointPlus: index == 3 ? point : null,
-//                           quizScore: null,
-//                         ),
-//                       );
+    debugPrint({
+      'attendanceStatus': attendanceStatus[statusNotifier.value.name],
+      'pointPlus': pointNotifier.value,
+      'note': formKey.currentState?.value['note'],
+    }.toString());
+  }
+}
 
-//                       Navigator.pop(context, result);
-//                     },
-//                     icon: const Icon(
-//                       Icons.check_rounded,
-//                       color: Palette.purple60,
-//                     ),
-//                     tooltip: 'Submit',
-//                   ),
-//                 ],
-//               ),
-//             ),
-//             Padding(
-//               padding: const EdgeInsets.fromLTRB(18, 12, 18, 0),
-//               child: Column(
-//                 mainAxisSize: MainAxisSize.min,
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: <Widget>[
-//                   Text(
-//                     widget.student.username!,
-//                     style: kTextTheme.bodyLarge?.copyWith(
-//                       color: Palette.purple60,
-//                     ),
-//                   ),
-//                   const SizedBox(height: 2),
-//                   Text(
-//                     widget.student.fullName!,
-//                     style: kTextTheme.titleSmall?.copyWith(
-//                       fontWeight: FontWeight.w700,
-//                       color: Palette.purple80,
-//                     ),
-//                   ),
-//                   const SizedBox(height: 12),
-//                   AttendanceOptions(
-//                     statusNotifier: _statusNotifier,
-//                     pointNotifier: _pointNotifier,
-//                     noteController: _noteController,
-//                     listStatus: _listStatus,
-//                     listPoints: _listPoints,
-//                   ),
-//                 ],
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+class FaceStatusWidget extends StatelessWidget {
+  final FaceStatus status;
+  final bool isSelected;
+  final VoidCallback? onTap;
 
-// class AttendanceOptions extends StatelessWidget {
-//   final ValueNotifier<FaceStatus> statusNotifier;
-//   final ValueNotifier<int> pointNotifier;
-//   final TextEditingController noteController;
-//   final List<FaceStatus> listStatus;
-//   final List<int> listPoints;
+  const FaceStatusWidget({
+    super.key,
+    required this.status,
+    this.isSelected = false,
+    this.onTap,
+  });
 
-//   const AttendanceOptions({
-//     super.key,
-//     required this.statusNotifier,
-//     required this.pointNotifier,
-//     required this.noteController,
-//     required this.listStatus,
-//     required this.listPoints,
-//   });
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: Palette.secondaryBackground,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(
+                color: isSelected ? status.color : Colors.transparent,
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: SvgAsset(
+                assetName: AssetPath.getIcon(status.icon),
+                color: isSelected ? status.color : Palette.secondaryText,
+              ),
+            ),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            status.name,
+            style: textTheme.bodyMedium!.copyWith(
+              color: isSelected ? status.color : Palette.secondaryText,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return ValueListenableBuilder(
-//       valueListenable: statusNotifier,
-//       builder: (context, currentStatus, child) {
-//         return Column(
-//           mainAxisSize: MainAxisSize.min,
-//           crossAxisAlignment: CrossAxisAlignment.start,
-//           children: <Widget>[
-//             Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//               children: listStatus
-//                   .map(
-//                     (status) => FaceStatusWidget(
-//                       status: status,
-//                       isSelected: currentStatus == status,
-//                       onTap: () => statusNotifier.value = status,
-//                     ),
-//                   )
-//                   .toList(),
-//             ),
-//             const SizedBox(height: 16),
-//             if (currentStatus == listStatus.last) ...[
-//               Text(
-//                 'Beri Extra Poin',
-//                 style: kTextTheme.bodyLarge?.copyWith(
-//                   fontWeight: FontWeight.w500,
-//                   color: Palette.purple80,
-//                 ),
-//               ),
-//               const SizedBox(height: 8),
-//               ValueListenableBuilder(
-//                 valueListenable: pointNotifier,
-//                 builder: (context, currentPoint, child) {
-//                   return Row(
-//                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                     children: listPoints
-//                         .map(
-//                           (point) => ExtraPointWidget(
-//                             point: point,
-//                             isSelected: currentPoint == point,
-//                             onTap: () => pointNotifier.value = point,
-//                           ),
-//                         )
-//                         .toList(),
-//                   );
-//                 },
-//               ),
-//             ] else ...[
-//               TextField(
-//                 controller: noteController,
-//                 textCapitalization: TextCapitalization.sentences,
-//                 textInputAction: TextInputAction.done,
-//                 maxLines: 4,
-//                 decoration: InputDecoration(
-//                   floatingLabelBehavior: FloatingLabelBehavior.never,
-//                   hintText: 'Tambahkan catatan',
-//                   hintStyle: kTextTheme.bodyLarge?.copyWith(
-//                     fontWeight: FontWeight.w400,
-//                     color: Palette.greyDark.withOpacity(.5),
-//                   ),
-//                   enabledBorder: OutlineInputBorder(
-//                     borderRadius: BorderRadius.circular(12),
-//                     borderSide: const BorderSide(
-//                       color: Palette.greyDark,
-//                     ),
-//                   ),
-//                   focusedBorder: OutlineInputBorder(
-//                     borderRadius: BorderRadius.circular(12),
-//                     borderSide: const BorderSide(
-//                       color: Palette.greyDark,
-//                     ),
-//                   ),
-//                 ),
-//                 style: kTextTheme.bodyLarge?.copyWith(
-//                   color: Palette.greyDark,
-//                 ),
-//               ),
-//             ],
-//           ],
-//         );
-//       },
-//     );
-//   }
-// }
+class ExtraPointWidget extends StatelessWidget {
+  final int point;
+  final bool isSelected;
+  final VoidCallback? onTap;
 
-// class FaceStatusWidget extends StatelessWidget {
-//   final FaceStatus status;
-//   final bool isSelected;
-//   final VoidCallback? onTap;
+  const ExtraPointWidget({
+    super.key,
+    required this.point,
+    this.isSelected = false,
+    this.onTap,
+  });
 
-//   const FaceStatusWidget({
-//     super.key,
-//     required this.status,
-//     this.isSelected = false,
-//     this.onTap,
-//   });
+  @override
+  Widget build(BuildContext context) {
+    return CircleBorderContainer(
+      size: 32,
+      borderColor: isSelected ? Palette.purple2 : null,
+      fillColor: isSelected ? Palette.purple3 : null,
+      onTap: onTap,
+      child: Text(
+        '+$point',
+        style: textTheme.bodySmall!.copyWith(
+          color: isSelected ? Palette.background : Palette.secondaryText,
+        ),
+      ),
+    );
+  }
+}
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       mainAxisSize: MainAxisSize.min,
-//       children: <Widget>[
-//         Container(
-//           decoration: BoxDecoration(
-//             color: Palette.grey10,
-//             borderRadius: BorderRadius.circular(8),
-//             border: Border.all(
-//               color: isSelected ? status.color : Palette.grey10,
-//             ),
-//           ),
-//           child: GestureDetector(
-//             onTap: onTap,
-//             child: Padding(
-//               padding: const EdgeInsets.all(12),
-//               child: SvgPicture.asset(
-//                 AssetPath.getIcon(status.icon),
-//                 color: isSelected ? status.color : Palette.grey50,
-//                 width: 30,
-//               ),
-//             ),
-//           ),
-//         ),
-//         const SizedBox(height: 2),
-//         Text(
-//           status.status,
-//           style: kTextTheme.bodyMedium?.copyWith(
-//             color: isSelected ? status.color : Palette.grey50,
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
+class FaceStatus {
+  final String name;
+  final String icon;
+  final Color color;
 
-// class ExtraPointWidget extends StatelessWidget {
-//   final int point;
-//   final bool isSelected;
-//   final VoidCallback? onTap;
-
-//   const ExtraPointWidget({
-//     super.key,
-//     required this.point,
-//     this.isSelected = false,
-//     this.onTap,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return CircleBorderContainer(
-//       size: 32,
-//       borderColor: isSelected ? Palette.purple80 : null,
-//       fillColor: isSelected ? Palette.purple60 : null,
-//       onTap: onTap,
-//       child: Text(
-//         '+$point',
-//         style: kTextTheme.bodyMedium?.copyWith(
-//           color: isSelected ? Palette.white : Palette.greyDark,
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class FaceStatus {
-//   final String status;
-//   final String icon;
-//   final Color color;
-
-//   const FaceStatus({
-//     required this.status,
-//     required this.icon,
-//     required this.color,
-//   });
-// }
+  const FaceStatus({
+    required this.name,
+    required this.icon,
+    required this.color,
+  });
+}

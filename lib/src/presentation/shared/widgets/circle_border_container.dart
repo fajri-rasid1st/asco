@@ -1,5 +1,8 @@
-import 'package:asco/core/styles/color_scheme.dart';
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Project imports:
+import 'package:asco/core/styles/color_scheme.dart';
 
 class CircleBorderContainer extends StatelessWidget {
   final double size;

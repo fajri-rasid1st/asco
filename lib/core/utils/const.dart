@@ -10,11 +10,18 @@ const userCredentialKey = 'USER_CREDENTIAL';
 
 // common const
 const dayOfWeek = {
-  'sunday': 'Minggu',
-  'monday': 'Senin',
-  'tuesday': 'Selasa',
-  'wednesday': 'Rabu',
-  'thursday': 'Kamis',
-  'friday': 'Jum\'at',
-  'saturday': 'Sabtu',
+  'Minggu': 'sunday',
+  'Senin': 'monday',
+  'Selasa': 'tuesday',
+  'Rabu': 'wednesday',
+  'Kamis': 'thursday',
+  'Jum\'at': 'friday',
+  'Sabtu': 'saturday',
+};
+
+const attendanceStatus = {
+  'Alpa': 'absent',
+  'Izin': 'excused',
+  'Sakit': 'sick',
+  'Hadir': 'present',
 };

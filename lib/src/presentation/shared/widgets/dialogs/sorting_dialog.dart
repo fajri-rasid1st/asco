@@ -23,7 +23,7 @@ class SortingDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormBuilderState>();
-    final orders = {'asc': 'Meningkat', 'desc': 'Menurun'};
+    final orders = {'Meningkat': 'asc', 'Menurun': 'desc'};
 
     return CustomDialog(
       title: 'Urutkan Data',
@@ -46,8 +46,8 @@ class SortingDialog extends StatelessWidget {
               name: 'sortingOrder',
               label: 'Urutkan Secara',
               isSmall: true,
-              items: orders.values.toList(),
-              values: orders.keys.toList(),
+              items: orders.keys.toList(),
+              values: orders.values.toList(),
               initialValue: orders.keys.first,
               onChanged: (_) {},
             ),
