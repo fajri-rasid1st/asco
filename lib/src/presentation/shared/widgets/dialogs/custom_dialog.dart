@@ -47,7 +47,7 @@ class CustomDialog extends StatelessWidget {
                       assetName: AssetPath.getIcon('close_outlined.svg'),
                       color: Palette.primaryText,
                     ),
-                    tooltip: 'Close',
+                    tooltip: 'Kembali',
                   ),
                   Expanded(
                     child: Text(

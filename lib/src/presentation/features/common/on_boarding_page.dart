@@ -1,5 +1,19 @@
-import 'package:asco/src/presentation/shared/widgets/dialogs/practicum_score_dialog.dart';
+// Dart imports:
+import 'dart:ui';
+
+// Flutter imports:
 import 'package:flutter/material.dart';
+
+// Package imports:
+import 'package:rive/rive.dart';
+
+// Project imports:
+import 'package:asco/core/helpers/asset_path.dart';
+import 'package:asco/core/styles/color_scheme.dart';
+import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/src/presentation/shared/widgets/app_bar_title.dart';
+import 'package:asco/src/presentation/shared/widgets/dialogs/login_dialog.dart';
+import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class OnBoardingPage extends StatelessWidget {
   const OnBoardingPage({super.key});
@@ -7,16 +21,126 @@ class OnBoardingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: OutlinedButton(
-          onPressed: () => showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (_) => const PracticumScoreDialog(meetingNumber: 1),
+      resizeToAvoidBottomInset: false,
+      body: Stack(
+        children: [
+          Positioned.fill(
+            child: RiveAnimation.asset(
+              AssetPath.getRive('anim_bg.riv'),
+              fit: BoxFit.cover,
+            ),
           ),
-          child: const Text('Press Me!'),
-        ),
+          Positioned.fill(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 50, sigmaY: 50),
+              child: const SizedBox(),
+            ),
+          ),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const AppBarTitle(),
+                  const Spacer(),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                          text: 'Sistem\nKelola',
+                          style: textTheme.displaySmall!.copyWith(
+                            fontSize: 40,
+                            height: 1.05,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: '\nPraktikum &\nAsistensi',
+                              style: textTheme.displaySmall!.copyWith(
+                                fontSize: 40,
+                                height: 1.05,
+                                color: Palette.purple3,
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                        'Membantu pengelolaan data praktikum dan asistensi Laboratorium Sistem Informasi Universitas Hasanuddin.',
+                      ),
+                    ],
+                  ),
+                  const Spacer(flex: 2),
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              spreadRadius: 1,
+                              blurRadius: 6,
+                              color: Palette.purple3.withOpacity(.2),
+                            )
+                          ],
+                        ),
+                        child: FilledButton.icon(
+                          icon: SvgAsset(
+                            assetName: AssetPath.getIcon('arrow_forward_outlined.svg'),
+                            width: 20,
+                          ),
+                          label: const Text('Lanjutkan'),
+                          style: FilledButton.styleFrom(
+                            foregroundColor: Palette.primaryText,
+                            backgroundColor: Palette.background,
+                            padding: const EdgeInsets.symmetric(horizontal: 48),
+                          ),
+                          onPressed: () => showLoginDialog(context),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        'Tekan "Lanjutkan" untuk Login. Aplikasi ini khusus untuk Asisten dan Praktikan.',
+                        style: textTheme.bodySmall,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
+    );
+  }
+
+  Future<Object?> showLoginDialog(BuildContext context) {
+    return showGeneralDialog(
+      context: context,
+      barrierLabel: 'login',
+      transitionDuration: const Duration(milliseconds: 500),
+      transitionBuilder: (context, anim1, anim2, child) {
+        final tween = Tween<Offset>(
+          begin: const Offset(0, -1),
+          end: Offset.zero,
+        );
+
+        return SlideTransition(
+          position: tween.animate(
+            CurvedAnimation(
+              parent: anim1,
+              curve: Curves.easeInOut,
+            ),
+          ),
+          child: child,
+        );
+      },
+      pageBuilder: (_, __, ___) => const LoginDialog(),
     );
   }
 }

@@ -50,7 +50,6 @@ class CustomSnackBar extends StatelessWidget {
               Expanded(
                 flex: 8,
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
