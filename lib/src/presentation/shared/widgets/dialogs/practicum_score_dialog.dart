@@ -121,9 +121,4 @@ class PracticumScoreType {
     this.value,
     this.description,
   );
-
-  @override
-  String toString() {
-    return 'PracticumScoreType(rate: $rate, color: $color, value: $value, description: $description)';
-  }
 }

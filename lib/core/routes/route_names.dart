@@ -4,4 +4,4 @@
 const wrapperRoute = '/wrapper';
 const onBoardingRoute = '/on-boarding';
 
-const homeRoute = '/';
+const adminHomeRoute = '/admin-home';

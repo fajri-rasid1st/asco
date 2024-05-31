@@ -40,7 +40,6 @@ class OnBoardingPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const AppBarTitle(),
                   const Spacer(),
@@ -53,14 +52,14 @@ class OnBoardingPage extends StatelessWidget {
                           text: 'Sistem\nKelola',
                           style: textTheme.displaySmall!.copyWith(
                             fontSize: 40,
-                            height: 1.05,
+                            height: 1.1,
                           ),
                           children: [
                             TextSpan(
                               text: '\nPraktikum &\nAsistensi',
                               style: textTheme.displaySmall!.copyWith(
                                 fontSize: 40,
-                                height: 1.05,
+                                height: 1.1,
                                 color: Palette.purple3,
                               ),
                             )
@@ -91,7 +90,7 @@ class OnBoardingPage extends StatelessWidget {
                         ),
                         child: FilledButton.icon(
                           icon: SvgAsset(
-                            assetName: AssetPath.getIcon('arrow_forward_outlined.svg'),
+                            AssetPath.getIcon('arrow_forward_outlined.svg'),
                             width: 20,
                           ),
                           label: const Text('Lanjutkan'),

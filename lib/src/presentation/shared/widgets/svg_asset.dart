@@ -10,9 +10,9 @@ class SvgAsset extends StatelessWidget {
   final double? width;
   final double? height;
 
-  const SvgAsset({
+  const SvgAsset(
+    this.assetName, {
     super.key,
-    required this.assetName,
     this.color,
     this.width,
     this.height,

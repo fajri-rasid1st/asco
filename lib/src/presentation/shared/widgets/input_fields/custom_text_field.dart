@@ -145,7 +145,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
         valueListenable: isFocus,
         builder: (context, isFocus, child) {
           return SvgAsset(
-            assetName: AssetPath.getIcon(widget.prefixIconName!),
+            AssetPath.getIcon(widget.prefixIconName!),
             color: isFocus ? Palette.purple2 : Palette.hint,
             width: widget.isSmall ? 16 : null,
           );
@@ -160,7 +160,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       child: GestureDetector(
         onTap: widget.onSuffixIconTap,
         child: SvgAsset(
-          assetName: AssetPath.getIcon(widget.suffixIconName!),
+          AssetPath.getIcon(widget.suffixIconName!),
           color: Palette.primaryText,
           width: widget.isSmall ? 16 : 20,
         ),

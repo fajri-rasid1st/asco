@@ -36,3 +36,15 @@ final textButtonTheme = TextButtonThemeData(
     ),
   ),
 );
+
+final iconButtonTheme = IconButtonThemeData(
+  style: IconButton.styleFrom(
+    foregroundColor: Palette.background,
+    disabledForegroundColor: Palette.disabledText,
+    backgroundColor: Palette.primary,
+    disabledBackgroundColor: Palette.disabled,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
+  ),
+);

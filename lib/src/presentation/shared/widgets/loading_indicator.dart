@@ -10,10 +10,7 @@ import 'package:asco/core/styles/color_scheme.dart';
 class LoadingIndicator extends StatelessWidget {
   final bool withScaffold;
 
-  const LoadingIndicator({
-    super.key,
-    this.withScaffold = false,
-  });
+  const LoadingIndicator({super.key, this.withScaffold = false});
 
   @override
   Widget build(BuildContext context) {

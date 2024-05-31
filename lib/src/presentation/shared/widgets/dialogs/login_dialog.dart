@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:asco/src/presentation/shared/widgets/custom_icon_button.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -7,6 +8,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
 import 'package:asco/core/helpers/asset_path.dart';
+import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
@@ -48,15 +50,14 @@ class LoginDialog extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 24,
-            right: 16,
-            child: InkWell(
-              onTap: () => navigatorKey.currentState!.pop(),
-              child: SvgAsset(
-                assetName: AssetPath.getIcon('close_outlined.svg'),
-                color: Palette.primaryText,
-                width: 20,
-              ),
+            top: 20,
+            right: 12,
+            child: CustomIconButton(
+              'close_outlined.svg',
+              color: Palette.secondaryText,
+              size: 20,
+              onPressed: () => navigatorKey.currentState!.pop(),
+              tooltip: 'Kembali',
             ),
           ),
         ],
@@ -124,7 +125,7 @@ class _LoginFormState extends State<LoginForm> {
                   radius: 16,
                   backgroundColor: Palette.purple3,
                   child: SvgAsset(
-                    assetName: AssetPath.getIcon('person_filled.svg'),
+                    AssetPath.getIcon('person_filled.svg'),
                     color: Palette.background,
                     width: 16,
                   ),
@@ -167,7 +168,7 @@ class _LoginFormState extends State<LoginForm> {
                       radius: 16,
                       backgroundColor: Palette.purple3,
                       child: SvgAsset(
-                        assetName: AssetPath.getIcon('lock_filled.svg'),
+                        AssetPath.getIcon('lock_filled.svg'),
                         color: Palette.background,
                         width: 16,
                       ),
@@ -191,7 +192,7 @@ class _LoginFormState extends State<LoginForm> {
           const SizedBox(height: 24),
           FilledButton.icon(
             icon: SvgAsset(
-              assetName: AssetPath.getIcon('arrow_forward_outlined.svg'),
+              AssetPath.getIcon('arrow_forward_outlined.svg'),
               color: Palette.background,
               width: 20,
             ),
@@ -223,7 +224,7 @@ class _LoginFormState extends State<LoginForm> {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
-      debugPrint(formKey.currentState!.value.toString());
+      navigatorKey.currentState!.pushReplacementNamed(adminHomeRoute);
     }
   }
 }

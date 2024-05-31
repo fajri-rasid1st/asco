@@ -203,7 +203,7 @@ class FaceStatusWidget extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(12),
               child: SvgAsset(
-                assetName: AssetPath.getIcon(status.icon),
+                AssetPath.getIcon(status.icon),
                 color: isSelected ? status.color : Palette.secondaryText,
               ),
             ),

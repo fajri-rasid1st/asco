@@ -49,7 +49,7 @@ class _SplashPageState extends State<SplashPage> with AfterLayoutMixin<SplashPag
             top: 0,
             left: 0,
             child: SvgAsset(
-              assetName: AssetPath.getVector('bg_attribute.svg'),
+              AssetPath.getVector('bg_attribute.svg'),
             ),
           ),
           Positioned(
@@ -58,7 +58,7 @@ class _SplashPageState extends State<SplashPage> with AfterLayoutMixin<SplashPag
             child: RotatedBox(
               quarterTurns: -2,
               child: SvgAsset(
-                assetName: AssetPath.getVector('bg_attribute.svg'),
+                AssetPath.getVector('bg_attribute.svg'),
               ),
             ),
           ),
@@ -68,7 +68,7 @@ class _SplashPageState extends State<SplashPage> with AfterLayoutMixin<SplashPag
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SvgAsset(
-                  assetName: AssetPath.getVector('logo1.svg'),
+                  AssetPath.getVector('logo1.svg'),
                 ),
                 Text(
                   AppConfigs.title,

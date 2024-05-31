@@ -51,7 +51,7 @@ class ConfirmDialog extends StatelessWidget {
                 child: IconButton(
                   onPressed: () => navigatorKey.currentState!.pop(),
                   icon: SvgAsset(
-                    assetName: AssetPath.getIcon('close_outlined.svg'),
+                    AssetPath.getIcon('close_outlined.svg'),
                     color: Palette.primaryText,
                     width: 20,
                   ),

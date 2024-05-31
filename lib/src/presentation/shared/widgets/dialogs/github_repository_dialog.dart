@@ -37,7 +37,7 @@ class GithubRepositoryDialog extends StatelessWidget {
                   child: IconButton(
                     onPressed: () => navigatorKey.currentState!.pop(),
                     icon: SvgAsset(
-                      assetName: AssetPath.getIcon('close_outlined.svg'),
+                      AssetPath.getIcon('close_outlined.svg'),
                       color: Palette.primaryText,
                     ),
                     tooltip: 'Kembali',
@@ -73,7 +73,7 @@ class GithubRepositoryDialog extends StatelessWidget {
                   child: IconButton(
                     onPressed: () => submit(formKey),
                     icon: SvgAsset(
-                      assetName: AssetPath.getIcon('check_outlined.svg'),
+                      AssetPath.getIcon('check_outlined.svg'),
                       color: Palette.primary,
                       width: 26,
                     ),

@@ -44,7 +44,7 @@ class CustomDialog extends StatelessWidget {
                   IconButton(
                     onPressed: () => navigatorKey.currentState!.pop(),
                     icon: SvgAsset(
-                      assetName: AssetPath.getIcon('close_outlined.svg'),
+                      AssetPath.getIcon('close_outlined.svg'),
                       color: Palette.primaryText,
                     ),
                     tooltip: 'Kembali',
@@ -61,7 +61,7 @@ class CustomDialog extends StatelessWidget {
                   IconButton(
                     onPressed: onPressedPrimaryAction,
                     icon: SvgAsset(
-                      assetName: AssetPath.getIcon('check_outlined.svg'),
+                      AssetPath.getIcon('check_outlined.svg'),
                       color: Palette.primary,
                       width: 26,
                     ),

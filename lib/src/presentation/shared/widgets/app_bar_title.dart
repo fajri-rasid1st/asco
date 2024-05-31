@@ -16,7 +16,7 @@ class AppBarTitle extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SvgAsset(
-          assetName: AssetPath.getVector('logo2.svg'),
+          AssetPath.getVector('logo2.svg'),
         ),
         const SizedBox(width: 4),
         RichText(

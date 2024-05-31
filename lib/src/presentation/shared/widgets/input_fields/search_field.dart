@@ -85,7 +85,7 @@ class _SearchFieldState extends State<SearchField> {
         valueListenable: isFocus,
         builder: (context, isFocus, child) {
           return SvgAsset(
-            assetName: AssetPath.getIcon('search_outlined.svg'),
+            AssetPath.getIcon('search_outlined.svg'),
             color: isFocus ? Palette.purple2 : Palette.hint,
           );
         },
@@ -99,7 +99,7 @@ class _SearchFieldState extends State<SearchField> {
     return IconButton(
       onPressed: resetQuery,
       icon: SvgAsset(
-        assetName: AssetPath.getIcon('close_outlined.svg'),
+        AssetPath.getIcon('close_outlined.svg'),
         color: Palette.primaryText,
         width: 20,
       ),

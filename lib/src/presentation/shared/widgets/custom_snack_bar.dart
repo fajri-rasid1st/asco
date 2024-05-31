@@ -67,7 +67,7 @@ class CustomSnackBar extends StatelessWidget {
                         InkWell(
                           onTap: () => scaffoldMessengerKey.currentState?.hideCurrentSnackBar(),
                           child: SvgAsset(
-                            assetName: AssetPath.getIcon('error_outlined.svg'),
+                            AssetPath.getIcon('error_outlined.svg'),
                             height: height * 0.020,
                             color: hslDark.toColor(),
                           ),
@@ -96,7 +96,7 @@ class CustomSnackBar extends StatelessWidget {
               bottomLeft: Radius.circular(12),
             ),
             child: SvgAsset(
-              assetName: AssetPath.getVector('bubbles.svg'),
+              AssetPath.getVector('bubbles.svg'),
               height: height * 0.05,
               color: hslDark.toColor(),
             ),
@@ -109,14 +109,14 @@ class CustomSnackBar extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               SvgAsset(
-                assetName: AssetPath.getVector('message_bubble.svg'),
+                AssetPath.getVector('message_bubble.svg'),
                 height: height * 0.06,
                 color: hslDark.toColor(),
               ),
               Positioned(
                 top: height * 0.015,
                 child: SvgAsset(
-                  assetName: AssetPath.getIcon(getIconName(type)),
+                  AssetPath.getIcon(getIconName(type)),
                   height: height * 0.024,
                 ),
               )
