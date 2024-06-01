@@ -41,7 +41,7 @@ class LoginDialog extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 const Text(
-                  'Untuk mendapatkan informasi akun Anda, silahkan hubungi Kordinator Lab.',
+                  'Untuk mendapatkan informasi akun Anda, silahkan hubungi Koordinator Lab.',
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16),
@@ -223,9 +223,9 @@ class _LoginFormState extends State<LoginForm> {
   void login() {
     FocusManager.instance.primaryFocus?.unfocus();
 
-    navigatorKey.currentState!.pop();
-
     if (formKey.currentState!.saveAndValidate()) {
+      navigatorKey.currentState!.pop();
+
       navigatorKey.currentState!.pushReplacementNamed(
         homeRoute,
         arguments: 1,

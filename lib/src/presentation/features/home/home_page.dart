@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
 
               if (selectedIndex == 6) {
                 WidgetsBinding.instance.addPostFrameCallback((_) {
-                  this.selectedIndex.value = 0;
+                  this.selectedIndex.value = -1;
 
                   context.showConfirmDialog(
                     title: 'Log Out?',

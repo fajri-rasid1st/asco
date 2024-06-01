@@ -1,5 +1,4 @@
 // Dart imports:
-import 'dart:io';
 import 'dart:math';
 
 // Flutter imports:
@@ -98,9 +97,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with SingleTickerPr
                   animationController.reverse();
                   this.isDrawerClosed.value = true;
                 } else {
-                  if (Platform.isAndroid) {
-                    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-                  }
+                  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
                 }
               },
               child: GestureDetector(
@@ -131,7 +128,11 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with SingleTickerPr
                       child: DrawerMenuContent(
                         isMainMenu: widget.isMainMenu,
                         selectedIndex: widget.selectedIndex,
-                        onSelected: widget.onSelected,
+                        onSelected: (value) {
+                          widget.onSelected(value);
+                          animationController.reverse();
+                          this.isDrawerClosed.value = true;
+                        },
                       ),
                     ),
                     Transform(
@@ -163,7 +164,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with SingleTickerPr
                       ),
                     ),
                     AnimatedPositioned(
-                      top: 20,
+                      top: 24,
                       left: isDrawerClosed ? 0 : AppSize.getAppWidth(context) * .7 - 40,
                       duration: const Duration(milliseconds: 200),
                       curve: Curves.fastOutSlowIn,
@@ -191,7 +192,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with SingleTickerPr
                                 BoxShadow(
                                   color: Palette.primaryText.withOpacity(.2),
                                   offset: const Offset(0, 2),
-                                  blurRadius: 8,
+                                  blurRadius: 4,
                                 ),
                               ],
                             ),

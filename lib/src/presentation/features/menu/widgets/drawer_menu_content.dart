@@ -137,7 +137,7 @@ class UserProfileListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 20, 40, 20),
+      padding: const EdgeInsets.fromLTRB(20, 20, 36, 20),
       child: GestureDetector(
         onTap: onTap,
         child: Row(
@@ -202,7 +202,7 @@ class DrawerMenuListTile extends StatelessWidget {
           width: isSelected ? AppSize.getAppWidth(context) * .7 : 0,
           height: 56,
           left: 0,
-          duration: const Duration(milliseconds: 300),
+          duration: const Duration(milliseconds: 200),
           child: Container(
             decoration: const BoxDecoration(
               color: Palette.purple3,
