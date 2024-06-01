@@ -14,6 +14,12 @@ ThemeData get lightTheme {
     textTheme: textTheme,
     useMaterial3: true,
   ).copyWith(
+    appBarTheme: const AppBarTheme(
+      elevation: 0,
+      centerTitle: true,
+      backgroundColor: Palette.purple2,
+      foregroundColor: Palette.background,
+    ),
     filledButtonTheme: filledButtonTheme,
     outlinedButtonTheme: outlinedButtonTheme,
     textButtonTheme: textButtonTheme,

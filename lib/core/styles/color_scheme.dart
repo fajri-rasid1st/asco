@@ -10,7 +10,7 @@ final colorScheme = ColorScheme.fromSeed(
   secondary: Palette.secondary,
   onSecondary: Palette.background,
   background: Palette.background,
-  onBackground: Palette.purple1,
+  onBackground: Palette.primaryText,
   error: Palette.errorText,
   onError: Palette.background,
 );
@@ -51,6 +51,10 @@ class Palette {
   // Pink palette
   static const pink1 = Color(0xFFE74764);
   static const pink2 = Color(0xFFD35380);
+
+  // Black palette
+  static const black1 = Color(0xFF01000D);
+  static const black2 = Color(0xFF140929);
 
   // Main colors
   static const primary = Color(0xFF744BE4);

@@ -7,8 +7,8 @@ import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
-class AppBarTitle extends StatelessWidget {
-  const AppBarTitle({super.key});
+class AscoAppBar extends StatelessWidget {
+  const AscoAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {

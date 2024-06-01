@@ -11,7 +11,7 @@ import 'package:rive/rive.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/src/presentation/shared/widgets/app_bar_title.dart';
+import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/dialogs/login_dialog.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
@@ -41,7 +41,7 @@ class OnBoardingPage extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
               child: Column(
                 children: [
-                  const AppBarTitle(),
+                  const AscoAppBar(),
                   const Spacer(),
                   Column(
                     mainAxisSize: MainAxisSize.min,
@@ -122,7 +122,7 @@ class OnBoardingPage extends StatelessWidget {
     return showGeneralDialog(
       context: context,
       barrierLabel: 'login',
-      transitionDuration: const Duration(milliseconds: 500),
+      transitionDuration: const Duration(milliseconds: 300),
       transitionBuilder: (context, anim1, anim2, child) {
         final tween = Tween<Offset>(
           begin: const Offset(0, -1),

@@ -9,6 +9,7 @@ class SvgAsset extends StatelessWidget {
   final Color? color;
   final double? width;
   final double? height;
+  final BoxFit fit;
 
   const SvgAsset(
     this.assetName, {
@@ -16,6 +17,7 @@ class SvgAsset extends StatelessWidget {
     this.color,
     this.width,
     this.height,
+    this.fit = BoxFit.contain,
   });
 
   @override
@@ -24,6 +26,7 @@ class SvgAsset extends StatelessWidget {
       assetName,
       width: width,
       height: height,
+      fit: fit,
       colorFilter: color != null ? ColorFilter.mode(color!, BlendMode.srcIn) : null,
     );
   }

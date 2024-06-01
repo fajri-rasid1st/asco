@@ -56,6 +56,10 @@ class ConfirmDialog extends StatelessWidget {
                     width: 20,
                   ),
                   tooltip: 'Kembali',
+                  style: IconButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    shape: const CircleBorder(),
+                  ),
                 ),
               ),
             ],

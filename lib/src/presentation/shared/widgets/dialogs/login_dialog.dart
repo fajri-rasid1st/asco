@@ -1,5 +1,4 @@
 // Flutter imports:
-import 'package:asco/src/presentation/shared/widgets/custom_icon_button.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -12,6 +11,7 @@ import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/presentation/shared/widgets/custom_icon_button.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class LoginDialog extends StatelessWidget {
@@ -54,9 +54,9 @@ class LoginDialog extends StatelessWidget {
             right: 12,
             child: CustomIconButton(
               'close_outlined.svg',
+              onPressed: () => navigatorKey.currentState!.pop(),
               color: Palette.secondaryText,
               size: 20,
-              onPressed: () => navigatorKey.currentState!.pop(),
               tooltip: 'Kembali',
             ),
           ),
@@ -223,8 +223,13 @@ class _LoginFormState extends State<LoginForm> {
   void login() {
     FocusManager.instance.primaryFocus?.unfocus();
 
+    navigatorKey.currentState!.pop();
+
     if (formKey.currentState!.saveAndValidate()) {
-      navigatorKey.currentState!.pushReplacementNamed(adminHomeRoute);
+      navigatorKey.currentState!.pushReplacementNamed(
+        homeRoute,
+        arguments: 1,
+      );
     }
   }
 }

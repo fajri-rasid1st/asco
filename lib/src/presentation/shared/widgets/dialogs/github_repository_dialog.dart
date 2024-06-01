@@ -41,6 +41,10 @@ class GithubRepositoryDialog extends StatelessWidget {
                       color: Palette.primaryText,
                     ),
                     tooltip: 'Kembali',
+                    style: IconButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shape: const CircleBorder(),
+                    ),
                   ),
                 ),
                 Expanded(
@@ -78,6 +82,10 @@ class GithubRepositoryDialog extends StatelessWidget {
                       width: 26,
                     ),
                     tooltip: 'Submit',
+                    style: IconButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shape: const CircleBorder(),
+                    ),
                   ),
                 ),
               ],

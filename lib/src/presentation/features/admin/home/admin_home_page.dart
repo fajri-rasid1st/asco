@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/src/presentation/shared/widgets/app_bar_title.dart';
+import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
@@ -63,7 +63,7 @@ class AdminHomePage extends StatelessWidget {
           padding: const EdgeInsets.all(24),
           child: Column(
             children: [
-              const AppBarTitle(),
+              const AscoAppBar(),
               const SizedBox(height: 32),
               Container(
                 width: double.infinity,
@@ -117,7 +117,7 @@ class AdminHomePage extends StatelessWidget {
                   crossAxisCount: 2,
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
-                  childAspectRatio: 1.3,
+                  childAspectRatio: 1.25,
                 ),
                 itemBuilder: (context, index) {
                   return AdminMenuCard(
@@ -175,12 +175,13 @@ class AdminMenuCard extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             menu.title,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             style: textTheme.titleSmall?.copyWith(
               fontWeight: FontWeight.w600,
               color: Palette.purple2,
               height: 1.25,
             ),
-            maxLines: 2,
           ),
         ],
       ),

@@ -48,6 +48,10 @@ class CustomDialog extends StatelessWidget {
                       color: Palette.primaryText,
                     ),
                     tooltip: 'Kembali',
+                    style: IconButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shape: const CircleBorder(),
+                    ),
                   ),
                   Expanded(
                     child: Text(
@@ -66,6 +70,10 @@ class CustomDialog extends StatelessWidget {
                       width: 26,
                     ),
                     tooltip: 'Submit',
+                    style: IconButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shape: const CircleBorder(),
+                    ),
                   ),
                 ],
               ),
