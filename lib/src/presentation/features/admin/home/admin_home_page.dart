@@ -60,7 +60,7 @@ class AdminHomePage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
           child: Column(
             children: [
               const AscoAppBar(),

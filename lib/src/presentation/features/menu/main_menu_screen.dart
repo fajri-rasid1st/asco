@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/utils/keys.dart';
-import 'package:asco/src/presentation/features/menu/widgets/drawer_menu_widget.dart';
+import 'package:asco/src/presentation/shared/widgets/drawers/drawer_menu_widget.dart';
 
 class MainMenuScreen extends StatefulWidget {
   const MainMenuScreen({super.key});

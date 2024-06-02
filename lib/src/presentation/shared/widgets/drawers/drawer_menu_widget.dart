@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/styles/color_scheme.dart';
-import 'package:asco/src/presentation/features/menu/widgets/drawer_menu_content.dart';
+import 'package:asco/src/presentation/shared/widgets/drawers/drawer_menu_content.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class DrawerMenuWidget extends StatefulWidget {

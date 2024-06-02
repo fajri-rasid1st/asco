@@ -38,7 +38,7 @@ class OnBoardingPage extends StatelessWidget {
           ),
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
+              padding: const EdgeInsets.fromLTRB(20, 24, 20, 32),
               child: Column(
                 children: [
                   const AscoAppBar(),

@@ -5,8 +5,8 @@ const wrapperRoute = '/wrapper';
 const onBoardingRoute = '/on-boarding';
 
 // Student & Assistance routes
-const mainMenuRoute = '/main-menu';
 const homeRoute = '/home';
+const mainMenuRoute = '/main-menu';
 
 // Admin routes
 const adminHomeRoute = '/admin-home';

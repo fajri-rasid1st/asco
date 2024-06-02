@@ -18,15 +18,15 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const OnBoardingPage(),
       );
-    case mainMenuRoute:
-      return MaterialPageRoute(
-        builder: (_) => const MainMenuScreen(),
-      );
     case homeRoute:
       final roleId = settings.arguments as int;
 
       return MaterialPageRoute(
         builder: (_) => HomePage(roleId: roleId),
+      );
+    case mainMenuRoute:
+      return MaterialPageRoute(
+        builder: (_) => const MainMenuScreen(),
       );
     case adminHomeRoute:
       return MaterialPageRoute(
