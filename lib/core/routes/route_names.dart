@@ -10,3 +10,4 @@ const mainMenuRoute = '/main-menu';
 
 // Admin routes
 const adminHomeRoute = '/admin-home';
+const usersHomeRoute = '/users-home';

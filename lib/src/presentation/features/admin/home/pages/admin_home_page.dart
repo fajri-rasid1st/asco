@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:asco/core/helpers/asset_path.dart';
+import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
@@ -18,7 +20,7 @@ class AdminHomePage extends StatelessWidget {
       AdminMenu(
         title: 'Data Pengguna',
         icon: Icons.person_rounded,
-        onTap: () {},
+        onTap: () => navigatorKey.currentState!.pushNamed(usersHomeRoute),
       ),
       AdminMenu(
         title: 'Data Praktikum',

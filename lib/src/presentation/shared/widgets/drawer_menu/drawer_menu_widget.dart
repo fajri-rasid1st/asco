@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/styles/color_scheme.dart';
-import 'package:asco/src/presentation/shared/widgets/drawers/drawer_menu_content.dart';
+import 'package:asco/src/presentation/shared/widgets/drawer_menu/drawer_menu_content.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class DrawerMenuWidget extends StatefulWidget {
@@ -180,11 +180,10 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with SingleTickerPr
                               this.isDrawerClosed.value = true;
                             }
                           },
-                          child: AnimatedContainer(
+                          child: Container(
                             width: 36,
                             height: 36,
                             padding: const EdgeInsets.all(8),
-                            duration: const Duration(milliseconds: 200),
                             decoration: BoxDecoration(
                               color: Palette.background,
                               shape: BoxShape.circle,
@@ -293,7 +292,7 @@ class NavigationBarTabIcon extends StatelessWidget {
               height: 5,
               duration: const Duration(milliseconds: 200),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(10),
                 color: Palette.purple3,
               ),
             ),

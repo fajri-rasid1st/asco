@@ -10,7 +10,7 @@ import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
-import 'package:asco/src/presentation/shared/widgets/drawers/drawer_menu_widget.dart';
+import 'package:asco/src/presentation/shared/widgets/drawer_menu/drawer_menu_widget.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class HomePage extends StatefulWidget {
@@ -202,7 +202,7 @@ class CourseCard extends StatelessWidget {
                     Text(
                       time,
                       style: textTheme.bodySmall?.copyWith(
-                        color: Palette.scaffoldBackground,
+                        color: Palette.background,
                       ),
                     ),
                     const Spacer(),
