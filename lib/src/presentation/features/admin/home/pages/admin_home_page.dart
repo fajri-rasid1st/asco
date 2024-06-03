@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
@@ -20,7 +21,7 @@ class AdminHomePage extends StatelessWidget {
       AdminMenu(
         title: 'Data Pengguna',
         icon: Icons.person_rounded,
-        onTap: () => navigatorKey.currentState!.pushNamed(usersHomeRoute),
+        onTap: () => navigatorKey.currentState!.pushNamed(userListHomeRoute),
       ),
       AdminMenu(
         title: 'Data Praktikum',
@@ -104,7 +105,17 @@ class AdminHomePage extends StatelessWidget {
                     ),
                     const SizedBox(width: 8),
                     IconButton.filled(
-                      onPressed: () {},
+                      onPressed: () => context.showConfirmDialog(
+                        title: 'Log Out?',
+                        message: 'Dengan ini seluruh sesi Anda akan berakhir.',
+                        primaryButtonText: 'Log Out',
+                        onPressedPrimaryButton: () {
+                          navigatorKey.currentState!.pushNamedAndRemoveUntil(
+                            onBoardingRoute,
+                            (route) => false,
+                          );
+                        },
+                      ),
                       icon: const Icon(Icons.exit_to_app_rounded),
                     ),
                   ],
@@ -179,7 +190,7 @@ class AdminMenuCard extends StatelessWidget {
             menu.title,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: textTheme.titleSmall?.copyWith(
+            style: textTheme.titleMedium?.copyWith(
               fontWeight: FontWeight.w600,
               color: Palette.purple2,
               height: 1.25,

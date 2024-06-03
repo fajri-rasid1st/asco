@@ -10,4 +10,7 @@ const mainMenuRoute = '/main-menu';
 
 // Admin routes
 const adminHomeRoute = '/admin-home';
-const usersHomeRoute = '/users-home';
+
+const userListHomeRoute = '/user-list-home';
+const userFormRoute = '/user-form';
+const userDetailRoute = '/user-detail';

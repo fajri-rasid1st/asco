@@ -27,16 +27,21 @@ class CustomFilterChip extends StatelessWidget {
       selectedColor: Palette.purple2,
       backgroundColor: Palette.scaffoldBackground,
       padding: EdgeInsets.zero,
-      labelPadding: const EdgeInsets.symmetric(horizontal: 20),
+      labelPadding: const EdgeInsets.symmetric(horizontal: 12),
       labelStyle: textTheme.bodyMedium!.copyWith(
         color: selected ? Palette.background : Palette.purple2,
         letterSpacing: 0,
+        height: 1,
       ),
       side: const BorderSide(color: Palette.purple2),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(8),
       ),
       clipBehavior: Clip.antiAlias,
+      visualDensity: const VisualDensity(
+        horizontal: 4,
+        vertical: -2,
+      ),
     );
   }
 }

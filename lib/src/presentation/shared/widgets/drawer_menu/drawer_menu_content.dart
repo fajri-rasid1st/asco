@@ -6,6 +6,7 @@ import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class DrawerMenuContent extends StatelessWidget {
@@ -142,12 +143,9 @@ class UserProfileListTile extends StatelessWidget {
         onTap: onTap,
         child: Row(
           children: [
-            CircleAvatar(
-              radius: 20,
-              backgroundColor: Palette.purple5,
-              foregroundImage: AssetImage(
-                AssetPath.getImage('avatar1.jpg'),
-              ),
+            const CircleNetworkImage(
+              imageUrl: 'https://placehold.co/150x150/png',
+              size: 40,
             ),
             const SizedBox(width: 10),
             Expanded(

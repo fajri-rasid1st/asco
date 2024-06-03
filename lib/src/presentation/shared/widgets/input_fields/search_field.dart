@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/styles/color_scheme.dart';
+import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class SearchField extends StatefulWidget {
@@ -55,22 +56,30 @@ class _SearchFieldState extends State<SearchField> {
   Widget build(BuildContext context) {
     return Focus(
       onFocusChange: (value) => isFocus.value = value,
-      child: TextField(
-        controller: controller,
-        textAlignVertical: TextAlignVertical.center,
-        textInputAction: TextInputAction.search,
-        decoration: InputDecoration(
-          hintText: widget.hintText,
-          isDense: true,
-          filled: true,
-          fillColor: Palette.background,
-          contentPadding: EdgeInsets.zero,
-          prefixIcon: buildPrefixIcon(),
-          suffixIcon: buildSuffixIcon(),
+      child: SizedBox(
+        height: 44,
+        child: TextField(
+          controller: controller,
+          textAlignVertical: TextAlignVertical.center,
+          textInputAction: TextInputAction.search,
+          style: textTheme.bodyMedium,
+          decoration: InputDecoration(
+            hintText: widget.hintText,
+            isDense: true,
+            filled: true,
+            fillColor: Palette.background,
+            contentPadding: EdgeInsets.zero,
+            prefixIcon: buildPrefixIcon(),
+            suffixIcon: buildSuffixIcon(),
+            hintStyle: textTheme.bodyMedium!.copyWith(
+              color: Palette.hint,
+              height: 1,
+            ),
+          ),
+          onChanged: widget.delayOnChanged
+              ? (text) => debounce(() => widget.onChanged(text))
+              : widget.onChanged,
         ),
-        onChanged: widget.delayOnChanged
-            ? (text) => debounce(() => widget.onChanged(text))
-            : widget.onChanged,
       ),
     );
   }
@@ -87,6 +96,7 @@ class _SearchFieldState extends State<SearchField> {
           return SvgAsset(
             AssetPath.getIcon('search_outlined.svg'),
             color: isFocus ? Palette.purple2 : Palette.hint,
+            width: 10,
           );
         },
       ),

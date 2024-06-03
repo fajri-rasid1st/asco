@@ -1,6 +1,9 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 // Project imports:
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
@@ -13,97 +16,73 @@ import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/drawer_menu/drawer_menu_widget.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
-class HomePage extends StatefulWidget {
-  final int roleId;
+final selectedMenuProvider = StateProvider.autoDispose<int>((ref) => -1);
 
-  const HomePage({super.key, required this.roleId});
-
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  late final ValueNotifier<int> selectedIndex;
+class HomePage extends ConsumerWidget {
+  const HomePage({super.key});
 
   @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedIndex = ref.watch(selectedMenuProvider);
 
-    selectedIndex = ValueNotifier(-1);
-  }
+    return DrawerMenuWidget(
+      isMainMenu: false,
+      showNavigationBar: false,
+      selectedIndex: selectedIndex,
+      onSelected: (index) => ref.read(selectedMenuProvider.notifier).state = index,
+      child: Builder(
+        builder: (context) {
+          if (selectedIndex == -2) {
+            // Navigate to profile page, according to roleId
+          }
 
-  @override
-  void dispose() {
-    super.dispose();
+          if (selectedIndex == 6) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              ref.read(selectedMenuProvider.notifier).state = -1;
 
-    selectedIndex.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-      valueListenable: selectedIndex,
-      builder: (context, selectedIndex, child) {
-        return DrawerMenuWidget(
-          isMainMenu: false,
-          showNavigationBar: false,
-          selectedIndex: selectedIndex,
-          onSelected: (index) => this.selectedIndex.value = index,
-          child: Builder(
-            builder: (context) {
-              if (selectedIndex == -2) {
-                // Navigate to profile page, according to roleId
-              }
-
-              if (selectedIndex == 6) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  this.selectedIndex.value = -1;
-
-                  context.showConfirmDialog(
-                    title: 'Log Out?',
-                    message: 'Dengan ini seluruh sesi Anda akan berakhir.',
-                    primaryButtonText: 'Log Out',
-                    onPressedPrimaryButton: () {
-                      navigatorKey.currentState!.pushNamedAndRemoveUntil(
-                        onBoardingRoute,
-                        (route) => false,
-                      );
-                    },
+              context.showConfirmDialog(
+                title: 'Log Out?',
+                message: 'Dengan ini seluruh sesi Anda akan berakhir.',
+                primaryButtonText: 'Log Out',
+                onPressedPrimaryButton: () {
+                  navigatorKey.currentState!.pushNamedAndRemoveUntil(
+                    onBoardingRoute,
+                    (route) => false,
                   );
-                });
-              }
-
-              return Scaffold(
-                body: SafeArea(
-                  child: SingleChildScrollView(
-                    padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
-                    child: Column(
-                      children: [
-                        const AscoAppBar(),
-                        const SizedBox(height: 24),
-                        ...List<Padding>.generate(
-                          3,
-                          (index) => Padding(
-                            padding: EdgeInsets.only(
-                              bottom: index == 2 ? 0 : 12,
-                            ),
-                            child: CourseCard(
-                              title: setTitleText('Pemrograman Mobile', 'A'),
-                              time: setTimeText('Rabu', '10.10 - 12.40'),
-                              badgePath: AssetPath.getVector('badge_android.svg'),
-                              backgroundColor: Palette.purple3,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                },
               );
-            },
-          ),
-        );
-      },
+            });
+          }
+
+          return Scaffold(
+            body: SafeArea(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
+                child: Column(
+                  children: [
+                    const AscoAppBar(),
+                    const SizedBox(height: 24),
+                    ...List<Padding>.generate(
+                      3,
+                      (index) => Padding(
+                        padding: EdgeInsets.only(
+                          bottom: index == 2 ? 0 : 12,
+                        ),
+                        child: CourseCard(
+                          title: setTitleText('Pemrograman Mobile', 'A'),
+                          time: setTimeText('Rabu', '10.10 - 12.40'),
+                          badgePath: AssetPath.getVector('badge_android.svg'),
+                          backgroundColor: Palette.purple3,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -229,7 +208,7 @@ class CourseCard extends StatelessWidget {
                                   ),
                                 )
                               : const CircleNetworkImage(
-                                  imageUrl: 'https://placehold.co/300x300/png',
+                                  imageUrl: 'https://placehold.co/150x150/png',
                                   size: 32,
                                   withBorder: true,
                                   borderWidth: 1,
