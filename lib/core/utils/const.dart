@@ -13,6 +13,12 @@ const accessTokenKey = 'ACCESS_TOKEN';
 const userCredentialKey = 'USER_CREDENTIAL';
 
 // another consts
+const userRole = {
+  'Semua': '',
+  'Praktikan': 'student',
+  'Asisten': 'assistant',
+};
+
 const dayOfWeek = {
   'Minggu': 'sunday',
   'Senin': 'monday',

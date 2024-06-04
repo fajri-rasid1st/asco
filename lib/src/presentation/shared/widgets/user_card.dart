@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
@@ -19,12 +20,12 @@ class UserCard extends StatelessWidget {
     return InkWellContainer(
       radius: 12,
       color: Palette.background,
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
-      onTap: () {},
+      padding: const EdgeInsets.all(12),
+      onTap: onTap,
       child: Row(
         children: [
           const CircleNetworkImage(
-            imageUrl: 'https://placehold.co/300x300/png',
+            imageUrl: 'https://placehold.co/150x150/png',
             size: 60,
           ),
           const SizedBox(width: 8),
@@ -65,7 +66,12 @@ class UserCard extends StatelessWidget {
               size: 18,
               color: Palette.background,
             ),
-            onTap: () {},
+            onTap: () => context.showConfirmDialog(
+              title: 'Hapus Pengguna?',
+              message: 'Anda yakin ingin menghapus user ini?',
+              primaryButtonText: 'Hapus',
+              onPressedPrimaryButton: () {},
+            ),
           ),
         ],
       ),

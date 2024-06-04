@@ -164,7 +164,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with SingleTickerPr
                       ),
                     ),
                     AnimatedPositioned(
-                      top: 24,
+                      top: 20,
                       left: isDrawerClosed ? 0 : AppSize.getAppWidth(context) * .7 - 40,
                       duration: const Duration(milliseconds: 200),
                       curve: Curves.fastOutSlowIn,

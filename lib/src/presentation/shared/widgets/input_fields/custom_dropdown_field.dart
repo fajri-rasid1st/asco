@@ -11,10 +11,10 @@ import 'package:asco/core/styles/text_style.dart';
 class CustomDropdownField extends StatefulWidget {
   final String name;
   final String label;
-  final List<String> items;
-  final List<String> values;
-  final String? initialValue;
-  final ValueChanged<String?>? onChanged;
+  final List items;
+  final List values;
+  final dynamic initialValue;
+  final ValueChanged? onChanged;
   final bool isSmall;
 
   const CustomDropdownField({
@@ -68,7 +68,7 @@ class _CustomDropdownFieldState extends State<CustomDropdownField> {
         const SizedBox(height: 6),
         Focus(
           onFocusChange: (value) => isFocus.value = value,
-          child: FormBuilderDropdown<String>(
+          child: FormBuilderDropdown(
             name: widget.name,
             initialValue: widget.initialValue,
             elevation: 1,
@@ -81,11 +81,11 @@ class _CustomDropdownFieldState extends State<CustomDropdownField> {
                   ? const EdgeInsets.fromLTRB(16, 12, 12, 12)
                   : const EdgeInsets.fromLTRB(16, 16, 12, 16),
             ),
-            items: List<DropdownMenuItem<String>>.generate(
+            items: List<DropdownMenuItem>.generate(
               widget.items.length,
               (index) => DropdownMenuItem(
                 value: widget.values[index],
-                child: Text(widget.items[index]),
+                child: Text('${widget.items[index]}'),
               ),
             ),
             icon: ValueListenableBuilder(

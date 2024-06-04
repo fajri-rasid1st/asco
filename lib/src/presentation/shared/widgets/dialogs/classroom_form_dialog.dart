@@ -61,7 +61,7 @@ class ClassroomFormDialog extends StatelessWidget {
                         initialTime: startTime,
                         formKey: formKey,
                         fieldKey: 'startTime',
-                        helpText: 'Masukkan Waktu Kelas Dimulai',
+                        helpText: 'Waktu Kelas Dimulai',
                       );
 
                       if (time != null) startTime = time;
@@ -81,7 +81,7 @@ class ClassroomFormDialog extends StatelessWidget {
                         initialTime: endTime,
                         formKey: formKey,
                         fieldKey: 'endTime',
-                        helpText: 'Masukkan Waktu Kelas Selesai',
+                        helpText: 'Waktu Kelas Selesai',
                       );
 
                       if (time != null) endTime = time;

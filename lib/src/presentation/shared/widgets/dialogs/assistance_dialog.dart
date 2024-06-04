@@ -58,7 +58,7 @@ class AssistanceDialog extends StatelessWidget {
                       initialdate: assistanceDate ?? DateTime.now(),
                       formKey: formKey,
                       fieldKey: 'date',
-                      helpText: 'Masukkan Tanggal Asistensi',
+                      helpText: 'Tanggal Asistensi',
                     );
 
                     if (date != null) assistanceDate = date;

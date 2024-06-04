@@ -8,7 +8,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
+import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/presentation/features/admin/users/pages/user_form_page.dart';
 import 'package:asco/src/presentation/shared/providers/manual_providers/search_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_fab.dart';
@@ -23,15 +25,9 @@ class UserListHomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const roleMap = {
-      'Semua': '',
-      'Asisten': 'assistant',
-      'Praktikan': 'student',
-    };
-
     final query = ref.watch(queryProvider);
     final selectedRole = ref.watch(selectedRoleProvider);
-    final labels = roleMap.keys.toList();
+    final labels = userRole.keys.toList();
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -58,7 +54,7 @@ class UserListHomePage extends ConsumerWidget {
             backgroundColor: Palette.scaffoldBackground,
             surfaceTintColor: Palette.scaffoldBackground,
             flexibleSpace: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
               child: SearchField(
                 text: query,
                 hintText: 'Cari nama atau username',
@@ -66,7 +62,7 @@ class UserListHomePage extends ConsumerWidget {
               ),
             ),
             bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(68),
+              preferredSize: const Size.fromHeight(66),
               child: SizedBox(
                 height: 56,
                 child: ListView.separated(
@@ -75,21 +71,21 @@ class UserListHomePage extends ConsumerWidget {
                   itemBuilder: (context, index) {
                     return CustomFilterChip(
                       label: labels[index],
-                      selected: selectedRole == roleMap[labels[index]],
+                      selected: selectedRole == userRole[labels[index]],
                       onSelected: (_) {
                         ref.read(queryProvider.notifier).state = '';
-                        ref.read(selectedRoleProvider.notifier).state = roleMap[labels[index]]!;
+                        ref.read(selectedRoleProvider.notifier).state = userRole[labels[index]]!;
                       },
                     );
                   },
                   separatorBuilder: (context, index) => const SizedBox(width: 8),
-                  itemCount: roleMap.length,
+                  itemCount: userRole.length,
                 ),
               ),
             ),
           ),
           SliverPadding(
-            padding: const EdgeInsets.fromLTRB(20, 4, 20, 24),
+            padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
@@ -109,7 +105,10 @@ class UserListHomePage extends ConsumerWidget {
         ],
       ),
       floatingActionButton: CustomFloatingActionButton(
-        onPressed: () => navigatorKey.currentState!.pushNamed(userFormRoute),
+        onPressed: () => navigatorKey.currentState!.pushNamed(
+          userFormRoute,
+          arguments: const UserFormPageArgs(action: 'Tambah'),
+        ),
         tooltip: 'Tambah',
         child: const Icon(
           Icons.add_rounded,

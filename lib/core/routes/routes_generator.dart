@@ -42,8 +42,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const UserDetailPage(),
       );
     case userFormRoute:
+      final args = settings.arguments as UserFormPageArgs;
+
       return MaterialPageRoute(
-        builder: (_) => const UserFormPage(),
+        builder: (_) => UserFormPage(args: args),
       );
     default:
       return null;
