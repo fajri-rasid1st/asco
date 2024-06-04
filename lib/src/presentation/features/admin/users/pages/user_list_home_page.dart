@@ -38,8 +38,8 @@ class UserListHomePage extends ConsumerWidget {
         title: 'Data Pengguna',
         action: IconButton(
           onPressed: () => context.showSortingDialog(
-            items: ['dateCreated', 'fullname', 'username'],
-            values: ['Tanggal Ditambahkan', 'Nama Lengkap', 'Username'],
+            items: ['Tanggal Ditambahkan', 'Nama Lengkap', 'Username'],
+            values: ['dateCreated', 'fullname', 'username'],
             onSubmitted: (value) {},
           ),
           icon: const Icon(Icons.filter_list_rounded),

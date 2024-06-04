@@ -16,7 +16,7 @@ class AscoAppBar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SvgAsset(
-          AssetPath.getVector('logo2.svg'),
+          AssetPath.getVector('logo.svg'),
         ),
         const SizedBox(width: 4),
         RichText(

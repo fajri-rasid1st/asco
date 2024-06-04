@@ -81,7 +81,7 @@ class AdminHomePage extends StatelessWidget {
                 child: Row(
                   children: [
                     SvgAsset(
-                      AssetPath.getVector('logo2.svg'),
+                      AssetPath.getVector('logo.svg'),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
