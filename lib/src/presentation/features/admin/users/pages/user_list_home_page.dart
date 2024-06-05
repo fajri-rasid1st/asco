@@ -25,9 +25,10 @@ class UserListHomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final labels = userRole.keys.toList();
+
     final query = ref.watch(queryProvider);
     final selectedRole = ref.watch(selectedRoleProvider);
-    final labels = userRole.keys.toList();
 
     return Scaffold(
       appBar: CustomAppBar(

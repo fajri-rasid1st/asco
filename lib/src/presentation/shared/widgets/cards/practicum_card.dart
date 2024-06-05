@@ -1,15 +1,13 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
-// Package imports:
-import 'package:cached_network_image/cached_network_image.dart';
-
 // Project imports:
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
+import 'package:asco/src/presentation/shared/widgets/practicum_badge_image.dart';
 
 class PracticumCard extends StatelessWidget {
   final bool showDeleteButton;
@@ -26,14 +24,12 @@ class PracticumCard extends StatelessWidget {
     return InkWellContainer(
       radius: 12,
       color: Palette.background,
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
       onTap: onTap,
       child: Row(
         children: [
-          CachedNetworkImage(
-            imageUrl: 'https://placehold.co/138x150/png',
-            placeholder: (_, __) => const SizedBox(),
-            errorWidget: (_, __, ___) => const SizedBox(),
+          const PracticumBadgeImage(
+            badgeUrl: 'https://placehold.co/138x150/png',
             width: 48,
             height: 52,
           ),
@@ -55,8 +51,6 @@ class PracticumCard extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   '4 Kelas',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                   style: textTheme.bodySmall!.copyWith(
                     color: Palette.purple3,
                   ),

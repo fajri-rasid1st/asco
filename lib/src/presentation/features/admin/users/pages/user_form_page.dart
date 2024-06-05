@@ -54,7 +54,6 @@ class UserFormPage extends StatelessWidget {
                     name: 'username',
                     label: 'Username',
                     hintText: 'Masukkan username',
-                    textInputType: TextInputType.text,
                     textCapitalization: TextCapitalization.none,
                     validators: [
                       FormBuilderValidators.required(
@@ -131,6 +130,8 @@ class UserFormPage extends StatelessWidget {
   }
 
   void createOrEditUser(GlobalKey<FormBuilderState> formKey) {
+    FocusManager.instance.primaryFocus?.unfocus();
+
     if (formKey.currentState!.saveAndValidate()) {
       debugPrint(formKey.currentState!.value.toString());
 

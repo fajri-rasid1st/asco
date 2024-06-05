@@ -13,6 +13,7 @@ class UserCard extends StatelessWidget {
   final Widget? trailing;
   final bool showAvatarBorder;
   final bool showDeleteButton;
+  final bool showBadge;
   final VoidCallback? onPressedDeleteButton;
   final VoidCallback? onTap;
 
@@ -21,6 +22,7 @@ class UserCard extends StatelessWidget {
     this.trailing,
     this.showAvatarBorder = false,
     this.showDeleteButton = false,
+    this.showBadge = true,
     this.onPressedDeleteButton,
     this.onTap,
   });
@@ -30,7 +32,7 @@ class UserCard extends StatelessWidget {
     return InkWellContainer(
       radius: 12,
       color: Palette.background,
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
       onTap: onTap,
       child: Row(
         children: [
@@ -54,7 +56,7 @@ class UserCard extends StatelessWidget {
                     color: Palette.purple3,
                   ),
                 ),
-                const SizedBox(height: 1),
+                SizedBox(height: showBadge ? 1 : 2),
                 Text(
                   'Muh. Sultan Nazhim Latenri Tatta S.H',
                   maxLines: 1,
@@ -64,8 +66,10 @@ class UserCard extends StatelessWidget {
                     color: Palette.purple2,
                   ),
                 ),
-                const SizedBox(height: 2),
-                const CustomBadge(text: 'Praktikan'),
+                if (showBadge) ...[
+                  const SizedBox(height: 2),
+                  const CustomBadge(text: 'Praktikan'),
+                ],
               ],
             ),
           ),

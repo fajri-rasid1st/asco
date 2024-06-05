@@ -26,7 +26,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       titleTextStyle: textTheme.titleLarge!.copyWith(
         color: Palette.background,
         fontWeight: FontWeight.w600,
-        fontSize: 18,
+        fontSize: 17,
       ),
       leading: leading ??
           IconButton(

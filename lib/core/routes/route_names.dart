@@ -18,3 +18,5 @@ const userDetailRoute = '/user-detail';
 const practicumListRoute = '/practicum-list';
 const practicumListHomeRoute = '/practicum-list-home';
 const practicumDetailRoute = '/practicum-detail';
+const practicumFirstFormRoute = '/practicum-first-form';
+const practicumSecondFormRoute = '/practicum-second-form';

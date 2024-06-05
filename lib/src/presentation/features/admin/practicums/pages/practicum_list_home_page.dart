@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/presentation/features/admin/practicums/pages/practicum_form_page.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/practicum_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_fab.dart';
@@ -29,7 +30,10 @@ class PracticumListHomePage extends StatelessWidget {
         itemCount: 3,
       ),
       floatingActionButton: CustomFloatingActionButton(
-        onPressed: () {},
+        onPressed: () => navigatorKey.currentState!.pushNamed(
+          practicumFirstFormRoute,
+          arguments: const PracticumFormPageArgs(action: 'Tambah'),
+        ),
         tooltip: 'Tambah',
         child: const Icon(
           Icons.add_rounded,

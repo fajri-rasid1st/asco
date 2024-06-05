@@ -48,7 +48,7 @@ class FileService {
         allowedExtensions: extensions,
       );
 
-      return result?.files.first.path;
+      return result?.files.single.path;
     } catch (e) {
       debugPrint(e.toString());
 

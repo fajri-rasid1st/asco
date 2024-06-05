@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
@@ -15,6 +14,7 @@ import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/drawer_menu/drawer_menu_widget.dart';
+import 'package:asco/src/presentation/shared/widgets/practicum_badge_image.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 final selectedMenuProvider = StateProvider.autoDispose<int>((ref) => -1);
@@ -168,10 +168,8 @@ class CourseCard extends StatelessWidget {
                           ),
                         ),
                         const Spacer(),
-                        CachedNetworkImage(
-                          imageUrl: badgeUrl,
-                          placeholder: (_, __) => const SizedBox(),
-                          errorWidget: (_, __, ___) => const SizedBox(),
+                        PracticumBadgeImage(
+                          badgeUrl: badgeUrl,
                           width: 44,
                           height: 48,
                         ),
