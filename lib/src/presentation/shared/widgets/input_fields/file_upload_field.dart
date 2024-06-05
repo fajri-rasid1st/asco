@@ -19,14 +19,14 @@ class FileUploadField extends StatefulWidget {
   final String label;
   final List<String> extensions;
   final VoidCallback? onPressedFilePickerButton;
-  final ValueChanged<String?>? onFileChanged;
+  final ValueChanged<String?>? onChanged;
 
   const FileUploadField({
     super.key,
     required this.label,
     required this.extensions,
     this.onPressedFilePickerButton,
-    this.onFileChanged,
+    this.onChanged,
   });
 
   @override
@@ -97,10 +97,10 @@ class _FileUploadFieldState extends State<FileUploadField> {
                       () async {
                         final path = await FileService.pickFile(extensions: widget.extensions);
 
-                        filePathNotifier.value = path;
+                        if (path != null) {
+                          if (widget.onChanged != null) widget.onChanged!(path);
 
-                        if (widget.onFileChanged != null) {
-                          widget.onFileChanged!(path);
+                          filePathNotifier.value = path;
                         }
                       },
                   icon: SvgAsset(
@@ -114,11 +114,9 @@ class _FileUploadFieldState extends State<FileUploadField> {
                     message: 'Hapus file ${widget.label.toLowerCase()} yang telah diupload?',
                     primaryButtonText: 'Hapus',
                     onPressedPrimaryButton: () {
-                      filePathNotifier.value = null;
+                      if (widget.onChanged != null) widget.onChanged!(null);
 
-                      if (widget.onFileChanged != null) {
-                        widget.onFileChanged!(null);
-                      }
+                      filePathNotifier.value = null;
 
                       navigatorKey.currentState!.pop();
                     },

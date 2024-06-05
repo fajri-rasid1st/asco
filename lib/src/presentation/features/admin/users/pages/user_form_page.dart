@@ -20,8 +20,6 @@ class UserFormPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormBuilderState>();
-
     final listOfYears = List<int>.generate(
       7,
       (index) => DateTime.now().year - index,
@@ -32,7 +30,7 @@ class UserFormPage extends StatelessWidget {
       appBar: CustomAppBar(
         title: '${args.action} Pengguna',
         action: IconButton(
-          onPressed: () => createOrEditUser(formKey),
+          onPressed: createOrEditUser,
           icon: const Icon(Icons.check_rounded),
           tooltip: 'Simpan',
           style: IconButton.styleFrom(
@@ -88,7 +86,6 @@ class UserFormPage extends StatelessWidget {
                     items: listOfYears,
                     values: listOfYears,
                     initialValue: listOfYears.first,
-                    onChanged: (_) {},
                   ),
                   const SizedBox(height: 12),
                   CustomDropdownField(
@@ -97,7 +94,6 @@ class UserFormPage extends StatelessWidget {
                     items: userRole.keys.toList().sublist(1),
                     values: userRole.values.toList().sublist(1),
                     initialValue: userRole.values.toList()[1],
-                    onChanged: (_) {},
                   ),
                 ],
               ),
@@ -129,7 +125,7 @@ class UserFormPage extends StatelessWidget {
     );
   }
 
-  void createOrEditUser(GlobalKey<FormBuilderState> formKey) {
+  void createOrEditUser() {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {

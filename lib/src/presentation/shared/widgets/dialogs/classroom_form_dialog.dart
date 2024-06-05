@@ -19,8 +19,8 @@ class ClassroomFormDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormBuilderState>();
 
-    TimeOfDay startTime = TimeOfDay.now();
-    TimeOfDay endTime = TimeOfDay.now();
+    var startTime = TimeOfDay.now();
+    var endTime = TimeOfDay.now();
 
     return CustomDialog(
       title: 'Tambah Kelas',
@@ -44,7 +44,6 @@ class ClassroomFormDialog extends StatelessWidget {
               items: dayOfWeek.keys.toList(),
               values: dayOfWeek.values.toList(),
               initialValue: dayOfWeek.values.first,
-              onChanged: (_) {},
             ),
             const SizedBox(height: 12),
             Row(

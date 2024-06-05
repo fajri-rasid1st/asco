@@ -14,7 +14,6 @@ class CustomDropdownField extends StatefulWidget {
   final List items;
   final List values;
   final dynamic initialValue;
-  final ValueChanged? onChanged;
   final bool isSmall;
 
   const CustomDropdownField({
@@ -24,7 +23,6 @@ class CustomDropdownField extends StatefulWidget {
     required this.items,
     required this.values,
     this.initialValue,
-    this.onChanged,
     this.isSmall = false,
   });
 
@@ -97,7 +95,6 @@ class _CustomDropdownFieldState extends State<CustomDropdownField> {
                 );
               },
             ),
-            onChanged: widget.onChanged,
           ),
         ),
       ],

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
@@ -12,20 +11,15 @@ import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/custom_text_field.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/file_upload_field.dart';
 
-final badgePathProvider = StateProvider.autoDispose<String?>((ref) => null);
-final courseContractPathProvider = StateProvider.autoDispose<String?>((ref) => null);
-
-class PracticumFirstFormPage extends ConsumerWidget {
+class PracticumFirstFormPage extends StatelessWidget {
   final PracticumFormPageArgs args;
 
   const PracticumFirstFormPage({super.key, required this.args});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final formKey = GlobalKey<FormBuilderState>();
-
-    final badgePath = ref.watch(badgePathProvider);
-    final courseContractPath = ref.watch(courseContractPathProvider);
+  Widget build(BuildContext context) {
+    String? badgePath;
+    String? courseContractPath;
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -41,7 +35,7 @@ class PracticumFirstFormPage extends ConsumerWidget {
           ),
         ),
         action: IconButton(
-          onPressed: () => createOrEditPracticum(formKey),
+          onPressed: () => createOrEditPracticum(badgePath, courseContractPath),
           icon: const Icon(Icons.chevron_right_rounded),
           iconSize: 30,
           tooltip: 'Selanjutnya',
@@ -71,17 +65,13 @@ class PracticumFirstFormPage extends ConsumerWidget {
               FileUploadField(
                 label: 'Badge',
                 extensions: const ['jpg', 'jpeg', 'png'],
-                onFileChanged: (path) {
-                  print('kontol: $path');
-                  // ref.read(badgePathProvider.notifier).state = path;
-                  // print('kontol: $badgePath');
-                },
+                onChanged: (path) => badgePath = path,
               ),
               const SizedBox(height: 12),
               FileUploadField(
                 label: 'Kontrak Kuliah',
                 extensions: const ['pdf', 'doc', 'docx'],
-                onFileChanged: (path) => ref.read(courseContractPathProvider.notifier).state = path,
+                onChanged: (path) => courseContractPath = path,
               ),
             ],
           ),
@@ -90,17 +80,15 @@ class PracticumFirstFormPage extends ConsumerWidget {
     );
   }
 
-  void createOrEditPracticum(
-    GlobalKey<FormBuilderState> formKey,
-  ) {
+  void createOrEditPracticum(String? badgePath, String? courseContractPath) {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
-      // debugPrint({
-      //   'course': formKey.currentState!.value['course'],
-      //   'badgePath': ref.watch(badgePathProvider),
-      //   'courseContractPath': ref.watch(courseContractPathProvider),
-      // }.toString());
+      debugPrint({
+        'course': formKey.currentState!.value['course'],
+        'badgePath': badgePath,
+        'courseContractPath': courseContractPath,
+      }.toString());
     }
   }
 }

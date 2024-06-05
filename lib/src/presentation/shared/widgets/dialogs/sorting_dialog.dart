@@ -39,7 +39,6 @@ class SortingDialog extends StatelessWidget {
               items: items,
               values: values,
               initialValue: values.first,
-              onChanged: (_) {},
             ),
             const SizedBox(height: 12),
             CustomDropdownField(
@@ -49,7 +48,6 @@ class SortingDialog extends StatelessWidget {
               items: orders.keys.toList(),
               values: orders.values.toList(),
               initialValue: orders.values.first,
-              onChanged: (_) {},
             ),
           ],
         ),

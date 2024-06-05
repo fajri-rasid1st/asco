@@ -59,7 +59,10 @@ class UserListHomePage extends ConsumerWidget {
               child: SearchField(
                 text: query,
                 hintText: 'Cari nama atau username',
-                onChanged: (value) => ref.read(queryProvider.notifier).state = value,
+                onChanged: (value) {
+                  ref.read(queryProvider.notifier).state = value;
+                  ref.read(selectedRoleProvider.notifier).state = '';
+                },
               ),
             ),
             bottom: PreferredSize(
