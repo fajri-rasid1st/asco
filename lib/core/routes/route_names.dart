@@ -14,3 +14,7 @@ const adminHomeRoute = '/admin-home';
 const userListHomeRoute = '/user-list-home';
 const userFormRoute = '/user-form';
 const userDetailRoute = '/user-detail';
+
+const practicumListRoute = '/practicum-list';
+const practicumListHomeRoute = '/practicum-list-home';
+const practicumDetailRoute = '/practicum-detail';

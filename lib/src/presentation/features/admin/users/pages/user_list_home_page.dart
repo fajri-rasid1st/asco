@@ -12,11 +12,11 @@ import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/features/admin/users/pages/user_form_page.dart';
 import 'package:asco/src/presentation/shared/providers/manual_providers/search_provider.dart';
+import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_fab.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_filter_chip.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/search_field.dart';
-import 'package:asco/src/presentation/shared/widgets/user_card.dart';
 
 final selectedRoleProvider = StateProvider.autoDispose<String>((ref) => '');
 
@@ -91,10 +91,17 @@ class UserListHomePage extends ConsumerWidget {
                 (context, index) {
                   return Padding(
                     padding: EdgeInsets.only(
-                      bottom: index == 9 ? 0 : 8,
+                      bottom: index == 9 ? 0 : 10,
                     ),
                     child: UserCard(
                       onTap: () => navigatorKey.currentState!.pushNamed(userDetailRoute),
+                      showDeleteButton: true,
+                      onPressedDeleteButton: () => context.showConfirmDialog(
+                        title: 'Hapus Pengguna?',
+                        message: 'Anda yakin ingin menghapus user ini?',
+                        primaryButtonText: 'Hapus',
+                        onPressedPrimaryButton: () {},
+                      ),
                     ),
                   );
                 },

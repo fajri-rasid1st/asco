@@ -13,8 +13,8 @@ class CircleNetworkImage extends StatelessWidget {
   final double size;
   final double? placeholderSize;
   final bool withBorder;
-  final double? borderWidth;
-  final Color? borderColor;
+  final double borderWidth;
+  final Color borderColor;
   final BoxFit fit;
 
   const CircleNetworkImage({
@@ -23,8 +23,8 @@ class CircleNetworkImage extends StatelessWidget {
     required this.size,
     this.placeholderSize,
     this.withBorder = false,
-    this.borderWidth,
-    this.borderColor,
+    this.borderWidth = 1.0,
+    this.borderColor = const Color(0xFF000000),
     this.fit = BoxFit.cover,
   });
 
@@ -42,8 +42,8 @@ class CircleNetworkImage extends StatelessWidget {
             shape: BoxShape.circle,
             border: withBorder
                 ? Border.all(
-                    width: borderWidth ?? 1,
-                    color: borderColor ?? const Color(0xFF000000),
+                    width: borderWidth,
+                    color: borderColor,
                   )
                 : null,
             image: DecorationImage(
@@ -73,10 +73,11 @@ class CircleNetworkImage extends StatelessWidget {
         return CircleAvatar(
           radius: size / 2,
           backgroundColor: Palette.purple5,
-          child: const Center(
+          child: Center(
             child: Icon(
               Icons.hide_source_rounded,
               color: Palette.secondaryText,
+              size: placeholderSize ?? size / 2.5,
             ),
           ),
         );

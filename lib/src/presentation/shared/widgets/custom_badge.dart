@@ -9,23 +9,27 @@ class CustomBadge extends StatelessWidget {
   final String text;
   final TextStyle? textStyle;
   final Color? color;
+  final double? verticalPadding;
+  final double? horizontalPadding;
 
   const CustomBadge({
     super.key,
     required this.text,
     this.textStyle,
     this.color,
+    this.verticalPadding,
+    this.horizontalPadding,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 8,
-        vertical: 4,
+      padding: EdgeInsets.symmetric(
+        vertical: verticalPadding ?? 4,
+        horizontal: horizontalPadding ?? 8,
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(99),
         color: color ?? Palette.primary,
       ),
       child: Text(

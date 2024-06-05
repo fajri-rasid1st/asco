@@ -59,24 +59,27 @@ class UserDetailPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    '(H071191042)',
+                    'H071191042',
                     textAlign: TextAlign.center,
                     style: textTheme.bodyMedium?.copyWith(
                       color: Palette.secondaryText,
                     ),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 2),
                   Text(
                     '2019',
-                    style: textTheme.titleLarge?.copyWith(
+                    style: textTheme.headlineSmall?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(height: 4),
                   CustomBadge(
                     text: 'Praktikan',
+                    verticalPadding: 6,
+                    horizontalPadding: 12,
                     textStyle: textTheme.bodySmall?.copyWith(
                       color: Palette.background,
+                      height: 1,
                     ),
                   ),
                 ],

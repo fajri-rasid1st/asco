@@ -26,7 +26,7 @@ class AdminHomePage extends StatelessWidget {
       AdminMenu(
         title: 'Data Praktikum',
         icon: Icons.data_object_rounded,
-        onTap: () {},
+        onTap: () => navigatorKey.currentState!.pushNamed(practicumListHomeRoute),
       ),
       AdminMenu(
         title: 'Data Kelas & Pertemuan',

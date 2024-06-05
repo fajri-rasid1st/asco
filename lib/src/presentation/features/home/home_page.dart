@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
@@ -71,8 +72,7 @@ class HomePage extends ConsumerWidget {
                         child: CourseCard(
                           title: setTitleText('Pemrograman Mobile', 'A'),
                           time: setTimeText('Rabu', '10.10 - 12.40'),
-                          badgePath: AssetPath.getVector('badge_android.svg'),
-                          backgroundColor: Palette.purple3,
+                          badgeUrl: 'https://placehold.co/138x150/png',
                         ),
                       ),
                     ),
@@ -98,15 +98,13 @@ class HomePage extends ConsumerWidget {
 class CourseCard extends StatelessWidget {
   final String title;
   final String time;
-  final String badgePath;
-  final Color backgroundColor;
+  final String badgeUrl;
 
   const CourseCard({
     super.key,
     required this.title,
     required this.time,
-    required this.badgePath,
-    required this.backgroundColor,
+    required this.badgeUrl,
   });
 
   @override
@@ -123,7 +121,7 @@ class CourseCard extends StatelessWidget {
             Container(
               width: double.infinity,
               height: 180,
-              color: backgroundColor,
+              color: Palette.purple3,
             ),
             Positioned(
               right: 0,
@@ -170,10 +168,12 @@ class CourseCard extends StatelessWidget {
                           ),
                         ),
                         const Spacer(),
-                        SizedBox(
+                        CachedNetworkImage(
+                          imageUrl: badgeUrl,
+                          placeholder: (_, __) => const SizedBox(),
+                          errorWidget: (_, __, ___) => const SizedBox(),
                           width: 44,
                           height: 48,
-                          child: SvgAsset(badgePath),
                         ),
                       ],
                     ),
@@ -211,7 +211,6 @@ class CourseCard extends StatelessWidget {
                                   imageUrl: 'https://placehold.co/150x150/png',
                                   size: 32,
                                   withBorder: true,
-                                  borderWidth: 1,
                                   borderColor: Palette.background,
                                 ),
                         ),
