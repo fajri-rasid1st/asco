@@ -103,7 +103,7 @@ class _MarkdownFieldState extends State<MarkdownField> {
                           color: isFocus ? Palette.purple2 : Palette.border,
                         ),
                         borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(12),
+                          top: Radius.circular(10),
                         ),
                       ),
                       focusedBorder: OutlineInputBorder(
@@ -111,7 +111,7 @@ class _MarkdownFieldState extends State<MarkdownField> {
                           color: isFocus ? Palette.purple2 : Palette.border,
                         ),
                         borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(12),
+                          top: Radius.circular(10),
                         ),
                       ),
                     ),
@@ -132,13 +132,13 @@ class _MarkdownFieldState extends State<MarkdownField> {
                       ),
                     ),
                     borderRadius: const BorderRadius.vertical(
-                      bottom: Radius.circular(12),
+                      bottom: Radius.circular(10),
                     ),
                   ),
                   child: Material(
                     clipBehavior: Clip.antiAlias,
                     borderRadius: const BorderRadius.vertical(
-                      bottom: Radius.circular(12),
+                      bottom: Radius.circular(10),
                     ),
                     child: ListView(
                       scrollDirection: Axis.horizontal,

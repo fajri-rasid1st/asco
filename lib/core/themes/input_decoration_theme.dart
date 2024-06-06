@@ -8,31 +8,31 @@ import 'package:asco/core/styles/text_style.dart';
 final inputDecorationTheme = InputDecorationTheme(
   floatingLabelBehavior: FloatingLabelBehavior.never,
   errorBorder: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(12),
+    borderRadius: BorderRadius.circular(10),
     borderSide: const BorderSide(
       color: Palette.errorText,
     ),
   ),
   focusedErrorBorder: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(12),
+    borderRadius: BorderRadius.circular(10),
     borderSide: const BorderSide(
       color: Palette.errorText,
     ),
   ),
   disabledBorder: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(12),
+    borderRadius: BorderRadius.circular(10),
     borderSide: const BorderSide(
       color: Palette.border,
     ),
   ),
   enabledBorder: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(12),
+    borderRadius: BorderRadius.circular(10),
     borderSide: const BorderSide(
       color: Palette.border,
     ),
   ),
   focusedBorder: OutlineInputBorder(
-    borderRadius: BorderRadius.circular(12),
+    borderRadius: BorderRadius.circular(10),
     borderSide: const BorderSide(
       color: Palette.purple2,
     ),

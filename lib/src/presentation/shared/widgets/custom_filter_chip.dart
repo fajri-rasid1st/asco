@@ -29,13 +29,15 @@ class CustomFilterChip extends StatelessWidget {
       padding: EdgeInsets.zero,
       labelPadding: const EdgeInsets.symmetric(horizontal: 12),
       labelStyle: textTheme.bodyMedium!.copyWith(
-        color: selected ? Palette.background : Palette.purple2,
+        color: selected ? Palette.background : Palette.disabledText,
         letterSpacing: 0,
         height: 1,
       ),
-      side: const BorderSide(color: Palette.purple2),
+      side: BorderSide(
+        color: selected ? Palette.purple2 : Palette.border,
+      ),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(6),
       ),
       clipBehavior: Clip.antiAlias,
       visualDensity: const VisualDensity(

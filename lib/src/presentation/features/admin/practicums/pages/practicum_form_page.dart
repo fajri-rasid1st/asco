@@ -1,4 +1,8 @@
 // Flutter imports:
+import 'package:asco/core/routes/route_names.dart';
+import 'package:asco/src/presentation/shared/widgets/cards/classroom_card.dart';
+import 'package:asco/src/presentation/shared/widgets/dialogs/classroom_form_dialog.dart';
+import 'package:asco/src/presentation/shared/widgets/section_header.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -82,9 +86,14 @@ class PracticumFirstFormPage extends StatelessWidget {
   void createOrEditPracticum() {
     FocusManager.instance.primaryFocus?.unfocus();
 
-    if (formKey.currentState!.saveAndValidate()) {
-      debugPrint(formKey.currentState!.value.toString());
-    }
+    // if (formKey.currentState!.saveAndValidate()) {
+    //   debugPrint(formKey.currentState!.value.toString());
+
+    navigatorKey.currentState!.pushNamed(
+      practicumSecondFormRoute,
+      arguments: const PracticumFormPageArgs(action: 'Edit'),
+    );
+    // }
   }
 }
 
@@ -95,8 +104,52 @@ class PracticumSecondFormPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      appBar: CustomAppBar(
+        title: '${args.action} Praktikum (2/2)',
+        action: IconButton(
+          onPressed: updatePracticum,
+          icon: const Icon(Icons.check_rounded),
+          tooltip: 'Submit',
+          style: IconButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            shape: const CircleBorder(),
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            SectionHeader(
+              title: 'Kelas',
+              showDivider: true,
+              showActionButton: true,
+              onPressedActionButton: () => showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) => const ClassroomFormDialog(action: 'Tambah'),
+              ),
+              padding: const EdgeInsets.fromLTRB(4, 0, 4, 8),
+            ),
+            ...List<Padding>.generate(
+              4,
+              (index) => Padding(
+                padding: EdgeInsets.only(
+                  bottom: index == 3 ? 0 : 8,
+                ),
+                child: const ClassroomCard(
+                  showActionButtons: true,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
+
+  void updatePracticum() {}
 }
 
 class PracticumFormPageArgs {

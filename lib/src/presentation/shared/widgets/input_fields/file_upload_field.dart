@@ -46,7 +46,7 @@ class FileUploadField extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        const SizedBox(height: 2),
+        const SizedBox(height: 6),
         FormBuilderField<String?>(
           name: name,
           initialValue: initialValue,
@@ -71,6 +71,7 @@ class FileUploadField extends StatelessWidget {
                     },
                     style: FilledButton.styleFrom(
                       backgroundColor: Palette.azure2,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     ),
                     child: Text(
                       path != null ? p.basename(path) : 'Tampilkan',
@@ -79,7 +80,7 @@ class FileUploadField extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(width: 4),
+                const SizedBox(width: 6),
                 IconButton(
                   onPressed: onPressedFilePickerButton ??
                       () async {
@@ -91,7 +92,11 @@ class FileUploadField extends StatelessWidget {
                     AssetPath.getIcon('upload_outlined.svg'),
                     width: 20,
                   ),
+                  style: IconButton.styleFrom(
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  ),
                 ),
+                const SizedBox(width: 6),
                 IconButton(
                   onPressed: () => context.showConfirmDialog(
                     title: 'Hapus File?',
@@ -109,6 +114,7 @@ class FileUploadField extends StatelessWidget {
                   ),
                   style: IconButton.styleFrom(
                     backgroundColor: Palette.error,
+                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
                 ),
               ],

@@ -85,8 +85,8 @@ class UserCard extends StatelessWidget {
               onTap: onPressedDeleteButton,
               child: const Icon(
                 Icons.remove_rounded,
-                size: 18,
                 color: Palette.background,
+                size: 18,
               ),
             ),
           ],

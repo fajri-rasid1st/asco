@@ -11,7 +11,7 @@ final filledButtonTheme = FilledButtonThemeData(
     disabledBackgroundColor: Palette.disabled,
     disabledForegroundColor: Palette.disabledText,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(8),
     ),
   ),
 );
@@ -22,7 +22,7 @@ final outlinedButtonTheme = OutlinedButtonThemeData(
     disabledForegroundColor: Palette.disabledText,
     side: const BorderSide(color: Palette.primary),
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(8),
     ),
   ),
 );
@@ -32,7 +32,7 @@ final textButtonTheme = TextButtonThemeData(
     foregroundColor: Palette.primary,
     disabledForegroundColor: Palette.disabledText,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(8),
     ),
   ),
 );
@@ -44,7 +44,7 @@ final iconButtonTheme = IconButtonThemeData(
     backgroundColor: Palette.primary,
     disabledBackgroundColor: Palette.disabled,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
+      borderRadius: BorderRadius.circular(8),
     ),
   ),
 );

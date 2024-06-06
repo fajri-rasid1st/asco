@@ -32,7 +32,7 @@ class UserFormPage extends StatelessWidget {
         action: IconButton(
           onPressed: createOrEditUser,
           icon: const Icon(Icons.check_rounded),
-          tooltip: 'Simpan',
+          tooltip: 'Submit',
           style: IconButton.styleFrom(
             backgroundColor: Colors.transparent,
             shape: const CircleBorder(),
@@ -98,27 +98,29 @@ class UserFormPage extends StatelessWidget {
                 ],
               ),
             ),
-            const Spacer(),
-            Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                FilledButton(
-                  onPressed: () {},
-                  style: FilledButton.styleFrom(
-                    backgroundColor: const Color(0xFF107C41),
-                  ),
-                  child: const Text('Import dari Excel'),
-                ).fullWidth(),
-                OutlinedButton(
-                  onPressed: () {},
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: const Color(0xFF107C41),
-                    side: const BorderSide(color: Color(0xFF107C41)),
-                  ),
-                  child: const Text('Download Template Excel'),
-                ).fullWidth(),
-              ],
-            ),
+            if (args.action == 'Tambah') ...[
+              const Spacer(),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  FilledButton(
+                    onPressed: () {},
+                    style: FilledButton.styleFrom(
+                      backgroundColor: const Color(0xFF107C41),
+                    ),
+                    child: const Text('Import dari Excel'),
+                  ).fullWidth(),
+                  OutlinedButton(
+                    onPressed: () {},
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: const Color(0xFF107C41),
+                      side: const BorderSide(color: Color(0xFF107C41)),
+                    ),
+                    child: const Text('Download Template Excel'),
+                  ).fullWidth(),
+                ],
+              ),
+            ],
           ],
         ),
       ),

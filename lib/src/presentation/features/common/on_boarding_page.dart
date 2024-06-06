@@ -78,7 +78,7 @@ class OnBoardingPage extends StatelessWidget {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(8),
                           boxShadow: [
                             BoxShadow(
                               spreadRadius: 1,

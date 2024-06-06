@@ -20,7 +20,6 @@ class PracticumListPage extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         itemBuilder: (context, index) {
           return PracticumCard(
-            showDeleteButton: false,
             onTap: args.onItemTapped,
           );
         },

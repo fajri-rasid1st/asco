@@ -136,7 +136,7 @@ class _LoginFormState extends State<LoginForm> {
               errorText: 'Field wajib diisi',
             ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 12),
           Text(
             'Password',
             style: textTheme.bodyMedium!.copyWith(
@@ -189,7 +189,7 @@ class _LoginFormState extends State<LoginForm> {
               );
             },
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 16),
           FilledButton.icon(
             icon: SvgAsset(
               AssetPath.getIcon('arrow_forward_outlined.svg'),

@@ -1,4 +1,6 @@
 // Flutter imports:
+import 'package:asco/src/presentation/shared/widgets/cards/classroom_card.dart';
+import 'package:asco/src/presentation/shared/widgets/section_header.dart';
 import 'package:flutter/material.dart';
 
 // Project imports:
@@ -91,59 +93,17 @@ class PracticumDetailPage extends StatelessWidget {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 16, 0, 8),
-              child: Text(
-                'Kelas',
-                style: textTheme.titleLarge!.copyWith(
-                  color: Palette.purple2,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-            ...List<Container>.generate(
+            const SectionHeader(title: 'Kelas'),
+            ...List<Padding>.generate(
               4,
-              (index) => Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(16),
-                margin: EdgeInsets.only(
+              (index) => Padding(
+                padding: EdgeInsets.only(
                   bottom: index == 3 ? 0 : 8,
                 ),
-                decoration: BoxDecoration(
-                  color: Palette.background,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Kelas A',
-                      style: textTheme.titleMedium!.copyWith(
-                        color: Palette.purple2,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      'Setiap Sabtu 07.30 - 09.30',
-                      style: textTheme.bodySmall!.copyWith(
-                        color: Palette.purple3,
-                      ),
-                    ),
-                  ],
-                ),
+                child: const ClassroomCard(),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 16, 0, 8),
-              child: Text(
-                'Asisten',
-                style: textTheme.titleLarge!.copyWith(
-                  color: Palette.purple2,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
+            const SectionHeader(title: 'Asisten'),
             ...List<Padding>.generate(
               4,
               (index) => Padding(

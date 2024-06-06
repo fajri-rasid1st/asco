@@ -13,7 +13,9 @@ import 'package:asco/src/presentation/shared/widgets/input_fields/custom_dropdow
 import 'package:asco/src/presentation/shared/widgets/input_fields/custom_text_field.dart';
 
 class ClassroomFormDialog extends StatelessWidget {
-  const ClassroomFormDialog({super.key});
+  final String action;
+
+  const ClassroomFormDialog({super.key, required this.action});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,7 @@ class ClassroomFormDialog extends StatelessWidget {
     var endTime = TimeOfDay.now();
 
     return CustomDialog(
-      title: 'Tambah Kelas',
+      title: '$action Kelas',
       onPressedPrimaryAction: () => submit(formKey),
       child: FormBuilder(
         key: formKey,
