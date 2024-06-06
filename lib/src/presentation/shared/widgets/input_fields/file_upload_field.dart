@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:open_file_plus/open_file_plus.dart';
 import 'package:path/path.dart' as p;
 
@@ -15,40 +16,23 @@ import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
-class FileUploadField extends StatefulWidget {
+class FileUploadField extends StatelessWidget {
+  final String name;
   final String label;
+  final String? initialValue;
+  final String? Function(String?)? validator;
   final List<String> extensions;
   final VoidCallback? onPressedFilePickerButton;
-  final ValueChanged<String?>? onChanged;
 
   const FileUploadField({
     super.key,
+    required this.name,
     required this.label,
+    this.initialValue,
+    this.validator,
     required this.extensions,
     this.onPressedFilePickerButton,
-    this.onChanged,
   });
-
-  @override
-  State<FileUploadField> createState() => _FileUploadFieldState();
-}
-
-class _FileUploadFieldState extends State<FileUploadField> {
-  late final ValueNotifier<String?> filePathNotifier;
-
-  @override
-  void initState() {
-    super.initState();
-
-    filePathNotifier = ValueNotifier(null);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-
-    filePathNotifier.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,15 +41,19 @@ class _FileUploadFieldState extends State<FileUploadField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          widget.label,
+          label,
           style: textTheme.titleSmall!.copyWith(
             fontWeight: FontWeight.w600,
           ),
         ),
         const SizedBox(height: 2),
-        ValueListenableBuilder(
-          valueListenable: filePathNotifier,
-          builder: (context, path, child) {
+        FormBuilderField<String?>(
+          name: name,
+          initialValue: initialValue,
+          validator: validator,
+          builder: (field) {
+            final path = field.value;
+
             return Row(
               children: [
                 Expanded(
@@ -76,7 +64,7 @@ class _FileUploadFieldState extends State<FileUploadField> {
                       } else {
                         context.showSnackBar(
                           title: 'File Tidak Ada',
-                          message: 'File ${widget.label.toLowerCase()} belum dimasukkan!',
+                          message: 'File ${label.toLowerCase()} belum dipilih!',
                           type: SnackBarType.info,
                         );
                       }
@@ -93,15 +81,11 @@ class _FileUploadFieldState extends State<FileUploadField> {
                 ),
                 const SizedBox(width: 4),
                 IconButton(
-                  onPressed: widget.onPressedFilePickerButton ??
+                  onPressed: onPressedFilePickerButton ??
                       () async {
-                        final path = await FileService.pickFile(extensions: widget.extensions);
+                        final path = await FileService.pickFile(extensions: extensions);
 
-                        if (path != null) {
-                          if (widget.onChanged != null) widget.onChanged!(path);
-
-                          filePathNotifier.value = path;
-                        }
+                        if (path != null) field.didChange(path);
                       },
                   icon: SvgAsset(
                     AssetPath.getIcon('upload_outlined.svg'),
@@ -111,12 +95,10 @@ class _FileUploadFieldState extends State<FileUploadField> {
                 IconButton(
                   onPressed: () => context.showConfirmDialog(
                     title: 'Hapus File?',
-                    message: 'Hapus file ${widget.label.toLowerCase()} yang telah diupload?',
+                    message: 'Hapus file ${label.toLowerCase()} yang telah dipilih?',
                     primaryButtonText: 'Hapus',
                     onPressedPrimaryButton: () {
-                      if (widget.onChanged != null) widget.onChanged!(null);
-
-                      filePathNotifier.value = null;
+                      field.didChange(null);
 
                       navigatorKey.currentState!.pop();
                     },

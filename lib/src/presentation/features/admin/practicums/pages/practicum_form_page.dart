@@ -18,9 +18,6 @@ class PracticumFirstFormPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String? badgePath;
-    String? courseContractPath;
-
     return Scaffold(
       appBar: CustomAppBar(
         title: '${args.action} Praktikum (1/2)',
@@ -35,7 +32,7 @@ class PracticumFirstFormPage extends StatelessWidget {
           ),
         ),
         action: IconButton(
-          onPressed: () => createOrEditPracticum(badgePath, courseContractPath),
+          onPressed: createOrEditPracticum,
           icon: const Icon(Icons.chevron_right_rounded),
           iconSize: 30,
           tooltip: 'Selanjutnya',
@@ -63,15 +60,17 @@ class PracticumFirstFormPage extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               FileUploadField(
+                name: 'badgePath',
                 label: 'Badge',
                 extensions: const ['jpg', 'jpeg', 'png'],
-                onChanged: (path) => badgePath = path,
+                validator: FormBuilderValidators.required(),
               ),
               const SizedBox(height: 12),
               FileUploadField(
+                name: 'courseContractPath',
                 label: 'Kontrak Kuliah',
                 extensions: const ['pdf', 'doc', 'docx'],
-                onChanged: (path) => courseContractPath = path,
+                validator: FormBuilderValidators.required(),
               ),
             ],
           ),
@@ -80,15 +79,11 @@ class PracticumFirstFormPage extends StatelessWidget {
     );
   }
 
-  void createOrEditPracticum(String? badgePath, String? courseContractPath) {
+  void createOrEditPracticum() {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
-      debugPrint({
-        'course': formKey.currentState!.value['course'],
-        'badgePath': badgePath,
-        'courseContractPath': courseContractPath,
-      }.toString());
+      debugPrint(formKey.currentState!.value.toString());
     }
   }
 }

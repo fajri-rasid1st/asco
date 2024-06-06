@@ -65,35 +65,32 @@ class _PasswordFieldState extends State<PasswordField> {
           ),
         ),
         const SizedBox(height: 6),
-        buildPasswordField()
+        ValueListenableBuilder(
+          valueListenable: isVisible,
+          builder: (context, isVisible, child) {
+            return FormBuilderTextField(
+              name: widget.name,
+              obscureText: !isVisible,
+              keyboardType: widget.textInputType,
+              textInputAction: widget.textInputAction,
+              textCapitalization: widget.textCapitalization,
+              textAlignVertical: TextAlignVertical.center,
+              style: textTheme.bodyLarge,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Palette.background,
+                suffixIcon: buildSuffixIcon(isVisible),
+                hintText: widget.hintText,
+                contentPadding: const EdgeInsets.all(16),
+              ),
+              validator: widget.validators != null
+                  ? FormBuilderValidators.compose(widget.validators!)
+                  : null,
+              onChanged: widget.onChanged,
+            );
+          },
+        ),
       ],
-    );
-  }
-
-  ValueListenableBuilder<bool> buildPasswordField() {
-    return ValueListenableBuilder(
-      valueListenable: isVisible,
-      builder: (context, isVisible, child) {
-        return FormBuilderTextField(
-          name: widget.name,
-          obscureText: !isVisible,
-          keyboardType: widget.textInputType,
-          textInputAction: widget.textInputAction,
-          textCapitalization: widget.textCapitalization,
-          textAlignVertical: TextAlignVertical.center,
-          style: textTheme.bodyLarge,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: Palette.background,
-            suffixIcon: buildSuffixIcon(isVisible),
-            hintText: widget.hintText,
-            contentPadding: const EdgeInsets.all(16),
-          ),
-          validator:
-              widget.validators != null ? FormBuilderValidators.compose(widget.validators!) : null,
-          onChanged: widget.onChanged,
-        );
-      },
     );
   }
 

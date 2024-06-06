@@ -68,7 +68,7 @@ class AssistanceDialog extends StatelessWidget {
                   onSuffixIconTap: () {
                     assistanceDate = null;
 
-                    formKey.currentState!.fields['date']!.didChange('');
+                    formKey.currentState!.fields['date']!.didChange(null);
                   },
                 ),
                 const SizedBox(height: 12),

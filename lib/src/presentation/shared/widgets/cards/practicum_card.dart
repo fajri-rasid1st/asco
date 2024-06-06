@@ -24,7 +24,10 @@ class PracticumCard extends StatelessWidget {
     return InkWellContainer(
       radius: 12,
       color: Palette.background,
-      padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
+      padding: const EdgeInsets.symmetric(
+        vertical: 12,
+        horizontal: 14,
+      ),
       onTap: onTap,
       child: Row(
         children: [

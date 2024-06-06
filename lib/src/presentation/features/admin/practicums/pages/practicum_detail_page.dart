@@ -54,7 +54,10 @@ class PracticumDetailPage extends StatelessWidget {
                     height: 44,
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 12,
+                      horizontal: 16,
+                    ),
                     child: Row(
                       children: [
                         const PracticumBadgeImage(
