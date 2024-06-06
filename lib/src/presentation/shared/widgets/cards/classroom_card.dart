@@ -1,3 +1,7 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/styles/color_scheme.dart';
@@ -5,7 +9,6 @@ import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/src/presentation/shared/widgets/dialogs/classroom_form_dialog.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
-import 'package:flutter/material.dart';
 
 class ClassroomCard extends StatelessWidget {
   final VoidCallback? onTap;

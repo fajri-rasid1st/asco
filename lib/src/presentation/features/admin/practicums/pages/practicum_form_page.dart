@@ -1,8 +1,4 @@
 // Flutter imports:
-import 'package:asco/core/routes/route_names.dart';
-import 'package:asco/src/presentation/shared/widgets/cards/classroom_card.dart';
-import 'package:asco/src/presentation/shared/widgets/dialogs/classroom_form_dialog.dart';
-import 'package:asco/src/presentation/shared/widgets/section_header.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -10,10 +6,14 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
+import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/presentation/shared/widgets/cards/classroom_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
+import 'package:asco/src/presentation/shared/widgets/dialogs/classroom_form_dialog.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/custom_text_field.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/file_upload_field.dart';
+import 'package:asco/src/presentation/shared/widgets/section_header.dart';
 
 class PracticumFirstFormPage extends StatelessWidget {
   final PracticumFormPageArgs args;

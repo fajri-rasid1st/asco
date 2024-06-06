@@ -1,7 +1,10 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Project imports:
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
-import 'package:flutter/material.dart';
 
 class SectionHeader extends StatelessWidget {
   final String title;
