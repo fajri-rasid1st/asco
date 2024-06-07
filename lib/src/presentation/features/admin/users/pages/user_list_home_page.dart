@@ -92,6 +92,7 @@ class UserListHomePage extends ConsumerWidget {
             padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
+                childCount: 10,
                 (context, index) {
                   return Padding(
                     padding: EdgeInsets.only(
@@ -109,7 +110,6 @@ class UserListHomePage extends ConsumerWidget {
                     ),
                   );
                 },
-                childCount: 10,
               ),
             ),
           ),

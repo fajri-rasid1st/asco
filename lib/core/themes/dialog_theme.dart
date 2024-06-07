@@ -9,6 +9,6 @@ final dialogTheme = DialogTheme(
   backgroundColor: Palette.secondaryBackground,
   surfaceTintColor: Palette.secondaryBackground,
   shape: RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(12),
+    borderRadius: BorderRadius.circular(14),
   ),
 );

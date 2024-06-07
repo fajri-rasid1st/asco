@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/src/presentation/features/admin/home/pages/admin_home_page.dart';
+import 'package:asco/src/presentation/features/admin/practicums/pages/practicum_assistant_list_page.dart';
 import 'package:asco/src/presentation/features/admin/practicums/pages/practicum_detail_page.dart';
 import 'package:asco/src/presentation/features/admin/practicums/pages/practicum_form_page.dart';
 import 'package:asco/src/presentation/features/admin/practicums/pages/practicum_list_home_page.dart';
@@ -76,6 +77,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
 
       return MaterialPageRoute(
         builder: (_) => PracticumSecondFormPage(args: args),
+      );
+    case practicumAssistantListRoute:
+      return MaterialPageRoute(
+        builder: (_) => const PracticumAssistantListPage(),
       );
     default:
       return null;

@@ -9,8 +9,8 @@ class CircleBorderContainer extends StatelessWidget {
   final Color? borderColor;
   final double borderWidth;
   final Color? fillColor;
-  final Widget? child;
   final VoidCallback? onTap;
+  final Widget? child;
 
   const CircleBorderContainer({
     super.key,
@@ -18,8 +18,8 @@ class CircleBorderContainer extends StatelessWidget {
     this.borderColor,
     this.borderWidth = 1.0,
     this.fillColor,
-    this.child,
     this.onTap,
+    this.child,
   });
 
   @override

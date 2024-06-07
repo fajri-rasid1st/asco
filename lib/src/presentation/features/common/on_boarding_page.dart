@@ -81,9 +81,9 @@ class OnBoardingPage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                           boxShadow: [
                             BoxShadow(
-                              spreadRadius: 1,
-                              blurRadius: 6,
                               color: Palette.purple3.withOpacity(.2),
+                              blurRadius: 6,
+                              spreadRadius: 1,
                             )
                           ],
                         ),

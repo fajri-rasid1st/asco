@@ -18,11 +18,7 @@ class PracticumListPage extends StatelessWidget {
       ),
       body: ListView.separated(
         padding: const EdgeInsets.all(20),
-        itemBuilder: (context, index) {
-          return PracticumCard(
-            onTap: args.onItemTapped,
-          );
-        },
+        itemBuilder: (context, index) => PracticumCard(onTap: args.onItemTapped),
         separatorBuilder: (context, index) => const SizedBox(height: 10),
         itemCount: 3,
       ),
@@ -31,11 +27,11 @@ class PracticumListPage extends StatelessWidget {
 }
 
 class PracticumListPageArgs {
-  final VoidCallback? onItemTapped;
   final bool showClassroomAndMeetingButtons;
+  final VoidCallback? onItemTapped;
 
   PracticumListPageArgs({
-    this.onItemTapped,
     this.showClassroomAndMeetingButtons = false,
+    this.onItemTapped,
   });
 }

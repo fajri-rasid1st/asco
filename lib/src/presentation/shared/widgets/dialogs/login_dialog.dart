@@ -24,7 +24,7 @@ class LoginDialog extends StatelessWidget {
       surfaceTintColor: Palette.scaffoldBackground.withOpacity(.9),
       insetPadding: const EdgeInsets.all(24),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(40),
+        borderRadius: BorderRadius.circular(36),
       ),
       child: Stack(
         children: [
@@ -50,7 +50,7 @@ class LoginDialog extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 20,
+            top: 16,
             right: 12,
             child: CustomIconButton(
               'close_outlined.svg',
@@ -206,10 +206,10 @@ class _LoginFormState extends State<LoginForm> {
               minimumSize: const Size(double.infinity, 56),
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(24),
-                  bottomLeft: Radius.circular(24),
-                  bottomRight: Radius.circular(24),
+                  topLeft: Radius.circular(8),
+                  topRight: Radius.circular(28),
+                  bottomLeft: Radius.circular(28),
+                  bottomRight: Radius.circular(28),
                 ),
               ),
             ),

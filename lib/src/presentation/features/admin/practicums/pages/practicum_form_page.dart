@@ -9,6 +9,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/classroom_card.dart';
+import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/dialogs/classroom_form_dialog.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/custom_text_field.dart';
@@ -25,16 +26,6 @@ class PracticumFirstFormPage extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(
         title: '${args.action} Praktikum (1/2)',
-        leading: IconButton(
-          onPressed: () => navigatorKey.currentState!.pop(),
-          icon: const Icon(Icons.close_rounded),
-          iconSize: 22,
-          tooltip: 'Kembali',
-          style: IconButton.styleFrom(
-            backgroundColor: Colors.transparent,
-            shape: const CircleBorder(),
-          ),
-        ),
         action: IconButton(
           onPressed: createOrEditPracticum,
           icon: const Icon(Icons.chevron_right_rounded),
@@ -91,7 +82,7 @@ class PracticumFirstFormPage extends StatelessWidget {
 
     navigatorKey.currentState!.pushNamed(
       practicumSecondFormRoute,
-      arguments: const PracticumFormPageArgs(action: 'Edit'),
+      arguments: args,
     );
     // }
   }
@@ -104,11 +95,13 @@ class PracticumSecondFormPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<int> selectedAssistants = [];
+
     return Scaffold(
       appBar: CustomAppBar(
         title: '${args.action} Praktikum (2/2)',
         action: IconButton(
-          onPressed: updatePracticum,
+          onPressed: () => updatePracticum(selectedAssistants),
           icon: const Icon(Icons.check_rounded),
           tooltip: 'Submit',
           style: IconButton.styleFrom(
@@ -123,6 +116,7 @@ class PracticumSecondFormPage extends StatelessWidget {
           children: [
             SectionHeader(
               title: 'Kelas',
+              padding: const EdgeInsets.fromLTRB(4, 0, 0, 8),
               showDivider: true,
               showActionButton: true,
               onPressedActionButton: () => showDialog(
@@ -130,7 +124,6 @@ class PracticumSecondFormPage extends StatelessWidget {
                 barrierDismissible: false,
                 builder: (context) => const ClassroomFormDialog(action: 'Tambah'),
               ),
-              padding: const EdgeInsets.fromLTRB(4, 0, 4, 8),
             ),
             ...List<Padding>.generate(
               4,
@@ -138,8 +131,33 @@ class PracticumSecondFormPage extends StatelessWidget {
                 padding: EdgeInsets.only(
                   bottom: index == 3 ? 0 : 8,
                 ),
-                child: const ClassroomCard(
-                  showActionButtons: true,
+                child: const ClassroomCard(showActionButtons: true),
+              ),
+            ),
+            SectionHeader(
+              title: 'Asisten',
+              padding: const EdgeInsets.fromLTRB(4, 16, 0, 8),
+              showDivider: true,
+              showActionButton: true,
+              onPressedActionButton: () async {
+                final result =
+                    await navigatorKey.currentState!.pushNamed(practicumAssistantListRoute);
+
+                if (result != null) {
+                  selectedAssistants = result as List<int>;
+                }
+              },
+            ),
+            ...List<Padding>.generate(
+              4,
+              (index) => Padding(
+                padding: EdgeInsets.only(
+                  bottom: index == 3 ? 0 : 8,
+                ),
+                child: UserCard(
+                  showBadge: false,
+                  showDeleteButton: true,
+                  onPressedDeleteButton: () {},
                 ),
               ),
             ),
@@ -149,7 +167,9 @@ class PracticumSecondFormPage extends StatelessWidget {
     );
   }
 
-  void updatePracticum() {}
+  void updatePracticum(List<int> selectedAssistants) {
+    debugPrint(selectedAssistants.toString());
+  }
 }
 
 class PracticumFormPageArgs {

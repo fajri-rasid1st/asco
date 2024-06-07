@@ -5,15 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 
 class CustomFloatingActionButton extends StatelessWidget {
-  final Widget child;
   final String? tooltip;
   final VoidCallback? onPressed;
+  final Widget child;
 
   const CustomFloatingActionButton({
     super.key,
-    required this.child,
     this.tooltip,
     this.onPressed,
+    required this.child,
   });
 
   @override

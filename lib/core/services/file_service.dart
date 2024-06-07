@@ -1,9 +1,6 @@
 // Dart imports:
 import 'dart:io';
 
-// Flutter imports:
-import 'package:flutter/material.dart';
-
 // Package imports:
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as p;
@@ -35,8 +32,6 @@ class FileService {
 
       return file.path;
     } catch (e) {
-      debugPrint(e.toString());
-
       return null;
     }
   }
@@ -50,8 +45,6 @@ class FileService {
 
       return result?.files.single.path;
     } catch (e) {
-      debugPrint(e.toString());
-
       return null;
     }
   }

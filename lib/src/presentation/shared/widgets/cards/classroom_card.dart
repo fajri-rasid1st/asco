@@ -11,13 +11,13 @@ import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class ClassroomCard extends StatelessWidget {
-  final VoidCallback? onTap;
   final bool showActionButtons;
+  final VoidCallback? onTap;
 
   const ClassroomCard({
     super.key,
-    this.onTap,
     this.showActionButtons = false,
+    this.onTap,
   });
 
   @override

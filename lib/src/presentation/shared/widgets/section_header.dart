@@ -18,7 +18,7 @@ class SectionHeader extends StatelessWidget {
     required this.title,
     this.showDivider = false,
     this.showActionButton = false,
-    this.padding = const EdgeInsets.fromLTRB(4, 12, 4, 6),
+    this.padding = const EdgeInsets.fromLTRB(4, 12, 0, 6),
     this.onPressedActionButton,
   });
 

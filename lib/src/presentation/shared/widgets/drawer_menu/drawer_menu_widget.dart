@@ -189,8 +189,8 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with SingleTickerPr
                               shape: BoxShape.circle,
                               boxShadow: [
                                 BoxShadow(
-                                  color: Palette.primaryText.withOpacity(.2),
                                   offset: const Offset(0, 2),
+                                  color: Palette.primaryText.withOpacity(.2),
                                   blurRadius: 4,
                                 ),
                               ],
