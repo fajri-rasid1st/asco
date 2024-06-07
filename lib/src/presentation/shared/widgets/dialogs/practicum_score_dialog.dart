@@ -7,7 +7,6 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 // Project imports:
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/core/utils/const.dart';
 import 'package:asco/src/presentation/shared/widgets/dialogs/custom_dialog.dart';
 
 class PracticumScoreDialog extends StatefulWidget {
@@ -20,12 +19,22 @@ class PracticumScoreDialog extends StatefulWidget {
 }
 
 class _PracticumScoreDialogState extends State<PracticumScoreDialog> {
+  late final List<PracticumScoreType> practicumScoreTypes;
   late final ValueNotifier<PracticumScoreType> scoreNotifier;
 
   @override
   void initState() {
     super.initState();
 
+    practicumScoreTypes = [
+      const PracticumScoreType(1, Palette.errorText, 50.0, "Sangat Rendah"),
+      const PracticumScoreType(2, Palette.error, 65.0, "Rendah"),
+      const PracticumScoreType(3, Palette.warning, 75.0, "Cukup"),
+      const PracticumScoreType(4, Palette.info, 80.0, "Sedang"),
+      const PracticumScoreType(5, Palette.info, 85.0, "Lumayan"),
+      const PracticumScoreType(6, Palette.success, 92.0, "Bagus"),
+      const PracticumScoreType(7, Palette.success, 98.0, "Sangat Bagus"),
+    ];
     scoreNotifier = ValueNotifier(practicumScoreTypes.first);
   }
 

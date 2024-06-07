@@ -24,12 +24,14 @@ class AttendanceDialog extends StatefulWidget {
 class _AttendanceDialogState extends State<AttendanceDialog> {
   late final List<FaceStatus> status;
   late final List<int> points;
-  late final GlobalKey<FormBuilderState> formKey;
   late final ValueNotifier<FaceStatus> statusNotifier;
   late final ValueNotifier<int?> pointNotifier;
+  late final GlobalKey<FormBuilderState> formKey;
 
   @override
   void initState() {
+    super.initState();
+
     status = [
       const FaceStatus(
         name: 'Alpa',
@@ -53,19 +55,17 @@ class _AttendanceDialogState extends State<AttendanceDialog> {
       ),
     ];
     points = [5, 10, 15, 20, 25, 30];
-    formKey = GlobalKey<FormBuilderState>();
     statusNotifier = ValueNotifier(status.last);
     pointNotifier = ValueNotifier(null);
-
-    super.initState();
+    formKey = GlobalKey<FormBuilderState>();
   }
 
   @override
   void dispose() {
+    super.dispose();
+
     statusNotifier.dispose();
     pointNotifier.dispose();
-
-    super.dispose();
   }
 
   @override

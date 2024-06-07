@@ -6,6 +6,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
+import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/classroom_card.dart';
@@ -57,8 +58,21 @@ class PracticumFirstFormPage extends StatelessWidget {
               FileUploadField(
                 name: 'badgePath',
                 label: 'Badge',
-                extensions: const ['jpg', 'jpeg', 'png'],
+                extensions: const [],
                 validator: FormBuilderValidators.required(),
+                onPressedFilePickerButton: () async {
+                  final result =
+                      await navigatorKey.currentState!.pushNamed(practicumBadgeGeneratorRoute);
+
+                  if (result != null && context.mounted) {
+                    context.showSnackBar(
+                      title: 'Badge Berhasil Dibuat',
+                      message: 'File badge berhasil dibuat dan dimasukkan.',
+                    );
+                  }
+
+                  return result as String?;
+                },
               ),
               const SizedBox(height: 12),
               FileUploadField(

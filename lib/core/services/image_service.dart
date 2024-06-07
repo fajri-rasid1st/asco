@@ -1,3 +1,11 @@
+// Dart imports:
+import 'dart:typed_data';
+import 'dart:ui';
+
+// Flutter imports:
+import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+
 // Package imports:
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -46,5 +54,14 @@ class ImageService {
     );
 
     return croppedImage?.path;
+  }
+
+  static Future<Uint8List> capturePngImage(BuildContext context) async {
+    final boundary = context.findRenderObject()! as RenderRepaintBoundary;
+    final image = await boundary.toImage();
+    final byteData = await image.toByteData(format: ImageByteFormat.png);
+    final pngBytes = byteData!.buffer.asUint8List();
+
+    return pngBytes;
   }
 }

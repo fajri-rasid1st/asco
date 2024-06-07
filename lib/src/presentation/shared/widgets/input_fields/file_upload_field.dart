@@ -19,18 +19,18 @@ import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 class FileUploadField extends StatelessWidget {
   final String name;
   final String label;
+  final List<String> extensions;
   final String? initialValue;
   final String? Function(String?)? validator;
-  final List<String> extensions;
-  final VoidCallback? onPressedFilePickerButton;
+  final Future<String?> Function()? onPressedFilePickerButton;
 
   const FileUploadField({
     super.key,
     required this.name,
     required this.label,
+    required this.extensions,
     this.initialValue,
     this.validator,
-    required this.extensions,
     this.onPressedFilePickerButton,
   });
 
@@ -64,7 +64,7 @@ class FileUploadField extends StatelessWidget {
                       } else {
                         context.showSnackBar(
                           title: 'File Tidak Ada',
-                          message: 'File ${label.toLowerCase()} belum dipilih!',
+                          message: 'File ${label.toLowerCase()} belum dipilih.',
                           type: SnackBarType.info,
                         );
                       }
@@ -82,12 +82,13 @@ class FileUploadField extends StatelessWidget {
                 ),
                 const SizedBox(width: 6),
                 IconButton(
-                  onPressed: onPressedFilePickerButton ??
-                      () async {
-                        final path = await FileService.pickFile(extensions: extensions);
+                  onPressed: () async {
+                    final path = onPressedFilePickerButton != null
+                        ? await onPressedFilePickerButton!()
+                        : await FileService.pickFile(extensions: extensions);
 
-                        if (path != null) field.didChange(path);
-                      },
+                    if (path != null) field.didChange(path);
+                  },
                   icon: SvgAsset(
                     AssetPath.getIcon('upload_outlined.svg'),
                     width: 20,

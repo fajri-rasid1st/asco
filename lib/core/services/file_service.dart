@@ -1,32 +1,52 @@
 // Dart imports:
 import 'dart:io';
+import 'dart:typed_data';
 
 // Package imports:
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:uuid/uuid.dart';
 
 // Project imports:
 import 'package:asco/core/utils/http_client.dart';
 
 class FileService {
-  static Future<String?> downloadFile({
-    required String url,
+  static Future<String?> downloadFile(
+    String url, {
     bool flush = false,
   }) async {
     try {
-      // Create request
       final response = await HttpClient.client.get(Uri.parse(url));
 
-      // Get application directory
-      final directory = await getApplicationDocumentsDirectory();
+      final directory = await getTemporaryDirectory();
 
-      // Define file name
-      final name = p.basename(url);
+      final fileName = p.basename(url);
 
-      // Writes a list of bytes to a file
-      final file = await File('${directory.path}/$name').writeAsBytes(
+      final file = await File('${directory.path}/$fileName').writeAsBytes(
         response.bodyBytes,
+        flush: flush,
+      );
+
+      return file.path;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  static Future<String?> createFile(
+    Uint8List bytes, {
+    bool flush = false,
+    required String extension,
+    String? name,
+  }) async {
+    try {
+      final directory = await getTemporaryDirectory();
+
+      final fileName = name ?? 'badge-${const Uuid().v4()}.$extension';
+
+      final file = await File('${directory.path}/$fileName').writeAsBytes(
+        bytes,
         flush: flush,
       );
 
