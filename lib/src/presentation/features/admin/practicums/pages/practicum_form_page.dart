@@ -143,7 +143,7 @@ class PracticumSecondFormPage extends StatelessWidget {
               4,
               (index) => Padding(
                 padding: EdgeInsets.only(
-                  bottom: index == 3 ? 0 : 8,
+                  bottom: index == 3 ? 0 : 10,
                 ),
                 child: const ClassroomCard(showActionButtons: true),
               ),
@@ -166,7 +166,7 @@ class PracticumSecondFormPage extends StatelessWidget {
               4,
               (index) => Padding(
                 padding: EdgeInsets.only(
-                  bottom: index == 3 ? 0 : 8,
+                  bottom: index == 3 ? 0 : 10,
                 ),
                 child: UserCard(
                   showBadge: false,

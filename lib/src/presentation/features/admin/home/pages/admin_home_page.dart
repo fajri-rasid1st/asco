@@ -8,6 +8,7 @@ import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/presentation/shared/pages/select_practicum_page.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
@@ -31,7 +32,10 @@ class AdminHomePage extends StatelessWidget {
       AdminMenu(
         title: 'Data Kelas & Pertemuan',
         icon: Icons.meeting_room_rounded,
-        onTap: () {},
+        onTap: () => navigatorKey.currentState!.pushNamed(
+          selectPracticumRoute,
+          arguments: SelectPracticumPageArgs(showClassroomAndMeetingButtons: true),
+        ),
       ),
       AdminMenu(
         title: 'Data Absensi',

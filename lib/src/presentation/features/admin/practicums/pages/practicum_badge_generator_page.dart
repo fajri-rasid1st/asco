@@ -123,8 +123,7 @@ class PracticumBadgeGeneratorPage extends ConsumerWidget {
                     child: buildPaletteContainer(
                       ref,
                       badgePalette: BadgePalette.getPalettes[index],
-                      isSelected: BadgePalette.getPalettes[index].primaryColor ==
-                          selectedPalette.primaryColor,
+                      isSelected: BadgePalette.getPalettes[index] == selectedPalette,
                     ),
                   ),
                 ),

@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/practicum_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 
-class PracticumListPage extends StatelessWidget {
-  final PracticumListPageArgs args;
+class SelectPracticumPage extends StatelessWidget {
+  final SelectPracticumPageArgs args;
 
-  const PracticumListPage({super.key, required this.args});
+  const SelectPracticumPage({super.key, required this.args});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,10 @@ class PracticumListPage extends StatelessWidget {
       ),
       body: ListView.separated(
         padding: const EdgeInsets.all(20),
-        itemBuilder: (context, index) => PracticumCard(onTap: args.onItemTapped),
+        itemBuilder: (context, index) => PracticumCard(
+          showClassroomAndMeetingButtons: args.showClassroomAndMeetingButtons,
+          onTap: args.onItemTapped,
+        ),
         separatorBuilder: (context, index) => const SizedBox(height: 10),
         itemCount: 3,
       ),
@@ -26,11 +29,11 @@ class PracticumListPage extends StatelessWidget {
   }
 }
 
-class PracticumListPageArgs {
+class SelectPracticumPageArgs {
   final bool showClassroomAndMeetingButtons;
   final VoidCallback? onItemTapped;
 
-  PracticumListPageArgs({
+  SelectPracticumPageArgs({
     this.showClassroomAndMeetingButtons = false,
     this.onItemTapped,
   });
