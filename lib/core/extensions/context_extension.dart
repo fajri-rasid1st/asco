@@ -90,6 +90,8 @@ extension TimePickerExtension on BuildContext {
       initialTime: initialTime,
       initialEntryMode: TimePickerEntryMode.inputOnly,
       helpText: helpText,
+      minuteLabelText: 'Menit',
+      hourLabelText: 'Jam',
       cancelText: 'Kembali',
       confirmText: 'Konfirmasi',
       errorInvalidText: 'Masukkan waktu yang valid',
@@ -112,6 +114,8 @@ extension TimePickerExtension on BuildContext {
 extension DatePickerExtension on BuildContext {
   Future<DateTime?> showCustomDatePicker({
     required DateTime initialdate,
+    required DateTime firstDate,
+    required DateTime lastDate,
     required GlobalKey<FormBuilderState> formKey,
     required String fieldKey,
     String? helpText,
@@ -119,8 +123,8 @@ extension DatePickerExtension on BuildContext {
     final date = await showDatePicker(
       context: this,
       initialDate: initialdate,
-      firstDate: DateTime(initialdate.year),
-      lastDate: DateTime.now(),
+      firstDate: firstDate,
+      lastDate: lastDate,
       initialEntryMode: DatePickerEntryMode.calendarOnly,
       helpText: helpText,
       cancelText: 'Kembali',

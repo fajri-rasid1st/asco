@@ -58,6 +58,8 @@ class AssistanceDialog extends StatelessWidget {
                   onTap: () async {
                     final date = await context.showCustomDatePicker(
                       initialdate: assistanceDate ?? DateTime.now(),
+                      firstDate: DateTime.now().subtract(const Duration(days: 180)),
+                      lastDate: DateTime.now(),
                       formKey: formKey,
                       fieldKey: 'date',
                       helpText: 'Tanggal Asistensi',
