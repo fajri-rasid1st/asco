@@ -14,17 +14,17 @@ import 'package:asco/src/presentation/shared/widgets/circle_border_container.dar
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/search_field.dart';
 
-class PracticumAssistantListPage extends ConsumerStatefulWidget {
-  // final List<Assistant>? currentAssistants;
+class SelectUsersPage extends ConsumerStatefulWidget {
+  final SelectUsersPageArgs args;
 
-  const PracticumAssistantListPage({super.key});
+  const SelectUsersPage({super.key, required this.args});
 
   @override
-  ConsumerState<PracticumAssistantListPage> createState() => _PracticumAssistantListPageState();
+  ConsumerState<SelectUsersPage> createState() => _SelectUsersPageState();
 }
 
-class _PracticumAssistantListPageState extends ConsumerState<PracticumAssistantListPage> {
-  List<int> selectedAssistants = [];
+class _SelectUsersPageState extends ConsumerState<SelectUsersPage> {
+  List<int> selectedUsers = [];
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class _PracticumAssistantListPageState extends ConsumerState<PracticumAssistantL
       },
       child: Scaffold(
         appBar: CustomAppBar(
-          title: 'Pilih Asisten',
+          title: widget.args.title,
           leading: IconButton(
             onPressed: () => showCancelMessage(context),
             icon: const Icon(Icons.close_rounded),
@@ -51,7 +51,7 @@ class _PracticumAssistantListPageState extends ConsumerState<PracticumAssistantL
             ),
           ),
           action: IconButton(
-            onPressed: () => navigatorKey.currentState!.pop(selectedAssistants),
+            onPressed: () => navigatorKey.currentState!.pop(selectedUsers),
             icon: const Icon(Icons.check_rounded),
             tooltip: 'Submit',
             style: IconButton.styleFrom(
@@ -92,7 +92,7 @@ class _PracticumAssistantListPageState extends ConsumerState<PracticumAssistantL
                       ),
                       child: UserCard(
                         showBadge: false,
-                        trailing: selectedAssistants.contains(index)
+                        trailing: selectedUsers.contains(index)
                             ? const CircleBorderContainer(
                                 size: 28,
                                 borderColor: Palette.purple2,
@@ -106,10 +106,10 @@ class _PracticumAssistantListPageState extends ConsumerState<PracticumAssistantL
                             : const CircleBorderContainer(size: 28),
                         onTap: () {
                           setState(() {
-                            if (selectedAssistants.contains(index)) {
-                              selectedAssistants.remove(index); // Unselect
+                            if (selectedUsers.contains(index)) {
+                              selectedUsers.remove(index); // Unselect
                             } else {
-                              selectedAssistants.add(index); // Select
+                              selectedUsers.add(index); // Select
                             }
                           });
                         },
@@ -127,15 +127,26 @@ class _PracticumAssistantListPageState extends ConsumerState<PracticumAssistantL
 
   void showCancelMessage(BuildContext context) {
     context.showConfirmDialog(
-      title: 'Batalkan Pilih Asisten?',
+      title: 'Batalkan Pilih ${widget.args.role}?',
       message:
-          'Daftar Asisten yang telah dipilih tidak akan tersimpan. Harap tekan tombol Submit setelah selesai memilih Asisten.',
+          'Daftar ${widget.args.role} yang telah dipilih tidak akan tersimpan. Harap tekan tombol Submit setelah selesai memilih ${widget.args.role}.',
       primaryButtonText: 'Batalkan',
       onPressedPrimaryButton: () {
-        // Delete previously created practicum if exist
         navigatorKey.currentState!.pop();
         navigatorKey.currentState!.pop();
       },
     );
   }
+}
+
+class SelectUsersPageArgs {
+  final String title;
+  final String role;
+  // final List<User>? users;
+  // final List<User>? selectedUsers;
+
+  const SelectUsersPageArgs({
+    required this.title,
+    required this.role,
+  });
 }

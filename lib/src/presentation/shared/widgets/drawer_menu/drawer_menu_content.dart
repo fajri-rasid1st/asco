@@ -64,7 +64,6 @@ class DrawerMenuContent extends StatelessWidget {
     return Scaffold(
       body: Container(
         width: AppSize.getAppWidth(context) * .7,
-        height: double.infinity,
         color: Palette.black2,
         child: Column(
           children: [

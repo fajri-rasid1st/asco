@@ -111,7 +111,7 @@ class CourseCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
-      child: InkWell(
+      child: GestureDetector(
         onTap: () => navigatorKey.currentState!.pushNamedAndRemoveUntil(
           mainMenuRoute,
           (route) => false,

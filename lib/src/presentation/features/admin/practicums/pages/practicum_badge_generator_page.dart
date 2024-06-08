@@ -40,7 +40,6 @@ class PracticumBadgeGeneratorPage extends ConsumerWidget {
       body: SingleChildScrollView(
         padding: const EdgeInsets.only(bottom: 20),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
               width: AppSize.getAppWidth(context),

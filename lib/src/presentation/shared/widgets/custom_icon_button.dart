@@ -7,8 +7,8 @@ import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class CustomIconButton extends StatelessWidget {
   final String iconName;
-  final Color color;
-  final double size;
+  final double? size;
+  final Color? color;
   final double splashRadius;
   final String tooltip;
   final VoidCallback? onPressed;
@@ -16,8 +16,8 @@ class CustomIconButton extends StatelessWidget {
   const CustomIconButton(
     this.iconName, {
     super.key,
-    required this.color,
-    required this.size,
+    this.size,
+    this.color,
     this.splashRadius = 4.0,
     this.tooltip = '',
     this.onPressed,

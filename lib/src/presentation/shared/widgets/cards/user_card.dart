@@ -14,6 +14,7 @@ class UserCard extends StatelessWidget {
   final bool showAvatarBorder;
   final bool showDeleteButton;
   final bool showBadge;
+  final String? badgeText;
   final VoidCallback? onPressedDeleteButton;
   final VoidCallback? onTap;
 
@@ -23,6 +24,7 @@ class UserCard extends StatelessWidget {
     this.showAvatarBorder = false,
     this.showDeleteButton = false,
     this.showBadge = true,
+    this.badgeText,
     this.onPressedDeleteButton,
     this.onTap,
   });
@@ -71,7 +73,9 @@ class UserCard extends StatelessWidget {
                 ),
                 if (showBadge) ...[
                   const SizedBox(height: 2),
-                  const CustomBadge(text: 'Praktikan'),
+                  CustomBadge(
+                    text: badgeText ?? 'Praktikan',
+                  ),
                 ],
               ],
             ),

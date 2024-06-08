@@ -24,7 +24,6 @@ class ClassroomCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWellContainer(
       radius: 12,
-      width: double.infinity,
       color: Palette.background,
       padding: const EdgeInsets.all(16),
       onTap: onTap,
@@ -52,7 +51,7 @@ class ClassroomCard extends StatelessWidget {
             ),
           ),
           if (showActionButtons) ...[
-            const SizedBox(width: 4),
+            const SizedBox(width: 8),
             IconButton(
               onPressed: () => showDialog(
                 context: context,

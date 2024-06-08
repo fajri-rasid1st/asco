@@ -2,26 +2,40 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:asco/core/extensions/button_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
-import 'package:asco/src/presentation/shared/pages/select_users_page.dart';
+import 'package:asco/src/presentation/features/admin/meetings/pages/meeting_form_page.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
+import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
-import 'package:asco/src/presentation/shared/widgets/practicum_badge_image.dart';
 import 'package:asco/src/presentation/shared/widgets/section_header.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
-class ClassroomDetailPage extends StatelessWidget {
-  const ClassroomDetailPage({super.key});
+class MeetingDetailPage extends StatelessWidget {
+  const MeetingDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: 'Pemrograman Mobile A',
+      appBar: CustomAppBar(
+        title: 'Pertemuan 1',
+        action: IconButton(
+          onPressed: () => navigatorKey.currentState!.pushNamed(
+            meetingFormRoute,
+            arguments: const MeetingFormPageArgs(action: 'Edit'),
+          ),
+          icon: const Icon(Icons.edit_rounded),
+          iconSize: 20,
+          tooltip: 'Edit',
+          style: IconButton.styleFrom(
+            backgroundColor: Colors.transparent,
+            shape: const CircleBorder(),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -51,14 +65,20 @@ class ClassroomDetailPage extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const PracticumBadgeImage(
-                          badgeUrl: 'https://placehold.co/138x150/png',
-                          width: 58,
-                          height: 63,
+                        CircleBorderContainer(
+                          size: 64,
+                          withBorder: false,
+                          fillColor: Palette.purple3,
+                          child: Text(
+                            '#1',
+                            style: textTheme.titleLarge!.copyWith(
+                              color: Palette.background,
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 12),
                         Text(
-                          'Kelas A',
+                          'Tipe Data dan Attribute',
                           style: textTheme.headlineSmall!.copyWith(
                             color: Palette.purple2,
                           ),
@@ -72,7 +92,7 @@ class ClassroomDetailPage extends StatelessWidget {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'Setiap Sabtu 07.30 - 09.30',
+                          '26 Februari 2024',
                           style: textTheme.bodySmall!.copyWith(
                             color: Palette.secondaryText,
                           ),
@@ -83,42 +103,24 @@ class ClassroomDetailPage extends StatelessWidget {
                 ],
               ),
             ),
-            SectionHeader(
-              title: 'Peserta',
-              showDivider: true,
-              showActionButton: true,
-              onPressedActionButton: () async {
-                final result = await navigatorKey.currentState!.pushNamed(
-                  selectUsersRoute,
-                  arguments: const SelectUsersPageArgs(
-                    title: 'Peserta - Kelas A',
-                    role: 'Peserta',
-                  ),
-                );
-
-                if (result != null) updateClassroom(result as List<int>);
-              },
-            ),
-            ...List<Padding>.generate(
-              10,
-              (index) => Padding(
-                padding: EdgeInsets.only(
-                  bottom: index == 9 ? 0 : 10,
-                ),
-                child: UserCard(
-                  showBadge: false,
-                  showDeleteButton: true,
-                  onPressedDeleteButton: () {},
-                ),
+            const SectionHeader(title: 'Modul'),
+            FilledButton.icon(
+              onPressed: () {},
+              icon: const Icon(Icons.menu_book_rounded),
+              label: const Text('Buka Modul'),
+              style: FilledButton.styleFrom(
+                foregroundColor: Palette.purple2,
+                backgroundColor: Palette.background,
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
-            ),
+            ).fullWidth(),
+            const SectionHeader(title: 'Mentor'),
+            const UserCard(badgeText: 'Pemateri'),
+            const SizedBox(height: 10),
+            const UserCard(badgeText: 'Pendamping')
           ],
         ),
       ),
     );
-  }
-
-  void updateClassroom(List<int> selectedStudents) {
-    debugPrint(selectedStudents.toString());
   }
 }

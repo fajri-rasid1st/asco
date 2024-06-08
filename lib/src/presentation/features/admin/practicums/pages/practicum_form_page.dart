@@ -9,6 +9,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/presentation/shared/pages/select_users_page.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/classroom_card.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
@@ -48,6 +49,7 @@ class PracticumFirstFormPage extends StatelessWidget {
                 name: 'course',
                 label: 'Mata kuliah',
                 hintText: 'Masukkan nama mata kuliah',
+                textCapitalization: TextCapitalization.words,
                 validators: [
                   FormBuilderValidators.required(
                     errorText: 'Field wajib diisi',
@@ -91,14 +93,14 @@ class PracticumFirstFormPage extends StatelessWidget {
   void createOrEditPracticum() {
     FocusManager.instance.primaryFocus?.unfocus();
 
-    // if (formKey.currentState!.saveAndValidate()) {
-    //   debugPrint(formKey.currentState!.value.toString());
+    if (formKey.currentState!.saveAndValidate()) {
+      debugPrint(formKey.currentState!.value.toString());
 
-    navigatorKey.currentState!.pushNamed(
-      practicumSecondFormRoute,
-      arguments: args,
-    );
-    // }
+      navigatorKey.currentState!.pushNamed(
+        practicumSecondFormRoute,
+        arguments: args,
+      );
+    }
   }
 }
 
@@ -154,12 +156,15 @@ class PracticumSecondFormPage extends StatelessWidget {
               showDivider: true,
               showActionButton: true,
               onPressedActionButton: () async {
-                final result =
-                    await navigatorKey.currentState!.pushNamed(practicumAssistantListRoute);
+                final result = await navigatorKey.currentState!.pushNamed(
+                  selectUsersRoute,
+                  arguments: const SelectUsersPageArgs(
+                    title: 'Asisten - Pemrograman Mobile',
+                    role: 'Asisten',
+                  ),
+                );
 
-                if (result != null) {
-                  selectedAssistants = result as List<int>;
-                }
+                if (result != null) selectedAssistants = result as List<int>;
               },
             ),
             ...List<Padding>.generate(

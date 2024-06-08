@@ -33,7 +33,7 @@ class SelectPracticumPageArgs {
   final bool showClassroomAndMeetingButtons;
   final VoidCallback? onItemTapped;
 
-  SelectPracticumPageArgs({
+  const SelectPracticumPageArgs({
     this.showClassroomAndMeetingButtons = false,
     this.onItemTapped,
   });

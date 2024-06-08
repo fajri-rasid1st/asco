@@ -6,8 +6,9 @@ import 'package:asco/core/styles/color_scheme.dart';
 
 class CircleBorderContainer extends StatelessWidget {
   final double size;
-  final Color? borderColor;
+  final bool withBorder;
   final double borderWidth;
+  final Color? borderColor;
   final Color? fillColor;
   final VoidCallback? onTap;
   final Widget? child;
@@ -15,8 +16,9 @@ class CircleBorderContainer extends StatelessWidget {
   const CircleBorderContainer({
     super.key,
     required this.size,
-    this.borderColor,
+    this.withBorder = true,
     this.borderWidth = 1.0,
+    this.borderColor,
     this.fillColor,
     this.onTap,
     this.child,
@@ -30,10 +32,12 @@ class CircleBorderContainer extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: fillColor ?? Palette.secondaryBackground,
-        border: Border.all(
-          width: borderWidth,
-          color: borderColor ?? Palette.border,
-        ),
+        border: withBorder
+            ? Border.all(
+                width: borderWidth,
+                color: borderColor ?? Palette.border,
+              )
+            : null,
       ),
       child: Material(
         color: Colors.transparent,

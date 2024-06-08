@@ -6,8 +6,9 @@ import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/src/presentation/features/admin/classrooms/pages/classroom_detail_page.dart';
 import 'package:asco/src/presentation/features/admin/classrooms/pages/classroom_list_home_page.dart';
 import 'package:asco/src/presentation/features/admin/home/pages/admin_home_page.dart';
+import 'package:asco/src/presentation/features/admin/meetings/pages/meeting_detail_page.dart';
+import 'package:asco/src/presentation/features/admin/meetings/pages/meeting_form_page.dart';
 import 'package:asco/src/presentation/features/admin/meetings/pages/meeting_list_home_page.dart';
-import 'package:asco/src/presentation/features/admin/practicums/pages/practicum_assistant_list_page.dart';
 import 'package:asco/src/presentation/features/admin/practicums/pages/practicum_badge_generator_page.dart';
 import 'package:asco/src/presentation/features/admin/practicums/pages/practicum_detail_page.dart';
 import 'package:asco/src/presentation/features/admin/practicums/pages/practicum_form_page.dart';
@@ -19,6 +20,7 @@ import 'package:asco/src/presentation/features/common/on_boarding_page.dart';
 import 'package:asco/src/presentation/features/home/home_page.dart';
 import 'package:asco/src/presentation/features/menu/main_menu_page.dart';
 import 'package:asco/src/presentation/shared/pages/select_practicum_page.dart';
+import 'package:asco/src/presentation/shared/pages/select_users_page.dart';
 
 // Register the RouteObserver as a navigation observer
 final routeObserver = RouteObserver<ModalRoute<void>>();
@@ -76,19 +78,9 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => PracticumSecondFormPage(args: args),
       );
-    case practicumAssistantListRoute:
-      return MaterialPageRoute(
-        builder: (_) => const PracticumAssistantListPage(),
-      );
     case practicumBadgeGeneratorRoute:
       return MaterialPageRoute(
         builder: (_) => const PracticumBadgeGeneratorPage(),
-      );
-    case selectPracticumRoute:
-      final args = settings.arguments as SelectPracticumPageArgs;
-
-      return MaterialPageRoute(
-        builder: (_) => SelectPracticumPage(args: args),
       );
     case classroomListHomeRoute:
       return MaterialPageRoute(
@@ -101,6 +93,28 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
     case meetingListHomeRoute:
       return MaterialPageRoute(
         builder: (_) => const MeetingListHomePage(),
+      );
+    case meetingDetailRoute:
+      return MaterialPageRoute(
+        builder: (_) => const MeetingDetailPage(),
+      );
+    case meetingFormRoute:
+      final args = settings.arguments as MeetingFormPageArgs;
+
+      return MaterialPageRoute(
+        builder: (_) => MeetingFormPage(args: args),
+      );
+    case selectPracticumRoute:
+      final args = settings.arguments as SelectPracticumPageArgs;
+
+      return MaterialPageRoute(
+        builder: (_) => SelectPracticumPage(args: args),
+      );
+    case selectUsersRoute:
+      final args = settings.arguments as SelectUsersPageArgs;
+
+      return MaterialPageRoute(
+        builder: (_) => SelectUsersPage(args: args),
       );
     default:
       return null;

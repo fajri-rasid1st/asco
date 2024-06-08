@@ -34,7 +34,7 @@ class AdminHomePage extends StatelessWidget {
         icon: Icons.meeting_room_rounded,
         onTap: () => navigatorKey.currentState!.pushNamed(
           selectPracticumRoute,
-          arguments: SelectPracticumPageArgs(showClassroomAndMeetingButtons: true),
+          arguments: const SelectPracticumPageArgs(showClassroomAndMeetingButtons: true),
         ),
       ),
       AdminMenu(
@@ -73,7 +73,6 @@ class AdminHomePage extends StatelessWidget {
               const AscoAppBar(),
               const SizedBox(height: 32),
               Container(
-                width: double.infinity,
                 padding: const EdgeInsets.symmetric(
                   vertical: 16,
                   horizontal: 20,

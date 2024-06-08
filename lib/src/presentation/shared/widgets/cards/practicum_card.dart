@@ -73,7 +73,7 @@ class PracticumCard extends StatelessWidget {
                             padding: EdgeInsets.symmetric(horizontal: 8),
                             child: CircleBorderContainer(
                               size: 3,
-                              borderColor: Palette.purple3,
+                              withBorder: false,
                               fillColor: Palette.purple3,
                             ),
                           ),

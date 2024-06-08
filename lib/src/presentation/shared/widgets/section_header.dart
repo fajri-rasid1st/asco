@@ -10,7 +10,7 @@ class SectionHeader extends StatelessWidget {
   final String title;
   final bool showDivider;
   final bool showActionButton;
-  final EdgeInsetsGeometry padding;
+  final EdgeInsetsGeometry? padding;
   final VoidCallback? onPressedActionButton;
 
   const SectionHeader({
@@ -18,14 +18,14 @@ class SectionHeader extends StatelessWidget {
     required this.title,
     this.showDivider = false,
     this.showActionButton = false,
-    this.padding = const EdgeInsets.fromLTRB(4, 12, 0, 6),
+    this.padding,
     this.onPressedActionButton,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding,
+      padding: padding ?? EdgeInsets.fromLTRB(4, 12, 0, showActionButton ? 8 : 6),
       child: Row(
         children: [
           Text(
@@ -49,7 +49,7 @@ class SectionHeader extends StatelessWidget {
           if (showActionButton)
             CircleBorderContainer(
               size: 28,
-              borderColor: Palette.purple3,
+              withBorder: false,
               fillColor: Palette.purple3,
               onTap: onPressedActionButton,
               child: const Icon(
