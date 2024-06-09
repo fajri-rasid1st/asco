@@ -57,7 +57,12 @@ class AdminHomePage extends StatelessWidget {
       AdminMenu(
         title: 'Rekap Nilai',
         icon: Icons.format_list_numbered_rounded,
-        onTap: () {},
+        onTap: () => navigatorKey.currentState!.pushNamed(
+          selectPracticumRoute,
+          arguments: SelectPracticumPageArgs(
+            onItemTapped: () => navigatorKey.currentState!.pushNamed(scoreListHomePage),
+          ),
+        ),
       ),
       AdminMenu(
         title: 'Grup Asistensi',

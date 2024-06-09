@@ -21,9 +21,9 @@ class AttendanceDetailPage extends StatelessWidget {
       ),
       body: CustomScrollView(
         slivers: [
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
+            sliver: SliverToBoxAdapter(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: List<Flexible>.generate(

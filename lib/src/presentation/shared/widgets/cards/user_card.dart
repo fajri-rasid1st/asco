@@ -12,7 +12,6 @@ import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 
 class UserCard extends StatelessWidget {
   final Widget? trailing;
-  final bool showAvatarBorder;
   final bool showDeleteButton;
   final UserBadgeType badgeType;
   final String? badgeText;
@@ -22,7 +21,6 @@ class UserCard extends StatelessWidget {
   const UserCard({
     super.key,
     this.trailing,
-    this.showAvatarBorder = false,
     this.showDeleteButton = false,
     this.badgeType = UserBadgeType.pill,
     this.badgeText,
@@ -42,11 +40,9 @@ class UserCard extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          CircleNetworkImage(
+          const CircleNetworkImage(
             imageUrl: 'https://placehold.co/150x150/png',
             size: 60,
-            withBorder: showAvatarBorder,
-            borderColor: Palette.purple2,
           ),
           const SizedBox(width: 8),
           Expanded(

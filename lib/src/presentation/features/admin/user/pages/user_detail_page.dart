@@ -7,7 +7,7 @@ import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
-import 'package:asco/src/presentation/features/admin/users/pages/user_form_page.dart';
+import 'package:asco/src/presentation/features/admin/user/pages/user_form_page.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_badge.dart';
