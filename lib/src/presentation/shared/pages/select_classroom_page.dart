@@ -2,24 +2,28 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:asco/core/enums/classroom_subtitle_type.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/classroom_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 
-class ClassroomListHomePage extends StatelessWidget {
-  const ClassroomListHomePage({super.key});
+class SelectClassroomPage extends StatelessWidget {
+  final SelectClassroomPageArgs args;
+
+  const SelectClassroomPage({super.key, required this.args});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: 'Pemrograman Mobile',
+      appBar: CustomAppBar(
+        title: args.title,
       ),
       body: ListView.separated(
         padding: const EdgeInsets.all(20),
         itemBuilder: (context, index) {
           return ClassroomCard(
+            subtitleType: ClassroomSubtitleType.totalStudents,
             onTap: () => navigatorKey.currentState!.pushNamed(classroomDetailRoute),
           );
         },
@@ -28,4 +32,11 @@ class ClassroomListHomePage extends StatelessWidget {
       ),
     );
   }
+}
+
+class SelectClassroomPageArgs {
+  final String title;
+  // final int practicumId;
+
+  const SelectClassroomPageArgs({required this.title});
 }

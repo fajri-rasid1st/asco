@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:asco/core/enums/classroom_subtitle_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/styles/color_scheme.dart';
@@ -11,11 +12,13 @@ import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class ClassroomCard extends StatelessWidget {
+  final ClassroomSubtitleType subtitleType;
   final bool showActionButtons;
   final VoidCallback? onTap;
 
   const ClassroomCard({
     super.key,
+    this.subtitleType = ClassroomSubtitleType.schedule,
     this.showActionButtons = false,
     this.onTap,
   });
@@ -42,7 +45,9 @@ class ClassroomCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'Setiap Sabtu 07.30 - 09.30',
+                  subtitleType == ClassroomSubtitleType.schedule
+                      ? 'Setiap Sabtu 07.30 - 09.30'
+                      : '25 Peserta',
                   style: textTheme.bodySmall!.copyWith(
                     color: Palette.secondaryText,
                   ),

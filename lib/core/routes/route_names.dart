@@ -24,7 +24,6 @@ const practicumSecondFormRoute = '/practicum-second-form';
 const practicumBadgeGeneratorRoute = '/practicum-badge-generator';
 
 // Classrooms
-const classroomListHomeRoute = '/classroom-list-home';
 const classroomDetailRoute = '/classroom-detail';
 
 // Meetings
@@ -33,5 +32,6 @@ const meetingDetailRoute = '/meeting-detail';
 const meetingFormRoute = '/meeting-form';
 
 // Shared - Admin
-const selectPracticumRoute = '/select-practicum';
 const selectUsersRoute = '/select-users';
+const selectPracticumRoute = '/select-practicum';
+const selectClassroomRoute = '/select-classroom';

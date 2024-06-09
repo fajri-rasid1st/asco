@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/src/presentation/features/admin/classrooms/pages/classroom_detail_page.dart';
-import 'package:asco/src/presentation/features/admin/classrooms/pages/classroom_list_home_page.dart';
 import 'package:asco/src/presentation/features/admin/home/pages/admin_home_page.dart';
 import 'package:asco/src/presentation/features/admin/meetings/pages/meeting_detail_page.dart';
 import 'package:asco/src/presentation/features/admin/meetings/pages/meeting_form_page.dart';
@@ -19,6 +18,7 @@ import 'package:asco/src/presentation/features/admin/users/pages/user_list_home_
 import 'package:asco/src/presentation/features/common/on_boarding_page.dart';
 import 'package:asco/src/presentation/features/home/home_page.dart';
 import 'package:asco/src/presentation/features/menu/main_menu_page.dart';
+import 'package:asco/src/presentation/shared/pages/select_classroom_page.dart';
 import 'package:asco/src/presentation/shared/pages/select_practicum_page.dart';
 import 'package:asco/src/presentation/shared/pages/select_users_page.dart';
 
@@ -82,10 +82,6 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const PracticumBadgeGeneratorPage(),
       );
-    case classroomListHomeRoute:
-      return MaterialPageRoute(
-        builder: (_) => const ClassroomListHomePage(),
-      );
     case classroomDetailRoute:
       return MaterialPageRoute(
         builder: (_) => const ClassroomDetailPage(),
@@ -104,17 +100,23 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => MeetingFormPage(args: args),
       );
+    case selectUsersRoute:
+      final args = settings.arguments as SelectUsersPageArgs;
+
+      return MaterialPageRoute(
+        builder: (_) => SelectUsersPage(args: args),
+      );
     case selectPracticumRoute:
       final args = settings.arguments as SelectPracticumPageArgs;
 
       return MaterialPageRoute(
         builder: (_) => SelectPracticumPage(args: args),
       );
-    case selectUsersRoute:
-      final args = settings.arguments as SelectUsersPageArgs;
+    case selectClassroomRoute:
+      final args = settings.arguments as SelectClassroomPageArgs;
 
       return MaterialPageRoute(
-        builder: (_) => SelectUsersPage(args: args),
+        builder: (_) => SelectClassroomPage(args: args),
       );
     default:
       return null;

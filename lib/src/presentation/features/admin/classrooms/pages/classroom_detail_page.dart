@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
@@ -106,7 +107,7 @@ class ClassroomDetailPage extends StatelessWidget {
                   bottom: index == 9 ? 0 : 10,
                 ),
                 child: UserCard(
-                  showBadge: false,
+                  badgeType: UserBadgeType.text,
                   showDeleteButton: true,
                   onPressedDeleteButton: () {},
                 ),

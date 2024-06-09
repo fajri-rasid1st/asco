@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
@@ -109,7 +110,9 @@ class PracticumDetailPage extends StatelessWidget {
                 padding: EdgeInsets.only(
                   bottom: index == 3 ? 0 : 10,
                 ),
-                child: const UserCard(showBadge: false),
+                child: const UserCard(
+                  badgeType: UserBadgeType.text,
+                ),
               ),
             ),
           ],

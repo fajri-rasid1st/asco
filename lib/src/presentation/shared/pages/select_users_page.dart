@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/utils/keys.dart';
@@ -91,7 +92,7 @@ class _SelectUsersPageState extends ConsumerState<SelectUsersPage> {
                         bottom: index == 9 ? 0 : 10,
                       ),
                       child: UserCard(
-                        showBadge: false,
+                        badgeType: UserBadgeType.text,
                         trailing: selectedUsers.contains(index)
                             ? const CircleBorderContainer(
                                 size: 28,

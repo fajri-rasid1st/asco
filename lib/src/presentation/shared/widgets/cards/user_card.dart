@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
@@ -13,7 +14,7 @@ class UserCard extends StatelessWidget {
   final Widget? trailing;
   final bool showAvatarBorder;
   final bool showDeleteButton;
-  final bool showBadge;
+  final UserBadgeType badgeType;
   final String? badgeText;
   final VoidCallback? onPressedDeleteButton;
   final VoidCallback? onTap;
@@ -23,7 +24,7 @@ class UserCard extends StatelessWidget {
     this.trailing,
     this.showAvatarBorder = false,
     this.showDeleteButton = false,
-    this.showBadge = true,
+    this.badgeType = UserBadgeType.pill,
     this.badgeText,
     this.onPressedDeleteButton,
     this.onTap,
@@ -61,7 +62,7 @@ class UserCard extends StatelessWidget {
                     color: Palette.purple3,
                   ),
                 ),
-                SizedBox(height: showBadge ? 1 : 2),
+                const SizedBox(height: 1),
                 Text(
                   'Muh. Sultan Nazhim Latenri Tatta S.H',
                   maxLines: 1,
@@ -71,12 +72,19 @@ class UserCard extends StatelessWidget {
                     color: Palette.purple2,
                   ),
                 ),
-                if (showBadge) ...[
-                  const SizedBox(height: 2),
+                const SizedBox(height: 2),
+                if (badgeType == UserBadgeType.pill)
                   CustomBadge(
                     text: badgeText ?? 'Praktikan',
+                  )
+                else
+                  Text(
+                    badgeText ?? '2021',
+                    style: textTheme.labelSmall?.copyWith(
+                      color: Palette.secondaryText,
+                      height: 1,
+                    ),
                   ),
-                ],
               ],
             ),
           ),

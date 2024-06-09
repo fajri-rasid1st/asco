@@ -7,6 +7,7 @@ import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/presentation/shared/pages/select_classroom_page.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 import 'package:asco/src/presentation/shared/widgets/practicum_badge_image.dart';
@@ -118,7 +119,10 @@ class PracticumCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: FilledButton(
-                    onPressed: () => navigatorKey.currentState!.pushNamed(classroomListHomeRoute),
+                    onPressed: () => navigatorKey.currentState!.pushNamed(
+                      selectClassroomRoute,
+                      arguments: const SelectClassroomPageArgs(title: 'Pemrograman Mobile'),
+                    ),
                     style: FilledButton.styleFrom(
                       backgroundColor: Palette.secondary,
                       padding: EdgeInsets.zero,
