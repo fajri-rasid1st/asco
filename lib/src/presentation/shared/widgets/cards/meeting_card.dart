@@ -23,17 +23,17 @@ class MeetingCard extends StatelessWidget {
     return InkWellContainer(
       radius: 99,
       color: Palette.background,
-      padding: const EdgeInsets.fromLTRB(10, 10, 16, 10),
+      padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
       onTap: onTap,
       child: Row(
         children: [
           CircleBorderContainer(
-            size: 60,
+            size: 56,
             withBorder: false,
             fillColor: Palette.purple3,
             child: Text(
               '#1',
-              style: textTheme.titleLarge!.copyWith(
+              style: textTheme.titleMedium!.copyWith(
                 color: Palette.background,
               ),
             ),

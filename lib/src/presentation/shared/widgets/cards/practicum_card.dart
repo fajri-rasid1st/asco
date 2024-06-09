@@ -121,7 +121,12 @@ class PracticumCard extends StatelessWidget {
                   child: FilledButton(
                     onPressed: () => navigatorKey.currentState!.pushNamed(
                       selectClassroomRoute,
-                      arguments: const SelectClassroomPageArgs(title: 'Pemrograman Mobile'),
+                      arguments: SelectClassroomPageArgs(
+                        title: 'Pemrograman Mobile',
+                        onItemTapped: () => navigatorKey.currentState!.pushNamed(
+                          classroomDetailRoute,
+                        ),
+                      ),
                     ),
                     style: FilledButton.styleFrom(
                       backgroundColor: Palette.secondary,

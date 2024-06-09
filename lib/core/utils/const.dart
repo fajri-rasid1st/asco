@@ -1,4 +1,8 @@
 // const item per page
+
+// Project imports:
+import 'package:asco/core/styles/color_scheme.dart';
+
 const kPageLimit = 20;
 
 // const error messages
@@ -26,8 +30,17 @@ const dayOfWeek = {
 };
 
 const attendanceStatus = {
-  'Alpa': 'absent',
-  'Izin': 'excused',
-  'Sakit': 'sick',
   'Hadir': 'present',
+  'Alpa': 'absent',
+  'Sakit': 'sick',
+  'Izin': 'excused',
+};
+
+const attendanceStatusColor = {
+  'Hadir': Palette.success,
+  'Alpa': Palette.error,
+  'Sakit': Palette.warning,
+  'Izin': Palette.info,
+  'Selesai': Palette.success,
+  'Belum': Palette.error,
 };

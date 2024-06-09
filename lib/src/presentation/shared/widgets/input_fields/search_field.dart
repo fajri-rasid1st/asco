@@ -64,13 +64,13 @@ class _SearchFieldState extends State<SearchField> {
           textInputAction: TextInputAction.search,
           style: textTheme.bodyMedium,
           decoration: InputDecoration(
-            hintText: widget.hintText,
             isDense: true,
             filled: true,
             fillColor: Palette.background,
             contentPadding: EdgeInsets.zero,
             prefixIcon: buildPrefixIcon(),
             suffixIcon: buildSuffixIcon(),
+            hintText: widget.hintText,
             hintStyle: textTheme.bodyMedium!.copyWith(
               color: Palette.hint,
               height: 1,

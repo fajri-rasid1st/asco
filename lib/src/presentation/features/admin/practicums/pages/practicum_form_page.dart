@@ -64,8 +64,9 @@ class PracticumFirstFormPage extends StatelessWidget {
                 extensions: const [],
                 validator: FormBuilderValidators.required(),
                 onPressedFilePickerButton: () async {
-                  final result =
-                      await navigatorKey.currentState!.pushNamed(practicumBadgeGeneratorRoute);
+                  final result = await navigatorKey.currentState!.pushNamed(
+                    practicumBadgeGeneratorRoute,
+                  );
 
                   if (result != null && context.mounted) {
                     context.showSnackBar(

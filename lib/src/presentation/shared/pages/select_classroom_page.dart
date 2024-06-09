@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:asco/core/enums/classroom_subtitle_type.dart';
-import 'package:asco/core/routes/route_names.dart';
-import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/classroom_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 
@@ -24,7 +22,7 @@ class SelectClassroomPage extends StatelessWidget {
         itemBuilder: (context, index) {
           return ClassroomCard(
             subtitleType: ClassroomSubtitleType.totalStudents,
-            onTap: () => navigatorKey.currentState!.pushNamed(classroomDetailRoute),
+            onTap: args.onItemTapped,
           );
         },
         separatorBuilder: (context, index) => const SizedBox(height: 10),
@@ -36,7 +34,11 @@ class SelectClassroomPage extends StatelessWidget {
 
 class SelectClassroomPageArgs {
   final String title;
+  final VoidCallback? onItemTapped;
   // final int practicumId;
 
-  const SelectClassroomPageArgs({required this.title});
+  const SelectClassroomPageArgs({
+    required this.title,
+    required this.onItemTapped,
+  });
 }

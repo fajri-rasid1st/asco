@@ -44,7 +44,6 @@ class _SelectUsersPageState extends ConsumerState<SelectUsersPage> {
           leading: IconButton(
             onPressed: () => showCancelMessage(context),
             icon: const Icon(Icons.close_rounded),
-            iconSize: 22,
             tooltip: 'Batalkan',
             style: IconButton.styleFrom(
               backgroundColor: Colors.transparent,

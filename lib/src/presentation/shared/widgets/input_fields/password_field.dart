@@ -79,8 +79,8 @@ class _PasswordFieldState extends State<PasswordField> {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Palette.background,
-                suffixIcon: buildSuffixIcon(isVisible),
                 hintText: widget.hintText,
+                suffixIcon: buildSuffixIcon(isVisible),
                 contentPadding: const EdgeInsets.all(16),
               ),
               validator: widget.validators != null

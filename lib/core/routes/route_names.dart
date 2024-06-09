@@ -31,6 +31,10 @@ const meetingListHomeRoute = '/meeting-list-home';
 const meetingDetailRoute = '/meeting-detail';
 const meetingFormRoute = '/meeting-form';
 
+// Attendances
+const attendanceListHomePage = '/attendance-list-home';
+const attendanceDetailPage = '/attendance-detail';
+
 // Shared - Admin
 const selectUsersRoute = '/select-users';
 const selectPracticumRoute = '/select-practicum';
