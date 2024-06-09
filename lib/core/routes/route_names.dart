@@ -35,6 +35,10 @@ const meetingFormRoute = '/meeting-form';
 const attendanceListHomePage = '/attendance-list-home';
 const attendanceDetailPage = '/attendance-detail';
 
+// Scores
+const scoreListHomePage = '/score-list-home';
+const scoreDetailPage = '/score-detail';
+
 // Shared - Admin
 const selectUsersRoute = '/select-users';
 const selectPracticumRoute = '/select-practicum';

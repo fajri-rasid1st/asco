@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:asco/core/routes/route_names.dart';
-import 'package:asco/src/presentation/features/admin/attendances/attendance_detail_page.dart';
-import 'package:asco/src/presentation/features/admin/attendances/attendance_list_home_page.dart';
+import 'package:asco/src/presentation/features/admin/attendances/pages/attendance_detail_page.dart';
+import 'package:asco/src/presentation/features/admin/attendances/pages/attendance_list_home_page.dart';
 import 'package:asco/src/presentation/features/admin/classrooms/pages/classroom_detail_page.dart';
 import 'package:asco/src/presentation/features/admin/home/pages/admin_home_page.dart';
 import 'package:asco/src/presentation/features/admin/meetings/pages/meeting_detail_page.dart';
@@ -14,6 +14,8 @@ import 'package:asco/src/presentation/features/admin/practicums/pages/practicum_
 import 'package:asco/src/presentation/features/admin/practicums/pages/practicum_detail_page.dart';
 import 'package:asco/src/presentation/features/admin/practicums/pages/practicum_form_page.dart';
 import 'package:asco/src/presentation/features/admin/practicums/pages/practicum_list_home_page.dart';
+import 'package:asco/src/presentation/features/admin/scores/pages/score_detail_page.dart';
+import 'package:asco/src/presentation/features/admin/scores/pages/score_list_home_page.dart';
 import 'package:asco/src/presentation/features/admin/users/pages/user_detail_page.dart';
 import 'package:asco/src/presentation/features/admin/users/pages/user_form_page.dart';
 import 'package:asco/src/presentation/features/admin/users/pages/user_list_home_page.dart';
@@ -109,6 +111,14 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
     case attendanceDetailPage:
       return MaterialPageRoute(
         builder: (_) => const AttendanceDetailPage(),
+      );
+    case scoreListHomePage:
+      return MaterialPageRoute(
+        builder: (_) => const ScoreListHomePage(),
+      );
+    case scoreDetailPage:
+      return MaterialPageRoute(
+        builder: (_) => const ScoreDetailPage(),
       );
     case selectUsersRoute:
       final args = settings.arguments as SelectUsersPageArgs;
