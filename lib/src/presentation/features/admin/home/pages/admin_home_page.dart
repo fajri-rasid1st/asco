@@ -227,7 +227,7 @@ class AdminMenu {
   final IconData icon;
   final VoidCallback onTap;
 
-  AdminMenu({
+  const AdminMenu({
     required this.title,
     required this.icon,
     required this.onTap,

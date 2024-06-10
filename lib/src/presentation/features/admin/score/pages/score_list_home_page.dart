@@ -112,8 +112,9 @@ class _ScoreListHomePageState extends ConsumerState<ScoreListHomePage>
                         badgeText: 'Kelas A',
                         trailing: Text(
                           '80.0',
-                          style: textTheme.titleLarge!.copyWith(
+                          style: textTheme.titleMedium!.copyWith(
                             color: Palette.purple2,
+                            height: 1,
                           ),
                         ),
                         onTap: () => navigatorKey.currentState!.pushNamed(scoreDetailPage),
