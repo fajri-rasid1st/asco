@@ -19,14 +19,14 @@ import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/search_field.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
-class ScoreListHomePage extends ConsumerStatefulWidget {
-  const ScoreListHomePage({super.key});
+class ScoreRecapListHomePage extends ConsumerStatefulWidget {
+  const ScoreRecapListHomePage({super.key});
 
   @override
-  ConsumerState<ScoreListHomePage> createState() => _ScoreListHomePageState();
+  ConsumerState<ScoreRecapListHomePage> createState() => _ScoreRecapListHomePageState();
 }
 
-class _ScoreListHomePageState extends ConsumerState<ScoreListHomePage>
+class _ScoreRecapListHomePageState extends ConsumerState<ScoreRecapListHomePage>
     with SingleTickerProviderStateMixin {
   late final AnimationController fabAnimationController;
   late final ScrollController scrollController;
@@ -117,7 +117,7 @@ class _ScoreListHomePageState extends ConsumerState<ScoreListHomePage>
                             height: 1,
                           ),
                         ),
-                        onTap: () => navigatorKey.currentState!.pushNamed(scoreDetailPage),
+                        onTap: () => navigatorKey.currentState!.pushNamed(scoreRecapDetailPage),
                       ),
                     );
                   },

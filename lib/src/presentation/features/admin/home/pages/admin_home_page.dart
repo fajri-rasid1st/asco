@@ -60,7 +60,7 @@ class AdminHomePage extends StatelessWidget {
         onTap: () => navigatorKey.currentState!.pushNamed(
           selectPracticumRoute,
           arguments: SelectPracticumPageArgs(
-            onItemTapped: () => navigatorKey.currentState!.pushNamed(scoreListHomePage),
+            onItemTapped: () => navigatorKey.currentState!.pushNamed(scoreRecapListHomePage),
           ),
         ),
       ),

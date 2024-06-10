@@ -14,8 +14,8 @@ import 'package:asco/src/presentation/features/admin/practicum/pages/practicum_b
 import 'package:asco/src/presentation/features/admin/practicum/pages/practicum_detail_page.dart';
 import 'package:asco/src/presentation/features/admin/practicum/pages/practicum_form_page.dart';
 import 'package:asco/src/presentation/features/admin/practicum/pages/practicum_list_home_page.dart';
-import 'package:asco/src/presentation/features/admin/score/pages/score_detail_page.dart';
-import 'package:asco/src/presentation/features/admin/score/pages/score_list_home_page.dart';
+import 'package:asco/src/presentation/features/admin/score_recap/pages/score_recap_detail_page.dart';
+import 'package:asco/src/presentation/features/admin/score_recap/pages/score_recap_list_home_page.dart';
 import 'package:asco/src/presentation/features/admin/user/pages/user_detail_page.dart';
 import 'package:asco/src/presentation/features/admin/user/pages/user_form_page.dart';
 import 'package:asco/src/presentation/features/admin/user/pages/user_list_home_page.dart';
@@ -112,13 +112,13 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const AttendanceDetailPage(),
       );
-    case scoreListHomePage:
+    case scoreRecapListHomePage:
       return MaterialPageRoute(
-        builder: (_) => const ScoreListHomePage(),
+        builder: (_) => const ScoreRecapListHomePage(),
       );
-    case scoreDetailPage:
+    case scoreRecapDetailPage:
       return MaterialPageRoute(
-        builder: (_) => const ScoreDetailPage(),
+        builder: (_) => const ScoreRecapDetailPage(),
       );
     case selectUsersRoute:
       final args = settings.arguments as SelectUsersPageArgs;

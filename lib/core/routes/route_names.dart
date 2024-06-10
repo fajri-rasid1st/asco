@@ -11,33 +11,33 @@ const mainMenuRoute = '/main-menu';
 // Admin routes
 const adminHomeRoute = '/admin-home';
 
-// Users
+// User
 const userListHomeRoute = '/user-list-home';
 const userFormRoute = '/user-form';
 const userDetailRoute = '/user-detail';
 
-// Practicums
+// Practicum
 const practicumListHomeRoute = '/practicum-list-home';
 const practicumDetailRoute = '/practicum-detail';
 const practicumFirstFormRoute = '/practicum-first-form';
 const practicumSecondFormRoute = '/practicum-second-form';
 const practicumBadgeGeneratorRoute = '/practicum-badge-generator';
 
-// Classrooms
+// Classroom
 const classroomDetailRoute = '/classroom-detail';
 
-// Meetings
+// Meeting
 const meetingListHomeRoute = '/meeting-list-home';
 const meetingDetailRoute = '/meeting-detail';
 const meetingFormRoute = '/meeting-form';
 
-// Attendances
+// Attendance
 const attendanceListHomePage = '/attendance-list-home';
 const attendanceDetailPage = '/attendance-detail';
 
-// Scores
-const scoreListHomePage = '/score-list-home';
-const scoreDetailPage = '/score-detail';
+// Score recap
+const scoreRecapListHomePage = '/score-recap-list-home';
+const scoreRecapDetailPage = '/score-recap-detail';
 
 // Shared - Admin
 const selectUsersRoute = '/select-users';

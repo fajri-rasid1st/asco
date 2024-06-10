@@ -10,8 +10,8 @@ import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 
-class ScoreDetailPage extends StatelessWidget {
-  const ScoreDetailPage({super.key});
+class ScoreRecapDetailPage extends StatelessWidget {
+  const ScoreRecapDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {
