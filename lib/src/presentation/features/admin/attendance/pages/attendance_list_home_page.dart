@@ -45,7 +45,7 @@ class AttendanceListHomePage extends StatelessWidget {
                     'Alpa': 4,
                     'Sakit': 3,
                   },
-                  onTap: () => navigatorKey.currentState!.pushNamed(attendanceDetailPage),
+                  onTap: () => navigatorKey.currentState!.pushNamed(attendanceDetailRoute),
                 ),
               ),
             ),

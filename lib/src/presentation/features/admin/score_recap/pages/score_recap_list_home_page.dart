@@ -117,7 +117,7 @@ class _ScoreRecapListHomePageState extends ConsumerState<ScoreRecapListHomePage>
                             height: 1,
                           ),
                         ),
-                        onTap: () => navigatorKey.currentState!.pushNamed(scoreRecapDetailPage),
+                        onTap: () => navigatorKey.currentState!.pushNamed(scoreRecapDetailRoute),
                       ),
                     );
                   },

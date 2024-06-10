@@ -13,8 +13,8 @@ const adminHomeRoute = '/admin-home';
 
 // User
 const userListHomeRoute = '/user-list-home';
-const userFormRoute = '/user-form';
 const userDetailRoute = '/user-detail';
+const userFormRoute = '/user-form';
 
 // Practicum
 const practicumListHomeRoute = '/practicum-list-home';
@@ -32,12 +32,17 @@ const meetingDetailRoute = '/meeting-detail';
 const meetingFormRoute = '/meeting-form';
 
 // Attendance
-const attendanceListHomePage = '/attendance-list-home';
-const attendanceDetailPage = '/attendance-detail';
+const attendanceListHomeRoute = '/attendance-list-home';
+const attendanceDetailRoute = '/attendance-detail';
 
 // Score recap
-const scoreRecapListHomePage = '/score-recap-list-home';
-const scoreRecapDetailPage = '/score-recap-detail';
+const scoreRecapListHomeRoute = '/score-recap-list-home';
+const scoreRecapDetailRoute = '/score-recap-detail';
+
+// Assistance group
+const assistanceGroupListHomeRoute = 'assistance-group-list-home';
+const assistanceGroupDetailRoute = 'assistance-group-detail';
+const assistanceGroupFormRoute = 'assistance-group-form';
 
 // Shared - Admin
 const selectUsersRoute = '/select-users';

@@ -59,9 +59,9 @@ class SortingDialog extends StatelessWidget {
     if (onSubmitted != null) {
       FocusManager.instance.primaryFocus?.unfocus();
 
-      if (formKey.currentState!.saveAndValidate()) {
-        onSubmitted!(formKey.currentState!.value);
-      }
+      formKey.currentState!.save();
+
+      onSubmitted!(formKey.currentState!.value);
     }
   }
 }

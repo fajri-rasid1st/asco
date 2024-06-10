@@ -102,8 +102,8 @@ class AssistanceDialog extends StatelessWidget {
   void submit(GlobalKey<FormBuilderState> formKey) {
     FocusManager.instance.primaryFocus?.unfocus();
 
-    if (formKey.currentState!.saveAndValidate()) {
-      debugPrint(formKey.currentState!.value.toString());
-    }
+    formKey.currentState!.save();
+
+    debugPrint(formKey.currentState!.value.toString());
   }
 }

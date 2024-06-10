@@ -48,7 +48,7 @@ class AdminHomePage extends StatelessWidget {
               selectClassroomRoute,
               arguments: SelectClassroomPageArgs(
                 title: 'Pemrograman Mobile',
-                onItemTapped: () => navigatorKey.currentState!.pushNamed(attendanceListHomePage),
+                onItemTapped: () => navigatorKey.currentState!.pushNamed(attendanceListHomeRoute),
               ),
             ),
           ),
@@ -60,14 +60,19 @@ class AdminHomePage extends StatelessWidget {
         onTap: () => navigatorKey.currentState!.pushNamed(
           selectPracticumRoute,
           arguments: SelectPracticumPageArgs(
-            onItemTapped: () => navigatorKey.currentState!.pushNamed(scoreRecapListHomePage),
+            onItemTapped: () => navigatorKey.currentState!.pushNamed(scoreRecapListHomeRoute),
           ),
         ),
       ),
       AdminMenu(
         title: 'Grup Asistensi',
         icon: Icons.group_rounded,
-        onTap: () {},
+        onTap: () => navigatorKey.currentState!.pushNamed(
+          selectPracticumRoute,
+          arguments: SelectPracticumPageArgs(
+            onItemTapped: () => navigatorKey.currentState!.pushNamed(assistanceGroupListHomeRoute),
+          ),
+        ),
       ),
       AdminMenu(
         title: 'Kartu Kontrol',

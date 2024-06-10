@@ -52,9 +52,9 @@ class MeetingFormPage extends StatelessWidget {
             children: [
               const CustomTextField(
                 name: 'number',
-                label: 'No. Pertemuan (auto-generated)',
+                label: 'Pertemuan (auto-generated)',
                 enabled: false,
-                initialValue: '11',
+                initialValue: '10',
               ),
               const SizedBox(height: 12),
               CustomTextField(

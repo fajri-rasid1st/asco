@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:asco/core/routes/route_names.dart';
+import 'package:asco/src/presentation/features/admin/assistance_group/assistance_group_detail_page.dart';
+import 'package:asco/src/presentation/features/admin/assistance_group/assistance_group_form_page.dart';
+import 'package:asco/src/presentation/features/admin/assistance_group/assistance_group_list_home_page.dart';
 import 'package:asco/src/presentation/features/admin/attendance/pages/attendance_detail_page.dart';
 import 'package:asco/src/presentation/features/admin/attendance/pages/attendance_list_home_page.dart';
 import 'package:asco/src/presentation/features/admin/classroom/pages/classroom_detail_page.dart';
@@ -104,21 +107,35 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => MeetingFormPage(args: args),
       );
-    case attendanceListHomePage:
+    case attendanceListHomeRoute:
       return MaterialPageRoute(
         builder: (_) => const AttendanceListHomePage(),
       );
-    case attendanceDetailPage:
+    case attendanceDetailRoute:
       return MaterialPageRoute(
         builder: (_) => const AttendanceDetailPage(),
       );
-    case scoreRecapListHomePage:
+    case scoreRecapListHomeRoute:
       return MaterialPageRoute(
         builder: (_) => const ScoreRecapListHomePage(),
       );
-    case scoreRecapDetailPage:
+    case scoreRecapDetailRoute:
       return MaterialPageRoute(
         builder: (_) => const ScoreRecapDetailPage(),
+      );
+    case assistanceGroupListHomeRoute:
+      return MaterialPageRoute(
+        builder: (_) => const AssistanceGroupListHomePage(),
+      );
+    case assistanceGroupDetailRoute:
+      return MaterialPageRoute(
+        builder: (_) => const AssistanceGroupDetailPage(),
+      );
+    case assistanceGroupFormRoute:
+      final args = settings.arguments as AssistanceGroupFormPageArgs;
+
+      return MaterialPageRoute(
+        builder: (_) => AssistanceGroupFormPage(args: args),
       );
     case selectUsersRoute:
       final args = settings.arguments as SelectUsersPageArgs;
