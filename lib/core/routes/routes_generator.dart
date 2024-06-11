@@ -9,6 +9,8 @@ import 'package:asco/src/presentation/features/admin/assistance_group/assistance
 import 'package:asco/src/presentation/features/admin/attendance/pages/attendance_detail_page.dart';
 import 'package:asco/src/presentation/features/admin/attendance/pages/attendance_list_home_page.dart';
 import 'package:asco/src/presentation/features/admin/classroom/pages/classroom_detail_page.dart';
+import 'package:asco/src/presentation/features/admin/control_card/control_card_detail_page.dart';
+import 'package:asco/src/presentation/features/admin/control_card/control_card_list_home_page.dart';
 import 'package:asco/src/presentation/features/admin/home/pages/admin_home_page.dart';
 import 'package:asco/src/presentation/features/admin/meeting/pages/meeting_detail_page.dart';
 import 'package:asco/src/presentation/features/admin/meeting/pages/meeting_form_page.dart';
@@ -136,6 +138,14 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
 
       return MaterialPageRoute(
         builder: (_) => AssistanceGroupFormPage(args: args),
+      );
+    case controlCardListHomeRoute:
+      return MaterialPageRoute(
+        builder: (_) => const ControlCardListHomePage(),
+      );
+    case controlCardDetailRoute:
+      return MaterialPageRoute(
+        builder: (_) => const ControlCardDetailPage(),
       );
     case selectUsersRoute:
       final args = settings.arguments as SelectUsersPageArgs;

@@ -77,7 +77,12 @@ class AdminHomePage extends StatelessWidget {
       AdminMenu(
         title: 'Kartu Kontrol',
         icon: Icons.featured_play_list_rounded,
-        onTap: () {},
+        onTap: () => navigatorKey.currentState!.pushNamed(
+          selectPracticumRoute,
+          arguments: SelectPracticumPageArgs(
+            onItemTapped: () => navigatorKey.currentState!.pushNamed(controlCardListHomeRoute),
+          ),
+        ),
       ),
       AdminMenu(
         title: 'Tata Tertib Lab',

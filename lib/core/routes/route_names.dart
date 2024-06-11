@@ -44,6 +44,10 @@ const assistanceGroupListHomeRoute = 'assistance-group-list-home';
 const assistanceGroupDetailRoute = 'assistance-group-detail';
 const assistanceGroupFormRoute = 'assistance-group-form';
 
+// Control card
+const controlCardListHomeRoute = '/control-card-list-home';
+const controlCardDetailRoute = '/control-card-detail';
+
 // Shared - Admin
 const selectUsersRoute = '/select-users';
 const selectPracticumRoute = '/select-practicum';

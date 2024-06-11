@@ -74,14 +74,14 @@ class AttendanceCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.titleSmall?.copyWith(
-                    color: Palette.purple2,
+                    color: locked ? Palette.disabledText : Palette.purple2,
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   '26 Februari 2024',
                   style: textTheme.bodySmall!.copyWith(
-                    color: Palette.secondaryText,
+                    color: locked ? Palette.disabledText : Palette.secondaryText,
                   ),
                 ),
                 if (!locked && attendanceType == AttendanceType.meeting)
