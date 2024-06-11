@@ -48,6 +48,9 @@ const assistanceGroupFormRoute = 'assistance-group-form';
 const controlCardListHomeRoute = '/control-card-list-home';
 const controlCardDetailRoute = '/control-card-detail';
 
+// Lab rules
+const labRulesRoute = 'lab-rules';
+
 // Shared - Admin
 const selectUsersRoute = '/select-users';
 const selectPracticumRoute = '/select-practicum';

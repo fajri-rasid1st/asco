@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:asco/core/routes/route_names.dart';
-import 'package:asco/src/presentation/features/admin/assistance_group/assistance_group_detail_page.dart';
-import 'package:asco/src/presentation/features/admin/assistance_group/assistance_group_form_page.dart';
-import 'package:asco/src/presentation/features/admin/assistance_group/assistance_group_list_home_page.dart';
+import 'package:asco/src/presentation/features/admin/assistance_group/pages/assistance_group_detail_page.dart';
+import 'package:asco/src/presentation/features/admin/assistance_group/pages/assistance_group_form_page.dart';
+import 'package:asco/src/presentation/features/admin/assistance_group/pages/assistance_group_list_home_page.dart';
 import 'package:asco/src/presentation/features/admin/attendance/pages/attendance_detail_page.dart';
 import 'package:asco/src/presentation/features/admin/attendance/pages/attendance_list_home_page.dart';
 import 'package:asco/src/presentation/features/admin/classroom/pages/classroom_detail_page.dart';
-import 'package:asco/src/presentation/features/admin/control_card/control_card_detail_page.dart';
-import 'package:asco/src/presentation/features/admin/control_card/control_card_list_home_page.dart';
+import 'package:asco/src/presentation/features/admin/control_card/pages/control_card_detail_page.dart';
+import 'package:asco/src/presentation/features/admin/control_card/pages/control_card_list_home_page.dart';
 import 'package:asco/src/presentation/features/admin/home/pages/admin_home_page.dart';
+import 'package:asco/src/presentation/features/admin/lab_rules/pages/lab_rules_page.dart';
 import 'package:asco/src/presentation/features/admin/meeting/pages/meeting_detail_page.dart';
 import 'package:asco/src/presentation/features/admin/meeting/pages/meeting_form_page.dart';
 import 'package:asco/src/presentation/features/admin/meeting/pages/meeting_list_home_page.dart';
@@ -146,6 +147,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
     case controlCardDetailRoute:
       return MaterialPageRoute(
         builder: (_) => const ControlCardDetailPage(),
+      );
+    case labRulesRoute:
+      return MaterialPageRoute(
+        builder: (_) => const LabRulesPage(),
       );
     case selectUsersRoute:
       final args = settings.arguments as SelectUsersPageArgs;
