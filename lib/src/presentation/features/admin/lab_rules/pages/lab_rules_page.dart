@@ -10,6 +10,7 @@ import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
+import 'package:asco/src/presentation/shared/widgets/dialogs/lab_rule_dialog.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/file_upload_field.dart';
 import 'package:asco/src/presentation/shared/widgets/section_header.dart';
 
@@ -19,17 +20,8 @@ class LabRulesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
+      appBar: const CustomAppBar(
         title: 'Tata Tertib Lab',
-        action: IconButton(
-          onPressed: () {},
-          icon: const Icon(Icons.check_rounded),
-          tooltip: 'Submit',
-          style: IconButton.styleFrom(
-            backgroundColor: Colors.transparent,
-            shape: const CircleBorder(),
-          ),
-        ),
       ),
       body: SingleChildScrollView(
         child: FormBuilder(
@@ -37,36 +29,37 @@ class LabRulesPage extends StatelessWidget {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 4),
                 child: FileUploadField(
                   name: 'labRulePath',
                   label: 'Tata Tertib Lab',
                   extensions: const ['pdf', 'doc', 'docx'],
+                  onChanged: (value) => debugPrint(value),
                   validator: FormBuilderValidators.required(),
                 ),
               ),
               const SectionHeader(
                 title: 'Sanksi Nilai Asistensi',
-                padding: EdgeInsets.fromLTRB(20, 12, 0, 0),
+                padding: EdgeInsets.fromLTRB(20, 16, 0, 0),
               ),
               const LabRuleListTile(
-                title: 'Keterlambat asistensi <1 minggu',
+                title: 'Terlambat asistensi <1 minggu',
                 subtitle: 'Pengurangan nilai 5 poin',
               ),
               const LabRuleListTile(
-                title: 'Keterlambat asistensi ≥1 minggu',
+                title: 'Terlambat asistensi ≥1 minggu',
                 subtitle: 'Pengurangan nilai 10 poin',
               ),
               const SectionHeader(
                 title: 'Sanksi Nilai Quiz',
-                padding: EdgeInsets.fromLTRB(20, 12, 0, 0),
+                padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
               ),
               const LabRuleListTile(
-                title: 'Keterlambat absensi >15 menit',
+                title: 'Terlambat absensi >15 menit',
                 subtitle: 'Pengurangan nilai 5 poin',
               ),
               const LabRuleListTile(
-                title: 'Keterlambat absensi ≥30 menit',
+                title: 'Terlambat absensi ≥30 menit',
                 subtitle: 'Pengurangan nilai 10 poin',
               ),
             ],
@@ -106,11 +99,14 @@ class LabRuleListTile extends StatelessWidget {
             color: Palette.purple2,
           ),
           contentPadding: const EdgeInsets.symmetric(horizontal: 20),
-          visualDensity: const VisualDensity(vertical: -2),
-          onTap: () {},
+          onTap: () => showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) => const LabRuleDialog(fieldName: 'assistanceDelayMinimumPoints'),
+          ),
         ),
         const Divider(
-          height: 16,
+          height: 1,
           indent: 20,
           endIndent: 20,
         ),

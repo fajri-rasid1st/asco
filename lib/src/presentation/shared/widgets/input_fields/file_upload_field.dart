@@ -21,8 +21,9 @@ class FileUploadField extends StatelessWidget {
   final String label;
   final List<String> extensions;
   final String? initialValue;
-  final String? Function(String?)? validator;
+  final ValueChanged<String?>? onChanged;
   final Future<String?> Function()? onPressedFilePickerButton;
+  final String? Function(String?)? validator;
 
   const FileUploadField({
     super.key,
@@ -30,8 +31,9 @@ class FileUploadField extends StatelessWidget {
     required this.label,
     required this.extensions,
     this.initialValue,
-    this.validator,
+    this.onChanged,
     this.onPressedFilePickerButton,
+    this.validator,
   });
 
   @override
@@ -51,6 +53,7 @@ class FileUploadField extends StatelessWidget {
         FormBuilderField<String?>(
           name: name,
           initialValue: initialValue,
+          onChanged: onChanged,
           validator: validator,
           builder: (field) {
             final path = field.value;
