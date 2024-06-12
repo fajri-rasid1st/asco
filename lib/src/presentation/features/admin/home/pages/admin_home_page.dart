@@ -87,7 +87,7 @@ class AdminHomePage extends StatelessWidget {
       AdminMenu(
         title: 'Tata Tertib Lab',
         icon: Icons.info_rounded,
-        onTap: () {},
+        onTap: () => navigatorKey.currentState!.pushNamed(labRulesRoute),
       ),
     ];
 
@@ -162,11 +162,9 @@ class AdminHomePage extends StatelessWidget {
                   mainAxisSpacing: 12,
                   childAspectRatio: 1.25,
                 ),
-                itemBuilder: (context, index) {
-                  return AdminMenuCard(
-                    menu: adminMenuList[index],
-                  );
-                },
+                itemBuilder: (context, index) => AdminMenuCard(
+                  menu: adminMenuList[index],
+                ),
               ),
             ],
           ),

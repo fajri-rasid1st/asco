@@ -43,6 +43,7 @@ class FileUploadField extends StatelessWidget {
         Text(
           label,
           style: textTheme.titleSmall!.copyWith(
+            color: Palette.purple2,
             fontWeight: FontWeight.w600,
           ),
         ),

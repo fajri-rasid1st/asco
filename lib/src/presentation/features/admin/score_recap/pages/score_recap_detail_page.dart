@@ -113,11 +113,9 @@ class ScoreRecapDetailPage extends StatelessWidget {
                       mainAxisSpacing: 14,
                       childAspectRatio: 16 / 9,
                     ),
-                    itemBuilder: (context, index) {
-                      return ScoreRecapCard(
-                        recap: scoreRecapList[index],
-                      );
-                    },
+                    itemBuilder: (context, index) => ScoreRecapCard(
+                      recap: scoreRecapList[index],
+                    ),
                   ),
                 ],
               ),
@@ -245,48 +243,44 @@ class MeetingScoreList extends StatelessWidget {
     return ListView.separated(
       padding: const EdgeInsets.symmetric(vertical: 4),
       shrinkWrap: true,
-      itemBuilder: (context, index) {
-        return ListTile(
-          horizontalTitleGap: 12,
-          leading: Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(
-              color: Palette.purple3,
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Center(
-              child: Text(
-                '${index + 1}',
-                style: textTheme.titleMedium?.copyWith(
-                  color: Palette.background,
-                  height: 1,
-                ),
+      itemBuilder: (context, index) => ListTile(
+        horizontalTitleGap: 12,
+        leading: Container(
+          width: 48,
+          height: 48,
+          decoration: BoxDecoration(
+            color: Palette.purple3,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Center(
+            child: Text(
+              '${index + 1}',
+              style: textTheme.titleMedium?.copyWith(
+                color: Palette.background,
+                height: 1,
               ),
             ),
           ),
-          title: Text(
-            'Tipe Data dan Attribute',
-            style: textTheme.bodyMedium?.copyWith(
-              color: Palette.purple3,
-            ),
+        ),
+        title: Text(
+          'Tipe Data dan Attribute',
+          style: textTheme.bodyMedium?.copyWith(
+            color: Palette.purple3,
           ),
-          subtitle: Text(
-            '80.0',
-            style: textTheme.titleMedium?.copyWith(
-              color: Palette.purple2,
-              fontWeight: FontWeight.w600,
-            ),
+        ),
+        subtitle: Text(
+          '80.0',
+          style: textTheme.titleMedium?.copyWith(
+            color: Palette.purple2,
+            fontWeight: FontWeight.w600,
           ),
-        );
-      },
-      separatorBuilder: (context, index) {
-        return const Divider(
-          height: 8,
-          indent: 16,
-          endIndent: 16,
-        );
-      },
+        ),
+      ),
+      separatorBuilder: (context, index) => const Divider(
+        height: 8,
+        indent: 16,
+        endIndent: 16,
+      ),
       itemCount: totalMeetings,
     );
   }

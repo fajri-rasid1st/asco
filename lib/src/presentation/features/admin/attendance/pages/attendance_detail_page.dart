@@ -58,21 +58,19 @@ class AttendanceDetailPage extends StatelessWidget {
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
                 childCount: 10,
-                (context, index) {
-                  return Padding(
-                    padding: EdgeInsets.only(
-                      bottom: index == 9 ? 0 : 10,
+                (context, index) => Padding(
+                  padding: EdgeInsets.only(
+                    bottom: index == 9 ? 0 : 10,
+                  ),
+                  child: const UserCard(
+                    badgeType: UserBadgeType.text,
+                    trailing: CircleBorderContainer(
+                      size: 28,
+                      withBorder: false,
+                      fillColor: Palette.success,
                     ),
-                    child: const UserCard(
-                      badgeType: UserBadgeType.text,
-                      trailing: CircleBorderContainer(
-                        size: 28,
-                        withBorder: false,
-                        fillColor: Palette.success,
-                      ),
-                    ),
-                  );
-                },
+                  ),
+                ),
               ),
             ),
           ),

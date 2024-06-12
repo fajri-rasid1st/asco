@@ -57,9 +57,11 @@ class _CustomDropdownFieldState extends State<CustomDropdownField> {
           widget.label,
           style: widget.isSmall
               ? textTheme.bodySmall!.copyWith(
+                  color: Palette.purple2,
                   fontWeight: FontWeight.w600,
                 )
               : textTheme.titleSmall!.copyWith(
+                  color: Palette.purple2,
                   fontWeight: FontWeight.w600,
                 ),
         ),

@@ -78,57 +78,65 @@ class _CustomTextFieldState extends State<CustomTextField> {
           widget.label,
           style: widget.isSmall
               ? textTheme.bodySmall!.copyWith(
+                  color: Palette.purple2,
                   fontWeight: FontWeight.w600,
                 )
               : textTheme.titleSmall!.copyWith(
+                  color: Palette.purple2,
                   fontWeight: FontWeight.w600,
                 ),
         ),
         const SizedBox(height: 6),
-        Focus(
-          onFocusChange: (value) => isFocus.value = value,
-          child: FormBuilderTextField(
-            enabled: widget.enabled,
-            name: widget.name,
-            initialValue: widget.initialValue,
-            maxLines: widget.maxLines,
-            keyboardType: widget.textInputType,
-            textInputAction: widget.textInputAction,
-            textCapitalization: widget.textCapitalization,
-            textAlignVertical: TextAlignVertical.center,
-            style: widget.isSmall
-                ? textTheme.bodyMedium!.copyWith(
-                    color: widget.enabled ? Palette.primaryText : Palette.disabledText,
-                  )
-                : textTheme.bodyLarge!.copyWith(
-                    color: widget.enabled ? Palette.primaryText : Palette.disabledText,
-                  ),
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: widget.enabled ? Palette.background : Palette.disabled,
-              prefixIcon: widget.prefixIconName != null ? buildPrefixIcon() : null,
-              suffixIcon: widget.suffixIconName != null ? buildSuffixIcon() : null,
-              hintText: widget.hintText,
-              hintStyle: widget.isSmall
-                  ? textTheme.bodyMedium!.copyWith(
-                      color: Palette.hint,
-                      height: 1,
-                    )
-                  : null,
-              contentPadding: widget.isSmall
-                  ? const EdgeInsets.symmetric(
-                      vertical: 12,
-                      horizontal: 16,
-                    )
-                  : const EdgeInsets.all(16),
-            ),
-            validator: widget.validators != null
-                ? FormBuilderValidators.compose(widget.validators!)
-                : null,
-            onTap: widget.onTap,
-          ),
-        )
+        if (widget.prefixIconName != null)
+          Focus(
+            onFocusChange: (value) => isFocus.value = value,
+            child: buildCustomTextField(),
+          )
+        else
+          buildCustomTextField(),
       ],
+    );
+  }
+
+  FormBuilderTextField buildCustomTextField() {
+    return FormBuilderTextField(
+      enabled: widget.enabled,
+      name: widget.name,
+      initialValue: widget.initialValue,
+      maxLines: widget.maxLines,
+      keyboardType: widget.textInputType,
+      textInputAction: widget.textInputAction,
+      textCapitalization: widget.textCapitalization,
+      textAlignVertical: TextAlignVertical.center,
+      style: widget.isSmall
+          ? textTheme.bodyMedium!.copyWith(
+              color: widget.enabled ? Palette.primaryText : Palette.disabledText,
+            )
+          : textTheme.bodyLarge!.copyWith(
+              color: widget.enabled ? Palette.primaryText : Palette.disabledText,
+            ),
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: widget.enabled ? Palette.background : Palette.disabled,
+        prefixIcon: widget.prefixIconName != null ? buildPrefixIcon() : null,
+        suffixIcon: widget.suffixIconName != null ? buildSuffixIcon() : null,
+        hintText: widget.hintText,
+        hintStyle: widget.isSmall
+            ? textTheme.bodyMedium!.copyWith(
+                color: Palette.hint,
+                height: 1,
+              )
+            : null,
+        contentPadding: widget.isSmall
+            ? const EdgeInsets.symmetric(
+                vertical: 12,
+                horizontal: 16,
+              )
+            : const EdgeInsets.all(16),
+      ),
+      validator:
+          widget.validators != null ? FormBuilderValidators.compose(widget.validators!) : null,
+      onTap: widget.onTap,
     );
   }
 

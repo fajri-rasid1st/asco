@@ -19,12 +19,10 @@ class SelectClassroomPage extends StatelessWidget {
       ),
       body: ListView.separated(
         padding: const EdgeInsets.all(20),
-        itemBuilder: (context, index) {
-          return ClassroomCard(
-            subtitleType: ClassroomSubtitleType.totalStudents,
-            onTap: args.onItemTapped,
-          );
-        },
+        itemBuilder: (context, index) => ClassroomCard(
+          subtitleType: ClassroomSubtitleType.totalStudents,
+          onTap: args.onItemTapped,
+        ),
         separatorBuilder: (context, index) => const SizedBox(height: 10),
         itemCount: 3,
       ),

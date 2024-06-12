@@ -36,7 +36,6 @@ class MarkdownField extends StatefulWidget {
 
 class _MarkdownFieldState extends State<MarkdownField> {
   late final TextEditingController controller;
-  late final FocusNode focusNode;
   late final ValueNotifier<bool> isFocus;
   late TextSelection textSelection;
 
@@ -45,7 +44,6 @@ class _MarkdownFieldState extends State<MarkdownField> {
     super.initState();
 
     controller = TextEditingController(text: widget.initialValue);
-    focusNode = FocusNode();
     isFocus = ValueNotifier(false);
     textSelection = const TextSelection(baseOffset: 0, extentOffset: 0);
 
@@ -63,7 +61,6 @@ class _MarkdownFieldState extends State<MarkdownField> {
     super.dispose();
 
     controller.dispose();
-    focusNode.dispose();
     isFocus.dispose();
   }
 
@@ -76,6 +73,7 @@ class _MarkdownFieldState extends State<MarkdownField> {
         Text(
           widget.label,
           style: textTheme.titleSmall!.copyWith(
+            color: Palette.purple2,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -100,7 +98,6 @@ class _MarkdownFieldState extends State<MarkdownField> {
                   onFocusChange: (value) => this.isFocus.value = value,
                   child: FormBuilderTextField(
                     controller: controller,
-                    focusNode: focusNode,
                     name: widget.name,
                     maxLines: widget.maxLines,
                     textInputAction: TextInputAction.newline,
@@ -215,7 +212,7 @@ class _MarkdownFieldState extends State<MarkdownField> {
         offset: controller.selection.end - result.replaceCursorIndex,
       );
 
-      focusNode.requestFocus();
+      FocusScope.of(context).requestFocus();
     }
   }
 }

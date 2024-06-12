@@ -131,17 +131,15 @@ class ControlCardDetailPage extends StatelessWidget {
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   childCount: 10,
-                  (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.only(
-                        bottom: index == 9 ? 0 : 10,
-                      ),
-                      child: const AttendanceCard(
-                        assistanceStatus: [true, false],
-                        attendanceType: AttendanceType.assistance,
-                      ),
-                    );
-                  },
+                  (context, index) => Padding(
+                    padding: EdgeInsets.only(
+                      bottom: index == 9 ? 0 : 10,
+                    ),
+                    child: const AttendanceCard(
+                      assistanceStatus: [true, false],
+                      attendanceType: AttendanceType.assistance,
+                    ),
+                  ),
                 ),
               ),
             ),

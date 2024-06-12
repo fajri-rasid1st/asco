@@ -85,37 +85,35 @@ class _SelectUsersPageState extends ConsumerState<SelectUsersPage> {
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   childCount: 10,
-                  (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.only(
-                        bottom: index == 9 ? 0 : 10,
-                      ),
-                      child: UserCard(
-                        badgeType: UserBadgeType.text,
-                        trailing: selectedUsers.contains(index)
-                            ? const CircleBorderContainer(
-                                size: 28,
-                                borderColor: Palette.purple2,
-                                fillColor: Palette.purple3,
-                                child: Icon(
-                                  Icons.check_rounded,
-                                  color: Palette.background,
-                                  size: 18,
-                                ),
-                              )
-                            : const CircleBorderContainer(size: 28),
-                        onTap: () {
-                          setState(() {
-                            if (selectedUsers.contains(index)) {
-                              selectedUsers.remove(index); // Unselect
-                            } else {
-                              selectedUsers.add(index); // Select
-                            }
-                          });
-                        },
-                      ),
-                    );
-                  },
+                  (context, index) => Padding(
+                    padding: EdgeInsets.only(
+                      bottom: index == 9 ? 0 : 10,
+                    ),
+                    child: UserCard(
+                      badgeType: UserBadgeType.text,
+                      trailing: selectedUsers.contains(index)
+                          ? const CircleBorderContainer(
+                              size: 28,
+                              borderColor: Palette.purple2,
+                              fillColor: Palette.purple3,
+                              child: Icon(
+                                Icons.check_rounded,
+                                color: Palette.background,
+                                size: 18,
+                              ),
+                            )
+                          : const CircleBorderContainer(size: 28),
+                      onTap: () {
+                        setState(() {
+                          if (selectedUsers.contains(index)) {
+                            selectedUsers.remove(index); // Unselect
+                          } else {
+                            selectedUsers.add(index); // Select
+                          }
+                        });
+                      },
+                    ),
+                  ),
                 ),
               ),
             ),

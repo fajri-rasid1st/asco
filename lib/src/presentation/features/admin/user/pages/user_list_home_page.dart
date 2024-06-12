@@ -108,16 +108,14 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
                   child: ListView.separated(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return CustomFilterChip(
-                        label: labels[index],
-                        selected: selectedRole == userRole[labels[index]],
-                        onSelected: (_) {
-                          ref.read(queryProvider.notifier).state = '';
-                          ref.read(selectedRoleProvider.notifier).state = userRole[labels[index]]!;
-                        },
-                      );
-                    },
+                    itemBuilder: (context, index) => CustomFilterChip(
+                      label: labels[index],
+                      selected: selectedRole == userRole[labels[index]],
+                      onSelected: (_) {
+                        ref.read(queryProvider.notifier).state = '';
+                        ref.read(selectedRoleProvider.notifier).state = userRole[labels[index]]!;
+                      },
+                    ),
                     separatorBuilder: (context, index) => const SizedBox(width: 8),
                     itemCount: userRole.length,
                   ),
@@ -129,23 +127,21 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   childCount: 10,
-                  (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.only(
-                        bottom: index == 9 ? 0 : 10,
+                  (context, index) => Padding(
+                    padding: EdgeInsets.only(
+                      bottom: index == 9 ? 0 : 10,
+                    ),
+                    child: UserCard(
+                      onTap: () => navigatorKey.currentState!.pushNamed(userDetailRoute),
+                      showDeleteButton: true,
+                      onPressedDeleteButton: () => context.showConfirmDialog(
+                        title: 'Hapus Pengguna?',
+                        message: 'Anda yakin ingin menghapus user ini?',
+                        primaryButtonText: 'Hapus',
+                        onPressedPrimaryButton: () {},
                       ),
-                      child: UserCard(
-                        onTap: () => navigatorKey.currentState!.pushNamed(userDetailRoute),
-                        showDeleteButton: true,
-                        onPressedDeleteButton: () => context.showConfirmDialog(
-                          title: 'Hapus Pengguna?',
-                          message: 'Anda yakin ingin menghapus user ini?',
-                          primaryButtonText: 'Hapus',
-                          onPressedPrimaryButton: () {},
-                        ),
-                      ),
-                    );
-                  },
+                    ),
+                  ),
                 ),
               ),
             ),

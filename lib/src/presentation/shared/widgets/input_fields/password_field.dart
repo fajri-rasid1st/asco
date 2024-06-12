@@ -61,6 +61,7 @@ class _PasswordFieldState extends State<PasswordField> {
         Text(
           widget.label,
           style: textTheme.titleSmall!.copyWith(
+            color: Palette.purple2,
             fontWeight: FontWeight.w600,
           ),
         ),

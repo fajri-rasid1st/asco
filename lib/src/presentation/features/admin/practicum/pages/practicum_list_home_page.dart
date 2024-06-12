@@ -56,12 +56,10 @@ class _PracticumListHomePageState extends State<PracticumListHomePage>
         child: ListView.separated(
           controller: scrollController,
           padding: const EdgeInsets.all(20),
-          itemBuilder: (context, index) {
-            return PracticumCard(
-              showDeleteButton: true,
-              onTap: () => navigatorKey.currentState!.pushNamed(practicumDetailRoute),
-            );
-          },
+          itemBuilder: (context, index) => PracticumCard(
+            showDeleteButton: true,
+            onTap: () => navigatorKey.currentState!.pushNamed(practicumDetailRoute),
+          ),
           separatorBuilder: (context, index) => const SizedBox(height: 10),
           itemCount: 3,
         ),

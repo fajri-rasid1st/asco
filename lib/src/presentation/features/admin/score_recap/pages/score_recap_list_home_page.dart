@@ -103,24 +103,22 @@ class _ScoreRecapListHomePageState extends ConsumerState<ScoreRecapListHomePage>
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   childCount: 10,
-                  (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.only(
-                        bottom: index == 9 ? 0 : 10,
-                      ),
-                      child: UserCard(
-                        badgeText: 'Kelas A',
-                        trailing: Text(
-                          '80.0',
-                          style: textTheme.titleMedium!.copyWith(
-                            color: Palette.purple2,
-                            height: 1,
-                          ),
+                  (context, index) => Padding(
+                    padding: EdgeInsets.only(
+                      bottom: index == 9 ? 0 : 10,
+                    ),
+                    child: UserCard(
+                      badgeText: 'Kelas A',
+                      trailing: Text(
+                        '80.0',
+                        style: textTheme.titleMedium!.copyWith(
+                          color: Palette.purple2,
+                          height: 1,
                         ),
-                        onTap: () => navigatorKey.currentState!.pushNamed(scoreRecapDetailRoute),
                       ),
-                    );
-                  },
+                      onTap: () => navigatorKey.currentState!.pushNamed(scoreRecapDetailRoute),
+                    ),
+                  ),
                 ),
               ),
             ),

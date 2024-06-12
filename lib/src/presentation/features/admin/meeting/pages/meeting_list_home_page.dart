@@ -100,17 +100,15 @@ class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage>
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
                   childCount: 10,
-                  (context, index) {
-                    return Padding(
-                      padding: EdgeInsets.only(
-                        bottom: index == 9 ? 0 : 10,
-                      ),
-                      child: MeetingCard(
-                        showDeleteButton: true,
-                        onTap: () => navigatorKey.currentState!.pushNamed(meetingDetailRoute),
-                      ),
-                    );
-                  },
+                  (context, index) => Padding(
+                    padding: EdgeInsets.only(
+                      bottom: index == 9 ? 0 : 10,
+                    ),
+                    child: MeetingCard(
+                      showDeleteButton: true,
+                      onTap: () => navigatorKey.currentState!.pushNamed(meetingDetailRoute),
+                    ),
+                  ),
                 ),
               ),
             ),
