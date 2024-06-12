@@ -25,9 +25,9 @@ import 'package:asco/src/presentation/features/admin/score_recap/pages/score_rec
 import 'package:asco/src/presentation/features/admin/user/pages/user_detail_page.dart';
 import 'package:asco/src/presentation/features/admin/user/pages/user_form_page.dart';
 import 'package:asco/src/presentation/features/admin/user/pages/user_list_home_page.dart';
-import 'package:asco/src/presentation/features/common/on_boarding_page.dart';
-import 'package:asco/src/presentation/features/home/home_page.dart';
-import 'package:asco/src/presentation/features/menu/main_menu_page.dart';
+import 'package:asco/src/presentation/features/common/home/home_page.dart';
+import 'package:asco/src/presentation/features/common/initial/on_boarding_page.dart';
+import 'package:asco/src/presentation/features/common/menu/main_menu_page.dart';
 import 'package:asco/src/presentation/shared/pages/select_classroom_page.dart';
 import 'package:asco/src/presentation/shared/pages/select_practicum_page.dart';
 import 'package:asco/src/presentation/shared/pages/select_users_page.dart';
