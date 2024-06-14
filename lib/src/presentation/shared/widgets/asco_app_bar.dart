@@ -22,14 +22,14 @@ class AscoAppBar extends StatelessWidget {
         RichText(
           text: TextSpan(
             text: 'as',
-            style: textTheme.headlineSmall?.copyWith(
+            style: textTheme.headlineSmall!.copyWith(
               color: Palette.purple2,
               fontSize: 26,
             ),
             children: [
               TextSpan(
                 text: 'co',
-                style: textTheme.headlineSmall?.copyWith(
+                style: textTheme.headlineSmall!.copyWith(
                   color: Palette.purple3,
                   fontSize: 26,
                 ),

@@ -53,7 +53,7 @@ class UserDetailPage extends StatelessWidget {
                   Text(
                     'Muh. Alip Setya Prakasa',
                     textAlign: TextAlign.center,
-                    style: textTheme.titleLarge?.copyWith(
+                    style: textTheme.titleLarge!.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -61,14 +61,14 @@ class UserDetailPage extends StatelessWidget {
                   Text(
                     'H071191042',
                     textAlign: TextAlign.center,
-                    style: textTheme.bodyMedium?.copyWith(
+                    style: textTheme.bodyMedium!.copyWith(
                       color: Palette.secondaryText,
                     ),
                   ),
                   const SizedBox(height: 2),
                   Text(
                     '2019',
-                    style: textTheme.headlineSmall?.copyWith(
+                    style: textTheme.headlineSmall!.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -77,7 +77,7 @@ class UserDetailPage extends StatelessWidget {
                     text: 'Praktikan',
                     verticalPadding: 6,
                     horizontalPadding: 12,
-                    textStyle: textTheme.bodySmall?.copyWith(
+                    textStyle: textTheme.bodySmall!.copyWith(
                       color: Palette.background,
                       height: 1,
                     ),

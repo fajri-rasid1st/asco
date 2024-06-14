@@ -64,7 +64,7 @@ class ScoreRecapDetailPage extends StatelessWidget {
                 children: [
                   Text(
                     'Nilai Akhir',
-                    style: textTheme.titleMedium?.copyWith(
+                    style: textTheme.titleMedium!.copyWith(
                       color: Palette.purple2,
                     ),
                   ),
@@ -86,14 +86,14 @@ class ScoreRecapDetailPage extends StatelessWidget {
                       children: [
                         Text(
                           'A',
-                          style: textTheme.displaySmall?.copyWith(
+                          style: textTheme.displaySmall!.copyWith(
                             color: Palette.purple2,
                           ),
                         ),
                         Flexible(
                           child: Text(
                             '86.0',
-                            style: textTheme.titleMedium?.copyWith(
+                            style: textTheme.titleMedium!.copyWith(
                               color: Palette.purple2,
                               fontWeight: FontWeight.w600,
                             ),
@@ -126,11 +126,11 @@ class ScoreRecapDetailPage extends StatelessWidget {
                   TabBar(
                     dividerHeight: 0,
                     indicatorWeight: 6,
-                    labelStyle: textTheme.titleMedium?.copyWith(
+                    labelStyle: textTheme.titleMedium!.copyWith(
                       color: Palette.purple2,
                       fontWeight: FontWeight.w600,
                     ),
-                    unselectedLabelStyle: textTheme.bodyLarge?.copyWith(
+                    unselectedLabelStyle: textTheme.bodyLarge!.copyWith(
                       color: Palette.disabledText,
                     ),
                     splashBorderRadius: const BorderRadius.vertical(
@@ -208,7 +208,7 @@ class ScoreRecapCard extends StatelessWidget {
         children: [
           Text(
             title,
-            style: textTheme.bodyMedium?.copyWith(
+            style: textTheme.bodyMedium!.copyWith(
               color: Palette.secondaryText,
             ),
           ),
@@ -227,7 +227,7 @@ class ScoreRecapCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   '$value',
-                  style: textTheme.titleLarge?.copyWith(
+                  style: textTheme.titleLarge!.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -262,7 +262,7 @@ class MeetingScoreList extends StatelessWidget {
           child: Center(
             child: Text(
               '${index + 1}',
-              style: textTheme.titleMedium?.copyWith(
+              style: textTheme.titleMedium!.copyWith(
                 color: Palette.background,
                 height: 1,
               ),
@@ -271,13 +271,13 @@ class MeetingScoreList extends StatelessWidget {
         ),
         title: Text(
           'Tipe Data dan Attribute',
-          style: textTheme.bodyMedium?.copyWith(
+          style: textTheme.bodyMedium!.copyWith(
             color: Palette.purple3,
           ),
         ),
         subtitle: Text(
           '80.0',
-          style: textTheme.titleMedium?.copyWith(
+          style: textTheme.titleMedium!.copyWith(
             color: Palette.purple2,
             fontWeight: FontWeight.w600,
           ),

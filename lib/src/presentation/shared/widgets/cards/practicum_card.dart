@@ -53,7 +53,7 @@ class PracticumCard extends StatelessWidget {
                       'Pemrograman Mobile',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: textTheme.titleSmall?.copyWith(
+                      style: textTheme.titleSmall!.copyWith(
                         fontWeight: FontWeight.w600,
                         color: Palette.purple2,
                       ),

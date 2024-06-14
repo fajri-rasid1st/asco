@@ -4,10 +4,6 @@
 const wrapperRoute = '/wrapper';
 const onBoardingRoute = '/on-boarding';
 
-// Student & Assistance routes
-const homeRoute = '/home';
-const mainMenuRoute = '/main-menu';
-
 // Admin routes
 const adminHomeRoute = '/admin-home';
 
@@ -55,3 +51,11 @@ const labRulesRoute = 'lab-rules';
 const selectUsersRoute = '/select-users';
 const selectPracticumRoute = '/select-practicum';
 const selectClassroomRoute = '/select-classroom';
+
+// Student & Assistance routes
+const homeRoute = '/home';
+const mainMenuRoute = '/main-menu';
+
+// Student meeting
+const studentAttendanceHistoryRoute = '/student-attendance-history';
+const studentMeetingDetailRoute = '/student-meeting-detail';

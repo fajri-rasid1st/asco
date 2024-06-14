@@ -120,13 +120,13 @@ class AdminHomePage extends StatelessWidget {
                         children: [
                           Text(
                             'Admin',
-                            style: textTheme.bodySmall?.copyWith(
+                            style: textTheme.bodySmall!.copyWith(
                               color: Palette.purple3,
                             ),
                           ),
                           Text(
                             'Koordinator Lab',
-                            style: textTheme.titleMedium?.copyWith(
+                            style: textTheme.titleMedium!.copyWith(
                               color: Palette.purple2,
                             ),
                           ),
@@ -223,7 +223,7 @@ class AdminMenuCard extends StatelessWidget {
             title,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: textTheme.titleMedium?.copyWith(
+            style: textTheme.titleMedium!.copyWith(
               fontWeight: FontWeight.w600,
               color: Palette.purple2,
               height: 1.25,

@@ -63,7 +63,7 @@ class UserCard extends StatelessWidget {
                   'Muh. Sultan Nazhim Latenri Tatta S.H',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: textTheme.titleSmall?.copyWith(
+                  style: textTheme.titleSmall!.copyWith(
                     fontWeight: FontWeight.w600,
                     color: Palette.purple2,
                   ),
@@ -76,7 +76,7 @@ class UserCard extends StatelessWidget {
                 else
                   Text(
                     badgeText ?? '2021',
-                    style: textTheme.labelSmall?.copyWith(
+                    style: textTheme.labelSmall!.copyWith(
                       color: Palette.secondaryText,
                       height: 1,
                     ),

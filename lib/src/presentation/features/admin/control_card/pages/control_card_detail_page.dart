@@ -81,7 +81,7 @@ class ControlCardDetailPage extends StatelessWidget {
                                   'Muhammad Sulthan Nazim Latenri Tatta S.H.',
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
-                                  style: textTheme.titleLarge?.copyWith(
+                                  style: textTheme.titleLarge!.copyWith(
                                     color: Palette.purple2,
                                     fontWeight: FontWeight.w600,
                                   ),
@@ -91,7 +91,7 @@ class ControlCardDetailPage extends StatelessWidget {
                                   'H071211074',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                  style: textTheme.bodyMedium?.copyWith(
+                                  style: textTheme.bodyMedium!.copyWith(
                                     color: Palette.purple3,
                                   ),
                                 ),

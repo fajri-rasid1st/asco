@@ -160,7 +160,7 @@ class CourseCard extends StatelessWidget {
                           width: 200,
                           child: Text(
                             title,
-                            style: textTheme.titleLarge?.copyWith(
+                            style: textTheme.titleLarge!.copyWith(
                               fontWeight: FontWeight.w600,
                               color: Palette.background,
                               height: 1.25,
@@ -178,7 +178,7 @@ class CourseCard extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       time,
-                      style: textTheme.bodySmall?.copyWith(
+                      style: textTheme.bodySmall!.copyWith(
                         color: Palette.background,
                       ),
                     ),
@@ -199,7 +199,7 @@ class CourseCard extends StatelessWidget {
                                   child: Center(
                                     child: Text(
                                       '+24',
-                                      style: textTheme.labelSmall?.copyWith(
+                                      style: textTheme.labelSmall!.copyWith(
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),

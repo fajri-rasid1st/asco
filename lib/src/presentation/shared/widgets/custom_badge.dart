@@ -35,7 +35,7 @@ class CustomBadge extends StatelessWidget {
       child: Text(
         text,
         style: textStyle ??
-            textTheme.labelSmall?.copyWith(
+            textTheme.labelSmall!.copyWith(
               color: Palette.background,
               height: 1,
             ),

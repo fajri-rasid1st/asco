@@ -89,7 +89,7 @@ class AssistanceDialog extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
             child: Text(
               'Note: kosongkan tanggal untuk membatalkan asistensi.',
-              style: textTheme.bodySmall?.copyWith(
+              style: textTheme.bodySmall!.copyWith(
                 color: Palette.errorText,
               ),
             ),

@@ -68,8 +68,8 @@ class ClassroomCard extends StatelessWidget {
                 width: 16,
               ),
               style: IconButton.styleFrom(
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 minimumSize: const Size(32, 32),
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
             ),
             const SizedBox(width: 6),
@@ -85,9 +85,9 @@ class ClassroomCard extends StatelessWidget {
                 width: 16,
               ),
               style: IconButton.styleFrom(
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                minimumSize: const Size(32, 32),
                 backgroundColor: Palette.error,
+                minimumSize: const Size(32, 32),
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
             ),
           ],

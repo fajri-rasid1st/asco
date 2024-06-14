@@ -80,7 +80,7 @@ class DrawerMenuContent extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(20, 16, 0, 8),
                     child: Text(
                       "JELAJAH",
-                      style: textTheme.bodySmall?.copyWith(
+                      style: textTheme.bodySmall!.copyWith(
                         color: Palette.purple4,
                       ),
                     ),
@@ -156,7 +156,7 @@ class UserProfileListTile extends StatelessWidget {
                     title,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: textTheme.titleSmall?.copyWith(
+                    style: textTheme.titleSmall!.copyWith(
                       fontWeight: FontWeight.w600,
                       color: Palette.background,
                     ),
@@ -165,7 +165,7 @@ class UserProfileListTile extends StatelessWidget {
                     subtitle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: textTheme.bodySmall?.copyWith(
+                    style: textTheme.bodySmall!.copyWith(
                       color: Palette.purple4,
                     ),
                   ),
@@ -210,7 +210,6 @@ class DrawerMenuListTile extends StatelessWidget {
           ),
         ),
         ListTile(
-          onTap: onTap,
           horizontalTitleGap: 14,
           leading: SvgAsset(
             isSelected ? item.selectedIcon : item.unselectedIcon,
@@ -219,10 +218,11 @@ class DrawerMenuListTile extends StatelessWidget {
           ),
           title: Text(
             item.title,
-            style: textTheme.labelLarge?.copyWith(
+            style: textTheme.labelLarge!.copyWith(
               color: Palette.background,
             ),
           ),
+          onTap: onTap,
         ),
       ],
     );

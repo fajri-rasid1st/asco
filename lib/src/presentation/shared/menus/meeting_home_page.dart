@@ -3,16 +3,20 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:asco/core/helpers/app_size.dart';
+import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/meeting_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_icon_button.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 import 'package:asco/src/presentation/shared/widgets/practicum_badge_image.dart';
 
-class StudentMeetingHomePage extends StatelessWidget {
-  const StudentMeetingHomePage({super.key});
+class MeetingHomePage extends StatelessWidget {
+  final int roleId; // 1 = student, 2 = assistant
+
+  const MeetingHomePage({super.key, required this.roleId});
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +35,22 @@ class StudentMeetingHomePage extends StatelessWidget {
         icon: Icons.description_outlined,
         onTap: () {},
       ),
-      MeetingMenuCard(
-        title: 'Riwayat Kehadiran',
-        strokeColor: Palette.azure1,
-        fillColor: Palette.azure2,
-        icon: Icons.history_outlined,
-        onTap: () {},
-      ),
+      if (roleId == 1)
+        MeetingMenuCard(
+          title: 'Riwayat Kehadiran',
+          strokeColor: Palette.azure1,
+          fillColor: Palette.azure2,
+          icon: Icons.history_outlined,
+          onTap: () => navigatorKey.currentState!.pushNamed(studentAttendanceHistoryRoute),
+        )
+      else
+        MeetingMenuCard(
+          title: 'Jadwal Pemateri',
+          strokeColor: Palette.azure1,
+          fillColor: Palette.azure2,
+          icon: Icons.calendar_today_outlined,
+          onTap: () {},
+        ),
     ];
 
     return Scaffold(
@@ -83,7 +96,7 @@ class StudentMeetingHomePage extends StatelessWidget {
                             children: [
                               Text(
                                 'Pemrograman Mobile A',
-                                style: textTheme.titleLarge?.copyWith(
+                                style: textTheme.titleLarge!.copyWith(
                                   color: Palette.background,
                                   fontWeight: FontWeight.w600,
                                   height: 1.25,
@@ -92,7 +105,7 @@ class StudentMeetingHomePage extends StatelessWidget {
                               const SizedBox(height: 4),
                               Text(
                                 'Setiap hari Senin Pukul 10.10 - 12.40',
-                                style: textTheme.bodySmall?.copyWith(
+                                style: textTheme.bodySmall!.copyWith(
                                   color: Palette.scaffoldBackground,
                                 ),
                               ),
@@ -124,13 +137,13 @@ class StudentMeetingHomePage extends StatelessWidget {
               itemBuilder: (context, index) => meetingMenuCards[index],
               itemCount: meetingMenuCards.length,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 12),
             Row(
               children: [
                 Expanded(
                   child: Text(
                     'Pertemuan',
-                    style: textTheme.titleLarge?.copyWith(
+                    style: textTheme.titleLarge!.copyWith(
                       color: Palette.purple2,
                       fontWeight: FontWeight.w600,
                     ),
@@ -148,11 +161,9 @@ class StudentMeetingHomePage extends StatelessWidget {
             ...List<Padding>.generate(
               10,
               (index) => Padding(
-                padding: EdgeInsets.only(
-                  bottom: index == 9 ? 0 : 10,
-                ),
+                padding: const EdgeInsets.only(bottom: 10),
                 child: MeetingCard(
-                  onTap: () {},
+                  onTap: () => navigatorKey.currentState!.pushNamed(studentMeetingDetailRoute),
                 ),
               ),
             ),
@@ -199,12 +210,9 @@ class MeetingMenuCard extends StatelessWidget {
                 width: 2,
               ),
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Icon(
-                icon,
-                color: Palette.background,
-              ),
+            child: Icon(
+              icon,
+              color: Palette.background,
             ),
           ),
           const SizedBox(width: 8),
@@ -213,7 +221,7 @@ class MeetingMenuCard extends StatelessWidget {
               title,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: textTheme.bodySmall?.copyWith(
+              style: textTheme.bodySmall!.copyWith(
                 color: strokeColor,
                 fontWeight: FontWeight.w600,
               ),

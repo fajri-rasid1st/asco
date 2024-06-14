@@ -73,7 +73,7 @@ class AttendanceCard extends StatelessWidget {
                   'Tipe Data dan Attribute',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: textTheme.titleSmall?.copyWith(
+                  style: textTheme.titleSmall!.copyWith(
                     color: locked ? Palette.disabledText : Palette.purple2,
                   ),
                 ),
