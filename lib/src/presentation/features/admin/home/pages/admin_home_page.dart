@@ -19,18 +19,18 @@ class AdminHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final adminMenuList = [
-      AdminMenu(
+    final adminMenuCards = [
+      AdminMenuCard(
         title: 'Data Pengguna',
         icon: Icons.person_rounded,
         onTap: () => navigatorKey.currentState!.pushNamed(userListHomeRoute),
       ),
-      AdminMenu(
+      AdminMenuCard(
         title: 'Data Praktikum',
         icon: Icons.data_object_rounded,
         onTap: () => navigatorKey.currentState!.pushNamed(practicumListHomeRoute),
       ),
-      AdminMenu(
+      AdminMenuCard(
         title: 'Data Kelas & Pertemuan',
         icon: Icons.meeting_room_rounded,
         onTap: () => navigatorKey.currentState!.pushNamed(
@@ -38,7 +38,7 @@ class AdminHomePage extends StatelessWidget {
           arguments: const SelectPracticumPageArgs(showClassroomAndMeetingButtons: true),
         ),
       ),
-      AdminMenu(
+      AdminMenuCard(
         title: 'Data Absensi',
         icon: Icons.menu_book_rounded,
         onTap: () => navigatorKey.currentState!.pushNamed(
@@ -54,7 +54,7 @@ class AdminHomePage extends StatelessWidget {
           ),
         ),
       ),
-      AdminMenu(
+      AdminMenuCard(
         title: 'Rekap Nilai',
         icon: Icons.format_list_numbered_rounded,
         onTap: () => navigatorKey.currentState!.pushNamed(
@@ -64,7 +64,7 @@ class AdminHomePage extends StatelessWidget {
           ),
         ),
       ),
-      AdminMenu(
+      AdminMenuCard(
         title: 'Grup Asistensi',
         icon: Icons.group_rounded,
         onTap: () => navigatorKey.currentState!.pushNamed(
@@ -74,7 +74,7 @@ class AdminHomePage extends StatelessWidget {
           ),
         ),
       ),
-      AdminMenu(
+      AdminMenuCard(
         title: 'Kartu Kontrol',
         icon: Icons.featured_play_list_rounded,
         onTap: () => navigatorKey.currentState!.pushNamed(
@@ -84,7 +84,7 @@ class AdminHomePage extends StatelessWidget {
           ),
         ),
       ),
-      AdminMenu(
+      AdminMenuCard(
         title: 'Tata Tertib Lab',
         icon: Icons.info_rounded,
         onTap: () => navigatorKey.currentState!.pushNamed(labRulesRoute),
@@ -155,16 +155,14 @@ class AdminHomePage extends StatelessWidget {
               GridView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: adminMenuList.length,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
                   childAspectRatio: 1.25,
                 ),
-                itemBuilder: (context, index) => AdminMenuCard(
-                  menu: adminMenuList[index],
-                ),
+                itemBuilder: (context, index) => adminMenuCards[index],
+                itemCount: adminMenuCards.length,
               ),
             ],
           ),
@@ -175,9 +173,16 @@ class AdminHomePage extends StatelessWidget {
 }
 
 class AdminMenuCard extends StatelessWidget {
-  final AdminMenu menu;
+  final String title;
+  final IconData icon;
+  final VoidCallback onTap;
 
-  const AdminMenuCard({super.key, required this.menu});
+  const AdminMenuCard({
+    super.key,
+    required this.title,
+    required this.icon,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -195,7 +200,7 @@ class AdminMenuCard extends StatelessWidget {
           color: Palette.purple2,
         ),
       ],
-      onTap: menu.onTap,
+      onTap: onTap,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -208,14 +213,14 @@ class AdminMenuCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(
-              menu.icon,
+              icon,
               color: Palette.background,
               size: 20,
             ),
           ),
           const SizedBox(height: 8),
           Text(
-            menu.title,
+            title,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: textTheme.titleMedium?.copyWith(
@@ -228,16 +233,4 @@ class AdminMenuCard extends StatelessWidget {
       ),
     );
   }
-}
-
-class AdminMenu {
-  final String title;
-  final IconData icon;
-  final VoidCallback onTap;
-
-  const AdminMenu({
-    required this.title,
-    required this.icon,
-    required this.onTap,
-  });
 }

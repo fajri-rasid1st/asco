@@ -15,26 +15,26 @@ class ScoreRecapDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const scoreRecapList = [
-      ScoreRecap(
+    const scoreRecapCards = [
+      ScoreRecapCard(
         title: 'NILAI UJIAN LAB',
         value: 85.6,
         color: Palette.orange1,
         backgroundColor: Palette.orange3,
       ),
-      ScoreRecap(
+      ScoreRecapCard(
         title: 'NILAI ASISTENSI',
         value: 90.0,
         color: Palette.purple3,
         backgroundColor: Palette.purple5,
       ),
-      ScoreRecap(
+      ScoreRecapCard(
         title: 'NILAI QUIZ',
         value: 78.5,
         color: Palette.violet1,
         backgroundColor: Palette.violet5,
       ),
-      ScoreRecap(
+      ScoreRecapCard(
         title: 'NILAI RESPON',
         value: 95.8,
         color: Palette.info,
@@ -106,16 +106,14 @@ class ScoreRecapDetailPage extends StatelessWidget {
                   GridView.builder(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: scoreRecapList.length,
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 12,
                       mainAxisSpacing: 14,
                       childAspectRatio: 16 / 9,
                     ),
-                    itemBuilder: (context, index) => ScoreRecapCard(
-                      recap: scoreRecapList[index],
-                    ),
+                    itemBuilder: (context, index) => scoreRecapCards[index],
+                    itemCount: scoreRecapCards.length,
                   ),
                 ],
               ),
@@ -179,9 +177,18 @@ class ScoreRecapDetailPage extends StatelessWidget {
 }
 
 class ScoreRecapCard extends StatelessWidget {
-  final ScoreRecap recap;
+  final String title;
+  final double value;
+  final Color color;
+  final Color backgroundColor;
 
-  const ScoreRecapCard({super.key, required this.recap});
+  const ScoreRecapCard({
+    super.key,
+    required this.title,
+    required this.value,
+    required this.color,
+    required this.backgroundColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -191,7 +198,7 @@ class ScoreRecapCard extends StatelessWidget {
         horizontal: 16,
       ),
       decoration: BoxDecoration(
-        color: recap.backgroundColor,
+        color: backgroundColor,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -200,7 +207,7 @@ class ScoreRecapCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            recap.title,
+            title,
             style: textTheme.bodyMedium?.copyWith(
               color: Palette.secondaryText,
             ),
@@ -213,13 +220,13 @@ class ScoreRecapCard extends StatelessWidget {
                 height: 26,
                 margin: const EdgeInsets.only(right: 8),
                 decoration: BoxDecoration(
-                  color: recap.color,
+                  color: color,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
               Expanded(
                 child: Text(
-                  '${recap.value}',
+                  '$value',
                   style: textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
@@ -284,18 +291,4 @@ class MeetingScoreList extends StatelessWidget {
       itemCount: totalMeetings,
     );
   }
-}
-
-class ScoreRecap {
-  final String title;
-  final double value;
-  final Color color;
-  final Color backgroundColor;
-
-  const ScoreRecap({
-    required this.title,
-    required this.value,
-    required this.color,
-    required this.backgroundColor,
-  });
 }

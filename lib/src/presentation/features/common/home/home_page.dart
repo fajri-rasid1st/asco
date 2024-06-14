@@ -62,7 +62,7 @@ class HomePage extends ConsumerWidget {
                 child: Column(
                   children: [
                     const AscoAppBar(),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 20),
                     ...List<Padding>.generate(
                       3,
                       (index) => Padding(

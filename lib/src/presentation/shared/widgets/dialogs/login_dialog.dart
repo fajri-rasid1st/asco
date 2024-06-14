@@ -225,7 +225,7 @@ class _LoginFormState extends State<LoginForm> {
 
     if (formKey.currentState!.saveAndValidate()) {
       navigatorKey.currentState!.pop();
-      navigatorKey.currentState!.pushReplacementNamed(adminHomeRoute);
+      navigatorKey.currentState!.pushReplacementNamed(homeRoute);
     }
   }
 }
