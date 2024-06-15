@@ -187,8 +187,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const StudentAssistanceDetailPage(),
       );
     case practitionerListRoute:
+      final title = settings.arguments as String;
+
       return MaterialPageRoute(
-        builder: (_) => const PractitionerListPage(),
+        builder: (_) => PractitionerListPage(title: title),
       );
     default:
       return null;

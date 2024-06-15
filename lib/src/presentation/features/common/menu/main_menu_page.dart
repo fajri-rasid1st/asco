@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Project imports:
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/presentation/shared/menus/assistance_home_page.dart';
 import 'package:asco/src/presentation/shared/menus/meeting_home_page.dart';
 import 'package:asco/src/presentation/shared/widgets/drawer_menu/drawer_menu_widget.dart';
 
@@ -17,15 +18,9 @@ class MainMenuPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    const roleId = 1;
-
     final pages = [
-      const MeetingHomePage(roleId: roleId),
-      const Scaffold(
-        body: Center(
-          child: Text('Asistensi'),
-        ),
-      ),
+      const MeetingHomePage(),
+      const AssistanceHomePage(),
       const Scaffold(
         body: Center(
           child: Text('Leaderboard'),
@@ -52,7 +47,7 @@ class MainMenuPage extends ConsumerWidget {
       child: Builder(
         builder: (context) {
           if (selectedIndex == -2) {
-            // Navigate to profile page, according to roleId
+            // Navigate to profile page, according to role
             return const Scaffold();
           }
 

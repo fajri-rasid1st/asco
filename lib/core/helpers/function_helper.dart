@@ -2,6 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
+// Package imports:
+import 'package:url_launcher/url_launcher.dart';
+
 /// A collection of helper functions that are reusable for this app
 class FunctionHelper {
   static String nextLetter(String letter) {
@@ -14,6 +17,17 @@ class FunctionHelper {
     if (letter == 'Z') return 'A';
 
     return String.fromCharCode(code + 1);
+  }
+
+  static Future<void> openUrl(String url) async {
+    final uri = Uri.parse(url);
+
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(
+        uri,
+        mode: LaunchMode.externalApplication,
+      );
+    }
   }
 
   static bool handleFabVisibilityOnScroll(

@@ -14,9 +14,7 @@ import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 import 'package:asco/src/presentation/shared/widgets/practicum_badge_image.dart';
 
 class MeetingHomePage extends StatelessWidget {
-  final int roleId; // 1 = student, 2 = assistant
-
-  const MeetingHomePage({super.key, required this.roleId});
+  const MeetingHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,22 +33,22 @@ class MeetingHomePage extends StatelessWidget {
         icon: Icons.description_outlined,
         onTap: () {},
       ),
-      if (roleId == 1)
-        MeetingMenuCard(
-          title: 'Riwayat Kehadiran',
-          strokeColor: Palette.azure1,
-          fillColor: Palette.azure2,
-          icon: Icons.history_outlined,
-          onTap: () => navigatorKey.currentState!.pushNamed(studentAttendanceHistoryRoute),
-        )
-      else
-        MeetingMenuCard(
-          title: 'Jadwal Pemateri',
-          strokeColor: Palette.azure1,
-          fillColor: Palette.azure2,
-          icon: Icons.calendar_today_outlined,
-          onTap: () {},
-        ),
+      // if (CredentialSaver.user.role == 'STUDENT')
+      MeetingMenuCard(
+        title: 'Riwayat Kehadiran',
+        strokeColor: Palette.azure1,
+        fillColor: Palette.azure2,
+        icon: Icons.history_outlined,
+        onTap: () => navigatorKey.currentState!.pushNamed(studentAttendanceHistoryRoute),
+      )
+      // else
+      //   MeetingMenuCard(
+      //     title: 'Jadwal Pemateri',
+      //     strokeColor: Palette.azure1,
+      //     fillColor: Palette.azure2,
+      //     icon: Icons.calendar_today_outlined,
+      //     onTap: () {},
+      //   ),
     ];
 
     return Scaffold(

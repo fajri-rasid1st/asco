@@ -34,7 +34,7 @@ class HomePage extends ConsumerWidget {
       child: Builder(
         builder: (context) {
           if (selectedIndex == -2) {
-            // Navigate to profile page, according to roleId
+            // Navigate to profile page, according to role
           }
 
           if (selectedIndex == 6) {
