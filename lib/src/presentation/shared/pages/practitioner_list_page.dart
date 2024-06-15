@@ -1,8 +1,8 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
-class StudentLeaderboardHomePage extends StatelessWidget {
-  const StudentLeaderboardHomePage({super.key});
+class PractitionerListPage extends StatelessWidget {
+  const PractitionerListPage({super.key});
 
   @override
   Widget build(BuildContext context) {

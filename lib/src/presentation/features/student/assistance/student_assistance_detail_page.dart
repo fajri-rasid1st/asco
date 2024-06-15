@@ -1,8 +1,8 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
-class StudentAssistanceHomePage extends StatelessWidget {
-  const StudentAssistanceHomePage({super.key});
+class StudentAssistanceDetailPage extends StatelessWidget {
+  const StudentAssistanceDetailPage({super.key});
 
   @override
   Widget build(BuildContext context) {

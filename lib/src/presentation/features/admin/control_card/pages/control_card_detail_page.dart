@@ -29,8 +29,8 @@ class ControlCardDetailPage extends StatelessWidget {
               child: Stack(
                 children: [
                   SizedBox(
-                    height: 300,
                     width: AppSize.getAppWidth(context),
+                    height: 300,
                   ),
                   Container(
                     height: 150,

@@ -59,3 +59,9 @@ const mainMenuRoute = '/main-menu';
 // Student meeting
 const studentAttendanceHistoryRoute = '/student-attendance-history';
 const studentMeetingDetailRoute = '/student-meeting-detail';
+
+// Student assistance
+const studentAssistanceDetailRoute = '/student-assistance-detail';
+
+// Shared - Student & Assistance
+const practitionerListRoute = '/practitioner-list';

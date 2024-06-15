@@ -78,7 +78,7 @@ class MeetingHomePage extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  width: AppSize.getAppWidth(context),
+                  width: double.infinity,
                   decoration: BoxDecoration(
                     color: Palette.purple3,
                     borderRadius: BorderRadius.circular(16),

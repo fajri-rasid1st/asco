@@ -42,7 +42,7 @@ class PracticumBadgeGeneratorPage extends ConsumerWidget {
         child: Column(
           children: [
             Container(
-              width: AppSize.getAppWidth(context),
+              width: double.infinity,
               height: AppSize.getAppWidth(context) - 60,
               margin: const EdgeInsets.all(20),
               padding: const EdgeInsets.symmetric(

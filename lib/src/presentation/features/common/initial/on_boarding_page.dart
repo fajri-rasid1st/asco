@@ -57,9 +57,9 @@ class OnBoardingPage extends StatelessWidget {
                             TextSpan(
                               text: '\nPraktikum &\nAsistensi',
                               style: textTheme.displaySmall!.copyWith(
+                                color: Palette.purple3,
                                 fontSize: 40,
                                 height: 1.1,
-                                color: Palette.purple3,
                               ),
                             )
                           ],

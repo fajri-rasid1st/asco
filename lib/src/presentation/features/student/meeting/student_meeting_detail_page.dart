@@ -103,7 +103,6 @@ class StudentMeetingDetailPage extends StatelessWidget {
               ).fullWidth(),
               const SizedBox(height: 16),
               Container(
-                width: double.infinity,
                 padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
                 decoration: BoxDecoration(
                   color: Palette.background,

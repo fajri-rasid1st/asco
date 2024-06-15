@@ -1,8 +1,7 @@
-// const item per page
-
 // Project imports:
 import 'package:asco/core/styles/color_scheme.dart';
 
+// const item per page
 const kPageLimit = 20;
 
 // const error messages

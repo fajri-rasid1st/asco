@@ -28,8 +28,10 @@ import 'package:asco/src/presentation/features/admin/user/pages/user_list_home_p
 import 'package:asco/src/presentation/features/common/home/home_page.dart';
 import 'package:asco/src/presentation/features/common/initial/on_boarding_page.dart';
 import 'package:asco/src/presentation/features/common/menu/main_menu_page.dart';
+import 'package:asco/src/presentation/features/student/assistance/student_assistance_detail_page.dart';
 import 'package:asco/src/presentation/features/student/meeting/student_attendance_history_page.dart';
 import 'package:asco/src/presentation/features/student/meeting/student_meeting_detail_page.dart';
+import 'package:asco/src/presentation/shared/pages/practitioner_list_page.dart';
 import 'package:asco/src/presentation/shared/pages/select_classroom_page.dart';
 import 'package:asco/src/presentation/shared/pages/select_practicum_page.dart';
 import 'package:asco/src/presentation/shared/pages/select_users_page.dart';
@@ -179,6 +181,14 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
     case studentMeetingDetailRoute:
       return MaterialPageRoute(
         builder: (_) => const StudentMeetingDetailPage(),
+      );
+    case studentAssistanceDetailRoute:
+      return MaterialPageRoute(
+        builder: (_) => const StudentAssistanceDetailPage(),
+      );
+    case practitionerListRoute:
+      return MaterialPageRoute(
+        builder: (_) => const PractitionerListPage(),
       );
     default:
       return null;
