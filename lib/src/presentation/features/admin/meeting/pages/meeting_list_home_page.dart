@@ -84,8 +84,8 @@ class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage>
                     const SizedBox(width: 8),
                     CustomIconButton(
                       'arrow_sort_outlined.svg',
-                      onPressed: () {},
                       tooltip: 'Urutkan',
+                      onPressed: () {},
                     ),
                   ],
                 ),

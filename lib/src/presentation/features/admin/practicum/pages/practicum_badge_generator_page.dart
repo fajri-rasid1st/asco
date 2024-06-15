@@ -87,8 +87,8 @@ class PracticumBadgeGeneratorPage extends ConsumerWidget {
               padding: EdgeInsets.fromLTRB(24, 4, 0, 6),
             ),
             SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 20),
+              scrollDirection: Axis.horizontal,
               child: Row(
                 children: List<Padding>.generate(
                   BadgeIcon.getIcons.length,
@@ -110,8 +110,8 @@ class PracticumBadgeGeneratorPage extends ConsumerWidget {
               padding: EdgeInsets.fromLTRB(24, 16, 0, 6),
             ),
             SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 20),
+              scrollDirection: Axis.horizontal,
               child: Row(
                 children: List<Padding>.generate(
                   BadgePalette.getPalettes.length,

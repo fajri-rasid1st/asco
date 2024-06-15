@@ -54,10 +54,10 @@ class LoginDialog extends StatelessWidget {
             right: 12,
             child: CustomIconButton(
               'close_outlined.svg',
-              onPressed: () => navigatorKey.currentState!.pop(),
               color: Palette.secondaryText,
               size: 20,
               tooltip: 'Kembali',
+              onPressed: () => navigatorKey.currentState!.pop(),
             ),
           ),
         ],

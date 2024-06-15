@@ -57,7 +57,7 @@ class MeetingHomePage extends StatelessWidget {
         child: Column(
           children: [
             const AscoAppBar(),
-            const SizedBox(height: 20),
+            const SizedBox(height: 24),
             Stack(
               clipBehavior: Clip.none,
               alignment: Alignment.center,
@@ -142,20 +142,22 @@ class MeetingHomePage extends StatelessWidget {
                   child: Text(
                     'Pertemuan',
                     style: textTheme.titleLarge!.copyWith(
-                      color: Palette.purple2,
                       fontWeight: FontWeight.w600,
+                      fontSize: 18,
                     ),
                   ),
                 ),
                 const SizedBox(width: 8),
                 CustomIconButton(
                   'arrow_sort_outlined.svg',
-                  onPressed: () {},
+                  color: Palette.primaryText,
+                  size: 20,
                   tooltip: 'Urutkan',
+                  onPressed: () {},
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 6),
             ...List<Padding>.generate(
               10,
               (index) => Padding(

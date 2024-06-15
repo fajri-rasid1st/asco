@@ -99,8 +99,8 @@ class ControlCardDetailPage extends StatelessWidget {
                             ),
                           ),
                           const SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
                             padding: EdgeInsets.fromLTRB(20, 6, 20, 0),
+                            scrollDirection: Axis.horizontal,
                             child: Row(
                               children: [
                                 CustomBadge(
