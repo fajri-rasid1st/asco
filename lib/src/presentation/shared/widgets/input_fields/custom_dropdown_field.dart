@@ -50,7 +50,6 @@ class _CustomDropdownFieldState extends State<CustomDropdownField> {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(

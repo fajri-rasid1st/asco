@@ -75,7 +75,6 @@ class _AttendanceDialogState extends State<AttendanceDialog> {
       backgroundColor: Palette.background,
       onPressedPrimaryAction: submit,
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -95,7 +94,6 @@ class _AttendanceDialogState extends State<AttendanceDialog> {
             valueListenable: statusNotifier,
             builder: (context, currentStatus, child) {
               return Column(
-                mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
@@ -190,7 +188,6 @@ class FaceStatusWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
           Container(
             decoration: BoxDecoration(

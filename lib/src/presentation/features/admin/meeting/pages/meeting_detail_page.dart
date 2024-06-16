@@ -86,8 +86,8 @@ class MeetingDetailPage extends StatelessWidget {
                         Text(
                           'Pemrograman Mobile',
                           style: textTheme.bodyLarge!.copyWith(
-                            fontWeight: FontWeight.w500,
                             color: Palette.purple3,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                         const SizedBox(height: 4),
@@ -115,9 +115,13 @@ class MeetingDetailPage extends StatelessWidget {
               ),
             ).fullWidth(),
             const SectionHeader(title: 'Mentor'),
-            const UserCard(badgeText: 'Pemateri'),
+            const UserCard(
+              badgeText: 'Pemateri',
+            ),
             const SizedBox(height: 10),
-            const UserCard(badgeText: 'Pendamping')
+            const UserCard(
+              badgeText: 'Pendamping',
+            )
           ],
         ),
       ),

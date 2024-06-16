@@ -103,8 +103,8 @@ class _AssistanceGroupListHomePageState extends State<AssistanceGroupListHomePag
                           Text(
                             '3 Kelas',
                             style: textTheme.bodyLarge!.copyWith(
-                              fontWeight: FontWeight.w500,
                               color: Palette.purple3,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                           const SizedBox(height: 4),

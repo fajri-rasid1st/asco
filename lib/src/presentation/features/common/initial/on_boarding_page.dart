@@ -43,7 +43,6 @@ class OnBoardingPage extends StatelessWidget {
                   const AscoAppBar(),
                   const Spacer(),
                   Column(
-                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       RichText(
@@ -73,7 +72,6 @@ class OnBoardingPage extends StatelessWidget {
                   ),
                   const Spacer(flex: 2),
                   Column(
-                    mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(

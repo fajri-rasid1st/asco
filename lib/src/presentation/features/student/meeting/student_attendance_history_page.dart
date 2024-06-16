@@ -41,7 +41,6 @@ class StudentAttendanceHistoryPage extends StatelessWidget {
               const SizedBox(width: 10),
               Expanded(
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(

@@ -69,9 +69,9 @@ class HomePage extends ConsumerWidget {
                         padding: EdgeInsets.only(
                           bottom: index == 2 ? 0 : 12,
                         ),
-                        child: CourseCard(
-                          title: setTitleText('Pemrograman Mobile', 'A'),
-                          time: setTimeText('Rabu', '10.10 - 12.40'),
+                        child: const CourseCard(
+                          title: 'Pemrograman Mobile A',
+                          time: 'Setiap hari Rabu, Pukul 10.10 - 12.40',
                           badgeUrl: 'https://placehold.co/138x150/png',
                         ),
                       ),
@@ -84,14 +84,6 @@ class HomePage extends ConsumerWidget {
         },
       ),
     );
-  }
-
-  String setTitleText(String? text1, String? text2) {
-    return '${text1 ?? ''} ${text2 ?? ''}';
-  }
-
-  String setTimeText(String? day, String? time) {
-    return 'Setiap hari ${day ?? ''}, Pukul ${time ?? ''}';
   }
 }
 
@@ -151,7 +143,6 @@ class CourseCard extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
@@ -161,8 +152,8 @@ class CourseCard extends StatelessWidget {
                           child: Text(
                             title,
                             style: textTheme.titleLarge!.copyWith(
-                              fontWeight: FontWeight.w600,
                               color: Palette.background,
+                              fontWeight: FontWeight.w600,
                               height: 1.25,
                             ),
                           ),

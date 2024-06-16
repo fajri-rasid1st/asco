@@ -157,8 +157,8 @@ class UserProfileListTile extends StatelessWidget {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: textTheme.titleSmall!.copyWith(
-                      fontWeight: FontWeight.w600,
                       color: Palette.background,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   Text(

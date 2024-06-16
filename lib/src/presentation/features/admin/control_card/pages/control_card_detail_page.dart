@@ -60,13 +60,11 @@ class ControlCardDetailPage extends StatelessWidget {
                     child: SizedBox(
                       width: AppSize.getAppWidth(context),
                       child: Column(
-                        mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Column(
-                              mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const CircleNetworkImage(
@@ -130,16 +128,16 @@ class ControlCardDetailPage extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
-                  childCount: 10,
                   (context, index) => Padding(
                     padding: EdgeInsets.only(
                       bottom: index == 9 ? 0 : 10,
                     ),
                     child: const AttendanceCard(
-                      assistanceStatus: [true, false],
                       attendanceType: AttendanceType.assistance,
+                      locked: true,
                     ),
                   ),
+                  childCount: 10,
                 ),
               ),
             ),

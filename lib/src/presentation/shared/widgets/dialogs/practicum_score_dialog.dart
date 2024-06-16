@@ -1,3 +1,5 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+
 // Flutter imports:
 import 'package:flutter/material.dart';
 
@@ -35,7 +37,7 @@ class _PracticumScoreDialogState extends State<PracticumScoreDialog> {
       const PracticumScoreType(6, Palette.success, 92.0, "Bagus"),
       const PracticumScoreType(7, Palette.success, 98.0, "Sangat Bagus"),
     ];
-    scoreNotifier = ValueNotifier(practicumScoreTypes.first);
+    scoreNotifier = ValueNotifier(practicumScoreTypes[4]);
   }
 
   @override
@@ -51,7 +53,6 @@ class _PracticumScoreDialogState extends State<PracticumScoreDialog> {
       title: 'Tugas Praktikum ${widget.meetingNumber}',
       onPressedPrimaryAction: submit,
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -72,7 +73,6 @@ class _PracticumScoreDialogState extends State<PracticumScoreDialog> {
             builder: (context, scoreType, child) {
               return Center(
                 child: Column(
-                  mainAxisSize: MainAxisSize.min,
                   children: [
                     RatingBar(
                       initialRating: scoreType.rate.toDouble(),
@@ -130,4 +130,9 @@ class PracticumScoreType {
     this.value,
     this.description,
   );
+
+  @override
+  String toString() {
+    return 'PracticumScoreType(rate: $rate, color: $color, value: $value, description: $description)';
+  }
 }

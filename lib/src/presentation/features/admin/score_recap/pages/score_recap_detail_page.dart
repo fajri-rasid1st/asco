@@ -60,7 +60,6 @@ class ScoreRecapDetailPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
-                mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
                     'Nilai Akhir',
@@ -202,7 +201,6 @@ class ScoreRecapCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

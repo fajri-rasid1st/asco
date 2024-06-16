@@ -102,7 +102,6 @@ class _ScoreRecapListHomePageState extends ConsumerState<ScoreRecapListHomePage>
               padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
-                  childCount: 10,
                   (context, index) => Padding(
                     padding: EdgeInsets.only(
                       bottom: index == 9 ? 0 : 10,
@@ -119,6 +118,7 @@ class _ScoreRecapListHomePageState extends ConsumerState<ScoreRecapListHomePage>
                       onTap: () => navigatorKey.currentState!.pushNamed(scoreRecapDetailRoute),
                     ),
                   ),
+                  childCount: 10,
                 ),
               ),
             ),

@@ -96,8 +96,7 @@ class PracticumBadgeGeneratorPage extends ConsumerWidget {
                     padding: EdgeInsets.only(
                       right: index == BadgeIcon.getIcons.length - 1 ? 0 : 10,
                     ),
-                    child: buildIconContainer(
-                      ref,
+                    child: BadgeIconContainer(
                       badgeIcon: BadgeIcon.getIcons[index],
                       isSelected: BadgeIcon.getIcons[index].name == selectedIcon.name,
                     ),
@@ -119,8 +118,7 @@ class PracticumBadgeGeneratorPage extends ConsumerWidget {
                     padding: EdgeInsets.only(
                       right: index == BadgePalette.getPalettes.length - 1 ? 0 : 10,
                     ),
-                    child: buildPaletteContainer(
-                      ref,
+                    child: BadgePaletteContainer(
                       badgePalette: BadgePalette.getPalettes[index],
                       isSelected: BadgePalette.getPalettes[index] == selectedPalette,
                     ),
@@ -142,13 +140,32 @@ class PracticumBadgeGeneratorPage extends ConsumerWidget {
     );
   }
 
-  Column buildIconContainer(
-    WidgetRef ref, {
-    required BadgeIcon badgeIcon,
-    bool isSelected = false,
-  }) {
+  void generateBadgePng(GlobalKey repaintKey) async {
+    final imageBytes = await ImageService.capturePngImage(repaintKey.currentContext!);
+
+    if (imageBytes.isEmpty) {
+      throw Exception('Capture image failed!');
+    } else {
+      final imagePath = await FileService.createFile(imageBytes, extension: 'png');
+
+      navigatorKey.currentState!.pop(imagePath);
+    }
+  }
+}
+
+class BadgeIconContainer extends ConsumerWidget {
+  final BadgeIcon badgeIcon;
+  final bool isSelected;
+
+  const BadgeIconContainer({
+    super.key,
+    required this.badgeIcon,
+    this.isSelected = false,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     return Column(
-      mainAxisSize: MainAxisSize.min,
       children: [
         InkWellContainer(
           width: 64,
@@ -171,12 +188,20 @@ class PracticumBadgeGeneratorPage extends ConsumerWidget {
       ],
     );
   }
+}
 
-  InkWellContainer buildPaletteContainer(
-    WidgetRef ref, {
-    required BadgePalette badgePalette,
-    bool isSelected = false,
-  }) {
+class BadgePaletteContainer extends ConsumerWidget {
+  final BadgePalette badgePalette;
+  final bool isSelected;
+
+  const BadgePaletteContainer({
+    super.key,
+    required this.badgePalette,
+    this.isSelected = false,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
     return InkWellContainer(
       width: 64,
       height: 64,
@@ -195,18 +220,6 @@ class PracticumBadgeGeneratorPage extends ConsumerWidget {
         ),
       ),
     );
-  }
-
-  void generateBadgePng(GlobalKey repaintKey) async {
-    final imageBytes = await ImageService.capturePngImage(repaintKey.currentContext!);
-
-    if (imageBytes.isEmpty) {
-      throw Exception('Capture image failed!');
-    } else {
-      final imagePath = await FileService.createFile(imageBytes, extension: 'png');
-
-      navigatorKey.currentState!.pop(imagePath);
-    }
   }
 }
 

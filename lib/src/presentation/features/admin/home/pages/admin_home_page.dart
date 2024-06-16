@@ -187,8 +187,8 @@ class AdminMenuCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWellContainer(
-      color: Palette.background,
       radius: 12,
+      color: Palette.background,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       border: Border.all(
         width: 1,
@@ -224,8 +224,8 @@ class AdminMenuCard extends StatelessWidget {
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: textTheme.titleMedium!.copyWith(
-              fontWeight: FontWeight.w600,
               color: Palette.purple2,
+              fontWeight: FontWeight.w600,
               height: 1.25,
             ),
           ),

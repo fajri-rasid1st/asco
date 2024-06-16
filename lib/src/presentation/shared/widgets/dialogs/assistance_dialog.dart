@@ -27,7 +27,6 @@ class AssistanceDialog extends StatelessWidget {
       title: 'Asistensi $number',
       onPressedPrimaryAction: () => submit(formKey),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(

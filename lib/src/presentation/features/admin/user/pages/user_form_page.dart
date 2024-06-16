@@ -46,7 +46,6 @@ class UserFormPage extends StatelessWidget {
             FormBuilder(
               key: formKey,
               child: Column(
-                mainAxisSize: MainAxisSize.min,
                 children: [
                   CustomTextField(
                     name: 'username',
@@ -101,7 +100,6 @@ class UserFormPage extends StatelessWidget {
             if (args.action == 'Tambah') ...[
               const Spacer(),
               Column(
-                mainAxisSize: MainAxisSize.min,
                 children: [
                   FilledButton(
                     onPressed: () {},

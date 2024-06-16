@@ -99,7 +99,6 @@ class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage>
               padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
               sliver: SliverList(
                 delegate: SliverChildBuilderDelegate(
-                  childCount: 10,
                   (context, index) => Padding(
                     padding: EdgeInsets.only(
                       bottom: index == 9 ? 0 : 10,
@@ -109,6 +108,7 @@ class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage>
                       onTap: () => navigatorKey.currentState!.pushNamed(meetingDetailRoute),
                     ),
                   ),
+                  childCount: 10,
                 ),
               ),
             ),

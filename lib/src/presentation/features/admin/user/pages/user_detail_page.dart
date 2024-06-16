@@ -40,7 +40,6 @@ class UserDetailPage extends StatelessWidget {
           children: [
             Center(
               child: Column(
-                mainAxisSize: MainAxisSize.min,
                 children: [
                   const CircleNetworkImage(
                     imageUrl: 'https://placehold.co/300x300/png',

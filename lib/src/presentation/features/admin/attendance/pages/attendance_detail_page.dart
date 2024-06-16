@@ -57,7 +57,6 @@ class AttendanceDetailPage extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
-                childCount: 10,
                 (context, index) => Padding(
                   padding: EdgeInsets.only(
                     bottom: index == 9 ? 0 : 10,
@@ -71,6 +70,7 @@ class AttendanceDetailPage extends StatelessWidget {
                     ),
                   ),
                 ),
+                childCount: 10,
               ),
             ),
           ),

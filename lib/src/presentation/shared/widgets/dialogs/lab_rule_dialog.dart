@@ -53,7 +53,6 @@ class LabRuleDialog extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 20),
                     child: Column(
-                      mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(
                           'Sanksi Nilai Asistensi',

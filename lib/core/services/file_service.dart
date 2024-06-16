@@ -43,7 +43,7 @@ class FileService {
     try {
       final directory = await getTemporaryDirectory();
 
-      final fileName = name ?? 'badge-${const Uuid().v4()}.$extension';
+      final fileName = name ?? '${const Uuid().v4()}.$extension';
 
       final file = await File('${directory.path}/$fileName').writeAsBytes(
         bytes,

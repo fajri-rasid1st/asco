@@ -41,7 +41,6 @@ class MeetingCard extends StatelessWidget {
           const SizedBox(width: 8),
           Expanded(
             child: Column(
-              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(

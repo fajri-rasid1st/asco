@@ -66,7 +66,6 @@ class AttendanceCard extends StatelessWidget {
           const SizedBox(width: 8),
           Expanded(
             child: Column(
-              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -91,7 +90,6 @@ class AttendanceCard extends StatelessWidget {
                       final values = meetingStatus!.values.toList();
 
                       return Column(
-                        mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const SizedBox(height: 8),

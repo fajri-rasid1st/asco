@@ -47,7 +47,6 @@ class UserCard extends StatelessWidget {
           const SizedBox(width: 8),
           Expanded(
             child: Column(
-              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
@@ -64,8 +63,8 @@ class UserCard extends StatelessWidget {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.titleSmall!.copyWith(
-                    fontWeight: FontWeight.w600,
                     color: Palette.purple2,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
                 const SizedBox(height: 2),
