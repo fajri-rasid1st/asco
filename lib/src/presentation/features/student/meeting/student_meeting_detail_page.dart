@@ -25,7 +25,7 @@ class StudentMeetingDetailPage extends StatelessWidget {
         title: 'Pertemuan 1',
       ),
       body: NestedScrollView(
-        headerSliverBuilder: (_, __) {
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
           return [
             SliverToBoxAdapter(
               child: Container(

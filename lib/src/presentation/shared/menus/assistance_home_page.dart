@@ -155,7 +155,25 @@ class AssistanceHomePage extends StatelessWidget {
                     padding: EdgeInsets.only(
                       right: index == 9 ? 0 : 10,
                     ),
-                    child: const UserProfileAvatar(),
+                    child: SizedBox(
+                      width: 64,
+                      child: Column(
+                        children: [
+                          const CircleNetworkImage(
+                            imageUrl: 'https://placehold.co/100x100/png',
+                            size: 56,
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Richard',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style: textTheme.bodySmall,
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -217,33 +235,6 @@ class SectionTitle extends StatelessWidget {
                 color: Palette.purple3,
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class UserProfileAvatar extends StatelessWidget {
-  const UserProfileAvatar({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 64,
-      child: Column(
-        children: [
-          const CircleNetworkImage(
-            imageUrl: 'https://placehold.co/100x100/png',
-            size: 56,
-          ),
-          const SizedBox(height: 4),
-          Text(
-            'Richard',
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            textAlign: TextAlign.center,
-            style: textTheme.bodySmall,
           ),
         ],
       ),

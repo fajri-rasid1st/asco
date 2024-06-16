@@ -58,7 +58,7 @@ class ControlCardListHomePage extends ConsumerWidget {
                 showDivider: true,
                 padding: EdgeInsets.fromLTRB(4, e == 1 ? 4 : 12, 0, 6),
               ),
-              itemBuilder: (_, __) => UserCard(
+              itemBuilder: (context, index) => UserCard(
                 badgeText: 'Kelas A',
                 onTap: () => navigatorKey.currentState!.pushNamed(controlCardDetailRoute),
               ),

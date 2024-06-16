@@ -23,7 +23,7 @@ class ControlCardDetailPage extends StatelessWidget {
         title: 'Kartu Kontrol',
       ),
       body: NestedScrollView(
-        headerSliverBuilder: (_, __) {
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
           return [
             SliverToBoxAdapter(
               child: Stack(
