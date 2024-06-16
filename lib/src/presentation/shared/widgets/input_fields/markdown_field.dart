@@ -102,10 +102,10 @@ class _MarkdownFieldState extends State<MarkdownField> {
                     textInputAction: TextInputAction.newline,
                     textCapitalization: TextCapitalization.sentences,
                     decoration: InputDecoration(
-                      hintText: widget.hintText,
                       filled: true,
                       fillColor: Palette.background,
                       contentPadding: const EdgeInsets.all(16),
+                      hintText: widget.hintText,
                       enabledBorder: textFieldBorder,
                       focusedBorder: textFieldBorder,
                       errorBorder: textFieldBorder,

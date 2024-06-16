@@ -117,8 +117,12 @@ class _CustomTextFieldState extends State<CustomTextField> {
       decoration: InputDecoration(
         filled: true,
         fillColor: widget.enabled ? Palette.background : Palette.disabled,
-        prefixIcon: widget.prefixIconName != null ? buildPrefixIcon() : null,
-        suffixIcon: widget.suffixIconName != null ? buildSuffixIcon() : null,
+        contentPadding: widget.isSmall
+            ? const EdgeInsets.symmetric(
+                vertical: 12,
+                horizontal: 16,
+              )
+            : const EdgeInsets.all(16),
         hintText: widget.hintText,
         hintStyle: widget.isSmall
             ? textTheme.bodyMedium!.copyWith(
@@ -126,46 +130,36 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 height: 1,
               )
             : null,
-        contentPadding: widget.isSmall
-            ? const EdgeInsets.symmetric(
-                vertical: 12,
-                horizontal: 16,
+        prefixIcon: widget.prefixIconName != null
+            ? Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 10, 0),
+                child: ValueListenableBuilder(
+                  valueListenable: isFocus,
+                  builder: (context, isFocus, child) => SvgAsset(
+                    AssetPath.getIcon(widget.prefixIconName!),
+                    color: isFocus ? Palette.purple2 : Palette.hint,
+                    width: widget.isSmall ? 16 : null,
+                  ),
+                ),
               )
-            : const EdgeInsets.all(16),
+            : null,
+        suffixIcon: widget.suffixIconName != null
+            ? Padding(
+                padding: const EdgeInsets.fromLTRB(10, 0, 16, 0),
+                child: GestureDetector(
+                  onTap: widget.onSuffixIconTap,
+                  child: SvgAsset(
+                    AssetPath.getIcon(widget.suffixIconName!),
+                    color: Palette.primaryText,
+                    width: widget.isSmall ? 16 : 20,
+                  ),
+                ),
+              )
+            : null,
       ),
       validator:
           widget.validators != null ? FormBuilderValidators.compose(widget.validators!) : null,
       onTap: widget.onTap,
-    );
-  }
-
-  Padding buildPrefixIcon() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 10, 0),
-      child: ValueListenableBuilder(
-        valueListenable: isFocus,
-        builder: (context, isFocus, child) {
-          return SvgAsset(
-            AssetPath.getIcon(widget.prefixIconName!),
-            color: isFocus ? Palette.purple2 : Palette.hint,
-            width: widget.isSmall ? 16 : null,
-          );
-        },
-      ),
-    );
-  }
-
-  Padding buildSuffixIcon() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(10, 0, 16, 0),
-      child: GestureDetector(
-        onTap: widget.onSuffixIconTap,
-        child: SvgAsset(
-          AssetPath.getIcon(widget.suffixIconName!),
-          color: Palette.primaryText,
-          width: widget.isSmall ? 16 : 20,
-        ),
-      ),
     );
   }
 }

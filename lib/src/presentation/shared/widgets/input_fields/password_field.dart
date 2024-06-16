@@ -79,9 +79,16 @@ class _PasswordFieldState extends State<PasswordField> {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Palette.background,
-                hintText: widget.hintText,
-                suffixIcon: buildSuffixIcon(isVisible),
                 contentPadding: const EdgeInsets.all(16),
+                hintText: widget.hintText,
+                suffixIcon: IconButton(
+                  icon: Icon(
+                    isVisible ? Icons.visibility_outlined : Icons.visibility_off_outlined,
+                    color: Palette.primaryText,
+                    size: 20,
+                  ),
+                  onPressed: () => this.isVisible.value = !isVisible,
+                ),
               ),
               validator: widget.validators != null
                   ? FormBuilderValidators.compose(widget.validators!)
@@ -91,17 +98,6 @@ class _PasswordFieldState extends State<PasswordField> {
           },
         ),
       ],
-    );
-  }
-
-  IconButton buildSuffixIcon(bool isVisible) {
-    return IconButton(
-      icon: Icon(
-        isVisible ? Icons.visibility_outlined : Icons.visibility_off_outlined,
-        color: Palette.primaryText,
-        size: 20,
-      ),
-      onPressed: () => this.isVisible.value = !isVisible,
     );
   }
 }

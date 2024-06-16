@@ -16,11 +16,18 @@ import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_icon_button.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
-class AssistanceHomePage extends StatelessWidget {
-  const AssistanceHomePage({super.key});
+class AssistancePage extends StatefulWidget {
+  const AssistancePage({super.key});
 
   @override
+  State<AssistancePage> createState() => _AssistancePageState();
+}
+
+class _AssistancePageState extends State<AssistancePage> with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(vertical: 20),
@@ -197,6 +204,9 @@ class AssistanceHomePage extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class SectionTitle extends StatelessWidget {

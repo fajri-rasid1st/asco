@@ -140,11 +140,11 @@ class AttendanceCard extends StatelessWidget {
           ),
           if (attendanceType == AttendanceType.assistance) ...[
             const SizedBox(width: 8),
-            buildAssistanceStatus(
+            AssistanceStatusIcon(
               isAttend: locked ? null : assistanceStatus!.first,
             ),
             const SizedBox(width: 4),
-            buildAssistanceStatus(
+            AssistanceStatusIcon(
               isAttend: locked ? null : assistanceStatus!.last,
             ),
           ],
@@ -152,8 +152,15 @@ class AttendanceCard extends StatelessWidget {
       ),
     );
   }
+}
 
-  CircleBorderContainer buildAssistanceStatus({bool? isAttend}) {
+class AssistanceStatusIcon extends StatelessWidget {
+  final bool? isAttend;
+
+  const AssistanceStatusIcon({super.key, this.isAttend});
+
+  @override
+  Widget build(BuildContext context) {
     final borderColor = switch (isAttend) {
       true => Palette.purple2,
       false => Palette.pink2,

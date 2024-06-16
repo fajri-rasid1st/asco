@@ -13,11 +13,18 @@ import 'package:asco/src/presentation/shared/widgets/custom_icon_button.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 import 'package:asco/src/presentation/shared/widgets/practicum_badge_image.dart';
 
-class MeetingHomePage extends StatelessWidget {
-  const MeetingHomePage({super.key});
+class MeetingPage extends StatefulWidget {
+  const MeetingPage({super.key});
 
   @override
+  State<MeetingPage> createState() => _MeetingPageState();
+}
+
+class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClientMixin {
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     final meetingMenuCards = [
       MeetingMenuCard(
         title: 'Tata Tertib',
@@ -172,6 +179,9 @@ class MeetingHomePage extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class MeetingMenuCard extends StatelessWidget {

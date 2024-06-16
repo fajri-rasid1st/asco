@@ -60,58 +60,48 @@ class _SearchFieldState extends State<SearchField> {
         height: 44,
         child: TextField(
           controller: controller,
-          textAlignVertical: TextAlignVertical.center,
           textInputAction: TextInputAction.search,
+          textAlignVertical: TextAlignVertical.center,
           style: textTheme.bodyMedium,
           decoration: InputDecoration(
             isDense: true,
             filled: true,
             fillColor: Palette.background,
             contentPadding: EdgeInsets.zero,
-            prefixIcon: buildPrefixIcon(),
-            suffixIcon: buildSuffixIcon(),
             hintText: widget.hintText,
             hintStyle: textTheme.bodyMedium!.copyWith(
               color: Palette.hint,
               height: 1,
             ),
+            prefixIcon: Padding(
+              padding: const EdgeInsets.only(
+                left: 16,
+                right: 10,
+              ),
+              child: ValueListenableBuilder(
+                valueListenable: isFocus,
+                builder: (context, isFocus, child) => SvgAsset(
+                  AssetPath.getIcon('search_outlined.svg'),
+                  color: isFocus ? Palette.purple2 : Palette.hint,
+                  width: 10,
+                ),
+              ),
+            ),
+            suffixIcon: widget.text.isEmpty
+                ? const SizedBox()
+                : IconButton(
+                    onPressed: resetQuery,
+                    icon: SvgAsset(
+                      AssetPath.getIcon('close_outlined.svg'),
+                      color: Palette.primaryText,
+                      width: 20,
+                    ),
+                  ),
           ),
           onChanged: widget.delayOnChanged
               ? (text) => debounce(() => widget.onChanged(text))
               : widget.onChanged,
         ),
-      ),
-    );
-  }
-
-  Padding buildPrefixIcon() {
-    return Padding(
-      padding: const EdgeInsets.only(
-        left: 16,
-        right: 10,
-      ),
-      child: ValueListenableBuilder(
-        valueListenable: isFocus,
-        builder: (context, isFocus, child) {
-          return SvgAsset(
-            AssetPath.getIcon('search_outlined.svg'),
-            color: isFocus ? Palette.purple2 : Palette.hint,
-            width: 10,
-          );
-        },
-      ),
-    );
-  }
-
-  Widget buildSuffixIcon() {
-    if (widget.text.isEmpty) return const SizedBox();
-
-    return IconButton(
-      onPressed: resetQuery,
-      icon: SvgAsset(
-        AssetPath.getIcon('close_outlined.svg'),
-        color: Palette.primaryText,
-        width: 20,
       ),
     );
   }

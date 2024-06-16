@@ -7,9 +7,10 @@ class InkWellContainer extends StatelessWidget {
   final Color? color;
   final EdgeInsetsGeometry? margin;
   final EdgeInsetsGeometry? padding;
-  final double? radius;
+  final double radius;
   final BoxBorder? border;
   final List<BoxShadow>? boxShadow;
+  final Clip clipBehavior;
   final VoidCallback? onTap;
   final Widget? child;
 
@@ -20,9 +21,10 @@ class InkWellContainer extends StatelessWidget {
     this.color,
     this.margin,
     this.padding,
-    this.radius,
+    this.radius = 0,
     this.border,
     this.boxShadow,
+    this.clipBehavior = Clip.none,
     this.onTap,
     this.child,
   });
@@ -33,17 +35,19 @@ class InkWellContainer extends StatelessWidget {
       width: width,
       height: height,
       margin: margin,
+      clipBehavior: clipBehavior,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(radius ?? 0),
+        borderRadius: BorderRadius.circular(radius),
         color: color,
         border: border,
         boxShadow: boxShadow,
       ),
       child: Material(
+        clipBehavior: clipBehavior,
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(radius ?? 0),
+          borderRadius: BorderRadius.circular(radius),
           child: Padding(
             padding: padding ?? EdgeInsets.zero,
             child: child,

@@ -72,13 +72,6 @@ class _CustomDropdownFieldState extends State<CustomDropdownField> {
             initialValue: widget.initialValue,
             elevation: 1,
             style: widget.isSmall ? textTheme.bodyMedium : textTheme.bodyLarge,
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: Palette.background,
-              contentPadding: widget.isSmall
-                  ? const EdgeInsets.fromLTRB(16, 12, 12, 12)
-                  : const EdgeInsets.fromLTRB(16, 16, 12, 16),
-            ),
             items: List<DropdownMenuItem>.generate(
               widget.items.length,
               (index) => DropdownMenuItem(
@@ -94,6 +87,13 @@ class _CustomDropdownFieldState extends State<CustomDropdownField> {
                   color: isFocus ? Palette.purple2 : Palette.disabledText,
                 );
               },
+            ),
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: Palette.background,
+              contentPadding: widget.isSmall
+                  ? const EdgeInsets.fromLTRB(16, 12, 12, 12)
+                  : const EdgeInsets.fromLTRB(16, 16, 12, 16),
             ),
           ),
         ),
