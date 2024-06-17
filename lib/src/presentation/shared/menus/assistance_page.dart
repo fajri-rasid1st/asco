@@ -191,9 +191,14 @@ class _AssistancePageState extends State<AssistancePage> with AutomaticKeepAlive
             ),
             ...List<Padding>.generate(
               10,
-              (index) => const Padding(
-                padding: EdgeInsets.fromLTRB(20, 0, 20, 10),
-                child: AttendanceCard(
+              (index) => Padding(
+                padding: EdgeInsets.fromLTRB(
+                  20,
+                  0,
+                  20,
+                  index == 9 ? kBottomNavigationBarHeight : 10,
+                ),
+                child: const AttendanceCard(
                   attendanceType: AttendanceType.assistance,
                   assistanceStatus: [true, false],
                 ),

@@ -61,62 +61,60 @@ class DrawerMenuContent extends StatelessWidget {
       ),
     ];
 
-    return Scaffold(
-      body: Container(
-        width: AppSize.getAppWidth(context) * .7,
-        color: Palette.black2,
-        child: Column(
-          children: [
-            UserProfileListTile(
-              title: 'Wd. Ananda Lesmono',
-              subtitle: 'H071211074',
-              onTap: () => onSelected(-2),
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 16, 0, 8),
-                    child: Text(
-                      "JELAJAH",
-                      style: textTheme.bodySmall!.copyWith(
-                        color: Palette.purple4,
-                      ),
+    return Container(
+      width: AppSize.getAppWidth(context) * .7,
+      color: Palette.black2,
+      child: Column(
+        children: [
+          UserProfileListTile(
+            title: 'Wd. Ananda Lesmono',
+            subtitle: 'H071211074',
+            onTap: () => onSelected(-2),
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 16, 0, 8),
+                  child: Text(
+                    "JELAJAH",
+                    style: textTheme.bodySmall!.copyWith(
+                      color: Palette.purple4,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(12, 0, 0, 4),
-                    child: Divider(
-                      color: Palette.divider.withOpacity(.3),
-                      height: 1,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(12, 0, 0, 4),
+                  child: Divider(
+                    color: Palette.divider.withOpacity(.3),
+                    height: 1,
+                  ),
+                ),
+                DrawerMenuListTile(
+                  item: menuItems[0],
+                  isSelected: selectedIndex == -1,
+                  onTap: () => onSelected(-1),
+                ),
+                if (isMainMenu)
+                  ...List<DrawerMenuListTile>.generate(
+                    5,
+                    (index) => DrawerMenuListTile(
+                      item: menuItems[index + 1],
+                      isSelected: selectedIndex == index,
+                      onTap: () => onSelected(index),
                     ),
                   ),
+                if (!isMainMenu)
                   DrawerMenuListTile(
-                    item: menuItems[0],
-                    isSelected: selectedIndex == -1,
-                    onTap: () => onSelected(-1),
+                    item: menuItems[menuItems.length - 1],
+                    isSelected: selectedIndex == menuItems.length - 1,
+                    onTap: () => onSelected(menuItems.length - 1),
                   ),
-                  if (isMainMenu)
-                    ...List<DrawerMenuListTile>.generate(
-                      5,
-                      (index) => DrawerMenuListTile(
-                        item: menuItems[index + 1],
-                        isSelected: selectedIndex == index,
-                        onTap: () => onSelected(index),
-                      ),
-                    ),
-                  if (!isMainMenu)
-                    DrawerMenuListTile(
-                      item: menuItems[menuItems.length - 1],
-                      isSelected: selectedIndex == menuItems.length - 1,
-                      onTap: () => onSelected(menuItems.length - 1),
-                    ),
-                ],
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

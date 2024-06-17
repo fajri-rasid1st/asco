@@ -168,7 +168,9 @@ class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClient
             ...List<Padding>.generate(
               10,
               (index) => Padding(
-                padding: const EdgeInsets.only(bottom: 10),
+                padding: EdgeInsets.only(
+                  bottom: index == 9 ? kBottomNavigationBarHeight : 10,
+                ),
                 child: MeetingCard(
                   onTap: () => navigatorKey.currentState!.pushNamed(studentMeetingDetailRoute),
                 ),
