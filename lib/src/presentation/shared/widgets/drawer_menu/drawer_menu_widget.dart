@@ -36,8 +36,8 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with SingleTickerPr
   late final ValueNotifier<bool> isDrawerClosed;
   late final AnimationController animationController;
   late final Animation<double> animation;
-  late final Animation<double> radiusAnimation;
   late final Animation<double> scaleAnimation;
+  late final Animation<double> radiusAnimation;
 
   bool isDragging = false;
 
@@ -46,22 +46,26 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with SingleTickerPr
     super.initState();
 
     isDrawerClosed = ValueNotifier(true);
+
     animationController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 200),
+      duration: kThemeAnimationDuration,
     )..addListener(() => setState(() {}));
+
     animation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
         parent: animationController,
         curve: Curves.fastOutSlowIn,
       ),
     );
+
     scaleAnimation = Tween<double>(begin: 1, end: 0.8).animate(
       CurvedAnimation(
         parent: animationController,
         curve: Curves.fastOutSlowIn,
       ),
     );
+
     radiusAnimation = Tween<double>(begin: 0, end: 16).animate(
       CurvedAnimation(
         parent: animationController,
@@ -86,7 +90,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with SingleTickerPr
         return Scaffold(
           extendBody: true,
           resizeToAvoidBottomInset: false,
-          backgroundColor: isDrawerClosed ? Palette.scaffoldBackground : Palette.black2,
+          backgroundColor: Palette.black2,
           body: SafeArea(
             child: PopScope(
               canPop: false,
@@ -123,7 +127,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with SingleTickerPr
                       width: AppSize.getAppWidth(context) * .7,
                       height: AppSize.getAppHeight(context),
                       left: isDrawerClosed ? -AppSize.getAppWidth(context) * .7 : 0,
-                      duration: const Duration(milliseconds: 200),
+                      duration: kThemeAnimationDuration,
                       curve: Curves.fastOutSlowIn,
                       child: DrawerMenuContent(
                         isMainMenu: widget.isMainMenu,
@@ -151,7 +155,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with SingleTickerPr
                             margin: this.isDrawerClosed.value && widget.showNavigationBar
                                 ? const EdgeInsets.only(bottom: kBottomNavigationBarHeight)
                                 : EdgeInsets.zero,
-                            duration: const Duration(milliseconds: 200),
+                            duration: kThemeAnimationDuration,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(radiusAnimation.value),
                               child: AbsorbPointer(
@@ -166,7 +170,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with SingleTickerPr
                     AnimatedPositioned(
                       top: 20,
                       left: isDrawerClosed ? 0 : AppSize.getAppWidth(context) * .7 - 40,
-                      duration: const Duration(milliseconds: 200),
+                      duration: kThemeAnimationDuration,
                       curve: Curves.fastOutSlowIn,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 16),
@@ -208,51 +212,59 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with SingleTickerPr
                     if (widget.showNavigationBar)
                       AnimatedPositioned(
                         bottom: isDrawerClosed ? 0 : -64,
-                        duration: const Duration(milliseconds: 200),
-                        child: ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(12),
-                            topRight: Radius.circular(12),
-                          ),
-                          child: Container(
-                            width: AppSize.getAppWidth(context),
-                            height: 64,
-                            color: Palette.black2,
-                            child: Row(
-                              children: [
-                                NavigationBarTabIcon(
-                                  selectedIcon: AssetPath.getIcon('class_filled.svg'),
-                                  unselectedIcon: AssetPath.getIcon('class_outlined.svg'),
-                                  isSelected: widget.selectedIndex == 0,
-                                  onTap: () => widget.onSelected(0),
-                                ),
-                                NavigationBarTabIcon(
-                                  selectedIcon: AssetPath.getIcon('assistance_filled.svg'),
-                                  unselectedIcon: AssetPath.getIcon('assistance_outlined.svg'),
-                                  isSelected: widget.selectedIndex == 1,
-                                  onTap: () => widget.onSelected(1),
-                                ),
-                                NavigationBarTabIcon(
-                                  selectedIcon: AssetPath.getIcon('leaderboard_filled.svg'),
-                                  unselectedIcon: AssetPath.getIcon('leaderboard_outlined.svg'),
-                                  isSelected: widget.selectedIndex == 2,
-                                  onTap: () => widget.onSelected(2),
-                                ),
-                                NavigationBarTabIcon(
-                                  selectedIcon: AssetPath.getIcon('extras_filled.svg'),
-                                  unselectedIcon: AssetPath.getIcon('extras_outlined.svg'),
-                                  isSelected: widget.selectedIndex == 3,
-                                  onTap: () => widget.onSelected(3),
-                                ),
-                                NavigationBarTabIcon(
-                                  selectedIcon: AssetPath.getIcon('people_filled.svg'),
-                                  unselectedIcon: AssetPath.getIcon('people_outlined.svg'),
-                                  isSelected: widget.selectedIndex == 4,
-                                  onTap: () => widget.onSelected(4),
-                                ),
-                              ],
+                        duration: kThemeAnimationDuration,
+                        child: Stack(
+                          children: [
+                            Positioned.fill(
+                              child: Container(
+                                color: Palette.scaffoldBackground,
+                              ),
                             ),
-                          ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.vertical(
+                                top: Radius.circular(isDrawerClosed ? 16 : 0),
+                              ),
+                              child: Container(
+                                width: AppSize.getAppWidth(context),
+                                height: 64,
+                                color: Palette.black2,
+                                child: Row(
+                                  children: [
+                                    NavigationBarTabIcon(
+                                      selectedIcon: AssetPath.getIcon('class_filled.svg'),
+                                      unselectedIcon: AssetPath.getIcon('class_outlined.svg'),
+                                      isSelected: widget.selectedIndex == 0,
+                                      onTap: () => widget.onSelected(0),
+                                    ),
+                                    NavigationBarTabIcon(
+                                      selectedIcon: AssetPath.getIcon('assistance_filled.svg'),
+                                      unselectedIcon: AssetPath.getIcon('assistance_outlined.svg'),
+                                      isSelected: widget.selectedIndex == 1,
+                                      onTap: () => widget.onSelected(1),
+                                    ),
+                                    NavigationBarTabIcon(
+                                      selectedIcon: AssetPath.getIcon('leaderboard_filled.svg'),
+                                      unselectedIcon: AssetPath.getIcon('leaderboard_outlined.svg'),
+                                      isSelected: widget.selectedIndex == 2,
+                                      onTap: () => widget.onSelected(2),
+                                    ),
+                                    NavigationBarTabIcon(
+                                      selectedIcon: AssetPath.getIcon('extras_filled.svg'),
+                                      unselectedIcon: AssetPath.getIcon('extras_outlined.svg'),
+                                      isSelected: widget.selectedIndex == 3,
+                                      onTap: () => widget.onSelected(3),
+                                    ),
+                                    NavigationBarTabIcon(
+                                      selectedIcon: AssetPath.getIcon('people_filled.svg'),
+                                      unselectedIcon: AssetPath.getIcon('people_outlined.svg'),
+                                      isSelected: widget.selectedIndex == 4,
+                                      onTap: () => widget.onSelected(4),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                   ],
@@ -290,9 +302,9 @@ class NavigationBarTabIcon extends StatelessWidget {
             AnimatedContainer(
               width: isSelected ? 24 : 0,
               height: 5,
-              duration: const Duration(milliseconds: 200),
+              duration: kThemeAnimationDuration,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(2.5),
                 color: Palette.purple3,
               ),
             ),

@@ -199,7 +199,7 @@ class DrawerMenuListTile extends StatelessWidget {
           width: isSelected ? AppSize.getAppWidth(context) * .7 : 0,
           height: 56,
           left: 0,
-          duration: const Duration(milliseconds: 200),
+          duration: kThemeAnimationDuration,
           child: Container(
             decoration: const BoxDecoration(
               color: Palette.purple3,
