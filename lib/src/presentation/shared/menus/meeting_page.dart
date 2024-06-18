@@ -42,11 +42,11 @@ class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClient
       ),
       // if (CredentialSaver.user.role == 'STUDENT')
       MeetingMenuCard(
-        title: 'Riwayat Kehadiran',
+        title: 'Riwayat Pertemuan',
         strokeColor: Palette.azure1,
         fillColor: Palette.azure2,
         icon: Icons.history_outlined,
-        onTap: () => navigatorKey.currentState!.pushNamed(studentAttendanceHistoryRoute),
+        onTap: () => navigatorKey.currentState!.pushNamed(studentMeetingHistoryRoute),
       )
       // else
       //   MeetingMenuCard(

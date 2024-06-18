@@ -57,7 +57,7 @@ const homeRoute = '/home';
 const mainMenuRoute = '/main-menu';
 
 // Student meeting
-const studentAttendanceHistoryRoute = '/student-attendance-history';
+const studentMeetingHistoryRoute = '/student-meeting-history';
 const studentMeetingDetailRoute = '/student-meeting-detail';
 
 // Student assistance

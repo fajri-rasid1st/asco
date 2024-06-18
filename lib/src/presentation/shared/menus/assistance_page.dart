@@ -198,9 +198,10 @@ class _AssistancePageState extends State<AssistancePage> with AutomaticKeepAlive
                   20,
                   index == 9 ? kBottomNavigationBarHeight : 10,
                 ),
-                child: const AttendanceCard(
+                child: AttendanceCard(
                   attendanceType: AttendanceType.assistance,
-                  assistanceStatus: [true, false],
+                  assistanceStatus: const [true, false],
+                  onTap: () => navigatorKey.currentState!.pushNamed(studentAssistanceDetailRoute),
                 ),
               ),
             ),

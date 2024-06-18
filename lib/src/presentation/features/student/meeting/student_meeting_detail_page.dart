@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 // Project imports:
-import 'package:asco/core/extensions/button_extension.dart';
 import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/styles/color_scheme.dart';
@@ -92,16 +91,37 @@ class StudentMeetingDetailPage extends StatelessWidget {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              FilledButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.menu_book_rounded),
-                label: const Text('Buka Modul'),
-                style: FilledButton.styleFrom(
-                  foregroundColor: Palette.purple2,
-                  backgroundColor: Palette.background,
-                ),
-              ).fullWidth(),
-              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: FilledButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(Icons.menu_book_rounded),
+                      label: const Text('Lihat Modul'),
+                      style: FilledButton.styleFrom(
+                        foregroundColor: Palette.purple2,
+                        backgroundColor: Palette.background,
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.file_download_outlined,
+                      color: Palette.purple2,
+                    ),
+                    tooltip: 'Download Modul',
+                    style: IconButton.styleFrom(
+                      foregroundColor: Palette.purple2,
+                      backgroundColor: Palette.background,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20),
               Container(
                 padding: const EdgeInsets.fromLTRB(24, 0, 24, 24),
                 decoration: BoxDecoration(

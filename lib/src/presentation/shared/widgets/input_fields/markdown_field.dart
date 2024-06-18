@@ -153,8 +153,8 @@ class _MarkdownFieldState extends State<MarkdownField> {
                                       child: Text(
                                         'H$i',
                                         style: TextStyle(
-                                          fontSize: (18 - i).toDouble(),
                                           fontWeight: FontWeight.w700,
+                                          fontSize: (18 - i).toDouble(),
                                         ),
                                       ),
                                     ),

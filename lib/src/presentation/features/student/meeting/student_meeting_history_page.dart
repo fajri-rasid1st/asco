@@ -2,21 +2,23 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/const.dart';
+import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 
-class StudentAttendanceHistoryPage extends StatelessWidget {
-  const StudentAttendanceHistoryPage({super.key});
+class StudentMeetingHistoryPage extends StatelessWidget {
+  const StudentMeetingHistoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const CustomAppBar(
-        title: 'Riwayat Kehadiran',
+        title: 'Riwayat Pertemuan',
       ),
       body: ListView.separated(
         padding: const EdgeInsets.all(20),
@@ -24,7 +26,7 @@ class StudentAttendanceHistoryPage extends StatelessWidget {
           radius: 99,
           color: Palette.background,
           padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
-          onTap: () {},
+          onTap: () => navigatorKey.currentState!.pushNamed(studentMeetingDetailRoute),
           child: Row(
             children: [
               CircleBorderContainer(

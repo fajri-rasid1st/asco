@@ -29,8 +29,8 @@ import 'package:asco/src/presentation/features/common/home/home_page.dart';
 import 'package:asco/src/presentation/features/common/initial/on_boarding_page.dart';
 import 'package:asco/src/presentation/features/common/menu/main_menu_page.dart';
 import 'package:asco/src/presentation/features/student/assistance/student_assistance_detail_page.dart';
-import 'package:asco/src/presentation/features/student/meeting/student_attendance_history_page.dart';
 import 'package:asco/src/presentation/features/student/meeting/student_meeting_detail_page.dart';
+import 'package:asco/src/presentation/features/student/meeting/student_meeting_history_page.dart';
 import 'package:asco/src/presentation/shared/pages/practitioner_list_page.dart';
 import 'package:asco/src/presentation/shared/pages/select_classroom_page.dart';
 import 'package:asco/src/presentation/shared/pages/select_practicum_page.dart';
@@ -174,9 +174,9 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => SelectClassroomPage(args: args),
       );
-    case studentAttendanceHistoryRoute:
+    case studentMeetingHistoryRoute:
       return MaterialPageRoute(
-        builder: (_) => const StudentAttendanceHistoryPage(),
+        builder: (_) => const StudentMeetingHistoryPage(),
       );
     case studentMeetingDetailRoute:
       return MaterialPageRoute(
