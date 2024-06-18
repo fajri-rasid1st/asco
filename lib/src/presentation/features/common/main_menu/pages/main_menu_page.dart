@@ -7,11 +7,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Project imports:
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/utils/keys.dart';
-import 'package:asco/src/presentation/features/common/menu/assistance_page.dart';
-import 'package:asco/src/presentation/features/common/menu/extras_page.dart';
-import 'package:asco/src/presentation/features/common/menu/leaderboard_page.dart';
-import 'package:asco/src/presentation/features/common/menu/meeting_page.dart';
-import 'package:asco/src/presentation/features/common/menu/people_page.dart';
+import 'package:asco/src/presentation/features/common/menu/pages/assistance_page.dart';
+import 'package:asco/src/presentation/features/common/menu/pages/extras_page.dart';
+import 'package:asco/src/presentation/features/common/menu/pages/leaderboard_page.dart';
+import 'package:asco/src/presentation/features/common/menu/pages/meeting_page.dart';
+import 'package:asco/src/presentation/features/common/menu/pages/people_page.dart';
 import 'package:asco/src/presentation/shared/widgets/drawer_menu/drawer_menu_widget.dart';
 
 final selectedMainMenuProvider = StateProvider.autoDispose<int>((ref) => 0);
