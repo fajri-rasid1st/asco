@@ -27,7 +27,7 @@ import 'package:asco/src/presentation/features/admin/user/pages/user_form_page.d
 import 'package:asco/src/presentation/features/admin/user/pages/user_list_home_page.dart';
 import 'package:asco/src/presentation/features/common/home/home_page.dart';
 import 'package:asco/src/presentation/features/common/initial/on_boarding_page.dart';
-import 'package:asco/src/presentation/features/common/menu/main_menu_page.dart';
+import 'package:asco/src/presentation/features/common/main_menu/main_menu_page.dart';
 import 'package:asco/src/presentation/features/student/assistance/student_assistance_detail_page.dart';
 import 'package:asco/src/presentation/features/student/meeting/student_meeting_detail_page.dart';
 import 'package:asco/src/presentation/features/student/meeting/student_meeting_history_page.dart';
