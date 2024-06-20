@@ -191,7 +191,7 @@ class MeetingMenuCard extends StatelessWidget {
   final IconData icon;
   final Color strokeColor;
   final Color fillColor;
-  final VoidCallback? onTap;
+  final VoidCallback onTap;
 
   const MeetingMenuCard({
     super.key,
@@ -199,7 +199,7 @@ class MeetingMenuCard extends StatelessWidget {
     required this.icon,
     required this.strokeColor,
     required this.fillColor,
-    this.onTap,
+    required this.onTap,
   });
 
   @override

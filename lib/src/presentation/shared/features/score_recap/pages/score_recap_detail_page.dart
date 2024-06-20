@@ -11,7 +11,9 @@ import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 
 class ScoreRecapDetailPage extends StatelessWidget {
-  const ScoreRecapDetailPage({super.key});
+  final String title;
+
+  const ScoreRecapDetailPage({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -43,8 +45,8 @@ class ScoreRecapDetailPage extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: 'Wd. Ananda Lesmono',
+      appBar: CustomAppBar(
+        title: title,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),

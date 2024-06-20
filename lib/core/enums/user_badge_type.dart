@@ -1,1 +1,4 @@
-enum UserBadgeType { pill, text }
+enum UserBadgeType {
+  pill,
+  text,
+}

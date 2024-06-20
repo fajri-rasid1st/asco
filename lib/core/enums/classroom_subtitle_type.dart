@@ -1,1 +1,4 @@
-enum ClassroomSubtitleType { schedule, totalStudents }
+enum ClassroomSubtitleType {
+  schedule,
+  totalStudents,
+}

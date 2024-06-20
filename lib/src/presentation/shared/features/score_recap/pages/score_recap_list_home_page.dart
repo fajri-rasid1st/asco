@@ -108,14 +108,19 @@ class _ScoreRecapListHomePageState extends ConsumerState<ScoreRecapListHomePage>
                     ),
                     child: UserCard(
                       badgeText: 'Kelas A',
-                      trailing: Text(
-                        '80.0',
-                        style: textTheme.titleMedium!.copyWith(
-                          color: Palette.purple2,
-                          height: 1,
+                      trailing: Padding(
+                        padding: const EdgeInsets.only(right: 4),
+                        child: Text(
+                          '100',
+                          style: textTheme.titleLarge!.copyWith(
+                            color: Palette.purple2,
+                          ),
                         ),
                       ),
-                      onTap: () => navigatorKey.currentState!.pushNamed(scoreRecapDetailRoute),
+                      onTap: () => navigatorKey.currentState!.pushNamed(
+                        scoreRecapDetailRoute,
+                        arguments: 'Wd. Ananda Lesmono',
+                      ),
                     ),
                   ),
                   childCount: 10,

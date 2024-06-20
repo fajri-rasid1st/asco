@@ -1,1 +1,4 @@
-enum AttendanceType { meeting, assistance }
+enum AttendanceType {
+  meeting,
+  assistance,
+}

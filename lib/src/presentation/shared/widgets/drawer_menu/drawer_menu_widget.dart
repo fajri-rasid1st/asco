@@ -170,7 +170,7 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with SingleTickerPr
                       duration: kThemeAnimationDuration,
                       curve: Curves.fastOutSlowIn,
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 16),
+                        padding: const EdgeInsets.only(left: 20),
                         child: GestureDetector(
                           onTap: () {
                             if (closed) {

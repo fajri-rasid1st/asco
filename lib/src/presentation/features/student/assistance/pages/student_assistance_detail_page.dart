@@ -10,6 +10,7 @@ import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
+import 'package:asco/src/presentation/shared/widgets/custom_badge.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class StudentAssistanceDetailPage extends StatelessWidget {
@@ -255,21 +256,12 @@ class AttendanceAssistanceCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 4,
-                    horizontal: 8,
-                  ),
-                  decoration: BoxDecoration(
-                    color: statusBadgeColor.withOpacity(.2),
-                    borderRadius: BorderRadius.circular(99),
-                  ),
-                  child: Text(
-                    statusBadgeText,
-                    style: textTheme.labelSmall!.copyWith(
-                      color: statusBadgeColor,
-                      fontWeight: FontWeight.w600,
-                    ),
+                CustomBadge(
+                  color: statusBadgeColor.withOpacity(.2),
+                  text: statusBadgeText,
+                  textStyle: textTheme.labelSmall!.copyWith(
+                    color: statusBadgeColor,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ],

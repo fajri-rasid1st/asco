@@ -116,7 +116,7 @@ class CustomSnackBar extends StatelessWidget {
               Positioned(
                 top: height * 0.015,
                 child: SvgAsset(
-                  AssetPath.getIcon(getIconName(type)),
+                  AssetPath.getIcon(type.iconName),
                   height: height * 0.024,
                 ),
               )
@@ -125,15 +125,5 @@ class CustomSnackBar extends StatelessWidget {
         ),
       ],
     );
-  }
-
-  String getIconName(SnackBarType type) {
-    if (type == SnackBarType.error) return 'error_outlined.svg';
-
-    if (type == SnackBarType.warning) return 'warning_outlined.svg';
-
-    if (type == SnackBarType.info) return 'warning_outlined.svg';
-
-    return 'success_outlined.svg';
   }
 }

@@ -122,14 +122,6 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const AttendanceDetailPage(),
       );
-    case scoreRecapListHomeRoute:
-      return MaterialPageRoute(
-        builder: (_) => const ScoreRecapListHomePage(),
-      );
-    case scoreRecapDetailRoute:
-      return MaterialPageRoute(
-        builder: (_) => const ScoreRecapDetailPage(),
-      );
     case assistanceGroupListHomeRoute:
       return MaterialPageRoute(
         builder: (_) => const AssistanceGroupListHomePage(),
@@ -156,6 +148,28 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const LabRulesPage(),
       );
+    case studentMeetingHistoryRoute:
+      return MaterialPageRoute(
+        builder: (_) => const StudentMeetingHistoryPage(),
+      );
+    case studentMeetingDetailRoute:
+      return MaterialPageRoute(
+        builder: (_) => const StudentMeetingDetailPage(),
+      );
+    case studentAssistanceDetailRoute:
+      return MaterialPageRoute(
+        builder: (_) => const StudentAssistanceDetailPage(),
+      );
+    case scoreRecapListHomeRoute:
+      return MaterialPageRoute(
+        builder: (_) => const ScoreRecapListHomePage(),
+      );
+    case scoreRecapDetailRoute:
+      final title = settings.arguments as String;
+
+      return MaterialPageRoute(
+        builder: (_) => ScoreRecapDetailPage(title: title),
+      );
     case selectUsersRoute:
       final args = settings.arguments as SelectUsersPageArgs;
 
@@ -173,18 +187,6 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
 
       return MaterialPageRoute(
         builder: (_) => SelectClassroomPage(args: args),
-      );
-    case studentMeetingHistoryRoute:
-      return MaterialPageRoute(
-        builder: (_) => const StudentMeetingHistoryPage(),
-      );
-    case studentMeetingDetailRoute:
-      return MaterialPageRoute(
-        builder: (_) => const StudentMeetingDetailPage(),
-      );
-    case studentAssistanceDetailRoute:
-      return MaterialPageRoute(
-        builder: (_) => const StudentAssistanceDetailPage(),
       );
     case practitionerListRoute:
       final title = settings.arguments as String;
