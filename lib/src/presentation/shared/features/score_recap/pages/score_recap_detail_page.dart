@@ -227,6 +227,8 @@ class ScoreRecapCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   '$value',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: textTheme.titleLarge!.copyWith(
                     fontWeight: FontWeight.w600,
                   ),

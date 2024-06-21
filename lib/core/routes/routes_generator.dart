@@ -29,6 +29,8 @@ import 'package:asco/src/presentation/features/common/main_menu/pages/main_menu_
 import 'package:asco/src/presentation/features/student/assistance/pages/student_assistance_detail_page.dart';
 import 'package:asco/src/presentation/features/student/meeting/pages/student_meeting_detail_page.dart';
 import 'package:asco/src/presentation/features/student/meeting/pages/student_meeting_history_page.dart';
+import 'package:asco/src/presentation/features/student/profile/pages/student_profile_page.dart';
+import 'package:asco/src/presentation/shared/features/profile/pages/edit_profile_page.dart';
 import 'package:asco/src/presentation/shared/features/score_recap/pages/score_recap_detail_page.dart';
 import 'package:asco/src/presentation/shared/features/score_recap/pages/score_recap_list_home_page.dart';
 import 'package:asco/src/presentation/shared/pages/practitioner_list_page.dart';
@@ -160,6 +162,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const StudentAssistanceDetailPage(),
       );
+    case studentProfileRoute:
+      return MaterialPageRoute(
+        builder: (_) => const StudentProfilePage(),
+      );
     case scoreRecapListHomeRoute:
       return MaterialPageRoute(
         builder: (_) => const ScoreRecapListHomePage(),
@@ -193,6 +199,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
 
       return MaterialPageRoute(
         builder: (_) => PractitionerListPage(title: title),
+      );
+    case editProfileRoute:
+      return MaterialPageRoute(
+        builder: (_) => const EditProfilePage(),
       );
     default:
       return null;

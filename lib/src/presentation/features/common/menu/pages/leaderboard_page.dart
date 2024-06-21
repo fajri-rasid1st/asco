@@ -318,7 +318,7 @@ class LeaderboardRank extends StatelessWidget {
 class CustomClipPathBronze extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-    Path path = Path();
+    final path = Path();
 
     path.lineTo(0, size.height);
     path.lineTo(size.width, size.height);
@@ -336,7 +336,7 @@ class CustomClipPathBronze extends CustomClipper<Path> {
 class CustomClipPathSilver extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-    Path path = Path();
+    final path = Path();
 
     path.moveTo(size.width, 0);
     path.lineTo(size.width, size.height);
@@ -355,7 +355,7 @@ class CustomClipPathSilver extends CustomClipper<Path> {
 class CustomClipPathGold extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
-    Path path = Path();
+    final path = Path();
 
     path.moveTo(size.width - 10, 0);
     path.lineTo(size.width, size.height);

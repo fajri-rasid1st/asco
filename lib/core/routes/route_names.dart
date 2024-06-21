@@ -47,12 +47,15 @@ const labRulesRoute = 'lab-rules';
 const homeRoute = '/home';
 const mainMenuRoute = '/main-menu';
 
-// Student meeting
+// Student: meeting
 const studentMeetingHistoryRoute = '/student-meeting-history';
 const studentMeetingDetailRoute = '/student-meeting-detail';
 
-// Student assistance
+// Student: assistance
 const studentAssistanceDetailRoute = '/student-assistance-detail';
+
+// Student: profile
+const studentProfileRoute = '/student-profile';
 
 // Shared - All
 const scoreRecapListHomeRoute = '/score-recap-list-home';
@@ -65,3 +68,4 @@ const selectClassroomRoute = '/select-classroom';
 
 // Shared - Student & Assistance
 const practitionerListRoute = '/practitioner-list';
+const editProfileRoute = '/edit-profile';

@@ -146,12 +146,16 @@ class ExtraCard extends StatelessWidget {
                 const SizedBox(height: 16),
                 Text(
                   title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: textTheme.titleMedium!.copyWith(
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 Text(
                   description,
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
                   style: textTheme.bodySmall!.copyWith(
                     color: Palette.secondaryText,
                   ),
