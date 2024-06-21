@@ -27,20 +27,16 @@ class PracticumBadgeImage extends StatelessWidget {
       height: height,
       fadeInDuration: const Duration(milliseconds: 200),
       fadeOutDuration: const Duration(milliseconds: 200),
-      placeholder: (context, url) {
-        return Image.asset(
-          AssetPath.getImage('badge.png'),
-          width: width,
-          height: height,
-        );
-      },
-      errorWidget: (context, url, error) {
-        return Image.asset(
-          AssetPath.getImage('badge.png'),
-          width: width,
-          height: height,
-        );
-      },
+      placeholder: (context, url) => Image.asset(
+        AssetPath.getImage('badge.png'),
+        width: width,
+        height: height,
+      ),
+      errorWidget: (context, url, error) => Image.asset(
+        AssetPath.getImage('badge.png'),
+        width: width,
+        height: height,
+      ),
     );
   }
 }

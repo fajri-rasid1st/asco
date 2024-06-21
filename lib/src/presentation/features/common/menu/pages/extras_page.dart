@@ -54,7 +54,7 @@ class _ExtrasPageState extends State<ExtrasPage> with AutomaticKeepAliveClientMi
 
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20 + kBottomNavigationBarHeight),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

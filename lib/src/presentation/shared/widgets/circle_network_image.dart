@@ -34,54 +34,48 @@ class CircleNetworkImage extends StatelessWidget {
       imageUrl: imageUrl,
       fadeInDuration: const Duration(milliseconds: 200),
       fadeOutDuration: const Duration(milliseconds: 200),
-      imageBuilder: (context, imageProvider) {
-        return Container(
-          width: size,
-          height: size,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: withBorder
-                ? Border.all(
-                    width: borderWidth,
-                    color: borderColor,
-                  )
-                : null,
-            image: DecorationImage(
-              image: imageProvider,
-              fit: fit,
-            ),
+      imageBuilder: (context, imageProvider) => Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: withBorder
+              ? Border.all(
+                  width: borderWidth,
+                  color: borderColor,
+                )
+              : null,
+          image: DecorationImage(
+            image: imageProvider,
+            fit: fit,
           ),
-        );
-      },
-      placeholder: (context, url) {
-        return CircleAvatar(
-          radius: size / 2,
-          backgroundColor: Palette.purple5,
-          child: Center(
-            child: SizedBox(
-              width: placeholderSize ?? size / 2.5,
-              height: placeholderSize ?? size / 2.5,
-              child: const SpinKitRing(
-                lineWidth: 2,
-                color: Palette.secondaryText,
-              ),
-            ),
-          ),
-        );
-      },
-      errorWidget: (context, url, error) {
-        return CircleAvatar(
-          radius: size / 2,
-          backgroundColor: Palette.purple5,
-          child: Center(
-            child: Icon(
-              Icons.hide_source_rounded,
+        ),
+      ),
+      placeholder: (context, url) => CircleAvatar(
+        radius: size / 2,
+        backgroundColor: Palette.purple5,
+        child: Center(
+          child: SizedBox(
+            width: placeholderSize ?? size / 2.5,
+            height: placeholderSize ?? size / 2.5,
+            child: const SpinKitRing(
+              lineWidth: 2,
               color: Palette.secondaryText,
-              size: placeholderSize ?? size / 2.5,
             ),
           ),
-        );
-      },
+        ),
+      ),
+      errorWidget: (context, url, error) => CircleAvatar(
+        radius: size / 2,
+        backgroundColor: Palette.purple5,
+        child: Center(
+          child: Icon(
+            Icons.hide_source_rounded,
+            color: Palette.secondaryText,
+            size: placeholderSize ?? size / 2.5,
+          ),
+        ),
+      ),
     );
   }
 }

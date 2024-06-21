@@ -33,7 +33,7 @@ class HomePage extends ConsumerWidget {
         if (next == -2) {
           ref.read(selectedMenuProvider.notifier).state = -1;
 
-          // Navigate to profile page
+          navigatorKey.currentState!.pushNamed(studentProfileRoute);
         }
 
         if (next == 6) {

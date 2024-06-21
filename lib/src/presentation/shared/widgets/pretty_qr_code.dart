@@ -11,7 +11,6 @@ class PrettyQrCode extends StatelessWidget {
   final String data;
   final double? width;
   final double? height;
-  final EdgeInsetsGeometry? padding;
   final ui.Image? image;
   final int errorCorrectionLevel;
   final bool roundedEdges;
@@ -23,7 +22,6 @@ class PrettyQrCode extends StatelessWidget {
     required this.data,
     this.width,
     this.height,
-    this.padding,
     this.image,
     this.errorCorrectionLevel = QrErrorCorrectLevel.M,
     this.roundedEdges = false,
@@ -33,26 +31,23 @@ class PrettyQrCode extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: padding ?? EdgeInsets.zero,
-      child: LayoutBuilder(
-        builder: (context, constraint) {
-          return CustomPaint(
-            size: Size(
-              width ?? constraint.maxWidth,
-              height ?? constraint.maxHeight,
-            ),
-            painter: PrettyQrCodePainter(
-              data: data,
-              image: image,
-              errorCorrectLevel: errorCorrectionLevel,
-              roundedEdges: roundedEdges,
-              elementColor: color,
-              backgroundColor: backgroundColor,
-            ),
-          );
-        },
-      ),
+    return LayoutBuilder(
+      builder: (context, constraint) {
+        return CustomPaint(
+          size: Size(
+            width ?? constraint.maxWidth,
+            height ?? constraint.maxHeight,
+          ),
+          painter: PrettyQrCodePainter(
+            data: data,
+            image: image,
+            errorCorrectLevel: errorCorrectionLevel,
+            roundedEdges: roundedEdges,
+            elementColor: color,
+            backgroundColor: backgroundColor,
+          ),
+        );
+      },
     );
   }
 }

@@ -58,7 +58,7 @@ class _MainMenuPageState extends ConsumerState<MainMenuPage> {
         if (next == -2) {
           ref.read(selectedMainMenuProvider.notifier).state = previous ?? 0;
 
-          // Navigate to profile page
+          navigatorKey.currentState!.pushNamed(studentProfileRoute);
         }
 
         if (next == -1) {
