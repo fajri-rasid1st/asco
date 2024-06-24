@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:asco/core/routes/route_names.dart';
+import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/features/common/menu/pages/assistance_page.dart';
 import 'package:asco/src/presentation/features/common/menu/pages/extras_page.dart';
@@ -58,7 +59,9 @@ class _MainMenuPageState extends ConsumerState<MainMenuPage> {
         if (next == -2) {
           ref.read(selectedMainMenuProvider.notifier).state = previous ?? 0;
 
-          navigatorKey.currentState!.pushNamed(studentProfileRoute);
+          navigatorKey.currentState!.pushNamed(
+            role == 'student' ? studentProfileRoute : assistantProfileRoute,
+          );
         }
 
         if (next == -1) {

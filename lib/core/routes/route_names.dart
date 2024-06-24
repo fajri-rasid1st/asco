@@ -54,8 +54,9 @@ const studentMeetingDetailRoute = '/student-meeting-detail';
 // Student: assistance
 const studentAssistanceDetailRoute = '/student-assistance-detail';
 
-// Student: profile
+// Profile
 const studentProfileRoute = '/student-profile';
+const assistantProfileRoute = '/assistant-profile';
 
 // Shared - All
 const scoreRecapListHomeRoute = '/score-recap-list-home';

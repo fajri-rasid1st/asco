@@ -88,9 +88,9 @@ class UserFormPage extends StatelessWidget {
               CustomDropdownField(
                 name: 'role',
                 label: 'Role',
-                items: userRole.keys.toList().sublist(1),
-                values: userRole.values.toList().sublist(1),
-                initialValue: userRole.values.toList()[1],
+                items: userRoleFilter.keys.toList().sublist(1),
+                values: userRoleFilter.values.toList().sublist(1),
+                initialValue: userRoleFilter.values.toList()[1],
               ),
               if (args.action == 'Tambah') ...[
                 const Spacer(),

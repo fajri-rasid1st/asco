@@ -102,10 +102,11 @@ class PracticumBadgeGeneratorPage extends StatelessWidget {
                     ),
                     child: Consumer(
                       builder: (context, ref, child) {
+                        final badgeIcon = BadgeIcon.getIcons[index];
+
                         return BadgeIconContainer(
-                          badgeIcon: BadgeIcon.getIcons[index],
-                          isSelected: BadgeIcon.getIcons[index].name ==
-                              ref.watch(selectedIconProvider).name,
+                          badgeIcon: badgeIcon,
+                          isSelected: badgeIcon.name == ref.watch(selectedIconProvider).name,
                         );
                       },
                     ),
@@ -129,10 +130,11 @@ class PracticumBadgeGeneratorPage extends StatelessWidget {
                     ),
                     child: Consumer(
                       builder: (context, ref, child) {
+                        final badgePalette = BadgePalette.getPalettes[index];
+
                         return BadgePaletteContainer(
-                          badgePalette: BadgePalette.getPalettes[index],
-                          isSelected:
-                              BadgePalette.getPalettes[index] == ref.watch(selectedPaletteProvider),
+                          badgePalette: badgePalette,
+                          isSelected: badgePalette == ref.watch(selectedPaletteProvider),
                         );
                       },
                     ),

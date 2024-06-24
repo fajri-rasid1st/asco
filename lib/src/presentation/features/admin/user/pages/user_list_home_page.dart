@@ -54,7 +54,7 @@ class _UserListHomePageState extends State<UserListHomePage> with SingleTickerPr
 
   @override
   Widget build(BuildContext context) {
-    final labels = userRole.keys.toList();
+    final labels = userRoleFilter.keys.toList();
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -110,19 +110,20 @@ class _UserListHomePageState extends State<UserListHomePage> with SingleTickerPr
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) => Consumer(
                       builder: (context, ref, child) {
+                        final userRole = userRoleFilter[labels[index]];
+
                         return CustomFilterChip(
                           label: labels[index],
-                          selected: ref.watch(selectedRoleProvider) == userRole[labels[index]],
+                          selected: ref.watch(selectedRoleProvider) == userRole,
                           onSelected: (_) {
                             ref.read(queryProvider.notifier).state = '';
-                            ref.read(selectedRoleProvider.notifier).state =
-                                userRole[labels[index]]!;
+                            ref.read(selectedRoleProvider.notifier).state = userRole!;
                           },
                         );
                       },
                     ),
                     separatorBuilder: (context, index) => const SizedBox(width: 8),
-                    itemCount: userRole.length,
+                    itemCount: labels.length,
                   ),
                 ),
               ),

@@ -10,6 +10,7 @@ import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
@@ -33,7 +34,9 @@ class HomePage extends ConsumerWidget {
         if (next == -2) {
           ref.read(selectedMenuProvider.notifier).state = -1;
 
-          navigatorKey.currentState!.pushNamed(studentProfileRoute);
+          navigatorKey.currentState!.pushNamed(
+            role == 'student' ? studentProfileRoute : assistantProfileRoute,
+          );
         }
 
         if (next == 6) {
