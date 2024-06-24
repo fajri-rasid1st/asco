@@ -19,14 +19,14 @@ import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/search_field.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
-class ScoreRecapListHomePage extends ConsumerStatefulWidget {
+class ScoreRecapListHomePage extends StatefulWidget {
   const ScoreRecapListHomePage({super.key});
 
   @override
-  ConsumerState<ScoreRecapListHomePage> createState() => _ScoreRecapListHomePageState();
+  State<ScoreRecapListHomePage> createState() => _ScoreRecapListHomePageState();
 }
 
-class _ScoreRecapListHomePageState extends ConsumerState<ScoreRecapListHomePage>
+class _ScoreRecapListHomePageState extends State<ScoreRecapListHomePage>
     with SingleTickerProviderStateMixin {
   late final AnimationController fabAnimationController;
   late final ScrollController scrollController;
@@ -53,8 +53,6 @@ class _ScoreRecapListHomePageState extends ConsumerState<ScoreRecapListHomePage>
 
   @override
   Widget build(BuildContext context) {
-    final query = ref.watch(queryProvider);
-
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Rekap Nilai - Pemrograman Mobile',
@@ -87,10 +85,14 @@ class _ScoreRecapListHomePageState extends ConsumerState<ScoreRecapListHomePage>
               surfaceTintColor: Palette.scaffoldBackground,
               flexibleSpace: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                child: SearchField(
-                  text: query,
-                  hintText: 'Cari nama atau NIM',
-                  onChanged: (value) => ref.read(queryProvider.notifier).state = value,
+                child: Consumer(
+                  builder: (context, ref, child) {
+                    return SearchField(
+                      text: ref.watch(queryProvider),
+                      hintText: 'Cari nama atau NIM',
+                      onChanged: (value) => ref.read(queryProvider.notifier).state = value,
+                    );
+                  },
                 ),
               ),
               bottom: const PreferredSize(

@@ -15,14 +15,12 @@ import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/search_field.dart';
 import 'package:asco/src/presentation/shared/widgets/section_header.dart';
 
-class ControlCardListHomePage extends ConsumerWidget {
+class ControlCardListHomePage extends StatelessWidget {
   const ControlCardListHomePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     const groups = [1, 3, 3, 2, 1, 2, 1, 3, 1, 2];
-
-    final query = ref.watch(queryProvider);
 
     return Scaffold(
       appBar: const CustomAppBar(
@@ -37,10 +35,14 @@ class ControlCardListHomePage extends ConsumerWidget {
             surfaceTintColor: Palette.scaffoldBackground,
             flexibleSpace: Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-              child: SearchField(
-                text: query,
-                hintText: 'Cari nama atau username',
-                onChanged: (value) => ref.read(queryProvider.notifier).state = value,
+              child: Consumer(
+                builder: (context, ref, child) {
+                  return SearchField(
+                    text: ref.watch(queryProvider),
+                    hintText: 'Cari nama atau username',
+                    onChanged: (value) => ref.read(queryProvider.notifier).state = value,
+                  );
+                },
               ),
             ),
             bottom: const PreferredSize(

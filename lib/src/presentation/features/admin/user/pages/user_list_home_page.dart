@@ -21,15 +21,14 @@ import 'package:asco/src/presentation/shared/widgets/input_fields/search_field.d
 
 final selectedRoleProvider = StateProvider.autoDispose<String>((ref) => '');
 
-class UserListHomePage extends ConsumerStatefulWidget {
+class UserListHomePage extends StatefulWidget {
   const UserListHomePage({super.key});
 
   @override
-  ConsumerState<UserListHomePage> createState() => _UserListHomePageState();
+  State<UserListHomePage> createState() => _UserListHomePageState();
 }
 
-class _UserListHomePageState extends ConsumerState<UserListHomePage>
-    with SingleTickerProviderStateMixin {
+class _UserListHomePageState extends State<UserListHomePage> with SingleTickerProviderStateMixin {
   late final AnimationController fabAnimationController;
   late final ScrollController scrollController;
 
@@ -56,9 +55,6 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
   @override
   Widget build(BuildContext context) {
     final labels = userRole.keys.toList();
-
-    final query = ref.watch(queryProvider);
-    final selectedRole = ref.watch(selectedRoleProvider);
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -92,12 +88,16 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
               surfaceTintColor: Palette.scaffoldBackground,
               flexibleSpace: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                child: SearchField(
-                  text: query,
-                  hintText: 'Cari nama atau username',
-                  onChanged: (value) {
-                    ref.read(queryProvider.notifier).state = value;
-                    ref.read(selectedRoleProvider.notifier).state = '';
+                child: Consumer(
+                  builder: (context, ref, child) {
+                    return SearchField(
+                      text: ref.watch(queryProvider),
+                      hintText: 'Cari nama atau username',
+                      onChanged: (value) {
+                        ref.read(queryProvider.notifier).state = value;
+                        ref.read(selectedRoleProvider.notifier).state = '';
+                      },
+                    );
                   },
                 ),
               ),
@@ -108,12 +108,17 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
                   child: ListView.separated(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => CustomFilterChip(
-                      label: labels[index],
-                      selected: selectedRole == userRole[labels[index]],
-                      onSelected: (_) {
-                        ref.read(queryProvider.notifier).state = '';
-                        ref.read(selectedRoleProvider.notifier).state = userRole[labels[index]]!;
+                    itemBuilder: (context, index) => Consumer(
+                      builder: (context, ref, child) {
+                        return CustomFilterChip(
+                          label: labels[index],
+                          selected: ref.watch(selectedRoleProvider) == userRole[labels[index]],
+                          onSelected: (_) {
+                            ref.read(queryProvider.notifier).state = '';
+                            ref.read(selectedRoleProvider.notifier).state =
+                                userRole[labels[index]]!;
+                          },
+                        );
                       },
                     ),
                     separatorBuilder: (context, index) => const SizedBox(width: 8),

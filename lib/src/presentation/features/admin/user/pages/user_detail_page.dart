@@ -38,50 +38,44 @@ class UserDetailPage extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            Center(
-              child: Column(
-                children: [
-                  const CircleNetworkImage(
-                    imageUrl: 'https://placehold.co/300x300/png',
-                    size: 128,
-                    withBorder: true,
-                    borderWidth: 4,
-                    borderColor: Palette.background,
-                  ),
-                  const SizedBox(height: 12),
-                  Text(
-                    'Muh. Alip Setya Prakasa',
-                    textAlign: TextAlign.center,
-                    style: textTheme.titleLarge!.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    'H071191042',
-                    textAlign: TextAlign.center,
-                    style: textTheme.bodyMedium!.copyWith(
-                      color: Palette.secondaryText,
-                    ),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    '2019',
-                    style: textTheme.headlineSmall!.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 4),
-                  CustomBadge(
-                    text: 'Praktikan',
-                    verticalPadding: 6,
-                    horizontalPadding: 12,
-                    textStyle: textTheme.bodySmall!.copyWith(
-                      color: Palette.background,
-                      height: 1,
-                    ),
-                  ),
-                ],
+            const CircleNetworkImage(
+              imageUrl: 'https://placehold.co/300x300/png',
+              size: 128,
+              withBorder: true,
+              borderWidth: 2,
+              borderColor: Palette.background,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              'Muh. Alip Setya Prakasa',
+              textAlign: TextAlign.center,
+              style: textTheme.titleLarge!.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              'H071191042',
+              textAlign: TextAlign.center,
+              style: textTheme.bodyMedium!.copyWith(
+                color: Palette.secondaryText,
+              ),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              '2019',
+              style: textTheme.headlineSmall!.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 4),
+            CustomBadge(
+              text: 'Praktikan',
+              verticalPadding: 6,
+              horizontalPadding: 12,
+              textStyle: textTheme.bodySmall!.copyWith(
+                color: Palette.background,
+                height: 1,
               ),
             ),
             const Spacer(),

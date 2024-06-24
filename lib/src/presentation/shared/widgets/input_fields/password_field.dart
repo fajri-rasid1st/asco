@@ -13,9 +13,7 @@ class PasswordField extends StatefulWidget {
   final String name;
   final String label;
   final String? hintText;
-  final TextInputType textInputType;
   final TextInputAction textInputAction;
-  final TextCapitalization textCapitalization;
   final List<String? Function(String?)>? validators;
   final ValueChanged<String?>? onChanged;
 
@@ -24,9 +22,7 @@ class PasswordField extends StatefulWidget {
     required this.name,
     required this.label,
     this.hintText,
-    this.textInputType = TextInputType.visiblePassword,
     this.textInputAction = TextInputAction.next,
-    this.textCapitalization = TextCapitalization.none,
     this.validators,
     this.onChanged,
   });
@@ -71,9 +67,8 @@ class _PasswordFieldState extends State<PasswordField> {
             return FormBuilderTextField(
               name: widget.name,
               obscureText: !isVisible,
-              keyboardType: widget.textInputType,
+              keyboardType: TextInputType.visiblePassword,
               textInputAction: widget.textInputAction,
-              textCapitalization: widget.textCapitalization,
               textAlignVertical: TextAlignVertical.center,
               style: textTheme.bodyLarge,
               decoration: InputDecoration(

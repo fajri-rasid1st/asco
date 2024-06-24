@@ -15,22 +15,20 @@ import 'package:asco/src/presentation/shared/widgets/circle_border_container.dar
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/search_field.dart';
 
-class SelectUsersPage extends ConsumerStatefulWidget {
+class SelectUsersPage extends StatefulWidget {
   final SelectUsersPageArgs args;
 
   const SelectUsersPage({super.key, required this.args});
 
   @override
-  ConsumerState<SelectUsersPage> createState() => _SelectUsersPageState();
+  State<SelectUsersPage> createState() => _SelectUsersPageState();
 }
 
-class _SelectUsersPageState extends ConsumerState<SelectUsersPage> {
+class _SelectUsersPageState extends State<SelectUsersPage> {
   List<int> selectedUsers = [];
 
   @override
   Widget build(BuildContext context) {
-    final query = ref.watch(queryProvider);
-
     return PopScope(
       canPop: false,
       onPopInvoked: (didPop) {
@@ -69,10 +67,14 @@ class _SelectUsersPageState extends ConsumerState<SelectUsersPage> {
               surfaceTintColor: Palette.scaffoldBackground,
               flexibleSpace: Padding(
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-                child: SearchField(
-                  text: query,
-                  hintText: 'Cari nama atau username',
-                  onChanged: (value) => ref.read(queryProvider.notifier).state = value,
+                child: Consumer(
+                  builder: (context, ref, child) {
+                    return SearchField(
+                      text: ref.watch(queryProvider),
+                      hintText: 'Cari nama atau username',
+                      onChanged: (value) => ref.read(queryProvider.notifier).state = value,
+                    );
+                  },
                 ),
               ),
               bottom: const PreferredSize(

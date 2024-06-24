@@ -10,6 +10,7 @@ import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/src/presentation/shared/widgets/drawer_menu/drawer_menu_content.dart';
+import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class DrawerMenuWidget extends StatefulWidget {
@@ -169,40 +170,34 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with SingleTickerPr
                       left: closed ? 0 : AppSize.getAppWidth(context) * .7 - 40,
                       duration: kThemeAnimationDuration,
                       curve: Curves.fastOutSlowIn,
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 20),
-                        child: GestureDetector(
-                          onTap: () {
-                            if (closed) {
-                              animationController.forward();
-                              isDrawerClosed.value = false;
-                            } else {
-                              animationController.reverse();
-                              isDrawerClosed.value = true;
-                            }
-                          },
-                          child: Container(
-                            width: 36,
-                            height: 36,
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Palette.background,
-                              shape: BoxShape.circle,
-                              boxShadow: [
-                                BoxShadow(
-                                  offset: const Offset(0, 2),
-                                  color: Palette.primaryText.withOpacity(.2),
-                                  blurRadius: 4,
-                                ),
-                              ],
-                            ),
-                            child: SvgAsset(
-                              AssetPath.getIcon(
-                                closed ? 'hamburger_outlined.svg' : 'close_outlined.svg',
-                              ),
-                              color: Palette.primaryText,
-                            ),
+                      child: InkWellContainer(
+                        width: 36,
+                        height: 36,
+                        radius: 18,
+                        color: Palette.background,
+                        margin: const EdgeInsets.only(left: 20),
+                        padding: const EdgeInsets.all(8),
+                        boxShadow: [
+                          BoxShadow(
+                            offset: const Offset(0, 2),
+                            color: Palette.primaryText.withOpacity(.2),
+                            blurRadius: 4,
                           ),
+                        ],
+                        onTap: () {
+                          if (closed) {
+                            animationController.forward();
+                            isDrawerClosed.value = false;
+                          } else {
+                            animationController.reverse();
+                            isDrawerClosed.value = true;
+                          }
+                        },
+                        child: SvgAsset(
+                          AssetPath.getIcon(
+                            closed ? 'hamburger_outlined.svg' : 'close_outlined.svg',
+                          ),
+                          color: Palette.primaryText,
                         ),
                       ),
                     ),

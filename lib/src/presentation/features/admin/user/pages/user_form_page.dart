@@ -41,85 +41,77 @@ class UserFormPage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
-        child: Column(
-          children: [
-            FormBuilder(
-              key: formKey,
-              child: Column(
-                children: [
-                  CustomTextField(
-                    name: 'username',
-                    label: 'Username',
-                    hintText: 'Masukkan username',
-                    textCapitalization: TextCapitalization.none,
-                    validators: [
-                      FormBuilderValidators.required(
-                        errorText: 'Field wajib diisi',
-                      ),
-                      FormBuilderValidators.match(
-                        r'^(?=.*[a-zA-Z])\d*[a-zA-Z\d]*$',
-                        errorText: 'Username tidak valid',
-                      ),
-                    ],
+        child: FormBuilder(
+          key: formKey,
+          child: Column(
+            children: [
+              CustomTextField(
+                name: 'username',
+                label: 'Username',
+                hintText: 'Masukkan username',
+                textCapitalization: TextCapitalization.none,
+                validators: [
+                  FormBuilderValidators.required(
+                    errorText: 'Field wajib diisi',
                   ),
-                  const SizedBox(height: 12),
-                  CustomTextField(
-                    name: 'fullname',
-                    label: 'Nama Lengkap',
-                    hintText: 'Masukkan nama lengkap',
-                    textCapitalization: TextCapitalization.words,
-                    validators: [
-                      FormBuilderValidators.required(
-                        errorText: 'Field wajib diisi',
-                      ),
-                      FormBuilderValidators.match(
-                        r'^(?=.*[a-zA-Z])[a-zA-Z\s.]*$',
-                        errorText: 'Nama tidak valid',
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
-                  CustomDropdownField(
-                    name: 'classOf',
-                    label: 'Angkatan',
-                    items: listOfYears,
-                    values: listOfYears,
-                    initialValue: listOfYears.first,
-                  ),
-                  const SizedBox(height: 12),
-                  CustomDropdownField(
-                    name: 'role',
-                    label: 'Role',
-                    items: userRole.keys.toList().sublist(1),
-                    values: userRole.values.toList().sublist(1),
-                    initialValue: userRole.values.toList()[1],
+                  FormBuilderValidators.match(
+                    r'^(?=.*[a-zA-Z])\d*[a-zA-Z\d]*$',
+                    errorText: 'Username tidak valid',
                   ),
                 ],
               ),
-            ),
-            if (args.action == 'Tambah') ...[
-              const Spacer(),
-              Column(
-                children: [
-                  FilledButton(
-                    onPressed: () {},
-                    style: FilledButton.styleFrom(
-                      backgroundColor: const Color(0xFF107C41),
-                    ),
-                    child: const Text('Import dari Excel'),
-                  ).fullWidth(),
-                  OutlinedButton(
-                    onPressed: () {},
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: const Color(0xFF107C41),
-                      side: const BorderSide(color: Color(0xFF107C41)),
-                    ),
-                    child: const Text('Download Template Excel'),
-                  ).fullWidth(),
+              const SizedBox(height: 12),
+              CustomTextField(
+                name: 'fullname',
+                label: 'Nama Lengkap',
+                hintText: 'Masukkan nama lengkap',
+                textCapitalization: TextCapitalization.words,
+                validators: [
+                  FormBuilderValidators.required(
+                    errorText: 'Field wajib diisi',
+                  ),
+                  FormBuilderValidators.match(
+                    r'^(?=.*[a-zA-Z])[a-zA-Z\s.]*$',
+                    errorText: 'Nama tidak valid',
+                  ),
                 ],
               ),
+              const SizedBox(height: 12),
+              CustomDropdownField(
+                name: 'classOf',
+                label: 'Angkatan',
+                items: listOfYears,
+                values: listOfYears,
+                initialValue: listOfYears.first,
+              ),
+              const SizedBox(height: 12),
+              CustomDropdownField(
+                name: 'role',
+                label: 'Role',
+                items: userRole.keys.toList().sublist(1),
+                values: userRole.values.toList().sublist(1),
+                initialValue: userRole.values.toList()[1],
+              ),
+              if (args.action == 'Tambah') ...[
+                const Spacer(),
+                FilledButton(
+                  onPressed: () {},
+                  style: FilledButton.styleFrom(
+                    backgroundColor: const Color(0xFF107C41),
+                  ),
+                  child: const Text('Import dari Excel'),
+                ).fullWidth(),
+                OutlinedButton(
+                  onPressed: () {},
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: const Color(0xFF107C41),
+                    side: const BorderSide(color: Color(0xFF107C41)),
+                  ),
+                  child: const Text('Download Template Excel'),
+                ).fullWidth(),
+              ],
             ],
-          ],
+          ),
         ),
       ),
     );

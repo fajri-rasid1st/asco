@@ -39,72 +39,63 @@ class OnBoardingPage extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(20, 20, 20, 32),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const AscoAppBar(),
                   const Spacer(),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      RichText(
-                        text: TextSpan(
-                          text: 'Sistem\nKelola',
+                  RichText(
+                    text: TextSpan(
+                      text: 'Sistem\nKelola',
+                      style: textTheme.displaySmall!.copyWith(
+                        fontSize: 40,
+                        height: 1.1,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: '\nPraktikum &\nAsistensi',
                           style: textTheme.displaySmall!.copyWith(
+                            color: Palette.purple3,
                             fontSize: 40,
                             height: 1.1,
                           ),
-                          children: [
-                            TextSpan(
-                              text: '\nPraktikum &\nAsistensi',
-                              style: textTheme.displaySmall!.copyWith(
-                                color: Palette.purple3,
-                                fontSize: 40,
-                                height: 1.1,
-                              ),
-                            )
-                          ],
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      const Text(
-                        'Membantu pengelolaan data praktikum dan asistensi Laboratorium Sistem Informasi Universitas Hasanuddin.',
-                      ),
-                    ],
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  const Text(
+                    'Membantu pengelolaan data praktikum dan asistensi Laboratorium Sistem Informasi Universitas Hasanuddin.',
                   ),
                   const Spacer(flex: 2),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Palette.purple3.withOpacity(.2),
-                              blurRadius: 6,
-                              spreadRadius: 1,
-                            )
-                          ],
-                        ),
-                        child: FilledButton.icon(
-                          icon: SvgAsset(
-                            AssetPath.getIcon('arrow_forward_outlined.svg'),
-                            width: 20,
-                          ),
-                          label: const Text('Lanjutkan'),
-                          style: FilledButton.styleFrom(
-                            foregroundColor: Palette.primaryText,
-                            backgroundColor: Palette.background,
-                            padding: const EdgeInsets.symmetric(horizontal: 48),
-                          ),
-                          onPressed: () => showLoginDialog(context),
-                        ),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Palette.purple3.withOpacity(.2),
+                          blurRadius: 6,
+                          spreadRadius: 1,
+                        )
+                      ],
+                    ),
+                    child: FilledButton.icon(
+                      icon: SvgAsset(
+                        AssetPath.getIcon('arrow_forward_outlined.svg'),
+                        width: 20,
                       ),
-                      const SizedBox(height: 12),
-                      Text(
-                        'Tekan "Lanjutkan" untuk Login. Aplikasi ini khusus untuk Asisten dan Praktikan.',
-                        style: textTheme.bodySmall,
+                      label: const Text('Lanjutkan'),
+                      style: FilledButton.styleFrom(
+                        foregroundColor: Palette.primaryText,
+                        backgroundColor: Palette.background,
+                        padding: const EdgeInsets.symmetric(horizontal: 48),
                       ),
-                    ],
+                      onPressed: () => showLoginDialog(context),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    'Tekan "Lanjutkan" untuk Login. Aplikasi ini khusus untuk Asisten dan Praktikan.',
+                    style: textTheme.bodySmall,
                   ),
                 ],
               ),

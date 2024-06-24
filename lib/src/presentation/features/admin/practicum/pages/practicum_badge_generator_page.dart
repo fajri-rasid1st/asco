@@ -23,15 +23,12 @@ final selectedIconProvider =
 final selectedPaletteProvider =
     StateProvider.autoDispose<BadgePalette>((ref) => BadgePalette.getPalettes.last);
 
-class PracticumBadgeGeneratorPage extends ConsumerWidget {
+class PracticumBadgeGeneratorPage extends StatelessWidget {
   const PracticumBadgeGeneratorPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final repaintKey = GlobalKey();
-
-    final selectedIcon = ref.watch(selectedIconProvider);
-    final selectedPalette = ref.watch(selectedPaletteProvider);
 
     return Scaffold(
       appBar: const CustomAppBar(
@@ -55,30 +52,37 @@ class PracticumBadgeGeneratorPage extends ConsumerWidget {
               ),
               child: RepaintBoundary(
                 key: repaintKey,
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    SvgAsset(
-                      AssetPath.getVector('badge_layer_3.svg'),
-                      color: selectedPalette.tertiaryColor,
-                      width: 220,
-                    ),
-                    SvgAsset(
-                      AssetPath.getVector('badge_layer_2.svg'),
-                      color: selectedPalette.secondaryColor,
-                      width: 220,
-                    ),
-                    SvgAsset(
-                      AssetPath.getVector('badge_layer.svg'),
-                      color: selectedPalette.primaryColor,
-                      width: 220,
-                    ),
-                    SvgAsset(
-                      selectedIcon.path,
-                      color: selectedPalette.tertiaryColor,
-                      width: 100,
-                    ),
-                  ],
+                child: Consumer(
+                  builder: (context, ref, child) {
+                    final selectedIcon = ref.watch(selectedIconProvider);
+                    final selectedPalette = ref.watch(selectedPaletteProvider);
+
+                    return Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        SvgAsset(
+                          AssetPath.getVector('badge_layer_3.svg'),
+                          color: selectedPalette.tertiaryColor,
+                          width: 220,
+                        ),
+                        SvgAsset(
+                          AssetPath.getVector('badge_layer_2.svg'),
+                          color: selectedPalette.secondaryColor,
+                          width: 220,
+                        ),
+                        SvgAsset(
+                          AssetPath.getVector('badge_layer.svg'),
+                          color: selectedPalette.primaryColor,
+                          width: 220,
+                        ),
+                        SvgAsset(
+                          selectedIcon.path,
+                          color: selectedPalette.tertiaryColor,
+                          width: 100,
+                        ),
+                      ],
+                    );
+                  },
                 ),
               ),
             ),
@@ -96,9 +100,14 @@ class PracticumBadgeGeneratorPage extends ConsumerWidget {
                     padding: EdgeInsets.only(
                       right: index == BadgeIcon.getIcons.length - 1 ? 0 : 10,
                     ),
-                    child: BadgeIconContainer(
-                      badgeIcon: BadgeIcon.getIcons[index],
-                      isSelected: BadgeIcon.getIcons[index].name == selectedIcon.name,
+                    child: Consumer(
+                      builder: (context, ref, child) {
+                        return BadgeIconContainer(
+                          badgeIcon: BadgeIcon.getIcons[index],
+                          isSelected: BadgeIcon.getIcons[index].name ==
+                              ref.watch(selectedIconProvider).name,
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -118,9 +127,14 @@ class PracticumBadgeGeneratorPage extends ConsumerWidget {
                     padding: EdgeInsets.only(
                       right: index == BadgePalette.getPalettes.length - 1 ? 0 : 10,
                     ),
-                    child: BadgePaletteContainer(
-                      badgePalette: BadgePalette.getPalettes[index],
-                      isSelected: BadgePalette.getPalettes[index] == selectedPalette,
+                    child: Consumer(
+                      builder: (context, ref, child) {
+                        return BadgePaletteContainer(
+                          badgePalette: BadgePalette.getPalettes[index],
+                          isSelected:
+                              BadgePalette.getPalettes[index] == ref.watch(selectedPaletteProvider),
+                        );
+                      },
                     ),
                   ),
                 ),

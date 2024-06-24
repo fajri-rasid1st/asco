@@ -17,14 +17,14 @@ import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_icon_button.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/search_field.dart';
 
-class MeetingListHomePage extends ConsumerStatefulWidget {
+class MeetingListHomePage extends StatefulWidget {
   const MeetingListHomePage({super.key});
 
   @override
-  ConsumerState<MeetingListHomePage> createState() => _MeetingListHomePageState();
+  State<MeetingListHomePage> createState() => _MeetingListHomePageState();
 }
 
-class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage>
+class _MeetingListHomePageState extends State<MeetingListHomePage>
     with SingleTickerProviderStateMixin {
   late final AnimationController fabAnimationController;
   late final ScrollController scrollController;
@@ -51,8 +51,6 @@ class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage>
 
   @override
   Widget build(BuildContext context) {
-    final query = ref.watch(queryProvider);
-
     return Scaffold(
       appBar: const CustomAppBar(
         title: 'Pemrograman Mobile',
@@ -75,10 +73,14 @@ class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage>
                 child: Row(
                   children: [
                     Expanded(
-                      child: SearchField(
-                        text: query,
-                        hintText: 'Cari nama pertemuan',
-                        onChanged: (value) => ref.read(queryProvider.notifier).state = value,
+                      child: Consumer(
+                        builder: (context, ref, child) {
+                          return SearchField(
+                            text: ref.watch(queryProvider),
+                            hintText: 'Cari nama pertemuan',
+                            onChanged: (value) => ref.read(queryProvider.notifier).state = value,
+                          );
+                        },
                       ),
                     ),
                     const SizedBox(width: 8),

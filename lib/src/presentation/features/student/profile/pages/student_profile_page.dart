@@ -31,7 +31,7 @@ class StudentProfilePage extends StatelessWidget {
       backgroundColor: const Color(0xFF311D66),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 28, 20, 40),
+          padding: const EdgeInsets.fromLTRB(20, 24, 20, 40),
           child: Column(
             children: [
               Row(
@@ -54,14 +54,11 @@ class StudentProfilePage extends StatelessWidget {
                 ],
               ),
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 28, 20, 40),
-                  child: FlipCard(
-                    key: cardKey,
-                    flipOnTouch: false,
-                    front: const IdCardFrontSide(),
-                    back: const IdCardBackSide(),
-                  ),
+                child: FlipCard(
+                  key: cardKey,
+                  flipOnTouch: false,
+                  front: const IdCardFrontSide(),
+                  back: const IdCardBackSide(),
                 ),
               ),
               InkWellContainer(
@@ -94,6 +91,7 @@ class IdCardFrontSide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.fromLTRB(16, 24, 16, 32),
       decoration: BoxDecoration(
         color: Palette.background,
         borderRadius: BorderRadius.circular(16),
@@ -109,10 +107,7 @@ class IdCardFrontSide extends StatelessWidget {
             Positioned.fill(
               child: Column(
                 children: [
-                  Container(
-                    height: 160,
-                    color: Palette.background,
-                  ),
+                  const SizedBox(height: 160),
                   Container(
                     height: 6,
                     decoration: const BoxDecoration(
@@ -156,7 +151,7 @@ class IdCardFrontSide extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 96),
+                  const SizedBox(height: 98),
                   Center(
                     child: Container(
                       width: 100,
@@ -242,8 +237,9 @@ class IdCardFrontSide extends StatelessWidget {
                               SvgAsset(
                                 AssetPath.getIcon('github_filled.svg'),
                                 color: Palette.background,
+                                width: 18,
                               ),
-                              const SizedBox(width: 6),
+                              const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
                                   'github.com/bayu-ajid',
@@ -256,13 +252,14 @@ class IdCardFrontSide extends StatelessWidget {
                               ),
                             ],
                           ),
-                          const SizedBox(height: 6),
+                          const SizedBox(height: 8),
                           Row(
                             children: [
                               SvgAsset(
                                 AssetPath.getIcon('instagram_filled.svg'),
+                                width: 18,
                               ),
-                              const SizedBox(width: 6),
+                              const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
                                   'instagram.com/bayuajid_',
@@ -295,6 +292,7 @@ class IdCardBackSide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.fromLTRB(16, 24, 16, 32),
       decoration: BoxDecoration(
         color: Palette.purple2,
         borderRadius: BorderRadius.circular(16),
@@ -334,10 +332,7 @@ class IdCardBackSide extends StatelessWidget {
                   vertical: 48,
                   horizontal: 20,
                 ),
-                padding: const EdgeInsets.symmetric(
-                  vertical: 20,
-                  horizontal: 20,
-                ),
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
                   color: Palette.background,
                   borderRadius: BorderRadius.circular(12),
@@ -356,7 +351,7 @@ class IdCardBackSide extends StatelessWidget {
                           TextSpan(
                             text: AppConfigs.title,
                             style: textTheme.titleMedium!.copyWith(
-                              color: Palette.violet2,
+                              color: Palette.violet1,
                               height: 1.25,
                             ),
                           ),
@@ -368,7 +363,7 @@ class IdCardBackSide extends StatelessWidget {
                       child: AspectRatio(
                         aspectRatio: 1,
                         child: PrettyQrCode(
-                          data: 'KONTOL',
+                          data: 'H071191051',
                           roundedEdges: true,
                           errorCorrectionLevel: QrErrorCorrectLevel.H,
                           color: Palette.purple2,
@@ -385,6 +380,7 @@ class IdCardBackSide extends StatelessWidget {
                         height: 1.25,
                       ),
                     ),
+                    const SizedBox(height: 2),
                     Text(
                       'H071191049',
                       textAlign: TextAlign.center,
