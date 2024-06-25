@@ -64,6 +64,7 @@ class EditProfilePage extends ConsumerWidget {
                   withBorder: true,
                   borderWidth: 2,
                   borderColor: Palette.background,
+                  showPreviewWhenPressed: true,
                 ),
                 CircleBorderContainer(
                   size: 36,

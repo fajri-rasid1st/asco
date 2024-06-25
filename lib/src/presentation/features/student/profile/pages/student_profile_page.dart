@@ -9,6 +9,7 @@ import 'package:qr/qr.dart';
 
 // Project imports:
 import 'package:asco/core/configs/app_configs.dart';
+import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
@@ -166,32 +167,37 @@ class IdCardFrontSide extends StatelessWidget {
                           strokeAlign: BorderSide.strokeAlignOutside,
                         ),
                       ),
-                      child: CachedNetworkImage(
-                        imageUrl: 'https://placehold.co/300x300/png',
-                        fadeInDuration: const Duration(milliseconds: 200),
-                        fadeOutDuration: const Duration(milliseconds: 200),
-                        fit: BoxFit.fitHeight,
-                        placeholder: (context, url) {
-                          return const Center(
-                            child: SizedBox(
-                              width: 40,
-                              height: 40,
-                              child: SpinKitRing(
-                                lineWidth: 2,
-                                color: Palette.secondaryText,
+                      child: GestureDetector(
+                        onTap: () => context.showProfilePictureDialog(
+                          imageUrl: 'https://placehold.co/300x300/png',
+                        ),
+                        child: CachedNetworkImage(
+                          imageUrl: 'https://placehold.co/300x300/png',
+                          fadeInDuration: const Duration(milliseconds: 200),
+                          fadeOutDuration: const Duration(milliseconds: 200),
+                          fit: BoxFit.fitHeight,
+                          placeholder: (context, url) {
+                            return const Center(
+                              child: SizedBox(
+                                width: 40,
+                                height: 40,
+                                child: SpinKitRing(
+                                  lineWidth: 2,
+                                  color: Palette.secondaryText,
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                        errorWidget: (context, url, error) {
-                          return const Center(
-                            child: Icon(
-                              Icons.hide_source_rounded,
-                              color: Palette.secondaryText,
-                              size: 40,
-                            ),
-                          );
-                        },
+                            );
+                          },
+                          errorWidget: (context, url, error) {
+                            return const Center(
+                              child: Icon(
+                                Icons.hide_source_rounded,
+                                color: Palette.secondaryText,
+                                size: 40,
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),

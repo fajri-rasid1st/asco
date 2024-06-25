@@ -6,6 +6,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 // Project imports:
+import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 
 class CircleNetworkImage extends StatelessWidget {
@@ -16,6 +17,7 @@ class CircleNetworkImage extends StatelessWidget {
   final double borderWidth;
   final Color borderColor;
   final BoxFit fit;
+  final bool showPreviewWhenPressed;
 
   const CircleNetworkImage({
     super.key,
@@ -26,6 +28,7 @@ class CircleNetworkImage extends StatelessWidget {
     this.borderWidth = 1.0,
     this.borderColor = const Color(0xFF000000),
     this.fit = BoxFit.cover,
+    this.showPreviewWhenPressed = false,
   });
 
   @override
@@ -34,20 +37,25 @@ class CircleNetworkImage extends StatelessWidget {
       imageUrl: imageUrl,
       fadeInDuration: const Duration(milliseconds: 200),
       fadeOutDuration: const Duration(milliseconds: 200),
-      imageBuilder: (context, imageProvider) => Container(
-        width: size,
-        height: size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          border: withBorder
-              ? Border.all(
-                  width: borderWidth,
-                  color: borderColor,
-                )
-              : null,
-          image: DecorationImage(
-            image: imageProvider,
-            fit: fit,
+      imageBuilder: (context, imageProvider) => GestureDetector(
+        onTap: showPreviewWhenPressed
+            ? () => context.showProfilePictureDialog(imageUrl: imageUrl)
+            : null,
+        child: Container(
+          width: size,
+          height: size,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: withBorder
+                ? Border.all(
+                    width: borderWidth,
+                    color: borderColor,
+                  )
+                : null,
+            image: DecorationImage(
+              image: imageProvider,
+              fit: fit,
+            ),
           ),
         ),
       ),

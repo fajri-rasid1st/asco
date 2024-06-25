@@ -13,6 +13,7 @@ import 'package:asco/core/extensions/datetime_extension.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/core/utils/widget_utils.dart';
 import 'package:asco/src/presentation/shared/widgets/dialogs/confirm_dialog.dart';
+import 'package:asco/src/presentation/shared/widgets/dialogs/profile_picture_dialog.dart';
 import 'package:asco/src/presentation/shared/widgets/dialogs/sorting_dialog.dart';
 import 'package:asco/src/presentation/shared/widgets/loading_indicator.dart';
 
@@ -74,6 +75,27 @@ extension DialogExtension on BuildContext {
         values: values,
         onSubmitted: onSubmitted,
       ),
+    );
+  }
+
+  Future<Object?> showProfilePictureDialog({required String imageUrl}) {
+    return showGeneralDialog(
+      context: this,
+      barrierLabel: 'profile_picture',
+      barrierColor: Colors.transparent,
+      barrierDismissible: true,
+      transitionBuilder: (context, anim1, anim2, child) {
+        return ScaleTransition(
+          scale: Tween<double>(begin: 0.25, end: 1.0).animate(
+            CurvedAnimation(
+              parent: anim1,
+              curve: Curves.easeOut,
+            ),
+          ),
+          child: child,
+        );
+      },
+      pageBuilder: (_, __, ___) => ProfilePictureDialog(imageUrl: imageUrl),
     );
   }
 }

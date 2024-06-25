@@ -75,6 +75,7 @@ class AssistantProfilePage extends StatelessWidget {
                     withBorder: true,
                     borderWidth: 2,
                     borderColor: Palette.background,
+                    showPreviewWhenPressed: true,
                   ),
                 ),
               ],

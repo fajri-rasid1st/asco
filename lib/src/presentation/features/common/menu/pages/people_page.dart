@@ -88,6 +88,7 @@ class SectionContainer extends StatelessWidget {
                     size: 50,
                     withBorder: true,
                     borderColor: Palette.purple3,
+                    showPreviewWhenPressed: true,
                   ),
                   const SizedBox(width: 10),
                   Expanded(

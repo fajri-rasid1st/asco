@@ -44,6 +44,7 @@ class UserDetailPage extends StatelessWidget {
               withBorder: true,
               borderWidth: 2,
               borderColor: Palette.background,
+              showPreviewWhenPressed: true,
             ),
             const SizedBox(height: 12),
             Text(
