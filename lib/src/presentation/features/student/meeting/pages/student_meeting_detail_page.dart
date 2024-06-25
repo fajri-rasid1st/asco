@@ -155,7 +155,6 @@ class StudentMeetingDetailPage extends StatelessWidget {
                         color: Palette.background,
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(
-                          width: 1,
                           color: Palette.purple2,
                         ),
                         boxShadow: const [

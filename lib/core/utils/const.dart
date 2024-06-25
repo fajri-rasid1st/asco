@@ -12,7 +12,7 @@ const accessTokenKey = 'ACCESS_TOKEN';
 const userCredentialKey = 'USER_CREDENTIAL';
 
 // another consts
-const role = 'student';
+const role = 'assistant';
 
 const userRoleFilter = {
   'Semua': '',

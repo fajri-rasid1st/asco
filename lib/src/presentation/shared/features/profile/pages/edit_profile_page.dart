@@ -92,6 +92,7 @@ class EditProfilePage extends ConsumerWidget {
                   CustomTextField(
                     name: 'fullname',
                     label: 'Nama Lengkap',
+                    initialValue: 'Muhammad Fajri Rasid',
                     hintText: 'Masukkan nama lengkap',
                     textCapitalization: TextCapitalization.words,
                     validators: [
@@ -108,6 +109,7 @@ class EditProfilePage extends ConsumerWidget {
                   CustomTextField(
                     name: 'nickname',
                     label: 'Nama Panggilan',
+                    initialValue: 'Fajri',
                     hintText: 'Masukkan nama panggilan',
                     validators: [
                       FormBuilderValidators.match(
@@ -120,6 +122,7 @@ class EditProfilePage extends ConsumerWidget {
                   const CustomTextField(
                     name: 'githubUsername',
                     label: 'Username Github',
+                    initialValue: 'fajri-rasid1st',
                     hintText: 'Masukkan username Github',
                     textCapitalization: TextCapitalization.none,
                   ),
@@ -127,6 +130,7 @@ class EditProfilePage extends ConsumerWidget {
                   const CustomTextField(
                     name: 'instagramUsername',
                     label: 'Username Instagram',
+                    initialValue: 'fajri_rasid1st',
                     hintText: 'Masukkan username Instagram',
                     textInputAction: TextInputAction.done,
                     textCapitalization: TextCapitalization.none,
@@ -175,6 +179,7 @@ class EditProfilePage extends ConsumerWidget {
                         name: 'confirmPassword',
                         label: 'Konfirmasi Password Baru',
                         hintText: 'Masukkan kembali password baru',
+                        textInputAction: TextInputAction.done,
                         validators: [
                           FormBuilderValidators.required(
                             errorText: 'Field wajib diisi',
@@ -187,11 +192,11 @@ class EditProfilePage extends ConsumerWidget {
                       );
                     },
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 16),
                   FilledButton(
                     onPressed: () => updatePassword(updatePasswordFormKey),
                     style: FilledButton.styleFrom(
-                      backgroundColor: Palette.purple2,
+                      backgroundColor: Palette.secondary,
                     ),
                     child: const Text('Ubah Password'),
                   ).fullWidth()

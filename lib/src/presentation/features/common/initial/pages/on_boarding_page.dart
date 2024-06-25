@@ -112,13 +112,11 @@ class OnBoardingPage extends StatelessWidget {
       barrierLabel: 'login',
       transitionDuration: const Duration(milliseconds: 300),
       transitionBuilder: (context, anim1, anim2, child) {
-        final tween = Tween<Offset>(
-          begin: const Offset(0, -1),
-          end: Offset.zero,
-        );
-
         return SlideTransition(
-          position: tween.animate(
+          position: Tween<Offset>(
+            begin: const Offset(0, -1),
+            end: Offset.zero,
+          ).animate(
             CurvedAnimation(
               parent: anim1,
               curve: Curves.easeInOut,

@@ -31,7 +31,7 @@ class StudentProfilePage extends StatelessWidget {
       backgroundColor: const Color(0xFF311D66),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 24, 20, 40),
+          padding: const EdgeInsets.fromLTRB(20, 28, 20, 36),
           child: Column(
             children: [
               Row(
@@ -67,8 +67,8 @@ class StudentProfilePage extends StatelessWidget {
                 radius: 32,
                 color: Palette.purple2,
                 border: Border.all(
-                  color: Palette.background,
                   width: 2,
+                  color: Palette.background,
                 ),
                 onTap: () => cardKey.currentState!.toggleCard(),
                 child: Center(
@@ -372,9 +372,9 @@ class IdCardBackSide extends StatelessWidget {
                     ),
                     Text(
                       'Rafly Ramdhani Putra Masloman',
-                      textAlign: TextAlign.center,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
                       style: textTheme.titleMedium!.copyWith(
                         color: Palette.purple2,
                         height: 1.25,
@@ -383,9 +383,9 @@ class IdCardBackSide extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       'H071191049',
-                      textAlign: TextAlign.center,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.center,
                       style: textTheme.bodySmall!.copyWith(
                         color: Palette.purple3,
                       ),

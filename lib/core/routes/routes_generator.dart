@@ -9,7 +9,6 @@ import 'package:asco/src/presentation/features/admin/assistance_group/pages/assi
 import 'package:asco/src/presentation/features/admin/attendance/pages/attendance_detail_page.dart';
 import 'package:asco/src/presentation/features/admin/attendance/pages/attendance_list_home_page.dart';
 import 'package:asco/src/presentation/features/admin/classroom/pages/classroom_detail_page.dart';
-import 'package:asco/src/presentation/features/admin/control_card/pages/control_card_detail_page.dart';
 import 'package:asco/src/presentation/features/admin/control_card/pages/control_card_list_home_page.dart';
 import 'package:asco/src/presentation/features/admin/home/pages/admin_home_page.dart';
 import 'package:asco/src/presentation/features/admin/lab_rules/pages/lab_rules_page.dart';
@@ -31,6 +30,7 @@ import 'package:asco/src/presentation/features/student/assistance/pages/student_
 import 'package:asco/src/presentation/features/student/meeting/pages/student_meeting_detail_page.dart';
 import 'package:asco/src/presentation/features/student/meeting/pages/student_meeting_history_page.dart';
 import 'package:asco/src/presentation/features/student/profile/pages/student_profile_page.dart';
+import 'package:asco/src/presentation/shared/features/control_card/pages/control_card_detail_page.dart';
 import 'package:asco/src/presentation/shared/features/profile/pages/edit_profile_page.dart';
 import 'package:asco/src/presentation/shared/features/score_recap/pages/score_recap_detail_page.dart';
 import 'package:asco/src/presentation/shared/features/score_recap/pages/score_recap_list_home_page.dart';
@@ -143,10 +143,6 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const ControlCardListHomePage(),
       );
-    case controlCardDetailRoute:
-      return MaterialPageRoute(
-        builder: (_) => const ControlCardDetailPage(),
-      );
     case labRulesRoute:
       return MaterialPageRoute(
         builder: (_) => const LabRulesPage(),
@@ -170,6 +166,14 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
     case assistantProfileRoute:
       return MaterialPageRoute(
         builder: (_) => const AssistantProfilePage(),
+      );
+    case editProfileRoute:
+      return MaterialPageRoute(
+        builder: (_) => const EditProfilePage(),
+      );
+    case controlCardDetailRoute:
+      return MaterialPageRoute(
+        builder: (_) => const ControlCardDetailPage(),
       );
     case scoreRecapListHomeRoute:
       return MaterialPageRoute(
@@ -204,10 +208,6 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
 
       return MaterialPageRoute(
         builder: (_) => PractitionerListPage(title: title),
-      );
-    case editProfileRoute:
-      return MaterialPageRoute(
-        builder: (_) => const EditProfilePage(),
       );
     default:
       return null;

@@ -38,7 +38,6 @@ const assistanceGroupFormRoute = 'assistance-group-form';
 
 // Admin: Control card
 const controlCardListHomeRoute = '/control-card-list-home';
-const controlCardDetailRoute = '/control-card-detail';
 
 // Admin: Lab rules
 const labRulesRoute = 'lab-rules';
@@ -47,26 +46,23 @@ const labRulesRoute = 'lab-rules';
 const homeRoute = '/home';
 const mainMenuRoute = '/main-menu';
 
-// Student: meeting
+// Meeting
 const studentMeetingHistoryRoute = '/student-meeting-history';
 const studentMeetingDetailRoute = '/student-meeting-detail';
 
-// Student: assistance
+// Assistance
 const studentAssistanceDetailRoute = '/student-assistance-detail';
 
 // Profile
 const studentProfileRoute = '/student-profile';
 const assistantProfileRoute = '/assistant-profile';
+const editProfileRoute = '/edit-profile';
 
-// Shared - All
+// Shared
+const controlCardDetailRoute = '/control-card-detail';
 const scoreRecapListHomeRoute = '/score-recap-list-home';
 const scoreRecapDetailRoute = '/score-recap-detail';
-
-// Shared - Admin
 const selectUsersRoute = '/select-users';
 const selectPracticumRoute = '/select-practicum';
 const selectClassroomRoute = '/select-classroom';
-
-// Shared - Student & Assistance
 const practitionerListRoute = '/practitioner-list';
-const editProfileRoute = '/edit-profile';

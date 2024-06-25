@@ -157,8 +157,8 @@ class AdminHomePage extends StatelessWidget {
                 shrinkWrap: true,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 14,
+                  mainAxisSpacing: 14,
                   childAspectRatio: 1.25,
                 ),
                 itemBuilder: (context, index) => adminMenuCards[index],
@@ -189,9 +189,8 @@ class AdminMenuCard extends StatelessWidget {
     return InkWellContainer(
       radius: 12,
       color: Palette.background,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
       border: Border.all(
-        width: 1,
         color: Palette.purple2,
       ),
       boxShadow: const [

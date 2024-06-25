@@ -6,6 +6,7 @@ import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/meeting_card.dart';
@@ -40,22 +41,22 @@ class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClient
         icon: Icons.description_outlined,
         onTap: () {},
       ),
-      // if (CredentialSaver.user.role == 'STUDENT')
-      MeetingMenuCard(
-        title: 'Riwayat Pertemuan',
-        strokeColor: Palette.azure1,
-        fillColor: Palette.azure2,
-        icon: Icons.history_outlined,
-        onTap: () => navigatorKey.currentState!.pushNamed(studentMeetingHistoryRoute),
-      )
-      // else
-      //   MeetingMenuCard(
-      //     title: 'Jadwal Pemateri',
-      //     strokeColor: Palette.azure1,
-      //     fillColor: Palette.azure2,
-      //     icon: Icons.calendar_today_outlined,
-      //     onTap: () {},
-      //   ),
+      if (role == 'student')
+        MeetingMenuCard(
+          title: 'Riwayat Pertemuan',
+          strokeColor: Palette.azure1,
+          fillColor: Palette.azure2,
+          icon: Icons.history_outlined,
+          onTap: () => navigatorKey.currentState!.pushNamed(studentMeetingHistoryRoute),
+        )
+      else
+        MeetingMenuCard(
+          title: 'Jadwal Pemateri',
+          strokeColor: Palette.azure1,
+          fillColor: Palette.azure2,
+          icon: Icons.calendar_today_outlined,
+          onTap: () {},
+        ),
     ];
 
     return Scaffold(
@@ -218,8 +219,8 @@ class MeetingMenuCard extends StatelessWidget {
               color: fillColor,
               borderRadius: BorderRadius.circular(8),
               border: Border.all(
-                color: strokeColor,
                 width: 2,
+                color: strokeColor,
               ),
             ),
             child: Icon(
