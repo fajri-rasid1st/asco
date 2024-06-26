@@ -38,7 +38,7 @@ class _ExtrasPageState extends State<ExtrasPage> with AutomaticKeepAliveClientMi
         iconName: 'form_outlined.svg',
         iconBackgroundColor: Palette.errorText,
         onTap: () => context.showSnackBar(
-          title: 'Cooming Soon!',
+          title: 'Segera Hadir',
           message: 'Kuesioner belum tersedia.',
           type: SnackBarType.info,
         ),

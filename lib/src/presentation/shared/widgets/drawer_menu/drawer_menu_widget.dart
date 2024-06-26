@@ -88,23 +88,23 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with SingleTickerPr
     return ValueListenableBuilder(
       valueListenable: isDrawerClosed,
       builder: (context, closed, child) {
-        return Scaffold(
-          extendBody: true,
-          resizeToAvoidBottomInset: false,
-          backgroundColor: Palette.black2,
-          body: SafeArea(
-            child: PopScope(
-              canPop: false,
-              onPopInvoked: (didPop) {
-                if (didPop) return;
+        return PopScope(
+          canPop: false,
+          onPopInvoked: (didPop) {
+            if (didPop) return;
 
-                if (!closed) {
-                  animationController.reverse();
-                  isDrawerClosed.value = true;
-                } else {
-                  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-                }
-              },
+            if (!closed) {
+              animationController.reverse();
+              isDrawerClosed.value = true;
+            } else {
+              SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+            }
+          },
+          child: Scaffold(
+            extendBody: true,
+            resizeToAvoidBottomInset: false,
+            backgroundColor: Palette.black2,
+            body: SafeArea(
               child: GestureDetector(
                 onHorizontalDragStart: (details) => isDragging = true,
                 onHorizontalDragUpdate: (details) {

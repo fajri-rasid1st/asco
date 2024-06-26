@@ -22,9 +22,9 @@ class PracticumBadgeImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      imageUrl: badgeUrl,
       width: width,
       height: height,
+      imageUrl: badgeUrl,
       fadeInDuration: const Duration(milliseconds: 200),
       fadeOutDuration: const Duration(milliseconds: 200),
       placeholder: (context, url) => Image.asset(

@@ -41,7 +41,7 @@ class ConfirmDialog extends StatelessWidget {
                   child: Text(
                     title,
                     style: textTheme.titleLarge!.copyWith(
-                      color: Palette.purple2,
+                      color: Palette.primary,
                     ),
                   ),
                 ),
@@ -52,7 +52,7 @@ class ConfirmDialog extends StatelessWidget {
                   onPressed: () => navigatorKey.currentState!.pop(),
                   icon: SvgAsset(
                     AssetPath.getIcon('close_outlined.svg'),
-                    color: Palette.primaryText,
+                    color: Palette.secondaryText,
                     width: 20,
                   ),
                   tooltip: 'Kembali',

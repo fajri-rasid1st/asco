@@ -176,27 +176,23 @@ class IdCardFrontSide extends StatelessWidget {
                           fadeInDuration: const Duration(milliseconds: 200),
                           fadeOutDuration: const Duration(milliseconds: 200),
                           fit: BoxFit.fitHeight,
-                          placeholder: (context, url) {
-                            return const Center(
-                              child: SizedBox(
-                                width: 40,
-                                height: 40,
-                                child: SpinKitRing(
-                                  lineWidth: 2,
-                                  color: Palette.secondaryText,
-                                ),
-                              ),
-                            );
-                          },
-                          errorWidget: (context, url, error) {
-                            return const Center(
-                              child: Icon(
-                                Icons.hide_source_rounded,
+                          placeholder: (context, url) => const Center(
+                            child: SizedBox(
+                              width: 40,
+                              height: 40,
+                              child: SpinKitRing(
+                                lineWidth: 2,
                                 color: Palette.secondaryText,
-                                size: 40,
                               ),
-                            );
-                          },
+                            ),
+                          ),
+                          errorWidget: (context, url, error) => const Center(
+                            child: Icon(
+                              Icons.hide_source_rounded,
+                              color: Palette.secondaryText,
+                              size: 40,
+                            ),
+                          ),
                         ),
                       ),
                     ),

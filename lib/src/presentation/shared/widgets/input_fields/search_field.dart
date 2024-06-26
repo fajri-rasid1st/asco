@@ -22,7 +22,7 @@ class SearchField extends StatefulWidget {
     required this.text,
     this.hintText,
     this.delayOnChanged = true,
-    this.delay = const Duration(milliseconds: 700),
+    this.delay = const Duration(milliseconds: 750),
     required this.onChanged,
   });
 

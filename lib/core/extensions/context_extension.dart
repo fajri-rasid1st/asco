@@ -33,6 +33,18 @@ extension SnackBarExtension on BuildContext {
         ),
       );
   }
+
+  void showNoConnectionSnackBar() {
+    scaffoldMessengerKey.currentState!
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        WidgetUtils.createSnackBar(
+          title: 'Tidak Ada Koneksi!',
+          message: 'Hubungkan perangkat dengan koneksi internet, lalu coba lagi.',
+          type: SnackBarType.error,
+        ),
+      );
+  }
 }
 
 extension DialogExtension on BuildContext {
@@ -84,12 +96,13 @@ extension DialogExtension on BuildContext {
       barrierLabel: 'profile_picture',
       barrierColor: Colors.transparent,
       barrierDismissible: true,
+      transitionDuration: const Duration(milliseconds: 250),
       transitionBuilder: (context, anim1, anim2, child) {
         return ScaleTransition(
-          scale: Tween<double>(begin: 0.25, end: 1.0).animate(
+          scale: Tween<double>(begin: 0.0, end: 1.0).animate(
             CurvedAnimation(
               parent: anim1,
-              curve: Curves.easeOut,
+              curve: Curves.easeInOut,
             ),
           ),
           child: child,

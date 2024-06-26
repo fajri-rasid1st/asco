@@ -61,6 +61,7 @@ class CustomSnackBar extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: textTheme.titleLarge!.copyWith(
                               color: Palette.background,
+                              fontSize: 18,
                             ),
                           ),
                         ),
@@ -119,7 +120,7 @@ class CustomSnackBar extends StatelessWidget {
                   AssetPath.getIcon(type.iconName),
                   height: height * 0.024,
                 ),
-              )
+              ),
             ],
           ),
         ),

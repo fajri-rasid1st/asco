@@ -47,8 +47,9 @@ class ControlCardDetailPage extends StatelessWidget {
                           height: 120,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(6),
+                      Positioned(
+                        bottom: 8,
+                        right: 10,
                         child: Row(
                           children: [
                             CustomIconButton(
@@ -59,6 +60,7 @@ class ControlCardDetailPage extends StatelessWidget {
                                 'https://github.com/fajri-rasid1st',
                               ),
                             ),
+                            const SizedBox(width: 2),
                             CustomIconButton(
                               'instagram_filled.svg',
                               tooltip: 'Instagram',

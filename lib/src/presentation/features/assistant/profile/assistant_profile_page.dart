@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/helpers/function_helper.dart';
+import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_icon_button.dart';
 import 'package:asco/src/presentation/shared/widgets/practicum_badge_image.dart';
@@ -41,8 +43,9 @@ class AssistantProfilePage extends StatelessWidget {
                           height: 120,
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(6),
+                      Positioned(
+                        bottom: 8,
+                        right: 10,
                         child: Row(
                           children: [
                             CustomIconButton(
@@ -53,6 +56,7 @@ class AssistantProfilePage extends StatelessWidget {
                                 'https://github.com/fajri-rasid1st',
                               ),
                             ),
+                            const SizedBox(width: 2),
                             CustomIconButton(
                               'instagram_filled.svg',
                               tooltip: 'Instagram',
@@ -64,6 +68,34 @@ class AssistantProfilePage extends StatelessWidget {
                         ),
                       ),
                     ],
+                  ),
+                ),
+                Positioned(
+                  left: 20,
+                  right: 10,
+                  child: SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 28),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              'ID Card',
+                              style: textTheme.headlineSmall!.copyWith(
+                                color: Palette.background,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          CustomIconButton(
+                            'edit_outlined.svg',
+                            tooltip: 'Edit Profil',
+                            onPressed: () => navigatorKey.currentState!.pushNamed(editProfileRoute),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
                 const Positioned(
@@ -111,7 +143,7 @@ class AssistantProfilePage extends StatelessWidget {
                       childAspectRatio: 1.1,
                     ),
                     itemBuilder: (context, index) => const AssistantBadgeCard(),
-                    itemCount: 3,
+                    itemCount: 2,
                   ),
                 ],
               ),
