@@ -101,10 +101,8 @@ class GithubRepositoryDialog extends StatelessWidget {
                   prefixIconName: 'github_filled.svg',
                   textInputType: TextInputType.url,
                   textInputAction: TextInputAction.done,
+                  textCapitalization: TextCapitalization.none,
                   validators: [
-                    FormBuilderValidators.required(
-                      errorText: 'Field wajib diisi',
-                    ),
                     FormBuilderValidators.url(
                       errorText: 'Field harus berupa URL',
                     ),

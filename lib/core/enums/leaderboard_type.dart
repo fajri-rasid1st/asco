@@ -1,0 +1,4 @@
+enum LeaderboardType {
+  practicum,
+  labExam,
+}

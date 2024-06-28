@@ -11,6 +11,7 @@ import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/providers/manual_providers/search_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/animated_fab.dart';
@@ -71,10 +72,9 @@ class _ScoreRecapListHomePageState extends State<ScoreRecapListHomePage>
         ),
       ),
       body: NotificationListener<UserScrollNotification>(
-        onNotification: (notification) => FunctionHelper.handleFabVisibilityOnScroll(
-          fabAnimationController,
-          notification,
-        ),
+        onNotification: (notification) => roleId == 0
+            ? FunctionHelper.handleFabVisibilityOnScroll(fabAnimationController, notification)
+            : false,
         child: CustomScrollView(
           controller: scrollController,
           slivers: [
@@ -132,15 +132,17 @@ class _ScoreRecapListHomePageState extends State<ScoreRecapListHomePage>
           ],
         ),
       ),
-      floatingActionButton: AnimatedFloatingActionButton(
-        animationController: fabAnimationController,
-        onPressed: () {},
-        tooltip: 'Export ke Excel',
-        child: SvgAsset(
-          AssetPath.getIcon('file_excel_outlined.svg'),
-          width: 26,
-        ),
-      ),
+      floatingActionButton: roleId == 0
+          ? AnimatedFloatingActionButton(
+              animationController: fabAnimationController,
+              onPressed: () {},
+              tooltip: 'Export ke Excel',
+              child: SvgAsset(
+                AssetPath.getIcon('file_excel_outlined.svg'),
+                width: 26,
+              ),
+            )
+          : null,
     );
   }
 }

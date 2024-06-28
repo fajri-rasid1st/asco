@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:asco/core/enums/leaderboard_rank_type.dart';
+import 'package:asco/core/enums/leaderboard_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
@@ -24,6 +26,34 @@ class LeaderboardPage extends StatefulWidget {
 }
 
 class _LeaderboardPageState extends State<LeaderboardPage> with AutomaticKeepAliveClientMixin {
+  late final PageController pageController;
+  late final List<Widget> pages;
+
+  @override
+  void initState() {
+    super.initState();
+
+    pageController = PageController();
+
+    pages = [
+      Leaderboard(
+        pageController: pageController,
+        type: LeaderboardType.practicum,
+      ),
+      Leaderboard(
+        pageController: pageController,
+        type: LeaderboardType.labExam,
+      ),
+    ];
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    pageController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -41,178 +71,10 @@ class _LeaderboardPageState extends State<LeaderboardPage> with AutomaticKeepAli
             AssetPath.getVector('exclude.svg'),
           ),
           Positioned.fill(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.only(top: 70),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            'Leaderboard',
-                            style: textTheme.headlineSmall!.copyWith(
-                              color: Palette.background,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 6,
-                              horizontal: 12,
-                            ),
-                            decoration: BoxDecoration(
-                              color: Palette.purple2,
-                              borderRadius: BorderRadius.circular(99),
-                            ),
-                            child: Row(
-                              children: [
-                                SvgAsset(
-                                  AssetPath.getIcon('swap_outlined.svg'),
-                                  width: 12,
-                                ),
-                                const SizedBox(width: 6),
-                                Text(
-                                  'Rekap',
-                                  style: textTheme.bodyMedium!.copyWith(
-                                    color: Palette.background,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  InkWellContainer(
-                    radius: 12,
-                    color: Palette.orange2,
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
-                    padding: const EdgeInsets.all(8),
-                    onTap: () => navigatorKey.currentState!.pushNamed(
-                      scoreRecapDetailRoute,
-                      arguments: 'Wd. Ananda Lesmono',
-                    ),
-                    child: Row(
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFFF9A57),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Center(
-                            child: Text(
-                              '#4',
-                              style: textTheme.titleLarge!.copyWith(
-                                color: Palette.background,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Kamu telah memperoleh nilai 90.',
-                                style: textTheme.titleSmall!.copyWith(
-                                  color: Palette.background,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                              Text(
-                                'Klik untuk melihat detail',
-                                style: textTheme.bodySmall!.copyWith(
-                                  color: const Color(0xFF724A34),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 28),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        LeaderboardRank(
-                          rank: 2,
-                          rankType: LeaderboardRankType.silver,
-                          clipper: CustomClipPathSilver(),
-                          height: 110,
-                          color: const Color(0xFF9088E6),
-                        ),
-                        LeaderboardRank(
-                          rank: 1,
-                          rankType: LeaderboardRankType.gold,
-                          clipper: CustomClipPathGold(),
-                          height: 160,
-                          gradient: const LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Color(0xFF9289E5),
-                              Color(0xFFC0BCF0),
-                            ],
-                          ),
-                        ),
-                        LeaderboardRank(
-                          rank: 3,
-                          rankType: LeaderboardRankType.bronze,
-                          clipper: CustomClipPathBronze(),
-                          height: 80,
-                          color: const Color(0xFF9088E6),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.all(20),
-                    decoration: const BoxDecoration(
-                      color: Palette.secondaryBackground,
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(16),
-                      ),
-                    ),
-                    child: Column(
-                      children: List<Padding>.generate(
-                        7,
-                        (index) => Padding(
-                          padding: EdgeInsets.only(
-                            bottom: index == 6 ? kBottomNavigationBarHeight : 10,
-                          ),
-                          child: UserCard(
-                            badgeType: UserBadgeType.text,
-                            badgeText: 'Nilai: 80.0',
-                            trailing: Padding(
-                              padding: const EdgeInsets.only(right: 4),
-                              child: Text(
-                                '${index + 4}',
-                                style: textTheme.titleLarge!.copyWith(
-                                  color: Palette.purple2,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+            child: PageView(
+              controller: pageController,
+              physics: const NeverScrollableScrollPhysics(),
+              children: pages,
             ),
           ),
         ],
@@ -222,6 +84,247 @@ class _LeaderboardPageState extends State<LeaderboardPage> with AutomaticKeepAli
 
   @override
   bool get wantKeepAlive => true;
+}
+
+class Leaderboard extends StatelessWidget {
+  final PageController pageController;
+  final LeaderboardType type;
+
+  const Leaderboard({
+    super.key,
+    required this.pageController,
+    required this.type,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.only(top: 70),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    type == LeaderboardType.practicum ? 'Leaderboard' : 'Ujian Lab',
+                    style: textTheme.headlineSmall!.copyWith(
+                      color: Palette.background,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                GestureDetector(
+                  onTap: () {
+                    final page = type == LeaderboardType.practicum ? 1 : 0;
+
+                    pageController.animateToPage(
+                      page,
+                      duration: const Duration(milliseconds: 300),
+                      curve: Curves.easeOut,
+                    );
+                  },
+                  child: InkWellContainer(
+                    radius: 99,
+                    color: Palette.purple2,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 6,
+                      horizontal: 12,
+                    ),
+                    child: Row(
+                      children: [
+                        SvgAsset(
+                          AssetPath.getIcon('swap_outlined.svg'),
+                          width: 12,
+                        ),
+                        const SizedBox(width: 6),
+                        Text(
+                          type == LeaderboardType.practicum ? 'Praktikum' : 'Ujian Lab',
+                          style: textTheme.bodyMedium!.copyWith(
+                            color: Palette.background,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (type == LeaderboardType.practicum) ...[
+            const SizedBox(height: 12),
+            if (roleId == 1)
+              LeaderboardContainer(
+                padding: const EdgeInsets.fromLTRB(8, 8, 12, 8),
+                onTap: () => navigatorKey.currentState!.pushNamed(
+                  scoreRecapDetailRoute,
+                  arguments: 'Wd. Ananda Lesmono',
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFF9A57),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        '#4',
+                        style: textTheme.titleLarge!.copyWith(
+                          color: Palette.background,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Kamu telah memperoleh nilai 90.',
+                            style: textTheme.titleSmall!.copyWith(
+                              color: Palette.background,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            'Klik untuk melihat detail',
+                            style: textTheme.bodySmall!.copyWith(
+                              color: const Color(0xFF724A34),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            else
+              LeaderboardContainer(
+                padding: const EdgeInsets.all(16),
+                onTap: () => navigatorKey.currentState!.pushNamed(scoreRecapListHomeRoute),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgAsset(
+                      AssetPath.getIcon('leaderboard_filled.svg'),
+                      color: Palette.background,
+                    ),
+                    const SizedBox(width: 16),
+                    Flexible(
+                      child: Text(
+                        'Cek Data Nilai Praktikan',
+                        style: textTheme.titleMedium!.copyWith(
+                          color: Palette.background,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+          ],
+          const SizedBox(height: 32),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 28),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                LeaderboardRank(
+                  rank: 2,
+                  rankType: LeaderboardRankType.silver,
+                  clipper: CustomClipPathSilver(),
+                  height: 110,
+                  color: const Color(0xFF9088E6),
+                ),
+                LeaderboardRank(
+                  rank: 1,
+                  rankType: LeaderboardRankType.gold,
+                  clipper: CustomClipPathGold(),
+                  height: 160,
+                  gradient: const LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(0xFF9289E5),
+                      Color(0xFFC0BCF0),
+                    ],
+                  ),
+                ),
+                LeaderboardRank(
+                  rank: 3,
+                  rankType: LeaderboardRankType.bronze,
+                  clipper: CustomClipPathBronze(),
+                  height: 80,
+                  color: const Color(0xFF9088E6),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: const BoxDecoration(
+              color: Palette.secondaryBackground,
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(16),
+              ),
+            ),
+            child: Column(
+              children: List<Padding>.generate(
+                7,
+                (index) => Padding(
+                  padding: EdgeInsets.only(
+                    bottom: index == 6 ? kBottomNavigationBarHeight : 10,
+                  ),
+                  child: UserCard(
+                    badgeType: UserBadgeType.text,
+                    badgeText: 'Nilai: 80.0',
+                    trailing: Padding(
+                      padding: const EdgeInsets.only(right: 4),
+                      child: Text(
+                        '${index + 4}',
+                        style: textTheme.titleLarge!.copyWith(
+                          color: Palette.purple2,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class LeaderboardContainer extends StatelessWidget {
+  final EdgeInsetsGeometry? padding;
+  final VoidCallback? onTap;
+  final Widget? child;
+
+  const LeaderboardContainer({
+    super.key,
+    this.padding,
+    this.onTap,
+    this.child,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWellContainer(
+      radius: 12,
+      color: Palette.orange2,
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      padding: padding,
+      onTap: onTap,
+      child: child,
+    );
+  }
 }
 
 class LeaderboardRank extends StatelessWidget {

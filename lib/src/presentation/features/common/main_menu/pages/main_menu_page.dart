@@ -25,12 +25,14 @@ class MainMenuPage extends ConsumerStatefulWidget {
 }
 
 class _MainMenuPageState extends ConsumerState<MainMenuPage> {
-  late final List<Widget> pages;
   late final PageController pageController;
+  late final List<Widget> pages;
 
   @override
   void initState() {
     super.initState();
+
+    pageController = PageController();
 
     pages = [
       const MeetingPage(),
@@ -39,7 +41,6 @@ class _MainMenuPageState extends ConsumerState<MainMenuPage> {
       const ExtrasPage(),
       const PeoplePage(),
     ];
-    pageController = PageController();
   }
 
   @override
@@ -60,7 +61,7 @@ class _MainMenuPageState extends ConsumerState<MainMenuPage> {
           ref.read(selectedMainMenuProvider.notifier).state = previous ?? 0;
 
           navigatorKey.currentState!.pushNamed(
-            role == 'student' ? studentProfileRoute : assistantProfileRoute,
+            roleId == 1 ? studentProfileRoute : assistantProfileRoute,
           );
         }
 

@@ -37,6 +37,6 @@ class SelectClassroomPageArgs {
 
   const SelectClassroomPageArgs({
     required this.title,
-    required this.onItemTapped,
+    this.onItemTapped,
   });
 }

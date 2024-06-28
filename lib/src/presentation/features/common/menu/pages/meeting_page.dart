@@ -41,7 +41,7 @@ class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClient
         icon: Icons.description_outlined,
         onTap: () {},
       ),
-      if (role == 'student')
+      if (roleId == 1)
         MeetingMenuCard(
           title: 'Riwayat Pertemuan',
           strokeColor: Palette.azure1,

@@ -53,6 +53,10 @@ const studentMeetingDetailRoute = '/student-meeting-detail';
 // Assistance
 const studentAssistanceDetailRoute = '/student-assistance-detail';
 
+// Extra
+const editExtraRoute = '/edit-extra';
+const labExamInfoRoute = '/lab-exam-info';
+
 // Profile
 const studentProfileRoute = '/student-profile';
 const assistantProfileRoute = '/assistant-profile';

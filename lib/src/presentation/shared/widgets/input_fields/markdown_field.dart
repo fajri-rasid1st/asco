@@ -25,7 +25,7 @@ class MarkdownField extends StatefulWidget {
     required this.label,
     this.initialValue,
     this.hintText,
-    this.maxLines = 8,
+    this.maxLines = 10,
     this.actions = MarkdownType.values,
     required this.onChanged,
   });

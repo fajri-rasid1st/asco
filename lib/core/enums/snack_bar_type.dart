@@ -13,5 +13,8 @@ enum SnackBarType {
   final Color color;
   final String iconName;
 
-  const SnackBarType(this.color, this.iconName);
+  const SnackBarType(
+    this.color,
+    this.iconName,
+  );
 }

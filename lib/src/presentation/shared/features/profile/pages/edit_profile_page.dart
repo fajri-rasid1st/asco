@@ -210,7 +210,7 @@ class EditProfilePage extends ConsumerWidget {
                         backgroundColor: Palette.secondary,
                       ),
                       child: const Text('Ubah Password'),
-                    ).fullWidth()
+                    ).fullWidth(),
                   ],
                 ),
               ),

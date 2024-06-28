@@ -35,7 +35,7 @@ class HomePage extends ConsumerWidget {
           ref.read(selectedMenuProvider.notifier).state = -1;
 
           navigatorKey.currentState!.pushNamed(
-            role == 'student' ? studentProfileRoute : assistantProfileRoute,
+            roleId == 1 ? studentProfileRoute : assistantProfileRoute,
           );
         }
 

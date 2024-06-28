@@ -6,8 +6,12 @@ import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/helpers/function_helper.dart';
+import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/core/utils/const.dart';
+import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/presentation/features/assistant/extra/pages/edit_extra_page.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
@@ -27,33 +31,51 @@ class _ExtrasPageState extends State<ExtrasPage> with AutomaticKeepAliveClientMi
     final extraCards = [
       ExtraCard(
         title: 'Quiz',
-        description: 'Isian singkat diakhir kelas',
+        description: 'Isian singkat di akhir kelas',
         iconName: 'game_controller_outlined.svg',
         iconBackgroundColor: Palette.purple3,
-        onTap: () => FunctionHelper.openUrl('https://quizizz.com/?lng=id'),
+        onTap: roleId == 1
+            ? () => FunctionHelper.openUrl('https://quizizz.com/?lng=id')
+            : () => navigatorKey.currentState!.pushNamed(
+                  editExtraRoute,
+                  arguments: const EditExtraPageArgs(
+                    title: 'Quiz',
+                    fieldName: 'quizLink',
+                    fieldLabel: 'Link Quiz',
+                  ),
+                ),
       ),
       ExtraCard(
         title: 'Kuesioner',
         description: 'Isi form seputar praktikum',
         iconName: 'form_outlined.svg',
         iconBackgroundColor: Palette.errorText,
-        onTap: () => context.showSnackBar(
-          title: 'Segera Hadir',
-          message: 'Kuesioner belum tersedia.',
-          type: SnackBarType.info,
-        ),
+        onTap: roleId == 1
+            ? () => context.showSnackBar(
+                  title: 'Segera Hadir',
+                  message: 'Kuesioner belum tersedia.',
+                  type: SnackBarType.info,
+                )
+            : () => navigatorKey.currentState!.pushNamed(
+                  editExtraRoute,
+                  arguments: const EditExtraPageArgs(
+                    title: 'Kuesioner',
+                    fieldName: 'questionnaireLink',
+                    fieldLabel: 'Link Kuesioner',
+                  ),
+                ),
       ),
       ExtraCard(
         title: 'Ujian Lab',
         description: 'Informasi seputar ujian lab',
         iconName: 'test_passed_outlined.svg',
         iconBackgroundColor: Palette.violet1,
-        onTap: () {},
+        onTap: () => navigatorKey.currentState!.pushNamed(labExamInfoRoute),
       ),
     ];
 
     return Scaffold(
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 20 + kBottomNavigationBarHeight),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
