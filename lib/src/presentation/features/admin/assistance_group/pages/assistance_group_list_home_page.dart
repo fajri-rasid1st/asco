@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:asco/core/enums/form_action_type.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
@@ -140,7 +141,10 @@ class _AssistanceGroupListHomePageState extends State<AssistanceGroupListHomePag
         animationController: fabAnimationController,
         onPressed: () => navigatorKey.currentState!.pushNamed(
           assistanceGroupFormRoute,
-          arguments: const AssistanceGroupFormPageArgs(action: 'Tambah'),
+          arguments: const AssistanceGroupFormPageArgs(
+            title: 'Tambah',
+            action: FormActionType.create,
+          ),
         ),
         tooltip: 'Tambah',
         child: const Icon(

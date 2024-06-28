@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
+import 'package:asco/core/enums/extra_type.dart';
 import 'package:asco/core/extensions/button_extension.dart';
 import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/core/helpers/function_helper.dart';
@@ -56,7 +57,7 @@ class EditExtraPage extends ConsumerWidget {
           key: formKey,
           child: Column(
             children: [
-              if (args.fieldName == 'labExamInfo')
+              if (args.type == ExtraType.labExam)
                 Consumer(
                   builder: (context, ref, child) {
                     final fieldValue = ref.watch(markdownFieldValueProvider);
@@ -117,7 +118,7 @@ class EditExtraPage extends ConsumerWidget {
                 ),
               const SizedBox(height: 16),
               FilledButton(
-                onPressed: args.fieldName == 'labExamInfo'
+                onPressed: args.type == ExtraType.labExam
                     ? () => ref.read(showMarkdownPreviewProvider.notifier).update(
                           (state) => !state,
                         )
@@ -130,7 +131,7 @@ class EditExtraPage extends ConsumerWidget {
                 child: Consumer(
                   builder: (context, ref, child) {
                     return Text(
-                      args.fieldName == 'labExamInfo'
+                      args.type == ExtraType.labExam
                           ? ref.watch(showMarkdownPreviewProvider)
                               ? 'Kembali ke Editor'
                               : 'Lihat Preview'
@@ -156,11 +157,13 @@ class EditExtraPage extends ConsumerWidget {
 }
 
 class EditExtraPageArgs {
+  final ExtraType type;
   final String title;
   final String fieldName;
   final String fieldLabel;
 
   const EditExtraPageArgs({
+    required this.type,
     required this.title,
     required this.fieldName,
     required this.fieldLabel,

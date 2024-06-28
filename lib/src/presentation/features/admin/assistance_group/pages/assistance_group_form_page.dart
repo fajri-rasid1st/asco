@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 // Project imports:
+import 'package:asco/core/enums/form_action_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/utils/keys.dart';
@@ -34,7 +35,7 @@ class AssistanceGroupFormPage extends StatelessWidget {
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: '${args.action} Grup Asistensi',
+        title: '${args.title} Grup Asistensi',
         action: IconButton(
           onPressed: () => createOrEditAssistanceGroup(selectedStudents),
           icon: const Icon(Icons.check_rounded),
@@ -111,7 +112,11 @@ class AssistanceGroupFormPage extends StatelessWidget {
 }
 
 class AssistanceGroupFormPageArgs {
-  final String action;
+  final String title;
+  final FormActionType action;
 
-  const AssistanceGroupFormPageArgs({required this.action});
+  const AssistanceGroupFormPageArgs({
+    required this.title,
+    required this.action,
+  });
 }

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:asco/core/enums/form_action_type.dart';
 import 'package:asco/core/extensions/button_extension.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
@@ -23,7 +24,10 @@ class UserDetailPage extends StatelessWidget {
         action: IconButton(
           onPressed: () => navigatorKey.currentState!.pushNamed(
             userFormRoute,
-            arguments: const UserFormPageArgs(action: 'Edit'),
+            arguments: const UserFormPageArgs(
+              title: 'Edit',
+              action: FormActionType.update,
+            ),
           ),
           icon: const Icon(Icons.edit_rounded),
           iconSize: 20,

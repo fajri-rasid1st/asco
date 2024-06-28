@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:asco/core/enums/form_action_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
@@ -158,7 +159,10 @@ class _UserListHomePageState extends State<UserListHomePage> with SingleTickerPr
         animationController: fabAnimationController,
         onPressed: () => navigatorKey.currentState!.pushNamed(
           userFormRoute,
-          arguments: const UserFormPageArgs(action: 'Tambah'),
+          arguments: const UserFormPageArgs(
+            title: 'Tambah',
+            action: FormActionType.create,
+          ),
         ),
         tooltip: 'Tambah',
         child: const Icon(

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:asco/core/enums/form_action_type.dart';
 import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
@@ -121,7 +122,10 @@ class _MeetingListHomePageState extends State<MeetingListHomePage>
         animationController: fabAnimationController,
         onPressed: () => navigatorKey.currentState!.pushNamed(
           meetingFormRoute,
-          arguments: const MeetingFormPageArgs(action: 'Tambah'),
+          arguments: const MeetingFormPageArgs(
+            title: 'Tambah',
+            action: FormActionType.create,
+          ),
         ),
         tooltip: 'Tambah',
         child: const Icon(

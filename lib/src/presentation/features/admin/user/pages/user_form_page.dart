@@ -6,6 +6,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
+import 'package:asco/core/enums/form_action_type.dart';
 import 'package:asco/core/extensions/button_extension.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
@@ -28,7 +29,7 @@ class UserFormPage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: CustomAppBar(
-        title: '${args.action} Pengguna',
+        title: '${args.title} Pengguna',
         action: IconButton(
           onPressed: createOrEditUser,
           icon: const Icon(Icons.check_rounded),
@@ -92,7 +93,7 @@ class UserFormPage extends StatelessWidget {
                 values: userRoleFilter.values.toList().sublist(1),
                 initialValue: userRoleFilter.values.toList()[1],
               ),
-              if (args.action == 'Tambah') ...[
+              if (args.action == FormActionType.create) ...[
                 const Spacer(),
                 FilledButton(
                   onPressed: () {},
@@ -129,7 +130,11 @@ class UserFormPage extends StatelessWidget {
 }
 
 class UserFormPageArgs {
-  final String action;
+  final String title;
+  final FormActionType action;
 
-  const UserFormPageArgs({required this.action});
+  const UserFormPageArgs({
+    required this.title,
+    required this.action,
+  });
 }

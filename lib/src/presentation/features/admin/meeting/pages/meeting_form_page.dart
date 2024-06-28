@@ -6,6 +6,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
+import 'package:asco/core/enums/form_action_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/extensions/datetime_extension.dart';
 import 'package:asco/core/utils/keys.dart';
@@ -33,7 +34,7 @@ class MeetingFormPage extends StatelessWidget {
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: '${args.action} Pertemuan',
+        title: '${args.title} Pertemuan',
         action: IconButton(
           onPressed: createOrEditMeeting,
           icon: const Icon(Icons.check_rounded),
@@ -137,7 +138,11 @@ class MeetingFormPage extends StatelessWidget {
 }
 
 class MeetingFormPageArgs {
-  final String action;
+  final String title;
+  final FormActionType action;
 
-  const MeetingFormPageArgs({required this.action});
+  const MeetingFormPageArgs({
+    required this.title,
+    required this.action,
+  });
 }

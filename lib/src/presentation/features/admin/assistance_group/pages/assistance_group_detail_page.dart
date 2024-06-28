@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:asco/core/enums/form_action_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/routes/route_names.dart';
@@ -26,7 +27,10 @@ class AssistanceGroupDetailPage extends StatelessWidget {
         action: IconButton(
           onPressed: () => navigatorKey.currentState!.pushNamed(
             assistanceGroupFormRoute,
-            arguments: const AssistanceGroupFormPageArgs(action: 'Edit'),
+            arguments: const AssistanceGroupFormPageArgs(
+              title: 'Edit',
+              action: FormActionType.update,
+            ),
           ),
           icon: const Icon(Icons.edit_rounded),
           iconSize: 20,

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:asco/core/enums/form_action_type.dart';
 import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/utils/keys.dart';
@@ -68,7 +69,10 @@ class _PracticumListHomePageState extends State<PracticumListHomePage>
         animationController: fabAnimationController,
         onPressed: () => navigatorKey.currentState!.pushNamed(
           practicumFirstFormRoute,
-          arguments: const PracticumFormPageArgs(action: 'Tambah'),
+          arguments: const PracticumFormPageArgs(
+            title: 'Tambah',
+            action: FormActionType.create,
+          ),
         ),
         tooltip: 'Tambah',
         child: const Icon(

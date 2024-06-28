@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
 // Project imports:
+import 'package:asco/core/enums/extra_type.dart';
 import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
@@ -36,6 +37,7 @@ class LabExamInfoPage extends StatelessWidget {
                       onPressed: () => navigatorKey.currentState!.pushNamed(
                         editExtraRoute,
                         arguments: const EditExtraPageArgs(
+                          type: ExtraType.labExam,
                           title: 'Info Ujian Lab',
                           fieldName: 'labExamInfo',
                           fieldLabel: 'Info Ujian Lab',

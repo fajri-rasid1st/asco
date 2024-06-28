@@ -23,7 +23,7 @@ import 'package:asco/src/presentation/features/admin/user/pages/user_detail_page
 import 'package:asco/src/presentation/features/admin/user/pages/user_form_page.dart';
 import 'package:asco/src/presentation/features/admin/user/pages/user_list_home_page.dart';
 import 'package:asco/src/presentation/features/assistant/extra/pages/edit_extra_page.dart';
-import 'package:asco/src/presentation/features/assistant/profile/assistant_profile_page.dart';
+import 'package:asco/src/presentation/features/assistant/profile/pages/assistant_profile_page.dart';
 import 'package:asco/src/presentation/features/common/home/pages/home_page.dart';
 import 'package:asco/src/presentation/features/common/initial/pages/on_boarding_page.dart';
 import 'package:asco/src/presentation/features/common/main_menu/pages/main_menu_page.dart';
@@ -34,8 +34,9 @@ import 'package:asco/src/presentation/features/student/profile/pages/student_pro
 import 'package:asco/src/presentation/shared/features/control_card/pages/control_card_detail_page.dart';
 import 'package:asco/src/presentation/shared/features/extra/pages/lab_exam_info_page.dart';
 import 'package:asco/src/presentation/shared/features/profile/pages/edit_profile_page.dart';
-import 'package:asco/src/presentation/shared/features/score_recap/pages/score_recap_detail_page.dart';
-import 'package:asco/src/presentation/shared/features/score_recap/pages/score_recap_list_home_page.dart';
+import 'package:asco/src/presentation/shared/features/score/pages/score_input_page.dart';
+import 'package:asco/src/presentation/shared/features/score/pages/score_recap_detail_page.dart';
+import 'package:asco/src/presentation/shared/features/score/pages/score_recap_list_home_page.dart';
 import 'package:asco/src/presentation/shared/pages/practitioner_list_page.dart';
 import 'package:asco/src/presentation/shared/pages/select_classroom_page.dart';
 import 'package:asco/src/presentation/shared/pages/select_practicum_page.dart';
@@ -51,6 +52,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const OnBoardingPage(),
       );
+    case adminHomeRoute:
+      return MaterialPageRoute(
+        builder: (_) => const AdminHomePage(),
+      );
     case homeRoute:
       return MaterialPageRoute(
         builder: (_) => const HomePage(),
@@ -58,10 +63,6 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
     case mainMenuRoute:
       return MaterialPageRoute(
         builder: (_) => const MainMenuPage(),
-      );
-    case adminHomeRoute:
-      return MaterialPageRoute(
-        builder: (_) => const AdminHomePage(),
       );
     case userListHomeRoute:
       return MaterialPageRoute(
@@ -161,28 +162,6 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (_) => const StudentAssistanceDetailPage(),
       );
-    case editExtraRoute:
-      final args = settings.arguments as EditExtraPageArgs;
-
-      return MaterialPageRoute(
-        builder: (_) => EditExtraPage(args: args),
-      );
-    case labExamInfoRoute:
-      return MaterialPageRoute(
-        builder: (_) => const LabExamInfoPage(),
-      );
-    case studentProfileRoute:
-      return MaterialPageRoute(
-        builder: (_) => const StudentProfilePage(),
-      );
-    case assistantProfileRoute:
-      return MaterialPageRoute(
-        builder: (_) => const AssistantProfilePage(),
-      );
-    case editProfileRoute:
-      return MaterialPageRoute(
-        builder: (_) => const EditProfilePage(),
-      );
     case controlCardDetailRoute:
       return MaterialPageRoute(
         builder: (_) => const ControlCardDetailPage(),
@@ -196,6 +175,32 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
 
       return MaterialPageRoute(
         builder: (_) => ScoreRecapDetailPage(title: title),
+      );
+    case scoreInputRoute:
+      return MaterialPageRoute(
+        builder: (_) => const ScoreInputPage(),
+      );
+    case labExamInfoRoute:
+      return MaterialPageRoute(
+        builder: (_) => const LabExamInfoPage(),
+      );
+    case editExtraRoute:
+      final args = settings.arguments as EditExtraPageArgs;
+
+      return MaterialPageRoute(
+        builder: (_) => EditExtraPage(args: args),
+      );
+    case studentProfileRoute:
+      return MaterialPageRoute(
+        builder: (_) => const StudentProfilePage(),
+      );
+    case assistantProfileRoute:
+      return MaterialPageRoute(
+        builder: (_) => const AssistantProfilePage(),
+      );
+    case editProfileRoute:
+      return MaterialPageRoute(
+        builder: (_) => const EditProfilePage(),
       );
     case selectUsersRoute:
       final args = settings.arguments as SelectUsersPageArgs;

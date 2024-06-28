@@ -6,6 +6,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
+import 'package:asco/core/enums/form_action_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/routes/route_names.dart';
@@ -28,7 +29,7 @@ class PracticumFirstFormPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: '${args.action} Praktikum (1/2)',
+        title: '${args.title} Praktikum (1/2)',
         action: IconButton(
           onPressed: createOrEditPracticum,
           icon: const Icon(Icons.chevron_right_rounded),
@@ -117,7 +118,7 @@ class PracticumSecondFormPage extends StatelessWidget {
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: '${args.action} Praktikum (2/2)',
+        title: '${args.title} Praktikum (2/2)',
         action: IconButton(
           onPressed: () => updatePracticum(selectedAssistants),
           icon: const Icon(Icons.check_rounded),
@@ -194,7 +195,11 @@ class PracticumSecondFormPage extends StatelessWidget {
 }
 
 class PracticumFormPageArgs {
-  final String action;
+  final String title;
+  final FormActionType action;
 
-  const PracticumFormPageArgs({required this.action});
+  const PracticumFormPageArgs({
+    required this.title,
+    required this.action,
+  });
 }

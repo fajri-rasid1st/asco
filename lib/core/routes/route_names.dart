@@ -1,11 +1,11 @@
-// Some routes name
-
 // Auth routes
 const wrapperRoute = '/wrapper';
 const onBoardingRoute = '/on-boarding';
 
-// Admin routes
+// Home & main menu routes
 const adminHomeRoute = '/admin-home';
+const homeRoute = '/home';
+const mainMenuRoute = '/main-menu';
 
 // Admin: User
 const userListHomeRoute = '/user-list-home';
@@ -42,20 +42,22 @@ const controlCardListHomeRoute = '/control-card-list-home';
 // Admin: Lab rules
 const labRulesRoute = 'lab-rules';
 
-// Student & Assistance routes
-const homeRoute = '/home';
-const mainMenuRoute = '/main-menu';
-
 // Meeting
 const studentMeetingHistoryRoute = '/student-meeting-history';
 const studentMeetingDetailRoute = '/student-meeting-detail';
 
-// Assistance
+// Assistance/control card
 const studentAssistanceDetailRoute = '/student-assistance-detail';
+const controlCardDetailRoute = '/control-card-detail';
+
+// Leaderboard/score
+const scoreRecapListHomeRoute = '/score-recap-list-home';
+const scoreRecapDetailRoute = '/score-recap-detail';
+const scoreInputRoute = '/score-input';
 
 // Extra
-const editExtraRoute = '/edit-extra';
 const labExamInfoRoute = '/lab-exam-info';
+const editExtraRoute = '/edit-extra';
 
 // Profile
 const studentProfileRoute = '/student-profile';
@@ -63,9 +65,6 @@ const assistantProfileRoute = '/assistant-profile';
 const editProfileRoute = '/edit-profile';
 
 // Shared
-const controlCardDetailRoute = '/control-card-detail';
-const scoreRecapListHomeRoute = '/score-recap-list-home';
-const scoreRecapDetailRoute = '/score-recap-detail';
 const selectUsersRoute = '/select-users';
 const selectPracticumRoute = '/select-practicum';
 const selectClassroomRoute = '/select-classroom';

@@ -33,7 +33,6 @@ class SelectClassroomPage extends StatelessWidget {
 class SelectClassroomPageArgs {
   final String title;
   final VoidCallback? onItemTapped;
-  // final int practicumId;
 
   const SelectClassroomPageArgs({
     required this.title,

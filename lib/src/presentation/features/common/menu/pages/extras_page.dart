@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:asco/core/enums/extra_type.dart';
 import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
@@ -39,6 +40,7 @@ class _ExtrasPageState extends State<ExtrasPage> with AutomaticKeepAliveClientMi
             : () => navigatorKey.currentState!.pushNamed(
                   editExtraRoute,
                   arguments: const EditExtraPageArgs(
+                    type: ExtraType.quiz,
                     title: 'Quiz',
                     fieldName: 'quizLink',
                     fieldLabel: 'Link Quiz',
@@ -59,6 +61,7 @@ class _ExtrasPageState extends State<ExtrasPage> with AutomaticKeepAliveClientMi
             : () => navigatorKey.currentState!.pushNamed(
                   editExtraRoute,
                   arguments: const EditExtraPageArgs(
+                    type: ExtraType.questionnaire,
                     title: 'Kuesioner',
                     fieldName: 'questionnaireLink',
                     fieldLabel: 'Link Kuesioner',

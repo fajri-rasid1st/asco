@@ -142,8 +142,6 @@ class _SelectUsersPageState extends State<SelectUsersPage> {
 class SelectUsersPageArgs {
   final String title;
   final String role;
-  // final List<User>? users;
-  // final List<User>? selectedUsers;
 
   const SelectUsersPageArgs({
     required this.title,
