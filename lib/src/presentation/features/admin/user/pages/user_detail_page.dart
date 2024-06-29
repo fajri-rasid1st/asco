@@ -88,7 +88,9 @@ class UserDetailPage extends StatelessWidget {
               onPressed: () {},
               style: OutlinedButton.styleFrom(
                 foregroundColor: Palette.errorText,
-                side: const BorderSide(color: Palette.errorText),
+                side: const BorderSide(
+                  color: Palette.errorText,
+                ),
               ),
               child: const Text('Reset Password'),
             ).fullWidth(),

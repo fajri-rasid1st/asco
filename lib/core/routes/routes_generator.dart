@@ -177,8 +177,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => ScoreRecapDetailPage(title: title),
       );
     case scoreInputRoute:
+      final args = settings.arguments as ScoreInputPageArgs;
+
       return MaterialPageRoute(
-        builder: (_) => const ScoreInputPage(),
+        builder: (_) => ScoreInputPage(args: args),
       );
     case labExamInfoRoute:
       return MaterialPageRoute(

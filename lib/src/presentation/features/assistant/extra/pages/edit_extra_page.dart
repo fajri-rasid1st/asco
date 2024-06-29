@@ -11,13 +11,17 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:asco/core/enums/extra_type.dart';
 import 'package:asco/core/extensions/button_extension.dart';
 import 'package:asco/core/helpers/app_size.dart';
+import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/styles/color_scheme.dart';
+import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/themes/light_theme.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/custom_text_field.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/markdown_field.dart';
+import 'package:asco/src/presentation/shared/widgets/practicum_badge_image.dart';
+import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 final showMarkdownPreviewProvider = StateProvider.autoDispose<bool>((ref) => false);
 final markdownFieldValueProvider = StateProvider.autoDispose<String>((ref) => '');
@@ -63,36 +67,38 @@ class EditExtraPage extends ConsumerWidget {
                     final fieldValue = ref.watch(markdownFieldValueProvider);
 
                     if (ref.watch(showMarkdownPreviewProvider)) {
-                      return Container(
-                        width: double.infinity,
-                        height: AppSize.getAppWidth(context) - 60,
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: Palette.background,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: Palette.border,
-                          ),
-                        ),
-                        child: Scrollbar(
-                          radius: const Radius.circular(8),
-                          child: SingleChildScrollView(
-                            child: MarkdownBody(
-                              data: fieldValue,
-                              selectable: true,
-                              styleSheet: MarkdownStyleSheet.fromTheme(lightTheme),
-                              onTapLink: (text, href, title) {
-                                if (href != null) FunctionHelper.openUrl(href);
-                              },
+                      return Column(
+                        children: [
+                          child!,
+                          const SizedBox(height: 16),
+                          Container(
+                            width: double.infinity,
+                            height: AppSize.getAppWidth(context) - 100,
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Palette.background,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Scrollbar(
+                              radius: const Radius.circular(8),
+                              child: SingleChildScrollView(
+                                child: MarkdownBody(
+                                  data: fieldValue,
+                                  selectable: true,
+                                  styleSheet: MarkdownStyleSheet.fromTheme(lightTheme),
+                                  onTapLink: (text, href, title) {
+                                    if (href != null) FunctionHelper.openUrl(href);
+                                  },
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       );
                     }
 
                     return MarkdownField(
                       name: args.fieldName,
-                      label: args.fieldLabel,
                       initialValue: fieldValue,
                       hintText: 'Masukkan ${args.fieldLabel.toLowerCase()}',
                       onChanged: (value) {
@@ -100,6 +106,56 @@ class EditExtraPage extends ConsumerWidget {
                       },
                     );
                   },
+                  child: Container(
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      color: Palette.background,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Stack(
+                      alignment: Alignment.topRight,
+                      children: [
+                        SvgAsset(
+                          AssetPath.getVector('bg_attribute_3.svg'),
+                          height: 44,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 12,
+                            horizontal: 16,
+                          ),
+                          child: Row(
+                            children: [
+                              const PracticumBadgeImage(
+                                badgeUrl: 'https://placehold.co/138x150/png',
+                                width: 48,
+                                height: 52,
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Informasi Ujian Lab',
+                                      style: textTheme.bodySmall!.copyWith(
+                                        color: Palette.secondaryText,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 2),
+                                    Text(
+                                      'Pemrograman Mobile',
+                                      style: textTheme.titleMedium,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 )
               else
                 CustomTextField(

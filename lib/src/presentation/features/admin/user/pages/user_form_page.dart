@@ -106,7 +106,9 @@ class UserFormPage extends StatelessWidget {
                   onPressed: () {},
                   style: OutlinedButton.styleFrom(
                     foregroundColor: const Color(0xFF107C41),
-                    side: const BorderSide(color: Color(0xFF107C41)),
+                    side: const BorderSide(
+                      color: Color(0xFF107C41),
+                    ),
                   ),
                   child: const Text('Download Template Excel'),
                 ).fullWidth(),

@@ -346,8 +346,7 @@ class ScoreIndicator extends StatelessWidget {
                   backgroundColor: Colors.transparent,
                   circularStrokeCap: CircularStrokeCap.round,
                   center: Container(
-                    width: 91,
-                    height: 91,
+                    margin: const EdgeInsets.all(6),
                     decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Palette.purple2,

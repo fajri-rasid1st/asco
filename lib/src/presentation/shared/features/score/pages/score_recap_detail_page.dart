@@ -91,13 +91,11 @@ class ScoreRecapDetailPage extends StatelessWidget {
                             color: Palette.purple2,
                           ),
                         ),
-                        Flexible(
-                          child: Text(
-                            '86.0',
-                            style: textTheme.titleMedium!.copyWith(
-                              color: Palette.purple2,
-                              fontWeight: FontWeight.w600,
-                            ),
+                        Text(
+                          '86.0',
+                          style: textTheme.titleMedium!.copyWith(
+                            color: Palette.purple2,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ],

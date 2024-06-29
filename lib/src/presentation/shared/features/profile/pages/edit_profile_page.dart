@@ -255,8 +255,8 @@ class EditProfilePage extends ConsumerWidget {
       enableDrag: false,
       isScrollControlled: true,
       builder: (context) => BottomSheet(
-        enableDrag: false,
         onClosing: () {},
+        enableDrag: false,
         builder: (context) => Padding(
           padding: const EdgeInsets.symmetric(vertical: 16),
           child: Column(

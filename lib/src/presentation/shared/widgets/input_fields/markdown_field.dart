@@ -8,11 +8,9 @@ import 'package:markdown_editable_textinput/format_markdown.dart';
 
 // Project imports:
 import 'package:asco/core/styles/color_scheme.dart';
-import 'package:asco/core/styles/text_style.dart';
 
 class MarkdownField extends StatefulWidget {
   final String name;
-  final String label;
   final String? initialValue;
   final String? hintText;
   final int maxLines;
@@ -22,7 +20,6 @@ class MarkdownField extends StatefulWidget {
   const MarkdownField({
     super.key,
     required this.name,
-    required this.label,
     this.initialValue,
     this.hintText,
     this.maxLines = 10,
@@ -66,124 +63,111 @@ class _MarkdownFieldState extends State<MarkdownField> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          widget.label,
-          style: textTheme.titleSmall!.copyWith(
-            color: Palette.purple2,
-            fontWeight: FontWeight.w600,
+    return ValueListenableBuilder(
+      valueListenable: isFocus,
+      builder: (context, isFocus, child) {
+        final borderSide = BorderSide(
+          color: isFocus ? Palette.purple2 : Palette.border,
+        );
+
+        final textFieldBorder = OutlineInputBorder(
+          borderSide: borderSide,
+          borderRadius: const BorderRadius.vertical(
+            top: Radius.circular(10),
           ),
-        ),
-        const SizedBox(height: 6),
-        ValueListenableBuilder(
-          valueListenable: isFocus,
-          builder: (context, isFocus, child) {
-            final borderSide = BorderSide(
-              color: isFocus ? Palette.purple2 : Palette.border,
-            );
+        );
 
-            final textFieldBorder = OutlineInputBorder(
-              borderSide: borderSide,
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(10),
-              ),
-            );
-
-            return Column(
-              children: [
-                Focus(
-                  onFocusChange: (value) => this.isFocus.value = value,
-                  child: FormBuilderTextField(
-                    controller: controller,
-                    name: widget.name,
-                    maxLines: widget.maxLines,
-                    textInputAction: TextInputAction.newline,
-                    textCapitalization: TextCapitalization.sentences,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Palette.background,
-                      contentPadding: const EdgeInsets.all(16),
-                      hintText: widget.hintText,
-                      enabledBorder: textFieldBorder,
-                      focusedBorder: textFieldBorder,
-                      errorBorder: textFieldBorder,
-                      focusedErrorBorder: textFieldBorder,
-                    ),
-                    validator: FormBuilderValidators.required(errorText: ''),
-                  ),
+        return Column(
+          children: [
+            Focus(
+              onFocusChange: (value) => this.isFocus.value = value,
+              child: FormBuilderTextField(
+                controller: controller,
+                name: widget.name,
+                maxLines: widget.maxLines,
+                textInputAction: TextInputAction.newline,
+                textCapitalization: TextCapitalization.sentences,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Palette.background,
+                  contentPadding: const EdgeInsets.all(16),
+                  hintText: widget.hintText,
+                  enabledBorder: textFieldBorder,
+                  focusedBorder: textFieldBorder,
+                  errorBorder: textFieldBorder,
+                  focusedErrorBorder: textFieldBorder,
                 ),
-                Container(
-                  height: 44,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: borderSide,
-                      left: borderSide,
-                      right: borderSide,
-                    ),
-                    borderRadius: const BorderRadius.vertical(
-                      bottom: Radius.circular(10),
-                    ),
-                  ),
-                  child: Material(
-                    clipBehavior: Clip.antiAlias,
-                    borderRadius: const BorderRadius.vertical(
-                      bottom: Radius.circular(10),
-                    ),
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      children: List<Widget>.generate(
-                        widget.actions.length,
-                        (index) {
-                          final type = widget.actions[index];
+                validator: FormBuilderValidators.required(errorText: ''),
+              ),
+            ),
+            Container(
+              height: 44,
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: borderSide,
+                  left: borderSide,
+                  right: borderSide,
+                ),
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(10),
+                ),
+              ),
+              child: Material(
+                clipBehavior: Clip.antiAlias,
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(10),
+                ),
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: List<Widget>.generate(
+                    widget.actions.length,
+                    (index) {
+                      final type = widget.actions[index];
 
-                          if (type == MarkdownType.title) {
-                            return Row(
-                              children: [
-                                for (int i = 1; i <= 6; i++)
-                                  InkWell(
-                                    key: Key('H${i}_button'),
-                                    onTap: () => onTap(
-                                      MarkdownType.title,
-                                      titleSize: i,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8),
-                                      child: Text(
-                                        'H$i',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: (18 - i).toDouble(),
-                                        ),
-                                      ),
+                      if (type == MarkdownType.title) {
+                        return Row(
+                          children: [
+                            for (int i = 1; i <= 6; i++)
+                              InkWell(
+                                key: Key('H${i}_button'),
+                                onTap: () => onTap(
+                                  MarkdownType.title,
+                                  titleSize: i,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8),
+                                  child: Text(
+                                    'H$i',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: (18 - i).toDouble(),
                                     ),
                                   ),
-                              ],
-                            );
-                          }
-
-                          return InkWell(
-                            key: Key(type.key),
-                            onTap: () => onTap(type),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: Icon(
-                                type.icon,
-                                color: Palette.primaryText,
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+                          ],
+                        );
+                      }
+
+                      return InkWell(
+                        key: Key(type.key),
+                        onTap: () => onTap(type),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Icon(
+                            type.icon,
+                            color: Palette.primaryText,
+                          ),
+                        ),
+                      );
+                    },
                   ),
                 ),
-              ],
-            );
-          },
-        ),
-      ],
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
