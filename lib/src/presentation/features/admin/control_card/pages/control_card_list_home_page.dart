@@ -9,7 +9,7 @@ import 'package:grouped_list/sliver_grouped_list.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/utils/keys.dart';
-import 'package:asco/src/presentation/shared/providers/manual_providers/search_provider.dart';
+import 'package:asco/src/presentation/shared/providers/manual_providers/query_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/search_field.dart';

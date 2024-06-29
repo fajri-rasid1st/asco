@@ -24,6 +24,7 @@ class FileUploadField extends StatelessWidget {
   final ValueChanged<String?>? onChanged;
   final Future<String?> Function()? onPressedFilePickerButton;
   final String? Function(String?)? validator;
+  final TextStyle? labelStyle;
 
   const FileUploadField({
     super.key,
@@ -34,6 +35,7 @@ class FileUploadField extends StatelessWidget {
     this.onChanged,
     this.onPressedFilePickerButton,
     this.validator,
+    this.labelStyle,
   });
 
   @override
@@ -43,10 +45,11 @@ class FileUploadField extends StatelessWidget {
       children: [
         Text(
           label,
-          style: textTheme.titleSmall!.copyWith(
-            color: Palette.purple2,
-            fontWeight: FontWeight.w600,
-          ),
+          style: labelStyle ??
+              textTheme.titleSmall!.copyWith(
+                color: Palette.purple2,
+                fontWeight: FontWeight.w600,
+              ),
         ),
         const SizedBox(height: 6),
         FormBuilderField<String?>(

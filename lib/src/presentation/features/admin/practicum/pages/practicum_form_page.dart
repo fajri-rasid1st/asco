@@ -80,11 +80,10 @@ class PracticumFirstFormPage extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 12),
-              FileUploadField(
+              const FileUploadField(
                 name: 'courseContractPath',
                 label: 'Kontrak Kuliah',
-                extensions: const ['pdf', 'doc', 'docx'],
-                validator: FormBuilderValidators.required(),
+                extensions: ['pdf', 'doc', 'docx'],
               ),
             ],
           ),

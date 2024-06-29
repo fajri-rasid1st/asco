@@ -22,6 +22,7 @@ import 'package:asco/src/presentation/features/admin/practicum/pages/practicum_l
 import 'package:asco/src/presentation/features/admin/user/pages/user_detail_page.dart';
 import 'package:asco/src/presentation/features/admin/user/pages/user_form_page.dart';
 import 'package:asco/src/presentation/features/admin/user/pages/user_list_home_page.dart';
+import 'package:asco/src/presentation/features/assistant/assistance/pages/assistant_assistance_detail_page.dart';
 import 'package:asco/src/presentation/features/assistant/extra/pages/edit_extra_page.dart';
 import 'package:asco/src/presentation/features/assistant/profile/pages/assistant_profile_page.dart';
 import 'package:asco/src/presentation/features/common/home/pages/home_page.dart';
@@ -161,6 +162,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
     case studentAssistanceDetailRoute:
       return MaterialPageRoute(
         builder: (_) => const StudentAssistanceDetailPage(),
+      );
+    case assistantAssistanceDetailRoute:
+      return MaterialPageRoute(
+        builder: (_) => const AssistantAssistanceDetailPage(),
       );
     case controlCardDetailRoute:
       return MaterialPageRoute(

@@ -106,18 +106,16 @@ class MeetingFormPage extends StatelessWidget {
                 initialValue: assistants.last,
               ),
               const SizedBox(height: 12),
-              FileUploadField(
+              const FileUploadField(
                 name: 'modulePath',
                 label: 'Modul',
-                extensions: const ['pdf', 'doc', 'docx'],
-                validator: FormBuilderValidators.required(),
+                extensions: ['pdf', 'doc', 'docx'],
               ),
               const SizedBox(height: 12),
-              FileUploadField(
+              const FileUploadField(
                 name: 'assignmentPath',
                 label: 'Soal praktikum',
-                extensions: const ['pdf', 'doc', 'docx'],
-                validator: FormBuilderValidators.required(),
+                extensions: ['pdf', 'doc', 'docx'],
               ),
             ],
           ),

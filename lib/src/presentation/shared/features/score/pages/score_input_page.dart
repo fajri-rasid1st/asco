@@ -12,7 +12,8 @@ import 'package:asco/core/enums/score_type.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
-import 'package:asco/src/presentation/shared/providers/manual_providers/search_provider.dart';
+import 'package:asco/src/presentation/shared/providers/manual_providers/field_value_provider.dart';
+import 'package:asco/src/presentation/shared/providers/manual_providers/query_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
@@ -254,53 +255,65 @@ class StudentScoreCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                        child: FormBuilderTextField(
-                          name: 'score',
-                          keyboardType: TextInputType.number,
-                          textInputAction: TextInputAction.done,
-                          textAlignVertical: TextAlignVertical.center,
-                          style: textTheme.bodyMedium!.copyWith(
-                            color: Palette.primaryText,
-                          ),
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Palette.background,
-                            contentPadding: const EdgeInsets.symmetric(
-                              vertical: 12,
-                              horizontal: 16,
-                            ),
-                            hintText: 'Masukkan nilai',
-                            hintStyle: textTheme.bodyMedium!.copyWith(
-                              color: Palette.hint,
-                              height: 1,
-                            ),
-                          ),
-                          validator: FormBuilderValidators.compose([
-                            FormBuilderValidators.required(
-                              errorText: 'Field wajib diisi',
-                            ),
-                            FormBuilderValidators.min(
-                              0,
-                              errorText: 'Nilai minimal adalah 0',
-                            ),
-                            FormBuilderValidators.max(
-                              100,
-                              errorText: 'Nilai maksimal adalah 100',
-                            ),
-                          ]),
+                        child: Consumer(
+                          builder: (context, ref, child) {
+                            return FormBuilderTextField(
+                              name: 'score',
+                              keyboardType: TextInputType.number,
+                              textInputAction: TextInputAction.done,
+                              textAlignVertical: TextAlignVertical.center,
+                              style: textTheme.bodyMedium!.copyWith(
+                                color: Palette.primaryText,
+                              ),
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Palette.background,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                  horizontal: 16,
+                                ),
+                                hintText: 'Masukkan nilai',
+                                hintStyle: textTheme.bodyMedium!.copyWith(
+                                  color: Palette.hint,
+                                  height: 1,
+                                ),
+                              ),
+                              onChanged: (value) {
+                                ref.read(fieldValueProvider.notifier).state = value ?? '';
+                              },
+                              validator: FormBuilderValidators.compose([
+                                FormBuilderValidators.numeric(
+                                  errorText: 'Field harus berupa angka',
+                                ),
+                                FormBuilderValidators.min(
+                                  0,
+                                  errorText: 'Nilai minimal adalah 0',
+                                ),
+                                FormBuilderValidators.max(
+                                  100,
+                                  errorText: 'Nilai maksimal adalah 100',
+                                ),
+                              ]),
+                            );
+                          },
                         ),
                       ),
                       const SizedBox(width: 10),
-                      IconButton(
-                        onPressed: inputScore,
-                        icon: const Icon(Icons.check_rounded),
-                        style: IconButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          minimumSize: const Size(48, 48),
-                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        ),
+                      Consumer(
+                        builder: (context, ref, child) {
+                          return IconButton(
+                            onPressed: ref.watch(fieldValueProvider).isEmpty ? null : inputScore,
+                            icon: const Icon(Icons.check_rounded),
+                            style: IconButton.styleFrom(
+                              disabledBackgroundColor: Palette.divider,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              minimumSize: const Size(48, 48),
+                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),

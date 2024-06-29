@@ -17,6 +17,7 @@ import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/themes/light_theme.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/presentation/shared/providers/manual_providers/field_value_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/custom_text_field.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/markdown_field.dart';
@@ -24,7 +25,6 @@ import 'package:asco/src/presentation/shared/widgets/practicum_badge_image.dart'
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 final showMarkdownPreviewProvider = StateProvider.autoDispose<bool>((ref) => false);
-final markdownFieldValueProvider = StateProvider.autoDispose<String>((ref) => '');
 
 class EditExtraPage extends ConsumerWidget {
   final EditExtraPageArgs args;
@@ -64,7 +64,7 @@ class EditExtraPage extends ConsumerWidget {
               if (args.type == ExtraType.labExam)
                 Consumer(
                   builder: (context, ref, child) {
-                    final fieldValue = ref.watch(markdownFieldValueProvider);
+                    final value = ref.watch(fieldValueProvider);
 
                     if (ref.watch(showMarkdownPreviewProvider)) {
                       return Column(
@@ -83,7 +83,7 @@ class EditExtraPage extends ConsumerWidget {
                               radius: const Radius.circular(8),
                               child: SingleChildScrollView(
                                 child: MarkdownBody(
-                                  data: fieldValue,
+                                  data: value,
                                   selectable: true,
                                   styleSheet: MarkdownStyleSheet.fromTheme(lightTheme),
                                   onTapLink: (text, href, title) {
@@ -99,11 +99,9 @@ class EditExtraPage extends ConsumerWidget {
 
                     return MarkdownField(
                       name: args.fieldName,
-                      initialValue: fieldValue,
+                      initialValue: value,
                       hintText: 'Masukkan ${args.fieldLabel.toLowerCase()}',
-                      onChanged: (value) {
-                        ref.read(markdownFieldValueProvider.notifier).state = value;
-                      },
+                      onChanged: (value) => ref.read(fieldValueProvider.notifier).state = value,
                     );
                   },
                   child: Container(

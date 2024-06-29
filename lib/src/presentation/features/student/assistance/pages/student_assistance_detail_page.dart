@@ -156,7 +156,7 @@ class StudentAssistanceDetailPage extends StatelessWidget {
                   ),
                 ),
               ),
-              const SectionTitle(text: 'Absensi Asistensi'),
+              const SectionTitle(text: 'Absen Asistensi'),
               const AttendanceAssistanceCard(
                 number: 1,
                 date: '26 Februari 2024',
@@ -190,7 +190,7 @@ class SectionTitle extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(
         top: 20,
-        bottom: 8,
+        bottom: 6,
       ),
       child: Text(
         text,

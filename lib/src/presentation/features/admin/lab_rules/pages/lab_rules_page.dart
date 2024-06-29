@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
+import 'package:asco/core/enums/attendance_type.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
@@ -33,9 +33,12 @@ class LabRulesPage extends StatelessWidget {
                 child: FileUploadField(
                   name: 'labRulePath',
                   label: 'Tata Tertib Lab',
+                  labelStyle: textTheme.titleLarge!.copyWith(
+                    color: Palette.purple2,
+                    fontWeight: FontWeight.w600,
+                  ),
                   extensions: const ['pdf', 'doc', 'docx'],
                   onChanged: (value) => debugPrint(value),
-                  validator: FormBuilderValidators.required(),
                 ),
               ),
               const SectionHeader(
@@ -45,22 +48,30 @@ class LabRulesPage extends StatelessWidget {
               const LabRuleListTile(
                 title: 'Terlambat asistensi <1 minggu',
                 subtitle: 'Pengurangan nilai 5 poin',
+                fieldName: 'assistanceDelayMinimumPoints',
+                attendanceType: AttendanceType.assistance,
               ),
               const LabRuleListTile(
                 title: 'Terlambat asistensi ≥1 minggu',
                 subtitle: 'Pengurangan nilai 10 poin',
+                fieldName: 'assistanceDelayMaximumPoints',
+                attendanceType: AttendanceType.assistance,
               ),
               const SectionHeader(
                 title: 'Sanksi Nilai Quiz',
                 padding: EdgeInsets.fromLTRB(20, 20, 0, 0),
               ),
               const LabRuleListTile(
-                title: 'Terlambat absensi >15 menit',
+                title: 'Terlambat absensi ≥20 menit',
                 subtitle: 'Pengurangan nilai 5 poin',
+                fieldName: 'attendanceDelayMinimumPoints',
+                attendanceType: AttendanceType.meeting,
               ),
               const LabRuleListTile(
                 title: 'Terlambat absensi ≥30 menit',
                 subtitle: 'Pengurangan nilai 10 poin',
+                fieldName: 'attendanceDelayMaximumPoints',
+                attendanceType: AttendanceType.meeting,
               ),
             ],
           ),
@@ -73,11 +84,15 @@ class LabRulesPage extends StatelessWidget {
 class LabRuleListTile extends StatelessWidget {
   final String title;
   final String subtitle;
+  final String fieldName;
+  final AttendanceType attendanceType;
 
   const LabRuleListTile({
     super.key,
     required this.title,
     required this.subtitle,
+    required this.fieldName,
+    required this.attendanceType,
   });
 
   @override
@@ -102,7 +117,13 @@ class LabRuleListTile extends StatelessWidget {
           onTap: () => showDialog(
             context: context,
             barrierDismissible: false,
-            builder: (context) => const LabRuleDialog(fieldName: 'assistanceDelayMinimumPoints'),
+            builder: (context) => LabRuleDialog(
+              title: attendanceType == AttendanceType.assistance
+                  ? 'Sanksi Nilai Asistensi'
+                  : 'Sanksi Nilai Quiz',
+              subtitle: title,
+              fieldName: fieldName,
+            ),
           ),
         ),
         const Divider(

@@ -15,6 +15,7 @@ import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/services/image_service.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/presentation/shared/providers/manual_providers/field_value_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
@@ -22,8 +23,6 @@ import 'package:asco/src/presentation/shared/widgets/input_fields/custom_text_fi
 import 'package:asco/src/presentation/shared/widgets/input_fields/password_field.dart';
 import 'package:asco/src/presentation/shared/widgets/section_header.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
-
-final newPasswordProvider = StateProvider.autoDispose<String>((ref) => '');
 
 class EditProfilePage extends ConsumerWidget {
   const EditProfilePage({super.key});
@@ -176,7 +175,7 @@ class EditProfilePage extends ConsumerWidget {
                       name: 'newPassword',
                       label: 'Password Baru',
                       hintText: 'Masukkan password baru',
-                      onChanged: (value) => ref.read(newPasswordProvider.notifier).state = value!,
+                      onChanged: (value) => ref.read(fieldValueProvider.notifier).state = value!,
                       validators: [
                         FormBuilderValidators.required(
                           errorText: 'Field wajib diisi',
@@ -196,7 +195,7 @@ class EditProfilePage extends ConsumerWidget {
                               errorText: 'Field wajib diisi',
                             ),
                             FormBuilderValidators.equal(
-                              ref.watch(newPasswordProvider),
+                              ref.watch(fieldValueProvider),
                               errorText: 'Konfirmasi password salah',
                             ),
                           ],

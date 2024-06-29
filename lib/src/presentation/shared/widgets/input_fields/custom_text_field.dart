@@ -26,6 +26,7 @@ class CustomTextField extends StatefulWidget {
   final List<String? Function(String?)>? validators;
   final VoidCallback? onTap;
   final VoidCallback? onSuffixIconTap;
+  final ValueChanged<String?>? onChanged;
   final bool isSmall;
 
   const CustomTextField({
@@ -44,6 +45,7 @@ class CustomTextField extends StatefulWidget {
     this.validators,
     this.onTap,
     this.onSuffixIconTap,
+    this.onChanged,
     this.isSmall = false,
   });
 
@@ -160,6 +162,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       validator:
           widget.validators != null ? FormBuilderValidators.compose(widget.validators!) : null,
       onTap: widget.onTap,
+      onChanged: widget.onChanged,
     );
   }
 }

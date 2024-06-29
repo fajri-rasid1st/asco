@@ -9,8 +9,8 @@ final colorScheme = ColorScheme.fromSeed(
   onPrimary: Palette.background,
   secondary: Palette.secondary,
   onSecondary: Palette.background,
-  background: Palette.background,
-  onBackground: Palette.primaryText,
+  surface: Palette.background,
+  onSurface: Palette.primaryText,
   error: Palette.errorText,
   onError: Palette.background,
 );

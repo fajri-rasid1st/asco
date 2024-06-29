@@ -48,6 +48,7 @@ const studentMeetingDetailRoute = '/student-meeting-detail';
 
 // Assistance/control card
 const studentAssistanceDetailRoute = '/student-assistance-detail';
+const assistantAssistanceDetailRoute = '/assistant-assistance-detail';
 const controlCardDetailRoute = '/control-card-detail';
 
 // Leaderboard/score

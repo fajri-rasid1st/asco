@@ -9,11 +9,14 @@ import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/attendance_card.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_icon_button.dart';
+import 'package:asco/src/presentation/shared/widgets/dialogs/github_repository_dialog.dart';
+import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class AssistancePage extends StatefulWidget {
@@ -128,15 +131,44 @@ class _AssistancePageState extends State<AssistancePage> with AutomaticKeepAlive
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          trailing: CustomIconButton(
-                            'github_filled.svg',
-                            color: Palette.purple2,
-                            size: 24,
-                            tooltip: 'Github',
-                            onPressed: () => FunctionHelper.openUrl(
-                              'https://github.com/fajri-rasid1st',
-                            ),
-                          ),
+                          trailing: roleId == 1
+                              ? CustomIconButton(
+                                  'github_filled.svg',
+                                  color: Palette.purple2,
+                                  size: 24,
+                                  tooltip: 'Github',
+                                  onPressed: () => FunctionHelper.openUrl(
+                                    'https://github.com/fajri-rasid1st',
+                                  ),
+                                )
+                              : InkWellContainer(
+                                  radius: 99,
+                                  color: Palette.purple2,
+                                  padding: const EdgeInsets.all(2),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      CustomIconButton(
+                                        'github_filled.svg',
+                                        color: Palette.background,
+                                        tooltip: 'Github',
+                                        onPressed: () => FunctionHelper.openUrl(
+                                          'https://github.com/fajri-rasid1st',
+                                        ),
+                                      ),
+                                      CustomIconButton(
+                                        'edit_outlined.svg',
+                                        size: 20,
+                                        tooltip: 'Edit',
+                                        onPressed: () => showDialog(
+                                          context: context,
+                                          barrierDismissible: false,
+                                          builder: (context) => const GithubRepositoryDialog(),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                         ),
                       ],
                     ),
@@ -199,9 +231,14 @@ class _AssistancePageState extends State<AssistancePage> with AutomaticKeepAlive
                   index == 9 ? kBottomNavigationBarHeight : 10,
                 ),
                 child: AttendanceCard(
-                  attendanceType: AttendanceType.assistance,
-                  assistanceStatus: const [true, false],
-                  onTap: () => navigatorKey.currentState!.pushNamed(studentAssistanceDetailRoute),
+                  attendanceType: AttendanceType.meeting,
+                  meetingStatus: const {
+                    'Selesai': 8,
+                    'Belum': 4,
+                  },
+                  onTap: () => navigatorKey.currentState!.pushNamed(
+                    roleId == 1 ? studentAssistanceDetailRoute : assistantAssistanceDetailRoute,
+                  ),
                 ),
               ),
             ),

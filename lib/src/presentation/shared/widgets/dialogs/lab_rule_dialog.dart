@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
@@ -10,16 +11,24 @@ import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/presentation/shared/providers/manual_providers/field_value_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/custom_text_field.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
-class LabRuleDialog extends StatelessWidget {
+class LabRuleDialog extends ConsumerWidget {
+  final String title;
+  final String subtitle;
   final String fieldName;
 
-  const LabRuleDialog({super.key, required this.fieldName});
+  const LabRuleDialog({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.fieldName,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final formKey = GlobalKey<FormBuilderState>();
 
     return Dialog(
@@ -55,7 +64,7 @@ class LabRuleDialog extends StatelessWidget {
                     child: Column(
                       children: [
                         Text(
-                          'Sanksi Nilai Asistensi',
+                          title,
                           textAlign: TextAlign.center,
                           style: textTheme.titleMedium!.copyWith(
                             color: Palette.purple2,
@@ -63,7 +72,7 @@ class LabRuleDialog extends StatelessWidget {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          'Terlambat asistensi <1 minggu',
+                          subtitle,
                           textAlign: TextAlign.center,
                           style: textTheme.bodySmall!.copyWith(
                             color: Palette.purple3,
@@ -75,18 +84,25 @@ class LabRuleDialog extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 8, right: 4),
-                  child: IconButton(
-                    onPressed: () => submit(formKey),
-                    icon: SvgAsset(
-                      AssetPath.getIcon('check_outlined.svg'),
-                      color: Palette.primary,
-                      width: 26,
-                    ),
-                    tooltip: 'Submit',
-                    style: IconButton.styleFrom(
-                      backgroundColor: Colors.transparent,
-                      shape: const CircleBorder(),
-                    ),
+                  child: Consumer(
+                    builder: (context, ref, child) {
+                      final value = ref.watch(fieldValueProvider);
+
+                      return IconButton(
+                        onPressed: value.isEmpty ? null : () => submit(formKey),
+                        icon: SvgAsset(
+                          AssetPath.getIcon('check_outlined.svg'),
+                          color: value.isEmpty ? Palette.secondaryText : Palette.primary,
+                          width: 26,
+                        ),
+                        tooltip: 'Submit',
+                        style: IconButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          disabledBackgroundColor: Colors.transparent,
+                          shape: const CircleBorder(),
+                        ),
+                      );
+                    },
                   ),
                 ),
               ],
@@ -102,10 +118,8 @@ class LabRuleDialog extends StatelessWidget {
                   hintText: 'Masukkan jumlah poin',
                   textInputType: TextInputType.number,
                   textInputAction: TextInputAction.done,
+                  onChanged: (value) => ref.read(fieldValueProvider.notifier).state = value ?? '',
                   validators: [
-                    FormBuilderValidators.required(
-                      errorText: 'Field wajib diisi',
-                    ),
                     FormBuilderValidators.integer(
                       errorText: 'Field harus berupa angka integer',
                     ),
@@ -114,8 +128,8 @@ class LabRuleDialog extends StatelessWidget {
                       errorText: 'Poin minimal adalah 0',
                     ),
                     FormBuilderValidators.max(
-                      50,
-                      errorText: 'Poin maksimal adalah 50',
+                      100,
+                      errorText: 'Poin maksimal adalah 100',
                     ),
                   ],
                 ),
