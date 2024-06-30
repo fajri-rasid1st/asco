@@ -9,13 +9,14 @@ import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/extensions/datetime_extension.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/dialogs/custom_dialog.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/custom_text_field.dart';
 
 class AssistanceDialog extends StatelessWidget {
-  final int number;
+  final int assistanceNumber;
 
-  const AssistanceDialog({super.key, required this.number});
+  const AssistanceDialog({super.key, required this.assistanceNumber});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class AssistanceDialog extends StatelessWidget {
     DateTime? assistanceDate;
 
     return CustomDialog(
-      title: 'Asistensi $number',
+      title: 'Asistensi $assistanceNumber',
       onPressedPrimaryAction: () => submit(formKey),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,6 +104,8 @@ class AssistanceDialog extends StatelessWidget {
 
     formKey.currentState!.save();
 
-    debugPrint(formKey.currentState!.value.toString());
+    // Update attendance assistance here ...
+
+    navigatorKey.currentState!.pop<bool>(formKey.currentState!.value['date'] != null);
   }
 }

@@ -63,18 +63,17 @@ class AssistanceStatusDialog extends StatelessWidget {
                 Text(
                   'Wd. Ananda Lesmono',
                   textAlign: TextAlign.center,
-                  style: textTheme.titleSmall,
+                  style: textTheme.titleSmall!.copyWith(
+                    color: Palette.purple2,
+                  ),
                 ),
-                const SizedBox(height: 4),
+                const SizedBox(height: 2),
                 Text(
                   'H071211074',
                   textAlign: TextAlign.center,
-                  style: textTheme.labelLarge,
-                ),
-                Text(
-                  '10/09/2023',
-                  textAlign: TextAlign.center,
-                  style: textTheme.labelSmall,
+                  style: textTheme.bodySmall!.copyWith(
+                    color: Palette.secondaryText,
+                  ),
                 ),
               ],
             ),

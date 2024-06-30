@@ -6,6 +6,7 @@ import 'package:asco/core/enums/attendance_type.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/const.dart';
+import 'package:asco/src/presentation/shared/widgets/assistance_status_icon.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 
@@ -149,44 +150,6 @@ class AttendanceCard extends StatelessWidget {
             ),
           ],
         ],
-      ),
-    );
-  }
-}
-
-class AssistanceStatusIcon extends StatelessWidget {
-  final bool? isAttend;
-
-  const AssistanceStatusIcon({super.key, this.isAttend});
-
-  @override
-  Widget build(BuildContext context) {
-    final borderColor = switch (isAttend) {
-      true => Palette.purple2,
-      false => Palette.pink2,
-      null => null,
-    };
-
-    final fillColor = switch (isAttend) {
-      true => Palette.success,
-      false => Palette.error,
-      null => null,
-    };
-
-    final icon = switch (isAttend) {
-      true => Icons.check_rounded,
-      false => Icons.close_rounded,
-      null => null,
-    };
-
-    return CircleBorderContainer(
-      size: 26,
-      borderColor: borderColor,
-      fillColor: fillColor,
-      child: Icon(
-        icon,
-        color: Palette.background,
-        size: isAttend == null ? null : 16,
       ),
     );
   }

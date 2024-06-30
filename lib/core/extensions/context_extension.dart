@@ -139,7 +139,7 @@ extension TimePickerExtension on BuildContext {
     );
 
     if (time != null) {
-      formKey.currentState!.fields[fieldKey]!.didChange(time.format(this));
+      formKey.currentState?.fields[fieldKey]?.didChange(time.format(this));
     }
 
     return time;
@@ -168,7 +168,7 @@ extension DatePickerExtension on BuildContext {
     );
 
     if (date != null) {
-      formKey.currentState!.fields[fieldKey]!.didChange(date.toStringPattern('d MMMM yyyy'));
+      formKey.currentState?.fields[fieldKey]?.didChange(date.toStringPattern('d MMMM yyyy'));
     }
 
     return date;
