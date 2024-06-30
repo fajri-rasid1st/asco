@@ -10,6 +10,7 @@ import 'package:asco/core/extensions/button_extension.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/core/helpers/asset_path.dart';
+import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
@@ -181,7 +182,9 @@ class AssistantAssistanceDetailPage extends StatelessWidget {
               ),
               const SectionTitle(text: 'Nilai Tugas Praktikum'),
               FilledButton(
-                onPressed: () {},
+                onPressed: () => navigatorKey.currentState!.pushNamed(
+                  assistantAssistanceScoreRoute,
+                ),
                 child: const Text('Input Nilai'),
               ).fullWidth(),
               const SectionTitle(text: 'Asistensi'),

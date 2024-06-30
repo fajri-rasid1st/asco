@@ -1,5 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
 // Flutter imports:
 import 'package:flutter/material.dart';
 
@@ -11,33 +9,33 @@ import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/src/presentation/shared/widgets/dialogs/custom_dialog.dart';
 
-class PracticumScoreDialog extends StatefulWidget {
+class PracticumAssignmentScoreDialog extends StatefulWidget {
   final int meetingNumber;
 
-  const PracticumScoreDialog({super.key, required this.meetingNumber});
+  const PracticumAssignmentScoreDialog({super.key, required this.meetingNumber});
 
   @override
-  State<PracticumScoreDialog> createState() => _PracticumScoreDialogState();
+  State<PracticumAssignmentScoreDialog> createState() => _PracticumAssignmentScoreDialogState();
 }
 
-class _PracticumScoreDialogState extends State<PracticumScoreDialog> {
-  late final List<PracticumScoreType> practicumScoreTypes;
-  late final ValueNotifier<PracticumScoreType> scoreNotifier;
+class _PracticumAssignmentScoreDialogState extends State<PracticumAssignmentScoreDialog> {
+  late final List<PracticumAssignmentScore> practicumScores;
+  late final ValueNotifier<PracticumAssignmentScore> scoreNotifier;
 
   @override
   void initState() {
     super.initState();
 
-    practicumScoreTypes = [
-      const PracticumScoreType(1, Palette.errorText, 50.0, "Sangat Rendah"),
-      const PracticumScoreType(2, Palette.error, 65.0, "Rendah"),
-      const PracticumScoreType(3, Palette.warning, 75.0, "Cukup"),
-      const PracticumScoreType(4, Palette.info, 80.0, "Sedang"),
-      const PracticumScoreType(5, Palette.info, 85.0, "Lumayan"),
-      const PracticumScoreType(6, Palette.success, 92.0, "Bagus"),
-      const PracticumScoreType(7, Palette.success, 98.0, "Sangat Bagus"),
+    practicumScores = [
+      const PracticumAssignmentScore(1, Palette.errorText, 50.0, "Sangat Rendah"),
+      const PracticumAssignmentScore(2, Palette.error, 65.0, "Rendah"),
+      const PracticumAssignmentScore(3, Palette.warning, 75.0, "Cukup"),
+      const PracticumAssignmentScore(4, Palette.info, 80.0, "Sedang"),
+      const PracticumAssignmentScore(5, Palette.info, 85.0, "Lumayan"),
+      const PracticumAssignmentScore(6, Palette.success, 92.0, "Bagus"),
+      const PracticumAssignmentScore(7, Palette.success, 98.0, "Sangat Bagus"),
     ];
-    scoreNotifier = ValueNotifier(practicumScoreTypes[4]);
+    scoreNotifier = ValueNotifier(practicumScores[4]);
   }
 
   @override
@@ -93,7 +91,9 @@ class _PracticumScoreDialogState extends State<PracticumScoreDialog> {
                         ),
                       ),
                       onRatingUpdate: (value) {
-                        scoreNotifier.value = practicumScoreTypes[value.toInt() - 1];
+                        if (value > 0 && value <= 7) {
+                          scoreNotifier.value = practicumScores[value.toInt() - 1];
+                        }
                       },
                     ),
                     const SizedBox(height: 8),
@@ -118,13 +118,13 @@ class _PracticumScoreDialogState extends State<PracticumScoreDialog> {
   }
 }
 
-class PracticumScoreType {
+class PracticumAssignmentScore {
   final int rate;
   final Color color;
   final double value;
   final String description;
 
-  const PracticumScoreType(
+  const PracticumAssignmentScore(
     this.rate,
     this.color,
     this.value,
