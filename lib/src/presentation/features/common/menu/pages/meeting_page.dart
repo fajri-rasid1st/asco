@@ -55,7 +55,7 @@ class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClient
           strokeColor: Palette.azure1,
           fillColor: Palette.azure2,
           icon: Icons.calendar_today_outlined,
-          onTap: () {},
+          onTap: () => navigatorKey.currentState!.pushNamed(assistantMeetingScheduleRoute),
         ),
     ];
 
@@ -173,7 +173,9 @@ class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClient
                   bottom: index == 9 ? kBottomNavigationBarHeight : 10,
                 ),
                 child: MeetingCard(
-                  onTap: () => navigatorKey.currentState!.pushNamed(studentMeetingDetailRoute),
+                  onTap: () => navigatorKey.currentState!.pushNamed(
+                    roleId == 1 ? studentMeetingDetailRoute : assistantMeetingDetailRoute,
+                  ),
                 ),
               ),
             ),

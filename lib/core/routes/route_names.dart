@@ -45,6 +45,8 @@ const labRulesRoute = 'lab-rules';
 // Meeting
 const studentMeetingHistoryRoute = '/student-meeting-history';
 const studentMeetingDetailRoute = '/student-meeting-detail';
+const assistantMeetingScheduleRoute = '/assistant-meeting-schedule';
+const assistantMeetingDetailRoute = '/assistant-meeting-detail';
 
 // Assistance/control card
 const studentAssistanceDetailRoute = '/student-assistance-detail';

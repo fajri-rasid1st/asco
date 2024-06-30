@@ -25,6 +25,8 @@ import 'package:asco/src/presentation/features/admin/user/pages/user_list_home_p
 import 'package:asco/src/presentation/features/assistant/assistance/pages/assistant_assistance_detail_page.dart';
 import 'package:asco/src/presentation/features/assistant/assistance/pages/assistant_assistance_score_page.dart';
 import 'package:asco/src/presentation/features/assistant/extra/pages/edit_extra_page.dart';
+import 'package:asco/src/presentation/features/assistant/meeting/assistant_meeting_detail_page.dart';
+import 'package:asco/src/presentation/features/assistant/meeting/assistant_meeting_schedule_page.dart';
 import 'package:asco/src/presentation/features/assistant/profile/pages/assistant_profile_page.dart';
 import 'package:asco/src/presentation/features/common/home/pages/home_page.dart';
 import 'package:asco/src/presentation/features/common/initial/pages/on_boarding_page.dart';
@@ -159,6 +161,14 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
     case studentMeetingDetailRoute:
       return MaterialPageRoute(
         builder: (_) => const StudentMeetingDetailPage(),
+      );
+    case assistantMeetingScheduleRoute:
+      return MaterialPageRoute(
+        builder: (_) => const AssistantMeetingSchedulePage(),
+      );
+    case assistantMeetingDetailRoute:
+      return MaterialPageRoute(
+        builder: (_) => const AssistantMeetingDetailPage(),
       );
     case studentAssistanceDetailRoute:
       return MaterialPageRoute(
