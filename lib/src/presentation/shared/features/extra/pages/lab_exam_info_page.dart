@@ -51,7 +51,7 @@ class LabExamInfoPage extends StatelessWidget {
                       ),
                       style: FilledButton.styleFrom(
                         padding: EdgeInsets.zero,
-                        backgroundColor: Palette.error,
+                        backgroundColor: Palette.secondary,
                       ),
                       child: const Text('Edit Info'),
                     ),
@@ -64,11 +64,11 @@ class LabExamInfoPage extends StatelessWidget {
                         arguments: const ScoreInputPageArgs(
                           title: 'Ujian Lab',
                           scoreType: ScoreType.exam,
+                          practicumName: 'Pemrograman Mobile',
                         ),
                       ),
                       style: FilledButton.styleFrom(
                         padding: EdgeInsets.zero,
-                        backgroundColor: Palette.success,
                       ),
                       child: const Text('Input Nilai'),
                     ),

@@ -47,6 +47,7 @@ const studentMeetingHistoryRoute = '/student-meeting-history';
 const studentMeetingDetailRoute = '/student-meeting-detail';
 const assistantMeetingScheduleRoute = '/assistant-meeting-schedule';
 const assistantMeetingDetailRoute = '/assistant-meeting-detail';
+const assistantMeetingScannerRoute = '/assistant-meeting-scanner';
 
 // Assistance/control card
 const studentAssistanceDetailRoute = '/student-assistance-detail';

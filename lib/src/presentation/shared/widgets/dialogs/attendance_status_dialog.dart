@@ -9,10 +9,10 @@ import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 
-class AssistanceStatusDialog extends StatelessWidget {
-  final bool isDone;
+class AttendanceStatusDialog extends StatelessWidget {
+  final bool isAttend;
 
-  const AssistanceStatusDialog({super.key, required this.isDone});
+  const AttendanceStatusDialog({super.key, required this.isAttend});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class AssistanceStatusDialog extends StatelessWidget {
               height: 250,
               child: RiveAnimation.asset(
                 AssetPath.getRive(
-                  isDone ? 'checkmark_icon.riv' : 'error_icon.riv',
+                  isAttend ? 'checkmark_icon.riv' : 'error_icon.riv',
                 ),
                 fit: BoxFit.cover,
               ),
@@ -53,10 +53,10 @@ class AssistanceStatusDialog extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  isDone ? 'Hadir' : 'Tidak Hadir',
+                  isAttend ? 'Hadir' : 'Tidak Hadir',
                   textAlign: TextAlign.center,
                   style: textTheme.titleSmall!.copyWith(
-                    color: isDone ? Palette.success : Palette.error,
+                    color: isAttend ? Palette.success : Palette.error,
                   ),
                 ),
                 const SizedBox(height: 28),

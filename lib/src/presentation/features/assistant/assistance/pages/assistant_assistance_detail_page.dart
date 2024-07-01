@@ -1,3 +1,6 @@
+// Dart imports:
+import 'dart:async';
+
 // Flutter imports:
 import 'package:flutter/material.dart';
 
@@ -18,8 +21,9 @@ import 'package:asco/src/presentation/shared/widgets/assistance_status_icon.dart
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/dialogs/assistance_dialog.dart';
-import 'package:asco/src/presentation/shared/widgets/dialogs/assistance_status_dialog.dart';
+import 'package:asco/src/presentation/shared/widgets/dialogs/attendance_status_dialog.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/file_upload_field.dart';
+import 'package:asco/src/presentation/shared/widgets/section_title.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class AssistantAssistanceDetailPage extends StatelessWidget {
@@ -185,6 +189,9 @@ class AssistantAssistanceDetailPage extends StatelessWidget {
                 onPressed: () => navigatorKey.currentState!.pushNamed(
                   assistantAssistanceScoreRoute,
                 ),
+                style: FilledButton.styleFrom(
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
                 child: const Text('Input Nilai'),
               ).fullWidth(),
               const SectionTitle(text: 'Asistensi'),
@@ -201,12 +208,18 @@ class AssistantAssistanceDetailPage extends StatelessWidget {
                         const SizedBox(width: 8),
                         AssistanceStatusIcon(
                           isAttend: true,
-                          onTap: () => showAssistanceDialog(context, 1),
+                          onTap: () => showAssistanceDialog(
+                            context,
+                            assistanceNumber: 1,
+                          ),
                         ),
                         const SizedBox(width: 4),
                         AssistanceStatusIcon(
                           isAttend: false,
-                          onTap: () => showAssistanceDialog(context, 2),
+                          onTap: () => showAssistanceDialog(
+                            context,
+                            assistanceNumber: 2,
+                          ),
                         ),
                       ],
                     ),
@@ -221,10 +234,10 @@ class AssistantAssistanceDetailPage extends StatelessWidget {
   }
 
   Future<void> showAssistanceDialog(
-    BuildContext context,
-    int assistanceNumber,
-  ) async {
-    final isDone = await showDialog<bool?>(
+    BuildContext context, {
+    required int assistanceNumber,
+  }) async {
+    final isAttend = await showDialog<bool?>(
       context: context,
       barrierDismissible: false,
       builder: (context) => AssistanceDialog(assistanceNumber: assistanceNumber),
@@ -232,39 +245,19 @@ class AssistantAssistanceDetailPage extends StatelessWidget {
 
     if (!context.mounted) return;
 
-    if (isDone != null) {
-      showDialog(
-        context: context,
-        builder: (context) => AssistanceStatusDialog(isDone: isDone),
-      );
-
-      Future.delayed(
+    if (isAttend != null) {
+      Timer? timer = Timer(
         const Duration(seconds: 3),
         () => navigatorKey.currentState!.pop(),
       );
+
+      showDialog(
+        context: context,
+        builder: (context) => AttendanceStatusDialog(isAttend: isAttend),
+      ).then((_) {
+        timer?.cancel();
+        timer = null;
+      });
     }
-  }
-}
-
-class SectionTitle extends StatelessWidget {
-  final String text;
-
-  const SectionTitle({super.key, required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 20,
-        bottom: 6,
-      ),
-      child: Text(
-        text,
-        style: textTheme.titleLarge!.copyWith(
-          fontWeight: FontWeight.w600,
-          fontSize: 18,
-        ),
-      ),
-    );
   }
 }

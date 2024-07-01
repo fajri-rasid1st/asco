@@ -11,6 +11,7 @@ import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_badge.dart';
+import 'package:asco/src/presentation/shared/widgets/section_title.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class StudentAssistanceDetailPage extends StatelessWidget {
@@ -174,29 +175,6 @@ class StudentAssistanceDetailPage extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class SectionTitle extends StatelessWidget {
-  final String text;
-
-  const SectionTitle({super.key, required this.text});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(
-        top: 20,
-        bottom: 6,
-      ),
-      child: Text(
-        text,
-        style: textTheme.titleLarge!.copyWith(
-          fontWeight: FontWeight.w600,
-          fontSize: 18,
         ),
       ),
     );

@@ -41,13 +41,13 @@ class ScoreInputPage extends StatelessWidget {
               backgroundColor: Palette.background,
               surfaceTintColor: Palette.background,
               flexibleSpace: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
                 child: Consumer(
                   builder: (context, ref, child) {
                     return Column(
                       children: [
                         child!,
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 10),
                         SearchField(
                           text: ref.watch(queryProvider),
                           hintText: 'Cari nama atau username',
@@ -70,35 +70,65 @@ class ScoreInputPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    child: Row(
+                    child: Column(
                       children: [
-                        Expanded(
-                          child: Text(
-                            'Praktikum',
-                            style: textTheme.bodySmall!.copyWith(
-                              color: Palette.background,
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                'Praktikum',
+                                style: textTheme.bodySmall!.copyWith(
+                                  color: Palette.background,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        Expanded(
-                          flex: 3,
-                          child: Text(
-                            'Pemrograman Mobile',
-                            textAlign: TextAlign.right,
-                            style: textTheme.bodySmall!.copyWith(
-                              color: Palette.background,
-                              fontWeight: FontWeight.w600,
+                            Expanded(
+                              flex: 3,
+                              child: Text(
+                                args.practicumName,
+                                textAlign: TextAlign.right,
+                                style: textTheme.bodySmall!.copyWith(
+                                  color: Palette.background,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
                             ),
-                          ),
+                          ],
                         ),
+                        if (args.meetingName != null) ...[
+                          const SizedBox(height: 4),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  'Pertemuan',
+                                  style: textTheme.bodySmall!.copyWith(
+                                    color: Palette.background,
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                flex: 3,
+                                child: Text(
+                                  args.meetingName!,
+                                  textAlign: TextAlign.right,
+                                  style: textTheme.bodySmall!.copyWith(
+                                    color: Palette.background,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ],
                     ),
                   ),
                 ),
               ),
-              bottom: const PreferredSize(
-                preferredSize: Size.fromHeight(70),
-                child: SizedBox(),
+              bottom: PreferredSize(
+                preferredSize: Size.fromHeight(args.meetingName != null ? 86 : 60),
+                child: const SizedBox(),
               ),
             ),
           ];
@@ -340,9 +370,13 @@ class StudentScoreCard extends StatelessWidget {
 class ScoreInputPageArgs {
   final String title;
   final ScoreType scoreType;
+  final String practicumName;
+  final String? meetingName;
 
   const ScoreInputPageArgs({
     required this.title,
     required this.scoreType,
+    required this.practicumName,
+    this.meetingName,
   });
 }

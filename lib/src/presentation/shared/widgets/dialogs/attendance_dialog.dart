@@ -8,14 +8,16 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/core/utils/const.dart';
+import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/dialogs/custom_dialog.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/custom_text_field.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class AttendanceDialog extends StatefulWidget {
-  const AttendanceDialog({super.key});
+  final int meetingNumber;
+
+  const AttendanceDialog({super.key, required this.meetingNumber});
 
   @override
   State<AttendanceDialog> createState() => _AttendanceDialogState();
@@ -71,7 +73,7 @@ class _AttendanceDialogState extends State<AttendanceDialog> {
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
-      title: 'Absensi',
+      title: 'Pertemuan ${widget.meetingNumber}',
       backgroundColor: Palette.background,
       onPressedPrimaryAction: submit,
       child: Column(
@@ -163,11 +165,9 @@ class _AttendanceDialogState extends State<AttendanceDialog> {
 
     formKey.currentState?.save();
 
-    debugPrint({
-      'attendanceStatus': attendanceStatus[statusNotifier.value.name],
-      'pointPlus': pointNotifier.value,
-      'note': formKey.currentState?.value['note'],
-    }.toString());
+    // Update attendance meeting here ...
+
+    navigatorKey.currentState!.pop<bool>(statusNotifier.value == status.last);
   }
 }
 
