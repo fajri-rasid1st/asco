@@ -36,16 +36,16 @@ class _PasswordFieldState extends State<PasswordField> {
 
   @override
   void initState() {
-    super.initState();
-
     isVisible = ValueNotifier(false);
+
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
-
     isVisible.dispose();
+
+    super.dispose();
   }
 
   @override

@@ -37,19 +37,19 @@ class _SearchFieldState extends State<SearchField> {
 
   @override
   void initState() {
-    super.initState();
-
     controller = TextEditingController(text: widget.text);
     isFocus = ValueNotifier(false);
+
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
-
     controller.dispose();
     isFocus.dispose();
     timer?.cancel();
+
+    super.dispose();
   }
 
   @override

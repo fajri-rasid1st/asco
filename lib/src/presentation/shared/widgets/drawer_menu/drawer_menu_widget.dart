@@ -44,8 +44,6 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with SingleTickerPr
 
   @override
   void initState() {
-    super.initState();
-
     isDrawerClosed = ValueNotifier(true);
 
     animationController = AnimationController(
@@ -73,14 +71,16 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with SingleTickerPr
         curve: Curves.fastOutSlowIn,
       ),
     );
+
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
-
     isDrawerClosed.dispose();
     animationController.dispose();
+
+    super.dispose();
   }
 
   @override

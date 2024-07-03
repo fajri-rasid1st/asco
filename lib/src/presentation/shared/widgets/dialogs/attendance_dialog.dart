@@ -32,8 +32,6 @@ class _AttendanceDialogState extends State<AttendanceDialog> {
 
   @override
   void initState() {
-    super.initState();
-
     status = [
       const FaceStatus(
         name: 'Alpa',
@@ -60,14 +58,17 @@ class _AttendanceDialogState extends State<AttendanceDialog> {
     statusNotifier = ValueNotifier(status.last);
     pointNotifier = ValueNotifier(null);
     formKey = GlobalKey<FormBuilderState>();
+
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
 
     statusNotifier.dispose();
     pointNotifier.dispose();
+    
+    super.dispose();
   }
 
   @override

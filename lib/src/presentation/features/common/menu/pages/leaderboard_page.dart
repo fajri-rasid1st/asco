@@ -31,8 +31,6 @@ class _LeaderboardPageState extends State<LeaderboardPage> with AutomaticKeepAli
 
   @override
   void initState() {
-    super.initState();
-
     pageController = PageController();
 
     pages = [
@@ -45,13 +43,15 @@ class _LeaderboardPageState extends State<LeaderboardPage> with AutomaticKeepAli
         type: LeaderboardType.labExam,
       ),
     ];
+
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
-
     pageController.dispose();
+
+    super.dispose();
   }
 
   @override

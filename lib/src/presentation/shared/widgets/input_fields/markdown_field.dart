@@ -38,8 +38,6 @@ class _MarkdownFieldState extends State<MarkdownField> {
 
   @override
   void initState() {
-    super.initState();
-
     controller = TextEditingController(text: widget.initialValue);
     isFocus = ValueNotifier(false);
     textSelection = const TextSelection(baseOffset: 0, extentOffset: 0);
@@ -51,14 +49,16 @@ class _MarkdownFieldState extends State<MarkdownField> {
 
       widget.onChanged(controller.text);
     });
+
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
-
     controller.dispose();
     isFocus.dispose();
+
+    super.dispose();
   }
 
   @override

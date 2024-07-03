@@ -34,22 +34,22 @@ class _ScoreRecapListHomePageState extends State<ScoreRecapListHomePage>
 
   @override
   void initState() {
-    super.initState();
-
     fabAnimationController = AnimationController(
       vsync: this,
       duration: kThemeAnimationDuration,
     )..forward();
 
     scrollController = ScrollController()..addListener(() {});
+
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
-
     fabAnimationController.dispose();
     scrollController.dispose();
+
+    super.dispose();
   }
 
   @override

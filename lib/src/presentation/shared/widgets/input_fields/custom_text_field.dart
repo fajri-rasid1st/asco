@@ -58,16 +58,16 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   void initState() {
-    super.initState();
-
     isFocus = ValueNotifier(false);
+
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
-
     isFocus.dispose();
+
+    super.dispose();
   }
 
   @override

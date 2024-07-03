@@ -45,22 +45,22 @@ class _AssistantMeetingDetailPageState extends State<AssistantMeetingDetailPage>
 
   @override
   void initState() {
-    super.initState();
-
     fabAnimationController = AnimationController(
       vsync: this,
       duration: kThemeAnimationDuration,
     )..forward();
 
     scrollController = ScrollController()..addListener(() {});
+
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
-
     fabAnimationController.dispose();
     scrollController.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -240,7 +240,7 @@ class _AssistantMeetingDetailPageState extends State<AssistantMeetingDetailPage>
       ),
       floatingActionButton: AnimatedFloatingActionButton(
         animationController: fabAnimationController,
-        onPressed: () {},
+        onPressed: () => navigatorKey.currentState!.pushNamed(assistantMeetingScannerRoute),
         tooltip: 'Scan QR',
         child: const Icon(Icons.qr_code_scanner_outlined),
       ),

@@ -79,17 +79,17 @@ class _LoginFormState extends State<LoginForm> {
 
   @override
   void initState() {
-    super.initState();
-
     formKey = GlobalKey<FormBuilderState>();
     isVisible = ValueNotifier(false);
+
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
-
     isVisible.dispose();
+
+    super.dispose();
   }
 
   @override

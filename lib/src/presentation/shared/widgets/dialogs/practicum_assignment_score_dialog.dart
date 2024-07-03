@@ -24,8 +24,6 @@ class _PracticumAssignmentScoreDialogState extends State<PracticumAssignmentScor
 
   @override
   void initState() {
-    super.initState();
-
     practicumScores = [
       const PracticumAssignmentScore(1, Palette.errorText, 50.0, "Sangat Rendah"),
       const PracticumAssignmentScore(2, Palette.error, 65.0, "Rendah"),
@@ -36,13 +34,15 @@ class _PracticumAssignmentScoreDialogState extends State<PracticumAssignmentScor
       const PracticumAssignmentScore(7, Palette.success, 98.0, "Sangat Bagus"),
     ];
     scoreNotifier = ValueNotifier(practicumScores[4]);
+
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
-
     scoreNotifier.dispose();
+
+    super.dispose();
   }
 
   @override

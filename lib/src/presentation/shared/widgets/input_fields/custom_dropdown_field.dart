@@ -35,16 +35,16 @@ class _CustomDropdownFieldState extends State<CustomDropdownField> {
 
   @override
   void initState() {
-    super.initState();
-
     isFocus = ValueNotifier(false);
+
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
-
     isFocus.dispose();
+
+    super.dispose();
   }
 
   @override

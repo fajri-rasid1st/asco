@@ -35,22 +35,22 @@ class _UserListHomePageState extends State<UserListHomePage> with SingleTickerPr
 
   @override
   void initState() {
-    super.initState();
-
     fabAnimationController = AnimationController(
       vsync: this,
       duration: kThemeAnimationDuration,
     )..forward();
 
     scrollController = ScrollController()..addListener(() {});
+
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
-
     fabAnimationController.dispose();
     scrollController.dispose();
+
+    super.dispose();
   }
 
   @override

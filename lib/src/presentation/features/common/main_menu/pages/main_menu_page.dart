@@ -30,8 +30,6 @@ class _MainMenuPageState extends ConsumerState<MainMenuPage> {
 
   @override
   void initState() {
-    super.initState();
-
     pageController = PageController();
 
     pages = [
@@ -41,13 +39,15 @@ class _MainMenuPageState extends ConsumerState<MainMenuPage> {
       const ExtrasPage(),
       const PeoplePage(),
     ];
+
+    super.initState();
   }
 
   @override
   void dispose() {
-    super.dispose();
-
     pageController.dispose();
+
+    super.dispose();
   }
 
   @override
