@@ -5,14 +5,20 @@ import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
 
 // Project imports:
+import 'package:asco/core/enums/attendance_type.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 
 class AttendanceStatusDialog extends StatelessWidget {
+  final AttendanceType attendanceType;
   final bool isAttend;
 
-  const AttendanceStatusDialog({super.key, required this.isAttend});
+  const AttendanceStatusDialog({
+    super.key,
+    required this.attendanceType,
+    required this.isAttend,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +52,7 @@ class AttendanceStatusDialog extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  'Asistensi 1',
+                  attendanceType == AttendanceType.meeting ? 'Pertemuan 1' : 'Asistensi 1',
                   textAlign: TextAlign.center,
                   style: textTheme.titleLarge!.copyWith(
                     color: Palette.purple2,

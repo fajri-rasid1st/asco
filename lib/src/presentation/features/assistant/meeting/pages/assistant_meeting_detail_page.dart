@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:asco/core/enums/attendance_type.dart';
 import 'package:asco/core/enums/score_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/helpers/app_size.dart';
@@ -230,7 +231,6 @@ class _AssistantMeetingDetailPageState extends State<AssistantMeetingDetailPage>
               onTap: () => showAttendanceDialog(
                 context,
                 meetingNumber: 1,
-                showStatusDialog: true,
               ),
             ),
             separatorBuilder: (context, index) => const SizedBox(height: 10),
@@ -250,7 +250,6 @@ class _AssistantMeetingDetailPageState extends State<AssistantMeetingDetailPage>
   Future<void> showAttendanceDialog(
     BuildContext context, {
     required int meetingNumber,
-    required bool showStatusDialog,
   }) async {
     final isAttend = await showDialog<bool?>(
       context: context,
@@ -268,7 +267,10 @@ class _AssistantMeetingDetailPageState extends State<AssistantMeetingDetailPage>
 
       showDialog(
         context: context,
-        builder: (context) => AttendanceStatusDialog(isAttend: isAttend),
+        builder: (context) => AttendanceStatusDialog(
+          attendanceType: AttendanceType.meeting,
+          isAttend: isAttend,
+        ),
       ).then((_) {
         timer?.cancel();
         timer = null;

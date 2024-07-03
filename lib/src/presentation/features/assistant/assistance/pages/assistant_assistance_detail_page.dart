@@ -9,6 +9,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 // Project imports:
+import 'package:asco/core/enums/attendance_type.dart';
 import 'package:asco/core/extensions/button_extension.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/app_size.dart';
@@ -253,7 +254,10 @@ class AssistantAssistanceDetailPage extends StatelessWidget {
 
       showDialog(
         context: context,
-        builder: (context) => AttendanceStatusDialog(isAttend: isAttend),
+        builder: (context) => AttendanceStatusDialog(
+          attendanceType: AttendanceType.assistance,
+          isAttend: isAttend,
+        ),
       ).then((_) {
         timer?.cancel();
         timer = null;
