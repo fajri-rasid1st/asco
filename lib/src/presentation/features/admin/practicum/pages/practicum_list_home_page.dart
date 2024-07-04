@@ -30,7 +30,7 @@ class _PracticumListHomePageState extends State<PracticumListHomePage>
       duration: kThemeAnimationDuration,
     )..forward();
 
-    scrollController = ScrollController()..addListener(() {});
+    scrollController = ScrollController();
 
     super.initState();
   }

@@ -152,7 +152,7 @@ class AssistantMeetingScannerPage extends ConsumerWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      'NIM tidak terdapat dalam database. Silahkan coba lagi.',
+                      'NIM tidak ada dalam database. Silahkan coba lagi.',
                       textAlign: TextAlign.center,
                       style: textTheme.bodySmall!.copyWith(
                         color: Palette.error,

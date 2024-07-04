@@ -36,7 +36,7 @@ class _AssistanceGroupListHomePageState extends State<AssistanceGroupListHomePag
       duration: kThemeAnimationDuration,
     )..forward();
 
-    scrollController = ScrollController()..addListener(() {});
+    scrollController = ScrollController();
 
     super.initState();
   }

@@ -99,7 +99,7 @@ extension DialogExtension on BuildContext {
       transitionDuration: const Duration(milliseconds: 250),
       transitionBuilder: (context, anim1, anim2, child) {
         return ScaleTransition(
-          scale: Tween<double>(begin: 0.0, end: 1.0).animate(
+          scale: Tween<double>(begin: 0, end: 1).animate(
             CurvedAnimation(
               parent: anim1,
               curve: Curves.easeInOut,

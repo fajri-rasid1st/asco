@@ -24,7 +24,7 @@ import 'package:asco/src/presentation/shared/widgets/input_fields/markdown_field
 import 'package:asco/src/presentation/shared/widgets/practicum_badge_image.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
-final showMarkdownPreviewProvider = StateProvider.autoDispose<bool>((ref) => false);
+final showMarkdownReviewProvider = StateProvider.autoDispose<bool>((ref) => false);
 
 class EditExtraPage extends ConsumerWidget {
   final EditExtraPageArgs args;
@@ -66,7 +66,7 @@ class EditExtraPage extends ConsumerWidget {
                   builder: (context, ref, child) {
                     final value = ref.watch(fieldValueProvider);
 
-                    if (ref.watch(showMarkdownPreviewProvider)) {
+                    if (ref.watch(showMarkdownReviewProvider)) {
                       return Column(
                         children: [
                           child!,
@@ -173,7 +173,7 @@ class EditExtraPage extends ConsumerWidget {
               const SizedBox(height: 16),
               FilledButton(
                 onPressed: args.type == ExtraType.labExam
-                    ? () => ref.read(showMarkdownPreviewProvider.notifier).update(
+                    ? () => ref.read(showMarkdownReviewProvider.notifier).update(
                           (state) => !state,
                         )
                     : () => FunctionHelper.openUrl(
@@ -186,7 +186,7 @@ class EditExtraPage extends ConsumerWidget {
                   builder: (context, ref, child) {
                     return Text(
                       args.type == ExtraType.labExam
-                          ? ref.watch(showMarkdownPreviewProvider)
+                          ? ref.watch(showMarkdownReviewProvider)
                               ? 'Kembali ke Editor'
                               : 'Lihat Preview'
                           : 'Buka Link',

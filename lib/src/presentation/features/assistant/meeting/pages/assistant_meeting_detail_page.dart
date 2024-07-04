@@ -51,7 +51,7 @@ class _AssistantMeetingDetailPageState extends State<AssistantMeetingDetailPage>
       duration: kThemeAnimationDuration,
     )..forward();
 
-    scrollController = ScrollController()..addListener(() {});
+    scrollController = ScrollController();
 
     super.initState();
   }

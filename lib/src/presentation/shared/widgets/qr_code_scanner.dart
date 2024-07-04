@@ -53,7 +53,10 @@ class _QrCodeScannerState extends ConsumerState<QrCodeScanner> with SingleTicker
       duration: const Duration(milliseconds: 2500),
     )..repeat(reverse: true);
 
-    animation = Tween<double>(begin: 0, end: 1).animate(animationController);
+    animation = Tween<double>(
+      begin: 0,
+      end: 1,
+    ).animate(animationController);
 
     super.initState();
   }
@@ -122,10 +125,7 @@ class _QrCodeScannerState extends ConsumerState<QrCodeScanner> with SingleTicker
                             width: size - 8,
                             height: 24,
                             child: Transform.translate(
-                              offset: Offset(
-                                0,
-                                (size - 4) * (animation.value - .5),
-                              ),
+                              offset: Offset(0, (size - 4) * (animation.value - .5)),
                               child: Column(
                                 children: [
                                   if (animation.status == AnimationStatus.forward)
@@ -148,7 +148,7 @@ class _QrCodeScannerState extends ConsumerState<QrCodeScanner> with SingleTicker
                                     height: 4,
                                     decoration: BoxDecoration(
                                       color: Palette.purple3,
-                                      borderRadius: BorderRadius.circular(20),
+                                      borderRadius: BorderRadius.circular(4),
                                     ),
                                   ),
                                   if (animation.status == AnimationStatus.reverse)

@@ -37,7 +37,7 @@ class _MeetingListHomePageState extends State<MeetingListHomePage>
       duration: kThemeAnimationDuration,
     )..forward();
 
-    scrollController = ScrollController()..addListener(() {});
+    scrollController = ScrollController();
 
     super.initState();
   }

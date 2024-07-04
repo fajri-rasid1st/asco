@@ -40,7 +40,7 @@ class _UserListHomePageState extends State<UserListHomePage> with SingleTickerPr
       duration: kThemeAnimationDuration,
     )..forward();
 
-    scrollController = ScrollController()..addListener(() {});
+    scrollController = ScrollController();
 
     super.initState();
   }

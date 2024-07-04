@@ -64,10 +64,9 @@ class _AttendanceDialogState extends State<AttendanceDialog> {
 
   @override
   void dispose() {
-
     statusNotifier.dispose();
     pointNotifier.dispose();
-    
+
     super.dispose();
   }
 

@@ -39,7 +39,7 @@ class _ScoreRecapListHomePageState extends State<ScoreRecapListHomePage>
       duration: kThemeAnimationDuration,
     )..forward();
 
-    scrollController = ScrollController()..addListener(() {});
+    scrollController = ScrollController();
 
     super.initState();
   }
