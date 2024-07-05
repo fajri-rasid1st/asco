@@ -7,12 +7,18 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
 import 'package:asco/core/enums/form_action_type.dart';
+import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/button_extension.dart';
+import 'package:asco/core/extensions/context_extension.dart';
+import 'package:asco/core/services/file_service.dart';
+import 'package:asco/core/styles/color_scheme.dart';
+import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/custom_dropdown_field.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/custom_text_field.dart';
+import 'package:asco/src/presentation/shared/widgets/input_fields/file_upload_field.dart';
 
 class UserFormPage extends StatelessWidget {
   final UserFormPageArgs args;
@@ -94,22 +100,57 @@ class UserFormPage extends StatelessWidget {
                 initialValue: userRoleFilter.values.toList()[1],
               ),
               if (args.action == FormActionType.create) ...[
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 20,
+                    bottom: 12,
+                  ),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        height: 1,
+                        color: Palette.divider,
+                      ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        color: Palette.scaffoldBackground,
+                        child: Text(
+                          'atau import file Excel',
+                          style: textTheme.bodyMedium!.copyWith(
+                            color: Palette.purple2,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const FileUploadField(
+                  name: 'excelPath',
+                  label: 'File Excel',
+                  extensions: ['xlsx'],
+                ),
                 const Spacer(),
-                FilledButton(
-                  onPressed: () {},
-                  style: FilledButton.styleFrom(
-                    backgroundColor: const Color(0xFF107C41),
-                  ),
-                  child: const Text('Import dari Excel'),
-                ).fullWidth(),
                 OutlinedButton(
-                  onPressed: () {},
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: const Color(0xFF107C41),
-                    side: const BorderSide(
-                      color: Color(0xFF107C41),
-                    ),
-                  ),
+                  onPressed: () async {
+                    if (await FileService.saveFileFromAsset('create_users_template.xlsx')) {
+                      if (!context.mounted) return;
+
+                      context.showSnackBar(
+                        title: 'Berhasil',
+                        message: 'Template file excel berhasil di-download.',
+                      );
+                    } else {
+                      if (!context.mounted) return;
+
+                      context.showSnackBar(
+                        title: 'Gagal',
+                        message: 'Terjadi kesalahan saat mendownload file.',
+                        type: SnackBarType.error,
+                      );
+                    }
+                  },
                   child: const Text('Download Template Excel'),
                 ).fullWidth(),
               ],

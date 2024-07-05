@@ -71,7 +71,7 @@ class PracticumFirstFormPage extends StatelessWidget {
 
                   if (result != null && context.mounted) {
                     context.showSnackBar(
-                      title: 'Badge Berhasil Dibuat',
+                      title: 'Berhasil',
                       message: 'File badge berhasil dibuat dan dimasukkan.',
                     );
                   }

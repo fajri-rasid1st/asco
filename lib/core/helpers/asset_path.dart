@@ -6,4 +6,6 @@ class AssetPath {
   static String getRive(String fileName) => 'assets/rive_animations/$fileName';
 
   static String getVector(String fileName) => 'assets/vectors/$fileName';
+
+  static String getFile(String fileName) => 'assets/files/$fileName';
 }

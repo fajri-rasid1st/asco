@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:open_file_plus/open_file_plus.dart';
 import 'package:path/path.dart' as p;
 
 // Project imports:
@@ -64,9 +63,9 @@ class FileUploadField extends StatelessWidget {
               children: [
                 Expanded(
                   child: FilledButton(
-                    onPressed: () async {
+                    onPressed: () {
                       if (path != null) {
-                        await OpenFile.open(path);
+                        FileService.openFile(path);
                       } else {
                         context.showSnackBar(
                           title: 'File Tidak Ada',

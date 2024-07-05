@@ -31,6 +31,8 @@
 		<true />
 		<key>LSSupportsOpeningDocumentsInPlace</key>
 		<true />
+		<key>UIFileSharingEnabled</key>
+		<true />
 		<key>NSCameraUsageDescription</key>
 		<string>This app needs camera access to continue</string>
 		<key>NSMicrophoneUsageDescription</key>
