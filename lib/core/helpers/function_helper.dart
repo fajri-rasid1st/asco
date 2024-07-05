@@ -1,8 +1,12 @@
+// Dart imports:
+import 'dart:io';
+
 // Flutter imports:
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 // Package imports:
+import 'package:excel/excel.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// A collection of helper functions that are reusable for this app
@@ -27,6 +31,51 @@ class FunctionHelper {
         uri,
         mode: LaunchMode.externalApplication,
       );
+    }
+  }
+
+  static List<Map<String, Object?>>? excelToMap(String path) {
+    try {
+      final bytes = File(path).readAsBytesSync();
+      final excel = Excel.decodeBytes(bytes);
+
+      List<Map<String, Object?>> data = [];
+
+      for (var table in excel.tables.keys) {
+        List<String> keys = [];
+
+        for (var cell in excel.tables[table]!.row(0)) {
+          keys.add(cell!.value.toString());
+        }
+
+        for (var rows in excel.tables[table]!.rows.sublist(1)) {
+          Map<String, Object?> temp = {};
+
+          for (var i = 0; i < keys.length; i++) {
+            final cellValue = rows[i]!.value;
+
+            Object? value = switch (cellValue) {
+              FormulaCellValue() => cellValue.formula,
+              TextCellValue() => cellValue.value,
+              IntCellValue() => cellValue.value,
+              DoubleCellValue() => cellValue.value,
+              BoolCellValue() => cellValue.value,
+              DateCellValue() => cellValue.asDateTimeUtc(),
+              TimeCellValue() => cellValue.asDuration(),
+              DateTimeCellValue() => cellValue.asDateTimeUtc(),
+              null => null,
+            };
+
+            temp[keys[i]] = value;
+          }
+
+          data.add(temp);
+        }
+      }
+
+      return data;
+    } catch (e) {
+      return null;
     }
   }
 

@@ -71,6 +71,7 @@ class _CustomDropdownFieldState extends State<CustomDropdownField> {
             name: widget.name,
             initialValue: widget.initialValue,
             elevation: 1,
+            dropdownColor: Palette.background,
             style: widget.isSmall ? textTheme.bodyMedium : textTheme.bodyLarge,
             items: List<DropdownMenuItem>.generate(
               widget.items.length,

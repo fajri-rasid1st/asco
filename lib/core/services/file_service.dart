@@ -29,6 +29,22 @@ class FileService {
     }
   }
 
+  static Future<String?> createFile(
+    Uint8List bytes, {
+    required String extension,
+    String? name,
+  }) async {
+    try {
+      final directory = await getTemporaryDirectory();
+      final fileName = name ?? '${const Uuid().v4()}.$extension';
+      final file = await File('${directory.path}/$fileName').writeAsBytes(bytes);
+
+      return file.path;
+    } catch (e) {
+      return null;
+    }
+  }
+
   static Future<bool> saveFileFromAsset(String assetName) async {
     try {
       var directory = await getDownloadsDirectory();
@@ -51,22 +67,6 @@ class FileService {
       return true;
     } catch (e) {
       return false;
-    }
-  }
-
-  static Future<String?> createFile(
-    Uint8List bytes, {
-    required String extension,
-    String? name,
-  }) async {
-    try {
-      final directory = await getTemporaryDirectory();
-      final fileName = name ?? '${const Uuid().v4()}.$extension';
-      final file = await File('${directory.path}/$fileName').writeAsBytes(bytes);
-
-      return file.path;
-    } catch (e) {
-      return null;
     }
   }
 
