@@ -60,38 +60,21 @@ class AttendanceListHomePage extends StatelessWidget {
   }
 
   Future<void> exportToExcel(BuildContext context) async {
-    final excelBytes = ExcelHelper.createAttendanceDataExcel([
-      {
-        'meetingNumber': 1,
-        'data': [
-          {
-            'fullname': 'Wd. Ananda Lesmono',
-            'username': 'H071211074',
-            'status': 'present',
-          },
-          {
-            'fullname': 'Febi Fiantika',
-            'username': 'H071211051',
-            'status': 'sick',
-          },
-        ],
-      },
-      {
-        'meetingNumber': 2,
-        'data': [
-          {
-            'fullname': 'Wd. Ananda Lesmono',
-            'username': 'H071211074',
-            'status': 'excused',
-          },
-          {
-            'fullname': 'Febi Fiantika',
-            'username': 'H071211051',
-            'status': 'absent',
-          },
-        ],
-      },
-    ]);
+    final excelBytes = ExcelHelper.createAttendanceDataExcel(
+      data: [
+        {
+          'username': 'H071211074',
+          'fullname': 'Wd. Ananda Lesmono',
+          'attendanceStatus': ['present', 'sick'],
+        },
+        {
+          'username': 'H071211051',
+          'fullname': 'Febi Fiantika',
+          'attendanceStatus': ['absent', 'excused'],
+        },
+      ],
+      totalAttendances: 2,
+    );
 
     if (excelBytes != null) {
       if (await FileService.saveFileFromRawBytes(

@@ -33,6 +33,8 @@
 		<true />
 		<key>UIFileSharingEnabled</key>
 		<true />
+		<key>UISupportsDocumentBrowser</key>
+		<true />
 		<key>NSCameraUsageDescription</key>
 		<string>This app needs camera access to continue</string>
 		<key>NSMicrophoneUsageDescription</key>

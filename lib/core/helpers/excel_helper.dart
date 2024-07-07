@@ -50,15 +50,21 @@ class ExcelHelper {
     }
   }
 
-  static List<int>? createAttendanceDataExcel(List<Map<String, Object?>> data) {
+  static List<int>? createAttendanceDataExcel({
+    required List<Map<String, Object>> data,
+    required int totalAttendances,
+  }) {
     final excel = Excel.createExcel();
 
-    final sheet = excel['attendance-class'];
+    excel.setDefaultSheet('Kehadiran Kelas');
 
+    final sheet = excel.sheets['Kehadiran Kelas']!;
+
+    /// Create header
     final headerCellStyle = CellStyle(
       backgroundColorHex: ExcelColor.yellow,
       fontFamily: getFontFamily(FontFamily.Calibri),
-      fontSize: 12,
+      fontSize: 11,
       bold: true,
       textWrapping: TextWrapping.WrapText,
       verticalAlign: VerticalAlign.Center,
@@ -70,22 +76,64 @@ class ExcelHelper {
     );
 
     final meetings = List<String>.generate(
-      data.length,
-      (index) => 'Pertemuan ${data[index]['meetingNumber']}',
+      totalAttendances,
+      (index) => 'Pertemuan ${index + 1}',
     );
 
     final headers = ['No.', 'NIM', 'Nama Lengkap', ...meetings];
 
     for (var i = 0; i < headers.length; i++) {
-      final cellIndex1 = CellIndex.indexByColumnRow(columnIndex: i, rowIndex: 0);
-      final cellIndex2 = CellIndex.indexByColumnRow(columnIndex: i, rowIndex: 1);
+      final cellIndex = CellIndex.indexByColumnRow(columnIndex: i, rowIndex: 0);
 
-      sheet.cell(cellIndex1)
+      sheet.cell(cellIndex)
         ..value = TextCellValue(headers[i])
         ..cellStyle = headerCellStyle;
 
-      // sheet.merge(cellIndex1, cellIndex2);
+      if (i >= 3) sheet.setColumnWidth(i, 16);
     }
+
+    /// Create data
+    final dataCellStyle = CellStyle(
+      fontFamily: getFontFamily(FontFamily.Calibri),
+      fontSize: 11,
+      textWrapping: TextWrapping.WrapText,
+      verticalAlign: VerticalAlign.Center,
+      horizontalAlign: HorizontalAlign.Center,
+      leftBorder: Border(borderStyle: BorderStyle.Thin),
+      rightBorder: Border(borderStyle: BorderStyle.Thin),
+      topBorder: Border(borderStyle: BorderStyle.Thin),
+      bottomBorder: Border(borderStyle: BorderStyle.Thin),
+    );
+
+    for (var i = 0; i < data.length; i++) {
+      final dataMap = data[i];
+
+      final dataList = [
+        (i + 1).toString(),
+        dataMap['username'] as String,
+        dataMap['fullname'] as String,
+        ...(dataMap['attendanceStatus'] as List<String>),
+      ];
+
+      for (var j = 0; j < dataList.length; j++) {
+        final cellIndex = CellIndex.indexByColumnRow(columnIndex: j, rowIndex: i + 1);
+
+        sheet.cell(cellIndex).value = TextCellValue(dataList[j]);
+
+        if (j != 2) {
+          sheet.cell(cellIndex).cellStyle = dataCellStyle;
+        } else {
+          sheet.cell(cellIndex).cellStyle = dataCellStyle.copyWith(
+            horizontalAlignVal: HorizontalAlign.Left,
+          );
+        }
+      }
+    }
+
+    sheet.setRowHeight(0, 25);
+    sheet.setColumnAutoFit(0);
+    sheet.setColumnWidth(1, 18);
+    sheet.setColumnWidth(2, 36);
 
     return excel.save();
   }
