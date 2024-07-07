@@ -9,17 +9,19 @@ import 'package:file_picker/file_picker.dart';
 import 'package:open_file_plus/open_file_plus.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:uuid/uuid.dart';
 
 // Project imports:
 import 'package:asco/core/helpers/asset_path.dart';
+import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/utils/http_client.dart';
 
 class FileService {
   static Future<String?> downloadFile(String url) async {
     try {
-      final response = await HttpClient.client.get(Uri.parse(url));
       final directory = await getTemporaryDirectory();
+      final response = await HttpClient.client.get(Uri.parse(url));
       final fileName = p.basename(url);
       final file = await File('${directory.path}/$fileName').writeAsBytes(response.bodyBytes);
 
@@ -30,8 +32,8 @@ class FileService {
   }
 
   static Future<String?> createFile(
-    Uint8List bytes, {
-    required String extension,
+    List<int> bytes, {
+    String? extension,
     String? name,
   }) async {
     try {
@@ -45,26 +47,106 @@ class FileService {
     }
   }
 
-  static Future<bool> saveFileFromAsset(String assetName) async {
+  static Future<bool> saveFileFromUrl(
+    String url, {
+    String? name,
+  }) async {
     try {
-      var directory = await getDownloadsDirectory();
+      final isPermitted = await FunctionHelper.requestPermission(
+        await FunctionHelper.androidApiLevel >= 30
+            ? Permission.manageExternalStorage
+            : Permission.storage,
+      );
 
-      if (Platform.isAndroid) {
-        directory = Directory('/storage/emulated/0/Download/');
+      if (isPermitted) {
+        var directory = await getDownloadsDirectory();
 
-        if (!directory.existsSync()) {
-          directory = Directory('/storage/emulated/0/Downloads/');
+        if (Platform.isAndroid) {
+          directory = Directory('/storage/emulated/0/Download/');
+
+          if (!directory.existsSync()) {
+            directory = Directory('/storage/emulated/0/Downloads/');
+          }
         }
+
+        final response = await HttpClient.client.get(Uri.parse(url));
+        final fileName = name ?? p.basename(url);
+        final file = File('${directory?.path}/$fileName');
+
+        await file.create(recursive: true);
+        await file.writeAsBytes(response.bodyBytes);
       }
 
-      final file = File('${directory?.path}/$assetName');
-      final byteData = await rootBundle.load(AssetPath.getFile(assetName));
-      final bytes = byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes);
+      return isPermitted;
+    } catch (e) {
+      return false;
+    }
+  }
 
-      await file.create(recursive: true);
-      await file.writeAsBytes(bytes);
+  static Future<bool> saveFileFromRawBytes(
+    List<int> bytes, {
+    String? extension,
+    String? name,
+  }) async {
+    try {
+      final isPermitted = await FunctionHelper.requestPermission(
+        await FunctionHelper.androidApiLevel >= 30
+            ? Permission.manageExternalStorage
+            : Permission.storage,
+      );
 
-      return true;
+      if (isPermitted) {
+        var directory = await getDownloadsDirectory();
+
+        if (Platform.isAndroid) {
+          directory = Directory('/storage/emulated/0/Download/');
+
+          if (!directory.existsSync()) {
+            directory = Directory('/storage/emulated/0/Downloads/');
+          }
+        }
+
+        final fileName = name ?? '${const Uuid().v4()}.$extension';
+        final file = File('${directory?.path}/$fileName');
+
+        await file.create(recursive: true);
+        await file.writeAsBytes(bytes);
+      }
+
+      return isPermitted;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  static Future<bool> saveFileFromAsset(String assetName) async {
+    try {
+      final isPermitted = await FunctionHelper.requestPermission(
+        await FunctionHelper.androidApiLevel >= 30
+            ? Permission.manageExternalStorage
+            : Permission.storage,
+      );
+
+      if (isPermitted) {
+        var directory = await getDownloadsDirectory();
+
+        if (Platform.isAndroid) {
+          directory = Directory('/storage/emulated/0/Download/');
+
+          if (!directory.existsSync()) {
+            directory = Directory('/storage/emulated/0/Downloads/');
+          }
+        }
+
+        final file = File('${directory?.path}/$assetName');
+        final byteData = await rootBundle.load(AssetPath.getFile(assetName));
+        final bytes = byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes);
+
+        await file.create(recursive: true);
+        await file.writeAsBytes(bytes);
+      }
+
+      return isPermitted;
     } catch (e) {
       return false;
     }

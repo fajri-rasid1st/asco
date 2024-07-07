@@ -8,7 +8,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:qr/qr.dart';
 
 // Project imports:
-import 'package:asco/core/configs/app_configs.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/routes/route_names.dart';
@@ -351,7 +350,7 @@ class IdCardBackSide extends StatelessWidget {
                         ),
                         children: [
                           TextSpan(
-                            text: AppConfigs.title,
+                            text: 'asco',
                             style: textTheme.titleMedium!.copyWith(
                               color: Palette.violet1,
                               height: 1.25,

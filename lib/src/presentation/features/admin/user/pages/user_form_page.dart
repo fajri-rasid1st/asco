@@ -10,7 +10,7 @@ import 'package:asco/core/enums/form_action_type.dart';
 import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/button_extension.dart';
 import 'package:asco/core/extensions/context_extension.dart';
-import 'package:asco/core/helpers/function_helper.dart';
+import 'package:asco/core/helpers/excel_helper.dart';
 import 'package:asco/core/services/file_service.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
@@ -169,9 +169,7 @@ class UserFormPage extends StatelessWidget {
       String? excelPath = formKey.currentState!.value['excelPath'];
 
       if (excelPath != null) {
-        final data = FunctionHelper.excelToMap(excelPath);
-
-        debugPrint(data.toString());
+        debugPrint(ExcelHelper.excelToMap(excelPath).toString());
       } else {
         debugPrint(formKey.currentState!.value.toString());
       }
