@@ -4,15 +4,16 @@ import 'package:http/http.dart';
 
 // Project imports:
 import 'package:asco/core/errors/exceptions.dart';
+import 'package:asco/core/utils/const.dart';
 
 /// A base Failure class.
 abstract class Failure extends Equatable {
-  final String message;
+  final String? message;
 
   const Failure(this.message);
 
   @override
-  List<Object> get props => [message];
+  List<Object?> get props => [message];
 }
 
 class ServerFailure extends Failure {
@@ -34,8 +35,16 @@ class PreferencesFailure extends Failure {
 Failure failure(Object e) {
   if (e is ServerException) {
     switch (e.message) {
-      case '':
-        return const ServerFailure('');
+      case kNoAuthorization:
+        return const ServerFailure('Token tidak ditemukan');
+      case kAuthorizationExpired:
+        return const ServerFailure('Sesi telah habis, harap login ulang');
+      case kAuthorizationError:
+        return const ServerFailure('Token error');
+      case kUsernameAlreadyExist:
+        return const ServerFailure('Username telah digunakan');
+      case kUserNotFound:
+        return const ServerFailure('Pengguna tidak ditemukan');
       default:
         return ServerFailure(e.message);
     }
