@@ -8,7 +8,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:asco/core/routes/routes_generator.dart';
 import 'package:asco/core/themes/light_theme.dart';
 import 'package:asco/core/utils/keys.dart';
-import 'package:asco/src/presentation/features/common/initial/wrapper.dart';
+import 'package:asco/src/presentation/features/common/initial/pages/wrapper.dart';
 
 class AscoApp extends StatelessWidget {
   const AscoApp({super.key});

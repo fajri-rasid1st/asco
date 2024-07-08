@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
@@ -24,6 +25,7 @@ class PractitionerListPage extends StatelessWidget {
       body: ListView.separated(
         padding: const EdgeInsets.all(20),
         itemBuilder: (context, index) => UserCard(
+          profile: CredentialSaver.credential!,
           badgeText: 'Kelas A',
           trailing: CustomIconButton(
             'github_filled.svg',

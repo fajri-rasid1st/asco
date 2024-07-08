@@ -11,6 +11,7 @@ import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/const.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
@@ -280,6 +281,7 @@ class Leaderboard extends StatelessWidget {
                     bottom: index == 6 ? kBottomNavigationBarHeight : 10,
                   ),
                   child: UserCard(
+                    profile: CredentialSaver.credential!,
                     badgeType: UserBadgeType.text,
                     badgeText: 'Nilai: 80.0',
                     trailing: Padding(

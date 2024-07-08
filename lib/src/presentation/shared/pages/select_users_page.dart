@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/styles/color_scheme.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/providers/manual_providers/query_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
@@ -92,6 +93,7 @@ class _SelectUsersPageState extends State<SelectUsersPage> {
                       bottom: index == 9 ? 0 : 10,
                     ),
                     child: UserCard(
+                      profile: CredentialSaver.credential!,
                       badgeType: UserBadgeType.text,
                       trailing: selectedUsers.contains(index)
                           ? const CircleBorderContainer(

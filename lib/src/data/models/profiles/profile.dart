@@ -26,24 +26,11 @@ class Profile with _$Profile {
     String? classOf,
     String? githubUsername,
     String? instagramUsername,
-    String? profilePicturePath,
+    @JsonKey(name: 'profilePic') String? profilePicturePath,
     List<Practicum>? practicums,
     List<Classroom>? classrooms,
     List<AssistanceGroup>? assistanceGroups,
   }) = _Profile;
 
   factory Profile.fromJson(Map<String, Object?> json) => _$ProfileFromJson(json);
-
-  int get roleId {
-    switch (role) {
-      case 'ADMIN':
-        return 0;
-      case 'STUDENT':
-        return 1;
-      case 'ASSISTANT':
-        return 2;
-      default:
-        return 0;
-    }
-  }
 }

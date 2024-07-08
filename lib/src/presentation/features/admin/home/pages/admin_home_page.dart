@@ -1,24 +1,49 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 // Project imports:
+import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
+import 'package:asco/core/extensions/string_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/presentation/features/common/initial/providers/log_out_provider.dart';
 import 'package:asco/src/presentation/shared/pages/select_classroom_page.dart';
 import 'package:asco/src/presentation/shared/pages/select_practicum_page.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
-class AdminHomePage extends StatelessWidget {
+class AdminHomePage extends ConsumerWidget {
   const AdminHomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(logOutProvider, (_, state) {
+      state.whenOrNull(
+        error: (error, _) => context.showSnackBar(
+          title: 'Terjadi Kesalahan',
+          message: '$error',
+          type: SnackBarType.error,
+        ),
+        data: (data) {
+          if (data != null) {
+            navigatorKey.currentState!.pushNamedAndRemoveUntil(
+              onBoardingRoute,
+              (route) => false,
+            );
+          }
+        },
+      );
+    });
+
     final adminMenuCards = [
       AdminMenuCard(
         title: 'Data Pengguna',
@@ -119,7 +144,7 @@ class AdminHomePage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Admin',
+                            '${CredentialSaver.credential?.role?.toCapitalize()}',
                             style: textTheme.bodySmall!.copyWith(
                               color: Palette.purple3,
                             ),
@@ -139,12 +164,7 @@ class AdminHomePage extends StatelessWidget {
                         title: 'Log Out?',
                         message: 'Dengan ini seluruh sesi Anda akan berakhir.',
                         primaryButtonText: 'Log Out',
-                        onPressedPrimaryButton: () {
-                          navigatorKey.currentState!.pushNamedAndRemoveUntil(
-                            onBoardingRoute,
-                            (route) => false,
-                          );
-                        },
+                        onPressedPrimaryButton: () => ref.read(logOutProvider.notifier).logOut(),
                       ),
                       icon: const Icon(Icons.exit_to_app_rounded),
                     ),

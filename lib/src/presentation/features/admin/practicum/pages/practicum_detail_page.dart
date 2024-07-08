@@ -8,6 +8,7 @@ import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/features/admin/practicum/pages/practicum_form_page.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/classroom_card.dart';
@@ -113,7 +114,8 @@ class PracticumDetailPage extends StatelessWidget {
                 padding: EdgeInsets.only(
                   bottom: index == 3 ? 0 : 10,
                 ),
-                child: const UserCard(
+                child: UserCard(
+                  profile: CredentialSaver.credential!,
                   badgeType: UserBadgeType.text,
                 ),
               ),

@@ -32,7 +32,6 @@ class IsLogin extends _$IsLogin {
               },
               data: (data) {
                 credential = data;
-
                 this.state = AsyncValue.data((isLogin, credential));
               },
             );

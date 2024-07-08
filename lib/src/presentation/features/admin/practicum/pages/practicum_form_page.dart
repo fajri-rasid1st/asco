@@ -10,6 +10,7 @@ import 'package:asco/core/enums/form_action_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/routes/route_names.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/pages/select_users_page.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/classroom_card.dart';
@@ -176,6 +177,7 @@ class PracticumSecondFormPage extends StatelessWidget {
                   bottom: index == 3 ? 0 : 10,
                 ),
                 child: UserCard(
+                  profile: CredentialSaver.credential!,
                   badgeType: UserBadgeType.text,
                   showDeleteButton: true,
                   onPressedDeleteButton: () {},

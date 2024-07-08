@@ -8,6 +8,7 @@ import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/features/admin/meeting/pages/meeting_form_page.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
@@ -119,11 +120,13 @@ class MeetingDetailPage extends StatelessWidget {
               ),
             ).fullWidth(),
             const SectionHeader(title: 'Mentor'),
-            const UserCard(
+            UserCard(
+              profile: CredentialSaver.credential!,
               badgeText: 'Pemateri',
             ),
             const SizedBox(height: 10),
-            const UserCard(
+            UserCard(
+              profile: CredentialSaver.credential!,
               badgeText: 'Pendamping',
             )
           ],

@@ -8,6 +8,7 @@ import 'package:grouped_list/sliver_grouped_list.dart';
 // Project imports:
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/providers/manual_providers/query_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
@@ -61,6 +62,7 @@ class ControlCardListHomePage extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(4, e == 1 ? 4 : 12, 0, 6),
               ),
               itemBuilder: (context, index) => UserCard(
+                profile: CredentialSaver.credential!,
                 badgeText: 'Kelas A',
                 onTap: () => navigatorKey.currentState!.pushNamed(controlCardDetailRoute),
               ),

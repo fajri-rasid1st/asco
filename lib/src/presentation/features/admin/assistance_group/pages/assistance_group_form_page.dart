@@ -8,6 +8,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:asco/core/enums/form_action_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/routes/route_names.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/pages/select_users_page.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
@@ -90,6 +91,7 @@ class AssistanceGroupFormPage extends StatelessWidget {
                     bottom: index == 9 ? 0 : 10,
                   ),
                   child: UserCard(
+                    profile: CredentialSaver.credential!,
                     badgeType: UserBadgeType.text,
                     showDeleteButton: true,
                     onPressedDeleteButton: () {},

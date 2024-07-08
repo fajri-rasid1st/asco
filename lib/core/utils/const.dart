@@ -20,8 +20,8 @@ const roleId = 2; // 0 admin, 1 student, 2 assistant
 
 const userRoleFilter = {
   'Semua': '',
-  'Praktikan': 'student',
-  'Asisten': 'assistant',
+  'Praktikan': 'STUDENT',
+  'Asisten': 'ASSISTANT',
 };
 
 const dayOfWeek = {

@@ -22,11 +22,11 @@ class LoadingIndicator extends StatelessWidget {
   }
 
   Center buildLoadingIndicator() {
-    return const Center(
+    return Center(
       child: SpinKitCubeGrid(
-        color: Palette.primary,
+        color: withScaffold ? Palette.purple3 : Palette.violet3,
         size: 50.0,
-        duration: Duration(milliseconds: 1000),
+        duration: const Duration(milliseconds: 1000),
       ),
     );
   }

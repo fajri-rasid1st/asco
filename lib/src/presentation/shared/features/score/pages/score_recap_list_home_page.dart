@@ -12,6 +12,7 @@ import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/const.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/providers/manual_providers/query_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/animated_fab.dart';
@@ -109,6 +110,7 @@ class _ScoreRecapListHomePageState extends State<ScoreRecapListHomePage>
                       bottom: index == 9 ? 0 : 10,
                     ),
                     child: UserCard(
+                      profile: CredentialSaver.credential!,
                       badgeText: 'Kelas A',
                       trailing: Padding(
                         padding: const EdgeInsets.only(right: 4),

@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Project imports:
 import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
+import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
@@ -27,7 +28,7 @@ class Wrapper extends ConsumerWidget {
             ref.read(logOutProvider.notifier).logOut();
           } else {
             context.showSnackBar(
-              title: 'Gagal',
+              title: 'Terjadi Kesalahan',
               message: '$error',
               type: SnackBarType.error,
             );
@@ -40,7 +41,7 @@ class Wrapper extends ConsumerWidget {
     ref.listen(logOutProvider, (_, state) {
       state.whenOrNull(
         error: (error, _) => context.showSnackBar(
-          title: 'Gagal',
+          title: 'Terjadi Kesalahan',
           message: '$error',
           type: SnackBarType.error,
         ),
@@ -67,7 +68,7 @@ class Wrapper extends ConsumerWidget {
     if (isLogin) {
       if (credential != null) {
         navigatorKey.currentState!.pushReplacementNamed(
-          credential.roleId == 0 ? adminHomeRoute : homeRoute,
+          MapHelper.getRoleId(credential.role) == 0 ? adminHomeRoute : homeRoute,
         );
       }
     } else {

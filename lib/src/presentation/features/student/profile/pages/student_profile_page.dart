@@ -168,7 +168,7 @@ class IdCardFrontSide extends StatelessWidget {
                       ),
                       child: GestureDetector(
                         onTap: () => context.showProfilePictureDialog(
-                          imageUrl: 'https://placehold.co/300x300/png',
+                          'https://placehold.co/300x300/png',
                         ),
                         child: CachedNetworkImage(
                           imageUrl: 'https://placehold.co/300x300/png',

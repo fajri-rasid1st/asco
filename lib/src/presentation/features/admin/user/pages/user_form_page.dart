@@ -146,7 +146,7 @@ class UserFormPage extends StatelessWidget {
                       if (!context.mounted) return;
 
                       context.showSnackBar(
-                        title: 'Gagal',
+                        title: 'Terjadi Kesalahan',
                         message: 'Terjadi kesalahan saat mendownload file.',
                         type: SnackBarType.error,
                       );

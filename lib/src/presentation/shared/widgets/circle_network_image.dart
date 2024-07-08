@@ -7,10 +7,11 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 // Project imports:
 import 'package:asco/core/extensions/context_extension.dart';
+import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 
 class CircleNetworkImage extends StatelessWidget {
-  final String imageUrl;
+  final String? imageUrl;
   final double size;
   final double? placeholderSize;
   final bool withBorder;
@@ -21,7 +22,7 @@ class CircleNetworkImage extends StatelessWidget {
 
   const CircleNetworkImage({
     super.key,
-    required this.imageUrl,
+    this.imageUrl,
     required this.size,
     this.placeholderSize,
     this.withBorder = false,
@@ -33,54 +34,63 @@ class CircleNetworkImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: imageUrl,
-      fadeInDuration: const Duration(milliseconds: 200),
-      fadeOutDuration: const Duration(milliseconds: 200),
-      imageBuilder: (context, imageProvider) => GestureDetector(
-        onTap: showPreviewWhenPressed
-            ? () => context.showProfilePictureDialog(imageUrl: imageUrl)
-            : null,
-        child: Container(
-          width: size,
-          height: size,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: withBorder
-                ? Border.all(
-                    width: borderWidth,
-                    color: borderColor,
-                  )
-                : null,
-            image: DecorationImage(
-              image: imageProvider,
-              fit: fit,
+    if (imageUrl != null) {
+      return CachedNetworkImage(
+        imageUrl: imageUrl!,
+        fadeInDuration: const Duration(milliseconds: 200),
+        fadeOutDuration: const Duration(milliseconds: 200),
+        imageBuilder: (context, imageProvider) => buildImage(context, imageProvider),
+        placeholder: (context, url) => CircleAvatar(
+          radius: size / 2,
+          backgroundColor: Palette.purple5,
+          child: Center(
+            child: SizedBox(
+              width: placeholderSize ?? size / 2.5,
+              height: placeholderSize ?? size / 2.5,
+              child: const SpinKitRing(
+                lineWidth: 2,
+                color: Palette.secondaryText,
+              ),
             ),
           ),
         ),
-      ),
-      placeholder: (context, url) => CircleAvatar(
-        radius: size / 2,
-        backgroundColor: Palette.purple5,
-        child: Center(
-          child: SizedBox(
-            width: placeholderSize ?? size / 2.5,
-            height: placeholderSize ?? size / 2.5,
-            child: const SpinKitRing(
-              lineWidth: 2,
+        errorWidget: (context, url, error) => CircleAvatar(
+          radius: size / 2,
+          backgroundColor: Palette.purple5,
+          child: Center(
+            child: Icon(
+              Icons.hide_source_rounded,
               color: Palette.secondaryText,
+              size: placeholderSize ?? size / 2.5,
             ),
           ),
         ),
-      ),
-      errorWidget: (context, url, error) => CircleAvatar(
-        radius: size / 2,
-        backgroundColor: Palette.purple5,
-        child: Center(
-          child: Icon(
-            Icons.hide_source_rounded,
-            color: Palette.secondaryText,
-            size: placeholderSize ?? size / 2.5,
+      );
+    }
+
+    return buildImage(context, AssetImage(AssetPath.getImage('no-profile.png')));
+  }
+
+  GestureDetector buildImage(
+    BuildContext context,
+    ImageProvider<Object> imageProvider,
+  ) {
+    return GestureDetector(
+      onTap: showPreviewWhenPressed ? () => context.showProfilePictureDialog(imageUrl) : null,
+      child: Container(
+        width: size,
+        height: size,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: withBorder
+              ? Border.all(
+                  width: borderWidth,
+                  color: borderColor,
+                )
+              : null,
+          image: DecorationImage(
+            image: imageProvider,
+            fit: fit,
           ),
         ),
       ),

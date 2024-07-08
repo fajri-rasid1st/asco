@@ -8,6 +8,7 @@ import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/features/admin/assistance_group/pages/assistance_group_form_page.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
@@ -96,7 +97,8 @@ class AssistanceGroupDetailPage extends StatelessWidget {
               ),
             ),
             const SectionHeader(title: 'Asisten'),
-            const UserCard(
+            UserCard(
+              profile: CredentialSaver.credential!,
               badgeType: UserBadgeType.text,
             ),
             const SectionHeader(title: 'Peserta'),
@@ -106,7 +108,8 @@ class AssistanceGroupDetailPage extends StatelessWidget {
                 padding: EdgeInsets.only(
                   bottom: index == 9 ? 0 : 10,
                 ),
-                child: const UserCard(
+                child: UserCard(
+                  profile: CredentialSaver.credential!,
                   badgeType: UserBadgeType.text,
                 ),
               ),

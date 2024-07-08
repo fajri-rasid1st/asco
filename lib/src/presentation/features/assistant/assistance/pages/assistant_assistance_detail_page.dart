@@ -17,6 +17,7 @@ import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/assistance_status_icon.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
@@ -203,6 +204,7 @@ class AssistantAssistanceDetailPage extends StatelessWidget {
                     bottom: index == 9 ? 0 : 10,
                   ),
                   child: UserCard(
+                    profile: CredentialSaver.credential!,
                     badgeText: 'Kelas A',
                     trailing: Row(
                       children: [

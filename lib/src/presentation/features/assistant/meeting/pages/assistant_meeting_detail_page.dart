@@ -17,6 +17,7 @@ import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/providers/manual_providers/query_provider.dart';
 import 'package:asco/src/presentation/shared/features/score/pages/score_input_page.dart';
@@ -216,6 +217,7 @@ class _AssistantMeetingDetailPageState extends State<AssistantMeetingDetailPage>
           body: ListView.separated(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
             itemBuilder: (context, index) => UserCard(
+              profile: CredentialSaver.credential!,
               badgeType: UserBadgeType.text,
               badgeText: 'Waktu absensi 10:15',
               trailing: const CircleBorderContainer(

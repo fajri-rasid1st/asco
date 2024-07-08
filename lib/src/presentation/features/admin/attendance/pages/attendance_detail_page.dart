@@ -6,6 +6,7 @@ import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/const.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
@@ -61,9 +62,10 @@ class AttendanceDetailPage extends StatelessWidget {
                   padding: EdgeInsets.only(
                     bottom: index == 9 ? 0 : 10,
                   ),
-                  child: const UserCard(
+                  child: UserCard(
+                    profile: CredentialSaver.credential!,
                     badgeType: UserBadgeType.text,
-                    trailing: CircleBorderContainer(
+                    trailing: const CircleBorderContainer(
                       size: 28,
                       withBorder: false,
                       fillColor: Palette.success,

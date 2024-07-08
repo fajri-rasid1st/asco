@@ -9,9 +9,9 @@ import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 
 class ProfilePictureDialog extends StatelessWidget {
-  final String imageUrl;
+  final String? imageUrl;
 
-  const ProfilePictureDialog({super.key, required this.imageUrl});
+  const ProfilePictureDialog({super.key, this.imageUrl});
 
   @override
   Widget build(BuildContext context) {

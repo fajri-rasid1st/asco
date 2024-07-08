@@ -90,7 +90,7 @@ extension DialogExtension on BuildContext {
     );
   }
 
-  Future<Object?> showProfilePictureDialog({required String imageUrl}) {
+  Future<Object?> showProfilePictureDialog(String? imageUrl) {
     return showGeneralDialog(
       context: this,
       barrierLabel: 'profile_picture',

@@ -95,7 +95,7 @@ class AttendanceListHomePage extends StatelessWidget {
     if (!context.mounted) return;
 
     context.showSnackBar(
-      title: 'Gagal',
+      title: 'Terjadi Kesalahan',
       message: 'Data kehadiran kelas gagal diekspor.',
       type: SnackBarType.error,
     );

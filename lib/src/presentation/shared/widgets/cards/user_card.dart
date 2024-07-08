@@ -3,14 +3,17 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:asco/core/enums/user_badge_type.dart';
+import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/src/data/models/profiles/profile.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_badge.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 
 class UserCard extends StatelessWidget {
+  final Profile profile;
   final Widget? trailing;
   final bool showDeleteButton;
   final UserBadgeType badgeType;
@@ -20,6 +23,7 @@ class UserCard extends StatelessWidget {
 
   const UserCard({
     super.key,
+    required this.profile,
     this.trailing,
     this.showDeleteButton = false,
     this.badgeType = UserBadgeType.pill,
@@ -40,8 +44,8 @@ class UserCard extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          const CircleNetworkImage(
-            imageUrl: 'https://placehold.co/150x150/png',
+          CircleNetworkImage(
+            imageUrl: profile.profilePicturePath,
             size: 60,
           ),
           const SizedBox(width: 8),
@@ -50,7 +54,7 @@ class UserCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'H071211074',
+                  '${profile.username}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.bodySmall!.copyWith(
@@ -59,7 +63,7 @@ class UserCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 1),
                 Text(
-                  'Muh. Sultan Nazhim Latenri Tatta S.H',
+                  '${profile.fullname}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.titleSmall!.copyWith(
@@ -70,11 +74,11 @@ class UserCard extends StatelessWidget {
                 const SizedBox(height: 2),
                 if (badgeType == UserBadgeType.pill)
                   CustomBadge(
-                    text: badgeText ?? 'Praktikan',
+                    text: badgeText ?? MapHelper.getReadableRole(profile.role),
                   )
                 else
                   Text(
-                    badgeText ?? '2021',
+                    badgeText ?? '${profile.classOf}',
                     style: textTheme.labelSmall!.copyWith(
                       color: Palette.secondaryText,
                       height: 1,

@@ -12,6 +12,7 @@ import 'package:rive/rive.dart';
 import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
+import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
@@ -37,7 +38,7 @@ class OnBoardingPage extends ConsumerWidget {
             context.showNoConnectionSnackBar();
           } else {
             context.showSnackBar(
-              title: 'Gagal',
+              title: 'Login Gagal',
               message: '$error',
               type: SnackBarType.error,
             );
@@ -46,7 +47,7 @@ class OnBoardingPage extends ConsumerWidget {
         data: (data) {
           if (data.$1 != null && data.$2 != null) {
             navigatorKey.currentState!.pushNamedAndRemoveUntil(
-              data.$2!.roleId == 0 ? adminHomeRoute : homeRoute,
+              MapHelper.getRoleId(data.$2!.role) == 0 ? adminHomeRoute : homeRoute,
               (route) => false,
             );
           }
