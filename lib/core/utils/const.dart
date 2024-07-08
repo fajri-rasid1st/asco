@@ -9,10 +9,11 @@ const kAuthorizationError = 'token is not formed correctly. JWT format is xxxx.y
 const kUsernameAlreadyExist =
     '\nInvalid `prisma.user.update()` invocation:\n\n\nUnique constraint failed on the constraint: `users_username_key`';
 const kUserNotFound = 'user\'s not found';
+const kIncorrectPassword = 'password is incorrect';
 
 // const shared preferences keys
 const accessTokenKey = 'ACCESS_TOKEN';
-const userCredentialKey = 'USER_CREDENTIAL';
+const credentialKey = 'CREDENTIAL';
 
 // another consts
 const roleId = 2; // 0 admin, 1 student, 2 assistant

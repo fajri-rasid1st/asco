@@ -12,8 +12,8 @@ class ProfilePost with _$ProfilePost {
   const factory ProfilePost({
     required String role,
     required String username,
-    required String fullname,
     required String password,
+    required String fullname,
     required String classOf,
   }) = _ProfilePost;
 

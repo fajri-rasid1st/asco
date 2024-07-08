@@ -1,5 +1,4 @@
 // Auth routes
-const wrapperRoute = '/wrapper';
 const onBoardingRoute = '/on-boarding';
 
 // Home & main menu routes

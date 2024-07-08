@@ -39,7 +39,7 @@ extension SnackBarExtension on BuildContext {
       ..hideCurrentSnackBar()
       ..showSnackBar(
         WidgetUtils.createSnackBar(
-          title: 'Tidak Ada Koneksi!',
+          title: 'Tidak Ada Koneksi',
           message: 'Hubungkan perangkat dengan koneksi internet, lalu coba lagi.',
           type: SnackBarType.error,
         ),

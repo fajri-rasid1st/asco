@@ -11,7 +11,7 @@ import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
-import 'package:asco/src/presentation/shared/providers/manual_providers/field_value_provider.dart';
+import 'package:asco/src/presentation/providers/manual_providers/field_value_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/custom_text_field.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 

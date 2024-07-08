@@ -21,7 +21,7 @@ class DataResponse extends Equatable {
   factory DataResponse.fromMap(Map<String, dynamic> map) {
     return DataResponse(
       status: map['status'],
-      error: ErrorResponse.fromMap(map['error']),
+      error: map['error'] != null ? ErrorResponse.fromMap(map['error']) : null,
       data: map['data'],
     );
   }

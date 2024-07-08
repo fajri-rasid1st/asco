@@ -11,7 +11,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 // Project imports:
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/src/presentation/shared/providers/manual_providers/qr_scanner_provider.dart';
+import 'package:asco/src/presentation/providers/manual_providers/qr_scanner_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 
 class QrCodeScanner extends ConsumerStatefulWidget {

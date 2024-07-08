@@ -1,5 +1,5 @@
 // Package imports:
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 /// Exception class that will be thrown when there is a problem
 /// related to the server.
@@ -22,6 +22,6 @@ Never exception(Object e) {
   if (e is ServerException) {
     throw ServerException(e.code, e.message);
   } else {
-    throw http.ClientException(e.toString());
+    throw ClientException(e.toString());
   }
 }

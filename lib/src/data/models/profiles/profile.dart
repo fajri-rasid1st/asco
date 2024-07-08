@@ -14,14 +14,16 @@ part 'profile.g.dart';
 
 @freezed
 class Profile with _$Profile {
+  const Profile._();
+
   const factory Profile({
-    required int id,
-    required int userId,
-    required String role,
-    required String username,
-    required String fullname,
-    required String nickname,
-    required String classOf,
+    String? id,
+    String? profileId,
+    String? role,
+    String? username,
+    String? fullname,
+    String? nickname,
+    String? classOf,
     String? githubUsername,
     String? instagramUsername,
     String? profilePicturePath,
@@ -31,4 +33,17 @@ class Profile with _$Profile {
   }) = _Profile;
 
   factory Profile.fromJson(Map<String, Object?> json) => _$ProfileFromJson(json);
+
+  int get roleId {
+    switch (role) {
+      case 'ADMIN':
+        return 0;
+      case 'STUDENT':
+        return 1;
+      case 'ASSISTANT':
+        return 2;
+      default:
+        return 0;
+    }
+  }
 }

@@ -5,21 +5,55 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart';
 
 // Project imports:
+import 'package:asco/core/enums/snack_bar_type.dart';
+import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
+import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/core/utils/const.dart';
+import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/presentation/features/common/initial/providers/login_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/dialogs/login_dialog.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
-class OnBoardingPage extends StatelessWidget {
+class OnBoardingPage extends ConsumerWidget {
   const OnBoardingPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    ref.listen(loginProvider, (_, state) {
+      state.when(
+        loading: () => context.showLoadingDialog(),
+        error: (error, _) {
+          navigatorKey.currentState!.pop();
+
+          if ('$error' == kNoInternetConnection) {
+            context.showNoConnectionSnackBar();
+          } else {
+            context.showSnackBar(
+              title: 'Gagal',
+              message: '$error',
+              type: SnackBarType.error,
+            );
+          }
+        },
+        data: (data) {
+          if (data.$1 != null && data.$2 != null) {
+            navigatorKey.currentState!.pushNamedAndRemoveUntil(
+              data.$2!.roleId == 0 ? adminHomeRoute : homeRoute,
+              (route) => false,
+            );
+          }
+        },
+      );
+    });
+
     return Scaffold(
       body: Stack(
         children: [

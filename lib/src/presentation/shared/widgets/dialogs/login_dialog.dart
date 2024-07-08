@@ -3,14 +3,15 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
 import 'package:asco/core/helpers/asset_path.dart';
-import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/presentation/features/common/initial/providers/login_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_icon_button.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
@@ -190,42 +191,49 @@ class _LoginFormState extends State<LoginForm> {
             },
           ),
           const SizedBox(height: 16),
-          FilledButton.icon(
-            icon: SvgAsset(
-              AssetPath.getIcon('arrow_forward_outlined.svg'),
-              color: Palette.background,
-              width: 20,
-            ),
-            label: Text(
-              'Masuk',
-              style: textTheme.labelLarge!.copyWith(
-                color: Palette.background,
-              ),
-            ),
-            style: FilledButton.styleFrom(
-              minimumSize: const Size(double.infinity, 56),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(8),
-                  topRight: Radius.circular(28),
-                  bottomLeft: Radius.circular(28),
-                  bottomRight: Radius.circular(28),
+          Consumer(
+            builder: (context, ref, child) {
+              return FilledButton.icon(
+                icon: SvgAsset(
+                  AssetPath.getIcon('arrow_forward_outlined.svg'),
+                  color: Palette.background,
+                  width: 20,
                 ),
-              ),
-            ),
-            onPressed: login,
+                label: Text(
+                  'Masuk',
+                  style: textTheme.labelLarge!.copyWith(
+                    color: Palette.background,
+                  ),
+                ),
+                style: FilledButton.styleFrom(
+                  minimumSize: const Size(double.infinity, 56),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8),
+                      topRight: Radius.circular(28),
+                      bottomLeft: Radius.circular(28),
+                      bottomRight: Radius.circular(28),
+                    ),
+                  ),
+                ),
+                onPressed: () => login(ref),
+              );
+            },
           ),
         ],
       ),
     );
   }
 
-  void login() {
+  void login(WidgetRef ref) {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
       navigatorKey.currentState!.pop();
-      navigatorKey.currentState!.pushReplacementNamed(adminHomeRoute);
+
+      final data = formKey.currentState!.value;
+
+      ref.read(loginProvider.notifier).login(data['username'], data['password']);
     }
   }
 }

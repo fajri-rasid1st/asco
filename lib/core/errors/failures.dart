@@ -45,6 +45,8 @@ Failure failure(Object e) {
         return const ServerFailure('Username telah digunakan');
       case kUserNotFound:
         return const ServerFailure('Pengguna tidak ditemukan');
+      case kIncorrectPassword:
+        return const ServerFailure('Password yang dimasukkan salah');
       default:
         return ServerFailure(e.message);
     }
