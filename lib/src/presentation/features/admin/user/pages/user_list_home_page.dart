@@ -62,22 +62,6 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
   Widget build(BuildContext context) {
     final labels = userRoleFilter.keys.toList();
 
-    ref.listen(usersProvider, (_, state) {
-      state.whenOrNull(
-        error: (error, _) {
-          if ('$error' == kNoInternetConnection) {
-            context.showNoConnectionSnackBar();
-          } else {
-            context.showSnackBar(
-              title: 'Terjadi Kesalahan',
-              message: '$error',
-              type: SnackBarType.error,
-            );
-          }
-        },
-      );
-    });
-
     ref.listen(userActionsProvider, (_, state) {
       state.when(
         loading: () => context.showLoadingDialog(),
@@ -185,8 +169,25 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
               padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
               sliver: Consumer(
                 builder: (context, ref, child) {
-                  final users = ref.watch(usersProvider);
                   final query = ref.watch(queryProvider);
+                  final role = ref.watch(selectedRoleProvider);
+                  final users = ref.watch(UsersProvider(role: role));
+
+                  ref.listen(UsersProvider(role: role), (_, state) {
+                    state.whenOrNull(
+                      error: (error, _) {
+                        if ('$error' == kNoInternetConnection) {
+                          context.showNoConnectionSnackBar();
+                        } else {
+                          context.showSnackBar(
+                            title: 'Terjadi Kesalahan',
+                            message: '$error',
+                            type: SnackBarType.error,
+                          );
+                        }
+                      },
+                    );
+                  });
 
                   return users.when(
                     loading: () {
@@ -203,7 +204,7 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
                       if (users.isEmpty && query.isNotEmpty) {
                         return const SliverFillRemaining(
                           child: CustomInformation(
-                            title: 'Pengguna tidak ditemukan',
+                            title: 'User tidak ditemukan',
                             subtitle: 'Silahkan cari dengan keyword lain',
                           ),
                         );
@@ -212,8 +213,8 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
                       if (users.isEmpty) {
                         return const SliverFillRemaining(
                           child: CustomInformation(
-                            title: 'Data pengguna masih kosong',
-                            subtitle: 'Tambahkan pengguna dengan menekan tombol "Tambah"',
+                            title: 'Data user tidak ada',
+                            subtitle: 'Tambahkan user dengan menekan tombol "Tambah"',
                           ),
                         );
                       }
@@ -270,6 +271,6 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
   void filterUsers(String role) {
     ref.read(queryProvider.notifier).state = '';
     ref.read(selectedRoleProvider.notifier).state = role;
-    ref.read(usersProvider.notifier).filterUsers(role: role);
+    ref.read(UsersProvider(role: role));
   }
 }

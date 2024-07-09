@@ -6,8 +6,6 @@ const kNoInternetConnection = 'no internet connection';
 const kNoAuthorization = 'Provide Authorization in header';
 const kAuthorizationExpired = 'jwt expired';
 const kAuthorizationError = 'token is not formed correctly. JWT format is xxxx.yyyyy.zzzz';
-const kUsernameAlreadyExist =
-    '\nInvalid `prisma.user.update()` invocation:\n\n\nUnique constraint failed on the constraint: `users_username_key`';
 const kUserNotFound = 'user\'s not found';
 const kIncorrectPassword = 'password is incorrect';
 

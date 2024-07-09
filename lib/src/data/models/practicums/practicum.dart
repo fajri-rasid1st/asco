@@ -16,15 +16,16 @@ part 'practicum.g.dart';
 @freezed
 class Practicum with _$Practicum {
   const factory Practicum({
-    required int id,
-    required String course,
-    required String badgePath,
-    String? courseContractPath,
+    String? id,
+    String? course,
+    @JsonKey(name: 'badge') String? badgePath,
+    @JsonKey(name: 'courseContract') String? courseContractPath,
     String? examInfo,
     List<Classroom>? classrooms,
     List<Meeting>? meetings,
     List<Profile>? assistants,
     List<AssistanceGroup>? assistanceGroups,
+    int? classroomsLength,
   }) = _Practicum;
 
   factory Practicum.fromJson(Map<String, Object?> json) => _$PracticumFromJson(json);

@@ -19,7 +19,7 @@ abstract class ProfileRepository {
   });
 
   /// Get profile detail
-  Future<Either<Failure, Profile>> getProfileDetail(int id);
+  Future<Either<Failure, Profile>> getProfileDetail(String id);
 
   /// Create profiles
   Future<Either<Failure, void>> createProfiles(List<ProfilePost> profiles);
@@ -66,7 +66,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   @override
-  Future<Either<Failure, Profile>> getProfileDetail(int id) async {
+  Future<Either<Failure, Profile>> getProfileDetail(String id) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await profileDataSource.getProfileDetail(id);

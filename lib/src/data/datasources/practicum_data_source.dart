@@ -10,48 +10,36 @@ import 'package:asco/core/configs/api_configs.dart';
 import 'package:asco/core/errors/exceptions.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/data_response.dart';
-import 'package:asco/src/data/models/profiles/profile.dart';
-import 'package:asco/src/data/models/profiles/profile_post.dart';
+import 'package:asco/src/data/models/practicums/practicum.dart';
+import 'package:asco/src/data/models/practicums/practicum_post.dart';
 
-abstract class ProfileDataSource {
-  /// Get Profiles
-  Future<List<Profile>> getProfiles({
-    String query = '',
-    String role = '',
-    String sortBy = '',
-    String orderBy = '',
-  });
+abstract class PracticumDataSource {
+  /// Get Practicums
+  Future<List<Practicum>> getPracticums({String query = ''});
 
-  /// Get profile detail
-  Future<Profile> getProfileDetail(String id);
+  /// Get practicum detail
+  Future<Practicum> getPracticumDetail(String id);
 
-  /// Create profiles
-  Future<void> createProfiles(List<ProfilePost> profiles);
+  /// Create practicum
+  Future<String> createPracticum(PracticumPost practicum);
 
-  /// Edit profile
-  Future<void> editProfile(String username, ProfilePost profile);
+  /// Edit practicum
+  Future<String> editPracticum(String id, PracticumPost practicum);
 
-  /// Delete profile
-  Future<void> deleteProfile(String username);
+  /// Delete practicum
+  Future<void> deletePracticum(String id);
 }
 
-class ProfileDataSourceImpl implements ProfileDataSource {
+class PracticumDataSourceImpl implements PracticumDataSource {
   final http.Client client;
 
-  ProfileDataSourceImpl({required this.client});
+  PracticumDataSourceImpl({required this.client});
 
   @override
-  Future<List<Profile>> getProfiles({
-    String query = '',
-    String role = '',
-    String sortBy = '',
-    String orderBy = '',
-  }) async {
+  Future<List<Practicum>> getPracticums({String query = ''}) async {
     try {
-      final queryParams = role.isEmpty ? "" : 'role=$role';
-
       final response = await client.get(
-        Uri.parse('${ApiConfigs.baseUrl}/users/master?$queryParams'),
+        Uri.parse('${ApiConfigs.baseUrl}/practicums'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
@@ -63,7 +51,7 @@ class ProfileDataSourceImpl implements ProfileDataSource {
       if (response.statusCode == 200) {
         final data = result.data as List;
 
-        return data.map((e) => Profile.fromJson(e)).toList();
+        return data.map((e) => Practicum.fromJson(e)).toList();
       } else {
         throw ServerException(result.error?.code, result.error?.message);
       }
@@ -73,10 +61,10 @@ class ProfileDataSourceImpl implements ProfileDataSource {
   }
 
   @override
-  Future<Profile> getProfileDetail(String id) async {
+  Future<Practicum> getPracticumDetail(String id) async {
     try {
       final response = await client.get(
-        Uri.parse('${ApiConfigs.baseUrl}/users/$id'),
+        Uri.parse('${ApiConfigs.baseUrl}/practicums/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
@@ -86,7 +74,7 @@ class ProfileDataSourceImpl implements ProfileDataSource {
       final result = DataResponse.fromJson(response.body);
 
       if (response.statusCode == 200) {
-        return Profile.fromJson(result.data);
+        return Practicum.fromJson(result.data);
       } else {
         throw ServerException(result.error?.code, result.error?.message);
       }
@@ -96,17 +84,15 @@ class ProfileDataSourceImpl implements ProfileDataSource {
   }
 
   @override
-  Future<void> createProfiles(List<ProfilePost> profiles) async {
+  Future<String> createPracticum(PracticumPost practicum) async {
     try {
       final response = await client.post(
-        Uri.parse('${ApiConfigs.baseUrl}/users'),
+        Uri.parse('${ApiConfigs.baseUrl}/practicums'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
-        body: jsonEncode({
-          'data': profiles.map((e) => e.toJson()).toList(),
-        }),
+        body: jsonEncode(practicum.toJson()),
       );
 
       final result = DataResponse.fromJson(response.body);
@@ -114,21 +100,23 @@ class ProfileDataSourceImpl implements ProfileDataSource {
       if (response.statusCode != 201) {
         throw ServerException(result.error?.code, result.error?.message);
       }
+
+      return result.data as String;
     } catch (e) {
       exception(e);
     }
   }
 
   @override
-  Future<void> editProfile(String username, ProfilePost profile) async {
+  Future<String> editPracticum(String id, PracticumPost practicum) async {
     try {
       final response = await client.put(
-        Uri.parse('${ApiConfigs.baseUrl}/users/$username'),
+        Uri.parse('${ApiConfigs.baseUrl}/practicums/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
-        body: jsonEncode(profile.toJson()..remove('password')),
+        body: jsonEncode(practicum.toJson()),
       );
 
       final result = DataResponse.fromJson(response.body);
@@ -136,16 +124,18 @@ class ProfileDataSourceImpl implements ProfileDataSource {
       if (response.statusCode != 200) {
         throw ServerException(result.error?.code, result.error?.message);
       }
+
+      return result.data as String;
     } catch (e) {
       exception(e);
     }
   }
 
   @override
-  Future<void> deleteProfile(String username) async {
+  Future<void> deletePracticum(String id) async {
     try {
       final response = await client.delete(
-        Uri.parse('${ApiConfigs.baseUrl}/users/$username'),
+        Uri.parse('${ApiConfigs.baseUrl}/practicums/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'

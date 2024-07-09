@@ -41,8 +41,6 @@ Failure failure(Object e) {
         return const ServerFailure('Sesi telah habis, harap login ulang');
       case kAuthorizationError:
         return const ServerFailure('Token error');
-      case kUsernameAlreadyExist:
-        return const ServerFailure('Username telah digunakan');
       case kUserNotFound:
         return const ServerFailure('Pengguna tidak ditemukan');
       case kIncorrectPassword:

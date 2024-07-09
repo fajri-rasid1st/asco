@@ -106,7 +106,7 @@ class UserDetailPage extends ConsumerWidget {
                 return OutlinedButton(
                   onPressed: () => context.showConfirmDialog(
                     title: 'Reset Password?',
-                    message: 'Password hasil reset sama dengan username pengguna.',
+                    message: 'Password akan diubah sesuai dengan username pengguna.',
                     primaryButtonText: 'Reset',
                     onPressedPrimaryButton: () => resetPassword(ref),
                   ),
