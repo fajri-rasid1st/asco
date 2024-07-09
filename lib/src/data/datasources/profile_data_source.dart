@@ -29,7 +29,7 @@ abstract class ProfileDataSource {
   Future<void> createProfiles(List<ProfilePost> profiles);
 
   /// Edit profile
-  Future<void> editProfile(ProfilePost profile);
+  Future<void> editProfile(String username, ProfilePost profile);
 
   /// Delete profile
   Future<void> deleteProfile(String username);
@@ -120,15 +120,15 @@ class ProfileDataSourceImpl implements ProfileDataSource {
   }
 
   @override
-  Future<void> editProfile(ProfilePost profile) async {
+  Future<void> editProfile(String username, ProfilePost profile) async {
     try {
       final response = await client.put(
-        Uri.parse('${ApiConfigs.baseUrl}/users/${profile.username}'),
+        Uri.parse('${ApiConfigs.baseUrl}/users/$username'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
-        body: jsonEncode(profile.toJson()),
+        body: jsonEncode(profile.toJson()..remove('password')),
       );
 
       final result = DataResponse.fromJson(response.body);

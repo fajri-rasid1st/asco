@@ -98,7 +98,7 @@ class AssistanceGroupDetailPage extends StatelessWidget {
             ),
             const SectionHeader(title: 'Asisten'),
             UserCard(
-              profile: CredentialSaver.credential!,
+              user: CredentialSaver.credential!,
               badgeType: UserBadgeType.text,
             ),
             const SectionHeader(title: 'Peserta'),
@@ -109,7 +109,7 @@ class AssistanceGroupDetailPage extends StatelessWidget {
                   bottom: index == 9 ? 0 : 10,
                 ),
                 child: UserCard(
-                  profile: CredentialSaver.credential!,
+                  user: CredentialSaver.credential!,
                   badgeType: UserBadgeType.text,
                 ),
               ),

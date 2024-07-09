@@ -121,12 +121,12 @@ class MeetingDetailPage extends StatelessWidget {
             ).fullWidth(),
             const SectionHeader(title: 'Mentor'),
             UserCard(
-              profile: CredentialSaver.credential!,
+              user: CredentialSaver.credential!,
               badgeText: 'Pemateri',
             ),
             const SizedBox(height: 10),
             UserCard(
-              profile: CredentialSaver.credential!,
+              user: CredentialSaver.credential!,
               badgeText: 'Pendamping',
             )
           ],

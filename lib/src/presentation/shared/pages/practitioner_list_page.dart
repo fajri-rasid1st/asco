@@ -25,7 +25,7 @@ class PractitionerListPage extends StatelessWidget {
       body: ListView.separated(
         padding: const EdgeInsets.all(20),
         itemBuilder: (context, index) => UserCard(
-          profile: CredentialSaver.credential!,
+          user: CredentialSaver.credential!,
           badgeText: 'Kelas A',
           trailing: CustomIconButton(
             'github_filled.svg',

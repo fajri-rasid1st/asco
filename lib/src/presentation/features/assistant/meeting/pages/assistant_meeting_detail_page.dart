@@ -217,7 +217,7 @@ class _AssistantMeetingDetailPageState extends State<AssistantMeetingDetailPage>
           body: ListView.separated(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
             itemBuilder: (context, index) => UserCard(
-              profile: CredentialSaver.credential!,
+              user: CredentialSaver.credential!,
               badgeType: UserBadgeType.text,
               badgeText: 'Waktu absensi 10:15',
               trailing: const CircleBorderContainer(

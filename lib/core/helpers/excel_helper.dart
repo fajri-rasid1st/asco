@@ -5,12 +5,12 @@ import 'dart:io';
 import 'package:excel/excel.dart';
 
 class ExcelHelper {
-  static List<Map<String, Object?>>? excelToMap(String path) {
+  static List<Map<String, String?>>? convertToData(String path) {
     try {
       final bytes = File(path).readAsBytesSync();
       final excel = Excel.decodeBytes(bytes);
 
-      List<Map<String, Object?>> data = [];
+      List<Map<String, String?>> data = [];
 
       for (var table in excel.tables.keys) {
         List<String> keys = [];
@@ -20,24 +20,12 @@ class ExcelHelper {
         }
 
         for (var rows in excel.tables[table]!.rows.sublist(1)) {
-          Map<String, Object?> temp = {};
+          Map<String, String?> temp = {};
 
           for (var i = 0; i < keys.length; i++) {
-            final cellValue = rows[i]!.value;
+            final value = rows[i]!.value;
 
-            Object? value = switch (cellValue) {
-              FormulaCellValue() => cellValue.formula,
-              TextCellValue() => cellValue.value,
-              IntCellValue() => cellValue.value,
-              DoubleCellValue() => cellValue.value,
-              BoolCellValue() => cellValue.value,
-              DateCellValue() => cellValue.asDateTimeUtc(),
-              TimeCellValue() => cellValue.asDuration(),
-              DateTimeCellValue() => cellValue.asDateTimeUtc(),
-              null => null,
-            };
-
-            temp[keys[i]] = value;
+            temp[keys[i]] = value.toString();
           }
 
           data.add(temp);
@@ -50,7 +38,7 @@ class ExcelHelper {
     }
   }
 
-  static List<int>? createAttendanceDataExcel({
+  static List<int>? createAttendanceData({
     required List<Map<String, Object>> data,
     required int totalAttendances,
   }) {

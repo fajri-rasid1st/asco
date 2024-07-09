@@ -91,7 +91,7 @@ class AssistanceGroupFormPage extends StatelessWidget {
                     bottom: index == 9 ? 0 : 10,
                   ),
                   child: UserCard(
-                    profile: CredentialSaver.credential!,
+                    user: CredentialSaver.credential!,
                     badgeType: UserBadgeType.text,
                     showDeleteButton: true,
                     onPressedDeleteButton: () {},

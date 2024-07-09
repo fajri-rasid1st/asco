@@ -63,7 +63,7 @@ class AttendanceDetailPage extends StatelessWidget {
                     bottom: index == 9 ? 0 : 10,
                   ),
                   child: UserCard(
-                    profile: CredentialSaver.credential!,
+                    user: CredentialSaver.credential!,
                     badgeType: UserBadgeType.text,
                     trailing: const CircleBorderContainer(
                       size: 28,

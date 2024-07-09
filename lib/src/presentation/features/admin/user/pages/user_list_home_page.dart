@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import 'package:asco/core/enums/form_action_type.dart';
 import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/function_helper.dart';
@@ -14,6 +13,7 @@ import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/features/admin/user/pages/user_form_page.dart';
+import 'package:asco/src/presentation/features/admin/user/providers/user_actions_provider.dart';
 import 'package:asco/src/presentation/features/admin/user/providers/users_provider.dart';
 import 'package:asco/src/presentation/providers/manual_providers/query_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/animated_fab.dart';
@@ -72,6 +72,40 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
               title: 'Terjadi Kesalahan',
               message: '$error',
               type: SnackBarType.error,
+            );
+          }
+        },
+      );
+    });
+
+    ref.listen(userActionsProvider, (_, state) {
+      state.when(
+        loading: () => context.showLoadingDialog(),
+        error: (error, _) {
+          navigatorKey.currentState!.pop();
+
+          if ('$error' == kNoInternetConnection) {
+            context.showNoConnectionSnackBar();
+          } else {
+            context.showSnackBar(
+              title: 'Terjadi Kesalahan',
+              message: '$error',
+              type: SnackBarType.error,
+            );
+          }
+        },
+        data: (data) {
+          if (data != null) {
+            navigatorKey.currentState!.pop();
+            navigatorKey.currentState!.pop();
+
+            ref.invalidate(usersProvider);
+            ref.invalidate(queryProvider);
+            ref.invalidate(selectedRoleProvider);
+
+            context.showSnackBar(
+              title: 'Berhasil',
+              message: data,
             );
           }
         },
@@ -155,10 +189,14 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
                   final query = ref.watch(queryProvider);
 
                   return users.when(
-                    loading: () => const SliverFillRemaining(
-                      child: LoadingIndicator(),
-                    ),
-                    error: (_, __) => const SliverFillRemaining(),
+                    loading: () {
+                      return const SliverFillRemaining(
+                        child: LoadingIndicator(),
+                      );
+                    },
+                    error: (error, stackTrace) {
+                      return const SliverFillRemaining();
+                    },
                     data: (users) {
                       if (users == null) return const SliverFillRemaining();
 
@@ -187,14 +225,19 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
                               bottom: index == 9 ? 0 : 10,
                             ),
                             child: UserCard(
-                              profile: users[index],
-                              onTap: () => navigatorKey.currentState!.pushNamed(userDetailRoute),
+                              user: users[index],
+                              onTap: () => navigatorKey.currentState!.pushNamed(
+                                userDetailRoute,
+                                arguments: users[index],
+                              ),
                               showDeleteButton: true,
                               onPressedDeleteButton: () => context.showConfirmDialog(
                                 title: 'Hapus Pengguna?',
                                 message: 'Anda yakin ingin menghapus user ini?',
                                 primaryButtonText: 'Hapus',
-                                onPressedPrimaryButton: () {},
+                                onPressedPrimaryButton: () => ref
+                                    .read(userActionsProvider.notifier)
+                                    .deleteUser(users[index].username!),
                               ),
                             ),
                           ),
@@ -213,10 +256,7 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
         animationController: fabAnimationController,
         onPressed: () => navigatorKey.currentState!.pushNamed(
           userFormRoute,
-          arguments: const UserFormPageArgs(
-            title: 'Tambah',
-            action: FormActionType.create,
-          ),
+          arguments: const UserFormPageArgs(title: 'Tambah'),
         ),
         tooltip: 'Tambah',
         child: const Icon(

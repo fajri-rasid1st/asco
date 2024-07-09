@@ -115,7 +115,7 @@ class PracticumDetailPage extends StatelessWidget {
                   bottom: index == 3 ? 0 : 10,
                 ),
                 child: UserCard(
-                  profile: CredentialSaver.credential!,
+                  user: CredentialSaver.credential!,
                   badgeType: UserBadgeType.text,
                 ),
               ),

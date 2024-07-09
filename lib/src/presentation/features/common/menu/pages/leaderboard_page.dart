@@ -281,7 +281,7 @@ class Leaderboard extends StatelessWidget {
                     bottom: index == 6 ? kBottomNavigationBarHeight : 10,
                   ),
                   child: UserCard(
-                    profile: CredentialSaver.credential!,
+                    user: CredentialSaver.credential!,
                     badgeType: UserBadgeType.text,
                     badgeText: 'Nilai: 80.0',
                     trailing: Padding(

@@ -62,7 +62,7 @@ class ControlCardListHomePage extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(4, e == 1 ? 4 : 12, 0, 6),
               ),
               itemBuilder: (context, index) => UserCard(
-                profile: CredentialSaver.credential!,
+                user: CredentialSaver.credential!,
                 badgeText: 'Kelas A',
                 onTap: () => navigatorKey.currentState!.pushNamed(controlCardDetailRoute),
               ),

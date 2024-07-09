@@ -204,7 +204,7 @@ class AssistantAssistanceDetailPage extends StatelessWidget {
                     bottom: index == 9 ? 0 : 10,
                   ),
                   child: UserCard(
-                    profile: CredentialSaver.credential!,
+                    user: CredentialSaver.credential!,
                     badgeText: 'Kelas A',
                     trailing: Row(
                       children: [

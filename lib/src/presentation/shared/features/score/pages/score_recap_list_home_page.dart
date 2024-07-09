@@ -110,7 +110,7 @@ class _ScoreRecapListHomePageState extends State<ScoreRecapListHomePage>
                       bottom: index == 9 ? 0 : 10,
                     ),
                     child: UserCard(
-                      profile: CredentialSaver.credential!,
+                      user: CredentialSaver.credential!,
                       badgeText: 'Kelas A',
                       trailing: Padding(
                         padding: const EdgeInsets.only(right: 4),

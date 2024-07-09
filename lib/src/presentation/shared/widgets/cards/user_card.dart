@@ -13,7 +13,7 @@ import 'package:asco/src/presentation/shared/widgets/custom_badge.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 
 class UserCard extends StatelessWidget {
-  final Profile profile;
+  final Profile user;
   final Widget? trailing;
   final bool showDeleteButton;
   final UserBadgeType badgeType;
@@ -23,7 +23,7 @@ class UserCard extends StatelessWidget {
 
   const UserCard({
     super.key,
-    required this.profile,
+    required this.user,
     this.trailing,
     this.showDeleteButton = false,
     this.badgeType = UserBadgeType.pill,
@@ -45,7 +45,7 @@ class UserCard extends StatelessWidget {
       child: Row(
         children: [
           CircleNetworkImage(
-            imageUrl: profile.profilePicturePath,
+            imageUrl: user.profilePicturePath,
             size: 60,
           ),
           const SizedBox(width: 8),
@@ -54,7 +54,7 @@ class UserCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${profile.username}',
+                  '${user.username}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.bodySmall!.copyWith(
@@ -63,7 +63,7 @@ class UserCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 1),
                 Text(
-                  '${profile.fullname}',
+                  '${user.fullname}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.titleSmall!.copyWith(
@@ -74,11 +74,11 @@ class UserCard extends StatelessWidget {
                 const SizedBox(height: 2),
                 if (badgeType == UserBadgeType.pill)
                   CustomBadge(
-                    text: badgeText ?? MapHelper.getReadableRole(profile.role),
+                    text: badgeText ?? MapHelper.getReadableRole(user.role),
                   )
                 else
                   Text(
-                    badgeText ?? '${profile.classOf}',
+                    badgeText ?? '${user.classOf}',
                     style: textTheme.labelSmall!.copyWith(
                       color: Palette.secondaryText,
                       height: 1,

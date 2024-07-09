@@ -60,7 +60,7 @@ class AttendanceListHomePage extends StatelessWidget {
   }
 
   Future<void> exportToExcel(BuildContext context) async {
-    final excelBytes = ExcelHelper.createAttendanceDataExcel(
+    final excelBytes = ExcelHelper.createAttendanceData(
       data: [
         {
           'username': 'H071211074',
