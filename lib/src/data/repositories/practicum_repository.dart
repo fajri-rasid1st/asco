@@ -11,7 +11,7 @@ import 'package:asco/src/data/models/practicums/practicum_post.dart';
 
 abstract class PracticumRepository {
   /// Get Practicums
-  Future<Either<Failure, List<Practicum>>> getPracticums({String query = ''});
+  Future<Either<Failure, List<Practicum>>> getPracticums();
 
   /// Get practicum detail
   Future<Either<Failure, Practicum>> getPracticumDetail(String id);
@@ -36,10 +36,10 @@ class PracticumRepositoryImpl implements PracticumRepository {
   });
 
   @override
-  Future<Either<Failure, List<Practicum>>> getPracticums({String query = ''}) async {
+  Future<Either<Failure, List<Practicum>>> getPracticums() async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await practicumDataSource.getPracticums(query: query);
+        final result = await practicumDataSource.getPracticums();
 
         return Right(result);
       } catch (e) {

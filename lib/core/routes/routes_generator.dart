@@ -91,8 +91,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const PracticumListHomePage(),
       );
     case practicumDetailRoute:
+      final id = settings.arguments as String;
+
       return MaterialPageRoute(
-        builder: (_) => const PracticumDetailPage(),
+        builder: (_) => PracticumDetailPage(id: id),
       );
     case practicumFirstFormRoute:
       final args = settings.arguments as PracticumFormPageArgs;

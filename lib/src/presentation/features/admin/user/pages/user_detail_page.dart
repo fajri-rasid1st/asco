@@ -20,21 +20,13 @@ import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_badge.dart';
 
-class UserDetailPage extends ConsumerWidget {
+class UserDetailPage extends StatelessWidget {
   final Profile user;
 
   const UserDetailPage({super.key, required this.user});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(userActionsProvider, (_, state) {
-      state.whenOrNull(
-        data: (data) {
-          if (data != null) navigatorKey.currentState!.pop();
-        },
-      );
-    });
-
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Detail Pengguna',

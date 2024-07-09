@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:asco/src/presentation/shared/widgets/cards/practicum_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 
 class SelectPracticumPage extends StatelessWidget {
@@ -12,19 +11,19 @@ class SelectPracticumPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CustomAppBar(
+    return const Scaffold(
+      appBar: CustomAppBar(
         title: 'Pilih Praktikum',
       ),
-      body: ListView.separated(
-        padding: const EdgeInsets.all(20),
-        itemBuilder: (context, index) => PracticumCard(
-          showClassroomAndMeetingButtons: args.showClassroomAndMeetingButtons,
-          onTap: args.onItemTapped,
-        ),
-        separatorBuilder: (context, index) => const SizedBox(height: 10),
-        itemCount: 3,
-      ),
+      // body: ListView.separated(
+      //   padding: const EdgeInsets.all(20),
+      //   itemBuilder: (context, index) => PracticumCard(
+      //     showClassroomAndMeetingButtons: args.showClassroomAndMeetingButtons,
+      //     onTap: args.onItemTapped,
+      //   ),
+      //   separatorBuilder: (context, index) => const SizedBox(height: 10),
+      //   itemCount: 3,
+      // ),
     );
   }
 }

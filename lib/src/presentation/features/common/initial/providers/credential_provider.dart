@@ -21,7 +21,7 @@ class Credential extends _$Credential {
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
         credential = r;
-        state = AsyncValue.data(r);
+        state = AsyncValue.data(credential);
       },
     );
 

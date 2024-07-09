@@ -21,7 +21,7 @@ class Users extends _$Users {
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
         users = r;
-        state = AsyncValue.data(r);
+        state = AsyncValue.data(users);
       },
     );
 

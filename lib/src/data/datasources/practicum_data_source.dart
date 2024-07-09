@@ -15,7 +15,7 @@ import 'package:asco/src/data/models/practicums/practicum_post.dart';
 
 abstract class PracticumDataSource {
   /// Get Practicums
-  Future<List<Practicum>> getPracticums({String query = ''});
+  Future<List<Practicum>> getPracticums();
 
   /// Get practicum detail
   Future<Practicum> getPracticumDetail(String id);
@@ -36,7 +36,7 @@ class PracticumDataSourceImpl implements PracticumDataSource {
   PracticumDataSourceImpl({required this.client});
 
   @override
-  Future<List<Practicum>> getPracticums({String query = ''}) async {
+  Future<List<Practicum>> getPracticums() async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/practicums'),

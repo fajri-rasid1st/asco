@@ -6,12 +6,12 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
-import 'package:asco/core/enums/form_action_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/presentation/shared/pages/select_users_page.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/classroom_card.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
@@ -52,6 +52,7 @@ class PracticumFirstFormPage extends StatelessWidget {
                 name: 'course',
                 label: 'Mata kuliah',
                 hintText: 'Masukkan nama mata kuliah',
+                initialValue: args.practicum?.course,
                 textCapitalization: TextCapitalization.words,
                 validators: [
                   FormBuilderValidators.required(
@@ -63,6 +64,7 @@ class PracticumFirstFormPage extends StatelessWidget {
               FileUploadField(
                 name: 'badgePath',
                 label: 'Badge',
+                initialValue: args.practicum?.badgePath,
                 extensions: const [],
                 validator: FormBuilderValidators.required(),
                 onPressedFilePickerButton: () async {
@@ -81,10 +83,11 @@ class PracticumFirstFormPage extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 12),
-              const FileUploadField(
+              FileUploadField(
                 name: 'courseContractPath',
                 label: 'Kontrak Kuliah',
-                extensions: ['pdf', 'doc', 'docx'],
+                initialValue: args.practicum?.courseContractPath,
+                extensions: const ['pdf', 'doc', 'docx'],
               ),
             ],
           ),
@@ -197,10 +200,10 @@ class PracticumSecondFormPage extends StatelessWidget {
 
 class PracticumFormPageArgs {
   final String title;
-  final FormActionType action;
+  final Practicum? practicum;
 
   const PracticumFormPageArgs({
     required this.title,
-    required this.action,
+    this.practicum,
   });
 }

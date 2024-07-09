@@ -5,26 +5,26 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/presentation/providers/repository_providers/practicum_repository_provider.dart';
 
-part 'practicums_provider.g.dart';
+part 'practicum_detail_provider.g.dart';
 
 @riverpod
-class Practicums extends _$Practicums {
+class PracticumDetail extends _$PracticumDetail {
   @override
-  Future<List<Practicum>?> build() async {
-    List<Practicum>? practicums;
+  Future<Practicum?> build(String id) async {
+    Practicum? practicum;
 
     state = const AsyncValue.loading();
 
-    final result = await ref.watch(practicumRepositoryProvider).getPracticums();
+    final result = await ref.watch(practicumRepositoryProvider).getPracticumDetail(id);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
-        practicums = r;
-        state = AsyncValue.data(practicums);
+        practicum = r;
+        state = AsyncValue.data(practicum);
       },
     );
 
-    return practicums;
+    return practicum;
   }
 }

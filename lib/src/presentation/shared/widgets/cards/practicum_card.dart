@@ -7,18 +7,21 @@ import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/presentation/shared/pages/select_classroom_page.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 import 'package:asco/src/presentation/shared/widgets/practicum_badge_image.dart';
 
 class PracticumCard extends StatelessWidget {
+  final Practicum practicum;
   final bool showDeleteButton;
   final bool showClassroomAndMeetingButtons;
   final VoidCallback? onTap;
 
   const PracticumCard({
     super.key,
+    required this.practicum,
     this.showDeleteButton = false,
     this.showClassroomAndMeetingButtons = false,
     this.onTap,
@@ -38,8 +41,8 @@ class PracticumCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              const PracticumBadgeImage(
-                badgeUrl: 'https://placehold.co/138x150/png',
+              PracticumBadgeImage(
+                badgeUrl: '${practicum.badgePath}',
                 width: 48,
                 height: 52,
               ),
@@ -49,7 +52,7 @@ class PracticumCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Pemrograman Mobile',
+                      '${practicum.course}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: textTheme.titleSmall!.copyWith(
@@ -62,7 +65,7 @@ class PracticumCard extends StatelessWidget {
                       children: [
                         Flexible(
                           child: Text(
-                            '4 Kelas',
+                            '${practicum.classroomsLength} Kelas',
                             style: textTheme.bodySmall!.copyWith(
                               color: Palette.purple3,
                             ),

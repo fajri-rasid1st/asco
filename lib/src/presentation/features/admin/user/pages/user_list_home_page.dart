@@ -190,14 +190,10 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
                   });
 
                   return users.when(
-                    loading: () {
-                      return const SliverFillRemaining(
-                        child: LoadingIndicator(),
-                      );
-                    },
-                    error: (error, stackTrace) {
-                      return const SliverFillRemaining();
-                    },
+                    loading: () => const SliverFillRemaining(
+                      child: LoadingIndicator(),
+                    ),
+                    error: (_, __) => const SliverFillRemaining(),
                     data: (users) {
                       if (users == null) return const SliverFillRemaining();
 

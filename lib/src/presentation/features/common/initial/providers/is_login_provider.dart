@@ -24,7 +24,7 @@ class IsLogin extends _$IsLogin {
       (r) {
         isLogin = r;
 
-        if (r) {
+        if (isLogin!) {
           ref.listen(credentialProvider, (_, state) {
             state.whenOrNull(
               error: (error, _) {
