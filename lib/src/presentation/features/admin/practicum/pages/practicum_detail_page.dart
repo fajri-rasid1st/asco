@@ -13,13 +13,14 @@ import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/const.dart';
-import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/features/admin/practicum/pages/practicum_form_page.dart';
+import 'package:asco/src/presentation/features/admin/practicum/providers/practicum_actions_provider.dart';
 import 'package:asco/src/presentation/features/admin/practicum/providers/practicum_detail_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/classroom_card.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
+import 'package:asco/src/presentation/shared/widgets/custom_information.dart';
 import 'package:asco/src/presentation/shared/widgets/loading_indicator.dart';
 import 'package:asco/src/presentation/shared/widgets/practicum_badge_image.dart';
 import 'package:asco/src/presentation/shared/widgets/section_header.dart';
@@ -46,6 +47,14 @@ class PracticumDetailPage extends ConsumerWidget {
               type: SnackBarType.error,
             );
           }
+        },
+      );
+    });
+
+    ref.listen(practicumActionsProvider, (_, state) {
+      state.whenOrNull(
+        data: (data) {
+          if (data.message != null) ref.invalidate(practicumDetailProvider);
         },
       );
     });
@@ -141,18 +150,24 @@ class PracticumDetailPage extends ConsumerWidget {
                   ),
                 ),
                 const SectionHeader(title: 'Asisten'),
-                ...List<Padding>.generate(
-                  4,
-                  (index) => Padding(
-                    padding: EdgeInsets.only(
-                      bottom: index == 3 ? 0 : 10,
-                    ),
-                    child: UserCard(
-                      user: CredentialSaver.credential!,
-                      badgeType: UserBadgeType.text,
+                if (practicum.assistants!.isEmpty)
+                  const CustomInformation(
+                    title: 'Asisten masih kosong',
+                    subtitle: 'Belum ada asisten pada praktikum ini',
+                  )
+                else
+                  ...List<Padding>.generate(
+                    practicum.assistants!.length,
+                    (index) => Padding(
+                      padding: EdgeInsets.only(
+                        bottom: index == 3 ? 0 : 10,
+                      ),
+                      child: UserCard(
+                        user: practicum.assistants![index],
+                        badgeType: UserBadgeType.text,
+                      ),
                     ),
                   ),
-                ),
               ],
             ),
           ),

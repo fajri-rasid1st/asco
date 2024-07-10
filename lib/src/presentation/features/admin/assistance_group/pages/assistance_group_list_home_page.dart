@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:asco/core/enums/form_action_type.dart';
+import 'package:asco/core/enums/action_type.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
@@ -143,7 +143,7 @@ class _AssistanceGroupListHomePageState extends State<AssistanceGroupListHomePag
           assistanceGroupFormRoute,
           arguments: const AssistanceGroupFormPageArgs(
             title: 'Tambah',
-            action: FormActionType.create,
+            action: ActionType.create,
           ),
         ),
         tooltip: 'Tambah',

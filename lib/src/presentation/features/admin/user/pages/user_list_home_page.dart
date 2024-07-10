@@ -79,7 +79,7 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
           }
         },
         data: (data) {
-          if (data != null) {
+          if (data.message != null) {
             navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();
 
@@ -89,7 +89,7 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
 
             context.showSnackBar(
               title: 'Berhasil',
-              message: data,
+              message: data.message!,
             );
           }
         },
@@ -232,11 +232,9 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
                                 title: 'Hapus Pengguna?',
                                 message: 'Anda yakin ingin menghapus user ini?',
                                 primaryButtonText: 'Hapus',
-                                onPressedPrimaryButton: () {
-                                  ref
-                                      .read(userActionsProvider.notifier)
-                                      .deleteUser(users[index].username!);
-                                },
+                                onPressedPrimaryButton: () => ref
+                                    .read(userActionsProvider.notifier)
+                                    .deleteUser(users[index].username!),
                               ),
                             ),
                           ),

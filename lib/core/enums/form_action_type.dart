@@ -1,4 +1,0 @@
-enum FormActionType {
-  create,
-  update,
-}

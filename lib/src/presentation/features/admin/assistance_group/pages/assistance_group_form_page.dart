@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 // Project imports:
-import 'package:asco/core/enums/form_action_type.dart';
+import 'package:asco/core/enums/action_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/utils/credential_saver.dart';
@@ -115,7 +115,7 @@ class AssistanceGroupFormPage extends StatelessWidget {
 
 class AssistanceGroupFormPageArgs {
   final String title;
-  final FormActionType action;
+  final ActionType action;
 
   const AssistanceGroupFormPageArgs({
     required this.title,

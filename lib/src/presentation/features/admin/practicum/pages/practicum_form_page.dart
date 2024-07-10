@@ -17,10 +17,10 @@ import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/services/file_service.dart';
-import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/data/models/practicums/practicum_post.dart';
+import 'package:asco/src/data/models/profiles/profile.dart';
 import 'package:asco/src/presentation/features/admin/practicum/providers/practicum_actions_provider.dart';
 import 'package:asco/src/presentation/shared/pages/select_users_page.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/classroom_card.dart';
@@ -74,6 +74,23 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
     if (courseContractPath != null) {
       formKey.currentState?.fields['courseContractPath']!.didChange(courseContractPath);
     }
+
+    ref.listen(practicumActionsProvider, (_, state) {
+      state.whenOrNull(
+        data: (data) {
+          if (data.message != null) {
+            navigatorKey.currentState!.pushReplacementNamed(
+              practicumSecondFormRoute,
+              arguments: PracticumFormPageArgs(
+                title: widget.args.title,
+                practicum: widget.args.practicum,
+                id: data.message?.split(':').last,
+              ),
+            );
+          }
+        },
+      );
+    });
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -177,7 +194,6 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
         }
       } else {
         final badge = await FileService.uploadFile(badgeValue);
-
         final courseContract =
             courseContractValue != null ? await FileService.uploadFile(courseContractValue) : null;
 
@@ -201,20 +217,32 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
   }
 }
 
-class PracticumSecondFormPage extends StatelessWidget {
+class PracticumSecondFormPage extends StatefulWidget {
   final PracticumFormPageArgs args;
 
   const PracticumSecondFormPage({super.key, required this.args});
 
   @override
-  Widget build(BuildContext context) {
-    List<int> selectedAssistants = [];
+  State<PracticumSecondFormPage> createState() => _PracticumSecondFormPageState();
+}
 
+class _PracticumSecondFormPageState extends State<PracticumSecondFormPage> {
+  late List<Profile> assistants;
+
+  @override
+  void initState() {
+    assistants = [...widget.args.practicum?.assistants ?? []];
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: '${args.title} Praktikum (2/2)',
+        title: '${widget.args.title} Praktikum (2/2)',
         action: IconButton(
-          onPressed: () => updatePracticum(selectedAssistants),
+          onPressed: () => updatePracticum(assistants),
           icon: const Icon(Icons.check_rounded),
           tooltip: 'Submit',
           style: IconButton.styleFrom(
@@ -255,26 +283,27 @@ class PracticumSecondFormPage extends StatelessWidget {
               onPressedActionButton: () async {
                 final result = await navigatorKey.currentState!.pushNamed(
                   selectUsersRoute,
-                  arguments: const SelectUsersPageArgs(
-                    title: 'Asisten - Pemrograman Mobile',
-                    role: 'Asisten',
+                  arguments: SelectUsersPageArgs(
+                    title: 'Pilih Asisten',
+                    role: 'ASSISTANT',
+                    selectedUsers: assistants,
                   ),
                 );
 
-                if (result != null) selectedAssistants = result as List<int>;
+                if (result != null) setState(() => assistants = result as List<Profile>);
               },
             ),
             ...List<Padding>.generate(
-              4,
+              assistants.length,
               (index) => Padding(
                 padding: EdgeInsets.only(
                   bottom: index == 3 ? 0 : 10,
                 ),
                 child: UserCard(
-                  user: CredentialSaver.credential!,
+                  user: assistants[index],
                   badgeType: UserBadgeType.text,
                   showDeleteButton: true,
-                  onPressedDeleteButton: () {},
+                  onPressedDeleteButton: () => setState(() => assistants.remove(assistants[index])),
                 ),
               ),
             ),
@@ -284,17 +313,19 @@ class PracticumSecondFormPage extends StatelessWidget {
     );
   }
 
-  void updatePracticum(List<int> selectedAssistants) {
-    debugPrint(selectedAssistants.toString());
+  void updatePracticum(List<Profile> assistants) {
+    debugPrint(assistants.toString());
   }
 }
 
 class PracticumFormPageArgs {
   final String title;
   final Practicum? practicum;
+  final String? id;
 
   const PracticumFormPageArgs({
     required this.title,
     this.practicum,
+    this.id,
   });
 }

@@ -5,28 +5,41 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
+import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/styles/color_scheme.dart';
-import 'package:asco/core/utils/credential_saver.dart';
+import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/data/models/profiles/profile.dart';
+import 'package:asco/src/presentation/features/admin/user/providers/users_provider.dart';
 import 'package:asco/src/presentation/providers/manual_providers/query_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
+import 'package:asco/src/presentation/shared/widgets/custom_information.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/search_field.dart';
+import 'package:asco/src/presentation/shared/widgets/loading_indicator.dart';
 
-class SelectUsersPage extends StatefulWidget {
+class SelectUsersPage extends ConsumerStatefulWidget {
   final SelectUsersPageArgs args;
 
   const SelectUsersPage({super.key, required this.args});
 
   @override
-  State<SelectUsersPage> createState() => _SelectUsersPageState();
+  ConsumerState<SelectUsersPage> createState() => _SelectUsersPageState();
 }
 
-class _SelectUsersPageState extends State<SelectUsersPage> {
-  List<int> selectedUsers = [];
+class _SelectUsersPageState extends ConsumerState<SelectUsersPage> {
+  late List<Profile> selectedUsers;
+
+  @override
+  void initState() {
+    selectedUsers = widget.args.selectedUsers;
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,40 +98,91 @@ class _SelectUsersPageState extends State<SelectUsersPage> {
             ),
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  childCount: 10,
-                  (context, index) => Padding(
-                    padding: EdgeInsets.only(
-                      bottom: index == 9 ? 0 : 10,
-                    ),
-                    child: UserCard(
-                      user: CredentialSaver.credential!,
-                      badgeType: UserBadgeType.text,
-                      trailing: selectedUsers.contains(index)
-                          ? const CircleBorderContainer(
-                              size: 28,
-                              borderColor: Palette.purple2,
-                              fillColor: Palette.purple3,
-                              child: Icon(
-                                Icons.check_rounded,
-                                color: Palette.background,
-                                size: 18,
-                              ),
-                            )
-                          : const CircleBorderContainer(size: 28),
-                      onTap: () {
-                        setState(() {
-                          if (selectedUsers.contains(index)) {
-                            selectedUsers.remove(index); // Unselect
-                          } else {
-                            selectedUsers.add(index); // Select
-                          }
-                        });
+              sliver: Consumer(
+                builder: (context, ref, child) {
+                  final query = ref.watch(queryProvider);
+                  final users = ref.watch(UsersProvider(role: widget.args.role));
+
+                  ref.listen(UsersProvider(role: widget.args.role), (_, state) {
+                    state.whenOrNull(
+                      error: (error, _) {
+                        if ('$error' == kNoInternetConnection) {
+                          context.showNoConnectionSnackBar();
+                        } else {
+                          context.showSnackBar(
+                            title: 'Terjadi Kesalahan',
+                            message: '$error',
+                            type: SnackBarType.error,
+                          );
+                        }
                       },
+                    );
+                  });
+
+                  return users.when(
+                    loading: () => const SliverFillRemaining(
+                      child: LoadingIndicator(),
                     ),
-                  ),
-                ),
+                    error: (_, __) => const SliverFillRemaining(),
+                    data: (users) {
+                      if (users == null) return const SliverFillRemaining();
+
+                      if (users.isEmpty && query.isNotEmpty) {
+                        return const SliverFillRemaining(
+                          child: CustomInformation(
+                            title: 'User tidak ditemukan',
+                            subtitle: 'Silahkan cari dengan keyword lain',
+                          ),
+                        );
+                      }
+
+                      if (users.isEmpty) {
+                        return SliverFillRemaining(
+                          child: CustomInformation(
+                            title: 'Data ${MapHelper.getReadableRole(widget.args.role)} tidak ada',
+                            subtitle: 'Belum terdapat data asisten pada database',
+                          ),
+                        );
+                      }
+
+                      return SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) => Padding(
+                            padding: EdgeInsets.only(
+                              bottom: index == 9 ? 0 : 10,
+                            ),
+                            child: UserCard(
+                              user: users[index],
+                              badgeType: UserBadgeType.text,
+                              trailing: selectedUsers.contains(users[index])
+                                  ? const CircleBorderContainer(
+                                      size: 28,
+                                      borderColor: Palette.purple2,
+                                      fillColor: Palette.purple3,
+                                      child: Icon(
+                                        Icons.check_rounded,
+                                        color: Palette.background,
+                                        size: 18,
+                                      ),
+                                    )
+                                  : const CircleBorderContainer(size: 28),
+                              onTap: () {
+                                setState(() {
+                                  if (selectedUsers.contains(users[index])) {
+                                    selectedUsers.remove(users[index]);
+                                  } else {
+                                    selectedUsers.add(users[index]);
+                                  }
+                                });
+                              },
+                            ),
+                          ),
+                          childCount: users.length,
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
             ),
           ],
@@ -129,9 +193,9 @@ class _SelectUsersPageState extends State<SelectUsersPage> {
 
   void showCancelMessage(BuildContext context) {
     context.showConfirmDialog(
-      title: 'Batalkan Pilih ${widget.args.role}?',
+      title: 'Batalkan Pilih ${MapHelper.getReadableRole(widget.args.role)}?',
       message:
-          'Daftar ${widget.args.role} yang telah dipilih tidak akan tersimpan. Harap tekan tombol Submit setelah selesai memilih ${widget.args.role}.',
+          'Daftar ${MapHelper.getReadableRole(widget.args.role)} yang telah dipilih tidak akan tersimpan. Harap tekan tombol Submit setelah selesai memilih.',
       primaryButtonText: 'Batalkan',
       onPressedPrimaryButton: () {
         navigatorKey.currentState!.pop();
@@ -144,9 +208,11 @@ class _SelectUsersPageState extends State<SelectUsersPage> {
 class SelectUsersPageArgs {
   final String title;
   final String role;
+  final List<Profile> selectedUsers;
 
   const SelectUsersPageArgs({
     required this.title,
     required this.role,
+    this.selectedUsers = const [],
   });
 }

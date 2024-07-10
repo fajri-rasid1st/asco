@@ -13,11 +13,11 @@ part 'classroom.g.dart';
 @freezed
 class Classroom with _$Classroom {
   const factory Classroom({
-    required int id,
-    required String name,
-    required String meetingDay,
-    required int startTime,
-    required int endTime,
+    String? id,
+    String? name,
+    String? meetingDay,
+    int? startTime,
+    int? endTime,
     List<Profile>? students,
   }) = _Classroom;
 

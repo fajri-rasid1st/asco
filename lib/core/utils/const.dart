@@ -23,13 +23,13 @@ const userRoleFilter = {
 };
 
 const dayOfWeek = {
-  'Minggu': 'sunday',
-  'Senin': 'monday',
-  'Selasa': 'tuesday',
-  'Rabu': 'wednesday',
-  'Kamis': 'thursday',
-  'Jum\'at': 'friday',
-  'Sabtu': 'saturday',
+  'Minggu': 'SUNDAY',
+  'Senin': 'MONDAY',
+  'Selasa': 'TUESDAY',
+  'Rabu': 'WEDNESDAY',
+  'Kamis': 'THURSDAY',
+  'Jum\'at': 'FRIDAY',
+  'Sabtu': 'SATURDAY',
 };
 
 const attendanceStatus = {

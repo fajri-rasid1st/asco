@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:asco/core/enums/action_type.dart';
 import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/function_helper.dart';
@@ -71,14 +72,18 @@ class _PracticumListHomePageState extends ConsumerState<PracticumListHomePage>
           }
         },
         data: (data) {
-          if (data != null) {
+          if (data.message != null) {
+            if (data.action == ActionType.delete) {
+              navigatorKey.currentState!.pop();
+            }
+
             navigatorKey.currentState!.pop();
 
             ref.invalidate(practicumsProvider);
 
             context.showSnackBar(
               title: 'Berhasil',
-              message: data,
+              message: data.message!.split(':').first,
             );
           }
         },

@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:asco/core/enums/form_action_type.dart';
+import 'package:asco/core/enums/action_type.dart';
 import 'package:asco/core/extensions/button_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/routes/route_names.dart';
@@ -30,7 +30,7 @@ class MeetingDetailPage extends StatelessWidget {
             meetingFormRoute,
             arguments: const MeetingFormPageArgs(
               title: 'Edit',
-              action: FormActionType.update,
+              action: ActionType.update,
             ),
           ),
           icon: const Icon(Icons.edit_rounded),

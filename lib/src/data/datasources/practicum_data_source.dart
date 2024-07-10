@@ -10,8 +10,10 @@ import 'package:asco/core/configs/api_configs.dart';
 import 'package:asco/core/errors/exceptions.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/data_response.dart';
+import 'package:asco/src/data/models/classrooms/classroom_post.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/data/models/practicums/practicum_post.dart';
+import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class PracticumDataSource {
   /// Get Practicums
@@ -28,6 +30,13 @@ abstract class PracticumDataSource {
 
   /// Delete practicum
   Future<void> deletePracticum(String id);
+
+  /// Add classrooms and assistants to practicum
+  Future<void> addClassroomsAndAssistantsToPracticum(
+    String id, {
+    required List<ClassroomPost> classrooms,
+    required List<Profile> assistants,
+  });
 }
 
 class PracticumDataSourceImpl implements PracticumDataSource {
@@ -145,6 +154,35 @@ class PracticumDataSourceImpl implements PracticumDataSource {
       final result = DataResponse.fromJson(response.body);
 
       if (response.statusCode != 200) {
+        throw ServerException(result.error?.code, result.error?.message);
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<void> addClassroomsAndAssistantsToPracticum(
+    String id, {
+    required List<ClassroomPost> classrooms,
+    required List<Profile> assistants,
+  }) async {
+    try {
+      final response = await client.post(
+        Uri.parse('${ApiConfigs.baseUrl}/practicums/$id/extras'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: jsonEncode({
+          'classrooms': classrooms.map((e) => e.toJson()).toList(),
+          'assistants': assistants.map((e) => e.username).toList(),
+        }),
+      );
+
+      final result = DataResponse.fromJson(response.body);
+
+      if (response.statusCode != 201) {
         throw ServerException(result.error?.code, result.error?.message);
       }
     } catch (e) {

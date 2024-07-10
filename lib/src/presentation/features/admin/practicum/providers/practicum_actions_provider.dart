@@ -2,6 +2,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
+import 'package:asco/core/enums/action_type.dart';
 import 'package:asco/src/data/models/practicums/practicum_post.dart';
 import 'package:asco/src/presentation/providers/repository_providers/practicum_repository_provider.dart';
 
@@ -10,8 +11,8 @@ part 'practicum_actions_provider.g.dart';
 @riverpod
 class PracticumActions extends _$PracticumActions {
   @override
-  AsyncValue<String?> build() {
-    return const AsyncValue.data(null);
+  AsyncValue<({String? message, ActionType action})> build() {
+    return const AsyncValue.data((message: null, action: ActionType.none));
   }
 
   Future<String?> createPracticum(PracticumPost practicum) async {
@@ -25,7 +26,10 @@ class PracticumActions extends _$PracticumActions {
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
         data = r;
-        state = const AsyncValue.data('Berhasil menambahkan praktikum');
+        state = AsyncValue.data((
+          message: 'Berhasil menambahkan praktikum:$data',
+          action: ActionType.create,
+        ));
       },
     );
 
@@ -43,7 +47,10 @@ class PracticumActions extends _$PracticumActions {
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
         data = r;
-        state = const AsyncValue.data('Berhasil mengedit praktikum');
+        state = AsyncValue.data((
+          message: 'Berhasil mengedit praktikum:$data',
+          action: ActionType.update,
+        ));
       },
     );
 
@@ -57,7 +64,10 @@ class PracticumActions extends _$PracticumActions {
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
-      (r) => state = const AsyncValue.data('Berhasil menghapus praktikum'),
+      (r) => state = const AsyncValue.data((
+        message: 'Berhasil menghapus praktikum',
+        action: ActionType.delete,
+      )),
     );
   }
 }

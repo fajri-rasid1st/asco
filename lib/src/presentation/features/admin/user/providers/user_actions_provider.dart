@@ -2,6 +2,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
+import 'package:asco/core/enums/action_type.dart';
 import 'package:asco/src/data/models/profiles/profile_post.dart';
 import 'package:asco/src/presentation/providers/repository_providers/profile_repository_provider.dart';
 
@@ -10,8 +11,8 @@ part 'user_actions_provider.g.dart';
 @riverpod
 class UserActions extends _$UserActions {
   @override
-  AsyncValue<String?> build() {
-    return const AsyncValue.data(null);
+  AsyncValue<({String? message, ActionType action})> build() {
+    return const AsyncValue.data((message: null, action: ActionType.none));
   }
 
   Future<void> createUser(List<ProfilePost> users) async {
@@ -21,7 +22,10 @@ class UserActions extends _$UserActions {
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
-      (r) => state = const AsyncValue.data('Berhasil menambahkan pengguna'),
+      (r) => state = const AsyncValue.data((
+        message: 'Berhasil menambahkan pengguna',
+        action: ActionType.create,
+      )),
     );
   }
 
@@ -32,7 +36,10 @@ class UserActions extends _$UserActions {
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
-      (r) => state = const AsyncValue.data('Berhasil mengedit data pengguna'),
+      (r) => state = const AsyncValue.data((
+        message: 'Berhasil mengedit data pengguna',
+        action: ActionType.update,
+      )),
     );
   }
 
@@ -43,7 +50,10 @@ class UserActions extends _$UserActions {
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
-      (r) => state = const AsyncValue.data('Berhasil menghapus pengguna'),
+      (r) => state = const AsyncValue.data((
+        message: 'Berhasil menghapus pengguna',
+        action: ActionType.delete,
+      )),
     );
   }
 }

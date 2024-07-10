@@ -6,7 +6,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
-import 'package:asco/core/enums/form_action_type.dart';
+import 'package:asco/core/enums/action_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/extensions/datetime_extension.dart';
 import 'package:asco/core/utils/keys.dart';
@@ -137,7 +137,7 @@ class MeetingFormPage extends StatelessWidget {
 
 class MeetingFormPageArgs {
   final String title;
-  final FormActionType action;
+  final ActionType action;
 
   const MeetingFormPageArgs({
     required this.title,

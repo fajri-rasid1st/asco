@@ -30,7 +30,7 @@ class UserDetailPage extends ConsumerWidget {
     ref.listen(userActionsProvider, (_, state) {
       state.whenOrNull(
         data: (data) {
-          if (data != null) navigatorKey.currentState!.pop();
+          if (data.message != null) navigatorKey.currentState!.pop();
         },
       );
     });
