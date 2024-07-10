@@ -128,7 +128,7 @@ class ProfileDataSourceImpl implements ProfileDataSource {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
-        body: jsonEncode(profile.toJson()..remove('password')),
+        body: jsonEncode(profile.toJson()),
       );
 
       final result = DataResponse.fromJson(response.body);

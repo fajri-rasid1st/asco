@@ -73,9 +73,8 @@ class _PracticumListHomePageState extends ConsumerState<PracticumListHomePage>
         data: (data) {
           if (data != null) {
             navigatorKey.currentState!.pop();
-            navigatorKey.currentState!.pop();
 
-            ref.invalidate(practicumActionsProvider);
+            ref.invalidate(practicumsProvider);
 
             context.showSnackBar(
               title: 'Berhasil',

@@ -9,6 +9,7 @@ part 'practicum_post.g.dart';
 
 @freezed
 class PracticumPost with _$PracticumPost {
+  @JsonSerializable(includeIfNull: false)
   const factory PracticumPost({
     required String course,
     @JsonKey(name: 'badge') required String badgePath,

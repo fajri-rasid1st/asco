@@ -1,6 +1,9 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 // Project imports:
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/routes/route_names.dart';
@@ -8,6 +11,7 @@ import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
+import 'package:asco/src/presentation/features/admin/practicum/providers/practicum_actions_provider.dart';
 import 'package:asco/src/presentation/shared/pages/select_classroom_page.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
@@ -96,21 +100,30 @@ class PracticumCard extends StatelessWidget {
               ),
               if (showDeleteButton) ...[
                 const SizedBox(width: 8),
-                CircleBorderContainer(
-                  size: 28,
-                  borderColor: Palette.pink2,
-                  fillColor: Palette.error,
-                  onTap: () => context.showConfirmDialog(
-                    title: 'Hapus Praktikum?',
-                    message: 'Anda yakin ingin menghapus praktikum ini?',
-                    primaryButtonText: 'Hapus',
-                    onPressedPrimaryButton: () {},
-                  ),
-                  child: const Icon(
-                    Icons.remove_rounded,
-                    size: 18,
-                    color: Palette.background,
-                  ),
+                Consumer(
+                  builder: (context, ref, child) {
+                    return CircleBorderContainer(
+                      size: 28,
+                      borderColor: Palette.pink2,
+                      fillColor: Palette.error,
+                      onTap: () => context.showConfirmDialog(
+                        title: 'Hapus Praktikum?',
+                        message: 'Anda yakin ingin menghapus praktikum ini?',
+                        primaryButtonText: 'Hapus',
+                        onPressedPrimaryButton: () {
+                          ref
+                              .read(practicumActionsProvider.notifier)
+                              .deletePracticum(practicum.id!)
+                              .whenComplete(() => navigatorKey.currentState!.pop());
+                        },
+                      ),
+                      child: const Icon(
+                        Icons.remove_rounded,
+                        size: 18,
+                        color: Palette.background,
+                      ),
+                    );
+                  },
                 ),
               ],
             ],

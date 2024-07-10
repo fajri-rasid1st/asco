@@ -26,24 +26,6 @@ class AdminHomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(logOutProvider, (_, state) {
-      state.whenOrNull(
-        error: (error, _) => context.showSnackBar(
-          title: 'Terjadi Kesalahan',
-          message: '$error',
-          type: SnackBarType.error,
-        ),
-        data: (data) {
-          if (data != null) {
-            navigatorKey.currentState!.pushNamedAndRemoveUntil(
-              onBoardingRoute,
-              (route) => false,
-            );
-          }
-        },
-      );
-    });
-
     final adminMenuCards = [
       AdminMenuCard(
         title: 'Data Pengguna',
@@ -115,6 +97,24 @@ class AdminHomePage extends ConsumerWidget {
         onTap: () => navigatorKey.currentState!.pushNamed(labRulesRoute),
       ),
     ];
+
+    ref.listen(logOutProvider, (_, state) {
+      state.whenOrNull(
+        error: (error, _) => context.showSnackBar(
+          title: 'Terjadi Kesalahan',
+          message: '$error',
+          type: SnackBarType.error,
+        ),
+        data: (data) {
+          if (data != null) {
+            navigatorKey.currentState!.pushNamedAndRemoveUntil(
+              onBoardingRoute,
+              (route) => false,
+            );
+          }
+        },
+      );
+    });
 
     return Scaffold(
       body: SafeArea(

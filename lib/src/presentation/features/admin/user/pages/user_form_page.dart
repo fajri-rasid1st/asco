@@ -199,7 +199,9 @@ class UserFormPage extends StatelessWidget {
         );
 
         if (args.user != null) {
-          ref.read(userActionsProvider.notifier).editUser(args.user!.username!, user);
+          ref
+              .read(userActionsProvider.notifier)
+              .editUser(args.user!.username!, user.copyWith(password: null));
         } else {
           ref.read(userActionsProvider.notifier).createUser([user]);
         }

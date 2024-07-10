@@ -232,9 +232,11 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
                                 title: 'Hapus Pengguna?',
                                 message: 'Anda yakin ingin menghapus user ini?',
                                 primaryButtonText: 'Hapus',
-                                onPressedPrimaryButton: () => ref
-                                    .read(userActionsProvider.notifier)
-                                    .deleteUser(users[index].username!),
+                                onPressedPrimaryButton: () {
+                                  ref
+                                      .read(userActionsProvider.notifier)
+                                      .deleteUser(users[index].username!);
+                                },
                               ),
                             ),
                           ),

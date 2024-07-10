@@ -9,12 +9,13 @@ part 'profile_post.g.dart';
 
 @freezed
 class ProfilePost with _$ProfilePost {
+  @JsonSerializable(includeIfNull: false)
   const factory ProfilePost({
     required String username,
     required String fullname,
     required String classOf,
     required String role,
-    required String password,
+    String? password,
   }) = _ProfilePost;
 
   factory ProfilePost.fromJson(Map<String, Object?> json) => _$ProfilePostFromJson(json);

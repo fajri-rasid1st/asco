@@ -32,7 +32,7 @@ class PracticumActions extends _$PracticumActions {
     return data;
   }
 
-  Future<String?> editUser(String id, PracticumPost practicum) async {
+  Future<String?> editPracticum(String id, PracticumPost practicum) async {
     String? data;
 
     state = const AsyncValue.loading();
@@ -50,7 +50,7 @@ class PracticumActions extends _$PracticumActions {
     return data;
   }
 
-  Future<void> deleteUser(String id) async {
+  Future<void> deletePracticum(String id) async {
     state = const AsyncValue.loading();
 
     final result = await ref.watch(practicumRepositoryProvider).deletePracticum(id);
