@@ -22,7 +22,10 @@ abstract class PracticumRepository {
   Future<Either<Failure, String>> createPracticum(PracticumPost practicum);
 
   /// Edit practicum
-  Future<Either<Failure, String>> editPracticum(String id, PracticumPost practicum);
+  Future<Either<Failure, String>> editPracticum(
+    Practicum oldPracticum,
+    PracticumPost newPracticum,
+  );
 
   /// Delete practicum
   Future<Either<Failure, void>> deletePracticum(String id);
@@ -90,10 +93,13 @@ class PracticumRepositoryImpl implements PracticumRepository {
   }
 
   @override
-  Future<Either<Failure, String>> editPracticum(String id, PracticumPost practicum) async {
+  Future<Either<Failure, String>> editPracticum(
+    Practicum oldPracticum,
+    PracticumPost newPracticum,
+  ) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await practicumDataSource.editPracticum(id, practicum);
+        final result = await practicumDataSource.editPracticum(oldPracticum, newPracticum);
 
         return Right(result);
       } catch (e) {

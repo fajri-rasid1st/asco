@@ -144,24 +144,7 @@ class UserFormPage extends StatelessWidget {
                 ),
                 const Spacer(),
                 OutlinedButton(
-                  onPressed: () async {
-                    if (await FileService.saveFileFromAsset('create_users_template.xlsx')) {
-                      if (!context.mounted) return;
-
-                      context.showSnackBar(
-                        title: 'Berhasil',
-                        message: 'Template file excel berhasil di-download.',
-                      );
-                    } else {
-                      if (!context.mounted) return;
-
-                      context.showSnackBar(
-                        title: 'Terjadi Kesalahan',
-                        message: 'Terjadi kesalahan saat mendownload file.',
-                        type: SnackBarType.error,
-                      );
-                    }
-                  },
+                  onPressed: () => downloadExcelTemplate(context),
                   child: const Text('Download Template Excel'),
                 ).fullWidth(),
               ],
@@ -178,6 +161,7 @@ class UserFormPage extends StatelessWidget {
     String? excelPath = formKey.currentState!.instantValue['excelPath'];
 
     if (excelPath != null) {
+      // Create users from excel file
       final excelData = ExcelHelper.convertToData(excelPath);
 
       if (excelData != null) {
@@ -199,13 +183,34 @@ class UserFormPage extends StatelessWidget {
         );
 
         if (args.user != null) {
+          // Edit user
           ref
               .read(userActionsProvider.notifier)
               .editUser(args.user!.username!, user.copyWith(password: null));
         } else {
+          // Create user
           ref.read(userActionsProvider.notifier).createUser([user]);
         }
       }
+    }
+  }
+
+  void downloadExcelTemplate(BuildContext context) async {
+    if (await FileService.saveFileFromAsset('create_users_template.xlsx')) {
+      if (!context.mounted) return;
+
+      context.showSnackBar(
+        title: 'Berhasil',
+        message: 'Template file excel berhasil di-download.',
+      );
+    } else {
+      if (!context.mounted) return;
+
+      context.showSnackBar(
+        title: 'Terjadi Kesalahan',
+        message: 'Terjadi kesalahan saat mendownload file.',
+        type: SnackBarType.error,
+      );
     }
   }
 }

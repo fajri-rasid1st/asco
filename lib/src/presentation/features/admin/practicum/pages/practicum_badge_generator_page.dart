@@ -146,7 +146,7 @@ class PracticumBadgeGeneratorPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: FilledButton(
-                onPressed: () => generateBadgePng(repaintKey),
+                onPressed: () => generateBadge(repaintKey),
                 child: const Text('Generate'),
               ).fullWidth(),
             ),
@@ -156,7 +156,7 @@ class PracticumBadgeGeneratorPage extends StatelessWidget {
     );
   }
 
-  void generateBadgePng(GlobalKey repaintKey) async {
+  void generateBadge(GlobalKey repaintKey) async {
     final imageBytes = await ImageService.capturePngImage(repaintKey.currentContext!);
 
     if (imageBytes.isEmpty) {

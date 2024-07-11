@@ -166,15 +166,7 @@ class _SelectUsersPageState extends ConsumerState<SelectUsersPage> {
                                       ),
                                     )
                                   : const CircleBorderContainer(size: 28),
-                              onTap: () {
-                                setState(() {
-                                  if (selectedUsers.contains(users[index])) {
-                                    selectedUsers.remove(users[index]);
-                                  } else {
-                                    selectedUsers.add(users[index]);
-                                  }
-                                });
-                              },
+                              onTap: () => updateSelectedUsers(users[index]),
                             ),
                           ),
                           childCount: users.length,
@@ -189,6 +181,16 @@ class _SelectUsersPageState extends ConsumerState<SelectUsersPage> {
         ),
       ),
     );
+  }
+
+  void updateSelectedUsers(Profile user) {
+    setState(() {
+      if (selectedUsers.contains(user)) {
+        selectedUsers.remove(user);
+      } else {
+        selectedUsers.add(user);
+      }
+    });
   }
 
   void showCancelMessage(BuildContext context) {

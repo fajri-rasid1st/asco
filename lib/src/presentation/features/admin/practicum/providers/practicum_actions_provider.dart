@@ -3,6 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
 import 'package:asco/core/enums/action_type.dart';
+import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/data/models/practicums/practicum_post.dart';
 import 'package:asco/src/presentation/providers/repository_providers/practicum_repository_provider.dart';
 
@@ -36,12 +37,18 @@ class PracticumActions extends _$PracticumActions {
     return data;
   }
 
-  Future<String?> editPracticum(String id, PracticumPost practicum) async {
+  Future<String?> editPracticum(
+    Practicum oldPracticum,
+    PracticumPost newPracticum,
+  ) async {
     String? data;
 
     state = const AsyncValue.loading();
 
-    final result = await ref.watch(practicumRepositoryProvider).editPracticum(id, practicum);
+    final result = await ref.watch(practicumRepositoryProvider).editPracticum(
+          oldPracticum,
+          newPracticum,
+        );
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),

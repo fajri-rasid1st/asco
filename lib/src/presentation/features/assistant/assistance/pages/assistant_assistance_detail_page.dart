@@ -163,17 +163,7 @@ class AssistantAssistanceDetailPage extends StatelessWidget {
                   FormBuilder(
                     key: formKey,
                     child: IconButton(
-                      onPressed: () async {
-                        final date = await context.showCustomDatePicker(
-                          initialdate: deadlineDate,
-                          firstDate: DateTime.now(),
-                          lastDate: deadlineDate.add(const Duration(days: 180)),
-                          formKey: formKey,
-                          fieldKey: 'assistanceDeadline',
-                        );
-
-                        if (date != null) debugPrint(date.toString());
-                      },
+                      onPressed: () => updateAssistanceDeadline(context, deadlineDate),
                       icon: const Icon(
                         Icons.edit_calendar_outlined,
                         size: 20,
@@ -265,5 +255,17 @@ class AssistantAssistanceDetailPage extends StatelessWidget {
         timer = null;
       });
     }
+  }
+
+  void updateAssistanceDeadline(BuildContext context, DateTime deadlineDate) async {
+    final date = await context.showCustomDatePicker(
+      initialdate: deadlineDate,
+      firstDate: DateTime.now(),
+      lastDate: deadlineDate.add(const Duration(days: 180)),
+      formKey: formKey,
+      fieldKey: 'assistanceDeadline',
+    );
+
+    if (date != null) debugPrint(date.toString());
   }
 }

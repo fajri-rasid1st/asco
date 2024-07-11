@@ -118,15 +118,11 @@ class Leaderboard extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 GestureDetector(
-                  onTap: () {
-                    final page = type == LeaderboardType.practicum ? 1 : 0;
-
-                    pageController.animateToPage(
-                      page,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeOut,
-                    );
-                  },
+                  onTap: () => pageController.animateToPage(
+                    type == LeaderboardType.practicum ? 1 : 0,
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.easeOut,
+                  ),
                   child: InkWellContainer(
                     radius: 99,
                     color: Palette.purple2,

@@ -9,7 +9,6 @@ import 'package:after_layout/after_layout.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-import 'package:path/path.dart' as p;
 
 // Project imports:
 import 'package:asco/core/enums/snack_bar_type.dart';
@@ -47,19 +46,7 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
     with AfterLayoutMixin {
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
-    if (widget.args.practicum != null) {
-      context.showLoadingDialog();
-
-      ref.read(badgePathProvider.notifier).state =
-          await FileService.downloadFile(widget.args.practicum!.badgePath!);
-
-      if (widget.args.practicum!.courseContractPath != null) {
-        ref.read(courseContractPathProvider.notifier).state =
-            await FileService.downloadFile(widget.args.practicum!.courseContractPath!);
-      }
-
-      navigatorKey.currentState!.pop();
-    }
+    if (widget.args.practicum != null) downloadPracticumFiles();
   }
 
   @override
@@ -67,13 +54,7 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
     final badgePath = ref.watch(badgePathProvider);
     final courseContractPath = ref.watch(courseContractPathProvider);
 
-    if (badgePath != null) {
-      formKey.currentState?.fields['badgePath']!.didChange(badgePath);
-    }
-
-    if (courseContractPath != null) {
-      formKey.currentState?.fields['courseContractPath']!.didChange(courseContractPath);
-    }
+    setPracticumFileFieldValues(badgePath, courseContractPath);
 
     ref.listen(practicumActionsProvider, (_, state) {
       state.whenOrNull(
@@ -96,7 +77,7 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
       appBar: CustomAppBar(
         title: '${widget.args.title} Praktikum (1/2)',
         action: IconButton(
-          onPressed: createOrEditPracticum,
+          onPressed: () => createOrEditPracticum(badgePath, courseContractPath),
           icon: const Icon(Icons.chevron_right_rounded),
           iconSize: 30,
           tooltip: 'Selanjutnya',
@@ -158,54 +139,20 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
     );
   }
 
-  void createOrEditPracticum() async {
+  void createOrEditPracticum(String? badgePath, String? courseContractPath) {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
-      final String badgeValue = formKey.currentState!.value['badgePath'];
-      final String? courseContractValue = formKey.currentState!.value['courseContractPath'];
+      final practicum = PracticumPost.fromJson(formKey.currentState!.value);
 
       if (widget.args.practicum != null) {
-        final badgeArgsValue = widget.args.practicum!.badgePath!;
-        final courseContractArgsValue = widget.args.practicum!.courseContractPath;
-
-        final isBadgeUpdated = p.basename(badgeArgsValue) != p.basename(badgeValue);
-        final isCourseContractUpdated = courseContractValue != null &&
-            p.basename(courseContractArgsValue ?? '') != p.basename(courseContractValue);
-
-        final badge =
-            isBadgeUpdated ? await FileService.uploadFile(badgeValue) : p.basename(badgeArgsValue);
-        final courseContract = isCourseContractUpdated
-            ? await FileService.uploadFile(courseContractValue)
-            : courseContractArgsValue != null
-                ? p.basename(courseContractArgsValue)
-                : null;
-
-        if (badge != null) {
-          final practicum = PracticumPost(
-            course: formKey.currentState!.value['course'],
-            badgePath: badge,
-            courseContractPath: courseContract,
-          );
-
-          ref
-              .read(practicumActionsProvider.notifier)
-              .editPracticum(widget.args.practicum!.id!, practicum);
-        }
+        // Edit practicum
+        ref
+            .read(practicumActionsProvider.notifier)
+            .editPracticum(widget.args.practicum!, practicum);
       } else {
-        final badge = await FileService.uploadFile(badgeValue);
-        final courseContract =
-            courseContractValue != null ? await FileService.uploadFile(courseContractValue) : null;
-
-        if (badge != null) {
-          final practicum = PracticumPost(
-            course: formKey.currentState!.value['course'],
-            badgePath: badge,
-            courseContractPath: courseContract,
-          );
-
-          ref.read(practicumActionsProvider.notifier).createPracticum(practicum);
-        }
+        // Create practicum
+        ref.read(practicumActionsProvider.notifier).createPracticum(practicum);
       }
     } else {
       context.showSnackBar(
@@ -213,6 +160,30 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
         message: 'Matakuliah & badge wajib diisi',
         type: SnackBarType.error,
       );
+    }
+  }
+
+  void downloadPracticumFiles() async {
+    context.showLoadingDialog();
+
+    ref.read(badgePathProvider.notifier).state =
+        await FileService.downloadFile(widget.args.practicum!.badgePath!);
+
+    if (widget.args.practicum!.courseContractPath != null) {
+      ref.read(courseContractPathProvider.notifier).state =
+          await FileService.downloadFile(widget.args.practicum!.courseContractPath!);
+    }
+
+    navigatorKey.currentState!.pop();
+  }
+
+  void setPracticumFileFieldValues(String? badgePath, String? courseContractPath) {
+    if (badgePath != null) {
+      formKey.currentState?.fields['badgePath']!.didChange(badgePath);
+    }
+
+    if (courseContractPath != null) {
+      formKey.currentState?.fields['courseContractPath']!.didChange(courseContractPath);
     }
   }
 }
@@ -231,7 +202,7 @@ class _PracticumSecondFormPageState extends State<PracticumSecondFormPage> {
 
   @override
   void initState() {
-    assistants = [...widget.args.practicum?.assistants ?? []];
+    assistants = widget.args.practicum?.assistants ?? [];
 
     super.initState();
   }

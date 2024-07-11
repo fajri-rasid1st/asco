@@ -4,10 +4,12 @@ import 'dart:io';
 
 // Package imports:
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart' as p;
 
 // Project imports:
 import 'package:asco/core/configs/api_configs.dart';
 import 'package:asco/core/errors/exceptions.dart';
+import 'package:asco/core/services/file_service.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/data_response.dart';
 import 'package:asco/src/data/models/classrooms/classroom_post.dart';
@@ -26,7 +28,7 @@ abstract class PracticumDataSource {
   Future<String> createPracticum(PracticumPost practicum);
 
   /// Edit practicum
-  Future<String> editPracticum(String id, PracticumPost practicum);
+  Future<String> editPracticum(Practicum oldPracticum, PracticumPost newPracticum);
 
   /// Delete practicum
   Future<void> deletePracticum(String id);
@@ -95,13 +97,26 @@ class PracticumDataSourceImpl implements PracticumDataSource {
   @override
   Future<String> createPracticum(PracticumPost practicum) async {
     try {
+      final badgePath = await FileService.uploadFile(practicum.badgePath) ?? '';
+
+      final courseContractPath = practicum.courseContractPath != null
+          ? await FileService.uploadFile(practicum.courseContractPath!)
+          : null;
+
       final response = await client.post(
         Uri.parse('${ApiConfigs.baseUrl}/practicums'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
-        body: jsonEncode(practicum.toJson()),
+        body: jsonEncode(
+          practicum
+              .copyWith(
+                badgePath: badgePath,
+                courseContractPath: courseContractPath,
+              )
+              .toJson(),
+        ),
       );
 
       final result = DataResponse.fromJson(response.body);
@@ -117,15 +132,39 @@ class PracticumDataSourceImpl implements PracticumDataSource {
   }
 
   @override
-  Future<String> editPracticum(String id, PracticumPost practicum) async {
+  Future<String> editPracticum(Practicum oldPracticum, PracticumPost newPracticum) async {
     try {
+      final isBadgeUpdated =
+          p.basename(oldPracticum.badgePath!) != p.basename(newPracticum.badgePath);
+
+      final isCourseContractUpdated = newPracticum.courseContractPath != null &&
+          p.basename(oldPracticum.courseContractPath ?? '') !=
+              p.basename(newPracticum.courseContractPath!);
+
+      final badgePath = isBadgeUpdated
+          ? await FileService.uploadFile(newPracticum.badgePath) ?? ''
+          : p.basename(oldPracticum.badgePath!);
+
+      final courseContractPath = isCourseContractUpdated
+          ? await FileService.uploadFile(newPracticum.courseContractPath!)
+          : oldPracticum.courseContractPath != null
+              ? p.basename(oldPracticum.courseContractPath!)
+              : null;
+
       final response = await client.put(
-        Uri.parse('${ApiConfigs.baseUrl}/practicums/$id'),
+        Uri.parse('${ApiConfigs.baseUrl}/practicums/${oldPracticum.id}'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
-        body: jsonEncode(practicum.toJson()),
+        body: jsonEncode(
+          newPracticum
+              .copyWith(
+                badgePath: badgePath,
+                courseContractPath: courseContractPath,
+              )
+              .toJson(),
+        ),
       );
 
       final result = DataResponse.fromJson(response.body);
