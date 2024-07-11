@@ -14,10 +14,10 @@ part 'lab_exam_score.g.dart';
 @freezed
 class LabExamScore with _$LabExamScore {
   const factory LabExamScore({
-    required int id,
-    required double score,
-    required Practicum practicum,
-    required Profile student,
+    String? id,
+    double? score,
+    Practicum? practicum,
+    Profile? student,
   }) = _LabExamScore;
 
   factory LabExamScore.fromJson(Map<String, Object?> json) => _$LabExamScoreFromJson(json);

@@ -14,11 +14,11 @@ part 'score.g.dart';
 @freezed
 class Score with _$Score {
   const factory Score({
-    required int id,
-    required double score,
-    required String scoreType,
-    required Meeting meeting,
-    required Profile student,
+    String? id,
+    double? score,
+    String? scoreType,
+    Meeting? meeting,
+    Profile? student,
   }) = _Score;
 
   factory Score.fromJson(Map<String, Object?> json) => _$ScoreFromJson(json);

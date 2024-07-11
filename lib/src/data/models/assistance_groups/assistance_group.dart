@@ -13,10 +13,10 @@ part 'assistance_group.g.dart';
 @freezed
 class AssistanceGroup with _$AssistanceGroup {
   const factory AssistanceGroup({
-    required int id,
-    required int number,
-    required Profile assistant,
-    required List<Profile> students,
+    String? id,
+    int? number,
+    Profile? assistant,
+    List<Profile>? students,
     String? githubRepositoryUrl,
   }) = _AssistanceGroup;
 

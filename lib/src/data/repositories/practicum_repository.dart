@@ -6,7 +6,9 @@ import 'package:asco/core/connections/network_info.dart';
 import 'package:asco/core/errors/failures.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/src/data/datasources/practicum_data_source.dart';
+import 'package:asco/src/data/models/assistance_groups/assistance_group_post.dart';
 import 'package:asco/src/data/models/classrooms/classroom_post.dart';
+import 'package:asco/src/data/models/meetings/meeting_post.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/data/models/practicums/practicum_post.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
@@ -36,13 +38,25 @@ abstract class PracticumRepository {
     required List<ClassroomPost> classrooms,
     required List<Profile> assistants,
   });
+
+  /// Add meeting to practicum
+  Future<Either<Failure, void>> addMeetingToPracticum(
+    String id, {
+    required MeetingPost meeting,
+  });
+
+  /// Add assistance group to practicum
+  Future<Either<Failure, void>> addAssistanceGroupToPracticum(
+    String id, {
+    required AssistanceGroupPost assistanceGroup,
+  });
 }
 
 class PracticumRepositoryImpl implements PracticumRepository {
   final PracticumDataSource practicumDataSource;
   final NetworkInfo networkInfo;
 
-  PracticumRepositoryImpl({
+  const PracticumRepositoryImpl({
     required this.practicumDataSource,
     required this.networkInfo,
   });
@@ -137,6 +151,48 @@ class PracticumRepositoryImpl implements PracticumRepository {
           id,
           classrooms: classrooms,
           assistants: assistants,
+        );
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> addMeetingToPracticum(
+    String id, {
+    required MeetingPost meeting,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await practicumDataSource.addMeetingToPracticum(
+          id,
+          meeting: meeting,
+        );
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> addAssistanceGroupToPracticum(
+    String id, {
+    required AssistanceGroupPost assistanceGroup,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await practicumDataSource.addAssistanceGroupToPracticum(
+          id,
+          assistanceGroup: assistanceGroup,
         );
 
         return Right(result);

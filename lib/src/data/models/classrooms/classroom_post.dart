@@ -12,10 +12,7 @@ part 'classroom_post.g.dart';
 
 @freezed
 class ClassroomPost with _$ClassroomPost {
-  @JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-  )
+  @JsonSerializable(includeIfNull: false)
   const factory ClassroomPost({
     required String name,
     required String meetingDay,

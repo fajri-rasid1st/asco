@@ -10,7 +10,7 @@ part 'assistance.g.dart';
 @freezed
 class Assistance with _$Assistance {
   const factory Assistance({
-    required int id,
+    String? id,
     bool? status,
     int? datetime,
     String? note,

@@ -38,7 +38,7 @@ abstract class ProfileDataSource {
 class ProfileDataSourceImpl implements ProfileDataSource {
   final http.Client client;
 
-  ProfileDataSourceImpl({required this.client});
+  const ProfileDataSourceImpl({required this.client});
 
   @override
   Future<List<Profile>> getProfiles({

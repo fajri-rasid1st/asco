@@ -35,7 +35,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
   final ProfileDataSource profileDataSource;
   final NetworkInfo networkInfo;
 
-  ProfileRepositoryImpl({
+  const ProfileRepositoryImpl({
     required this.profileDataSource,
     required this.networkInfo,
   });

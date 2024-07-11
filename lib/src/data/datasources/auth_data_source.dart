@@ -31,7 +31,7 @@ class AuthDataSourceImpl implements AuthDataSource {
   final http.Client client;
   final AuthPreferencesHelper preferencesHelper;
 
-  AuthDataSourceImpl({
+  const AuthDataSourceImpl({
     required this.client,
     required this.preferencesHelper,
   });

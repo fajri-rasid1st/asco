@@ -15,9 +15,9 @@ part 'control_card.g.dart';
 @freezed
 class ControlCard with _$ControlCard {
   const factory ControlCard({
-    required int id,
-    required Meeting meeting,
-    required Profile student,
+    String? id,
+    Meeting? meeting,
+    Profile? student,
     Assistance? assistance1,
     Assistance? assistance2,
   }) = _ControlCard;

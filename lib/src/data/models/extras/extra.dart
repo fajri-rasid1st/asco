@@ -10,7 +10,7 @@ part 'extra.g.dart';
 @freezed
 class Extra with _$Extra {
   const factory Extra({
-    required int id,
+    String? id,
     String? quizUrl,
     String? questionnaireUrl,
   }) = _Extra;

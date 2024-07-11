@@ -14,9 +14,9 @@ part 'attendance.g.dart';
 @freezed
 class Attendance with _$Attendance {
   const factory Attendance({
-    required int id,
-    required Meeting meeting,
-    required Profile student,
+    String? id,
+    Meeting? meeting,
+    Profile? student,
     String? status,
     int? datetime,
     String? note,

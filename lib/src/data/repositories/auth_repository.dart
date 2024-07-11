@@ -26,7 +26,7 @@ class AuthRepositoryImpl implements AuthRepository {
   final AuthDataSource authDataSource;
   final NetworkInfo networkInfo;
 
-  AuthRepositoryImpl({
+  const AuthRepositoryImpl({
     required this.authDataSource,
     required this.networkInfo,
   });

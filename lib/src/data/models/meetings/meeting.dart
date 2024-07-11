@@ -13,15 +13,15 @@ part 'meeting.g.dart';
 @freezed
 class Meeting with _$Meeting {
   const factory Meeting({
-    required int id,
-    required int number,
-    required String lesson,
-    required int date,
-    required int assistanceDeadline,
-    required Profile assistant1,
-    required Profile assistant2,
+    String? id,
+    int? number,
+    String? lesson,
+    @JsonKey(name: 'meetingDate') int? date,
+    Profile? assistant,
+    Profile? coAssistant,
     String? modulePath,
     String? assignmentPath,
+    int? assistanceDeadline,
   }) = _Meeting;
 
   factory Meeting.fromJson(Map<String, Object?> json) => _$MeetingFromJson(json);
