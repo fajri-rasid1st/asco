@@ -3,8 +3,10 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
 import 'package:asco/core/enums/action_type.dart';
+import 'package:asco/src/data/models/classrooms/classroom_post.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/data/models/practicums/practicum_post.dart';
+import 'package:asco/src/data/models/profiles/profile.dart';
 import 'package:asco/src/presentation/providers/repository_providers/practicum_repository_provider.dart';
 
 part 'practicum_actions_provider.g.dart';
@@ -74,6 +76,29 @@ class PracticumActions extends _$PracticumActions {
       (r) => state = const AsyncValue.data((
         message: 'Berhasil menghapus praktikum',
         action: ActionType.delete,
+      )),
+    );
+  }
+
+  Future<void> addClassroomsAndAssistantsToPracticum(
+    String id, {
+    required List<ClassroomPost> classrooms,
+    required List<Profile> assistants,
+  }) async {
+    state = const AsyncValue.loading();
+
+    final result =
+        await ref.watch(practicumRepositoryProvider).addClassroomsAndAssistantsToPracticum(
+              id,
+              classrooms: classrooms,
+              assistants: assistants,
+            );
+
+    result.fold(
+      (l) => state = AsyncValue.error(l.message!, StackTrace.current),
+      (r) => state = const AsyncValue.data((
+        message: 'Berhasil mengupdate kelas dan asisten praktikum',
+        action: ActionType.update,
       )),
     );
   }
