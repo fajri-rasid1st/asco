@@ -80,19 +80,18 @@ class PracticumActions extends _$PracticumActions {
     );
   }
 
-  Future<void> addClassroomsAndAssistantsToPracticum(
-    String id, {
+  Future<void> updateClassroomsAndAssistants(
+    String practicumId, {
     required List<ClassroomPost> classrooms,
     required List<Profile> assistants,
   }) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(practicumRepositoryProvider).addClassroomsAndAssistantsToPracticum(
-              id,
-              classrooms: classrooms,
-              assistants: assistants,
-            );
+    final result = await ref.watch(practicumRepositoryProvider).updateClassroomsAndAssistants(
+          practicumId,
+          classrooms: classrooms,
+          assistants: assistants,
+        );
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),

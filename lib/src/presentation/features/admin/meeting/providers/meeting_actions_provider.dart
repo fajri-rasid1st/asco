@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 // Project imports:
 import 'package:asco/core/enums/action_type.dart';
 import 'package:asco/src/data/models/meetings/meeting_post.dart';
-import 'package:asco/src/presentation/providers/repository_providers/practicum_repository_provider.dart';
+import 'package:asco/src/presentation/providers/repository_providers/meeting_repository_provider.dart';
 
 part 'meeting_actions_provider.g.dart';
 
@@ -21,7 +21,7 @@ class MeetingActions extends _$MeetingActions {
   }) async {
     state = const AsyncValue.loading();
 
-    final result = await ref.watch(practicumRepositoryProvider).addMeetingToPracticum(
+    final result = await ref.watch(meetingRepositoryProvider).addMeetingToPracticum(
           practicumId,
           meeting: meeting,
         );

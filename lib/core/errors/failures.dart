@@ -35,12 +35,14 @@ class PreferencesFailure extends Failure {
 Failure failure(Object e) {
   if (e is ServerException) {
     switch (e.message) {
+      case kUnauthorized:
+        return const ServerFailure('Akses tidak diizinkan');
       case kNoAuthorization:
-        return const ServerFailure('Token tidak ditemukan');
+        return const ServerFailure('Otorisasi tidak ada');
       case kAuthorizationExpired:
         return const ServerFailure('Sesi telah habis, harap login ulang');
       case kAuthorizationError:
-        return const ServerFailure('Token error');
+        return const ServerFailure('Otorisasi error');
       case kUserNotFound:
         return const ServerFailure('Pengguna tidak ditemukan');
       case kIncorrectPassword:

@@ -24,15 +24,15 @@ class Wrapper extends ConsumerWidget {
     ref.listen(isLoginProvider, (_, state) {
       state.whenOrNull(
         error: (error, _) {
-          if ('$error' == kAuthorizationExpired) {
+          if ('$error' == kUnauthorized || '$error' == kAuthorizationExpired) {
             ref.read(logOutProvider.notifier).logOut();
-          } else {
-            context.showSnackBar(
-              title: 'Terjadi Kesalahan',
-              message: '$error',
-              type: SnackBarType.error,
-            );
           }
+
+          context.showSnackBar(
+            title: 'Terjadi Kesalahan',
+            message: '$error',
+            type: SnackBarType.error,
+          );
         },
         data: (data) => navigatePage(data),
       );
@@ -46,15 +46,7 @@ class Wrapper extends ConsumerWidget {
           type: SnackBarType.error,
         ),
         data: (data) {
-          if (data != null) {
-            navigatorKey.currentState!.pushReplacementNamed(onBoardingRoute).whenComplete(() {
-              context.showSnackBar(
-                title: 'Sesi Telah Habis',
-                message: 'Harap lakukan login kembali',
-                type: SnackBarType.error,
-              );
-            });
-          }
+          if (data != null) navigatorKey.currentState!.pushReplacementNamed(onBoardingRoute);
         },
       );
     });

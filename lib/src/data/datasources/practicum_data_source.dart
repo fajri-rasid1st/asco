@@ -12,9 +12,7 @@ import 'package:asco/core/errors/exceptions.dart';
 import 'package:asco/core/services/file_service.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/data_response.dart';
-import 'package:asco/src/data/models/assistance_groups/assistance_group_post.dart';
 import 'package:asco/src/data/models/classrooms/classroom_post.dart';
-import 'package:asco/src/data/models/meetings/meeting_post.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/data/models/practicums/practicum_post.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
@@ -35,23 +33,11 @@ abstract class PracticumDataSource {
   /// Delete practicum
   Future<void> deletePracticum(String id);
 
-  /// Add classrooms and assistants to practicum
-  Future<void> addClassroomsAndAssistantsToPracticum(
+  /// Update classrooms and assistants
+  Future<void> updateClassroomsAndAssistants(
     String id, {
     required List<ClassroomPost> classrooms,
     required List<Profile> assistants,
-  });
-
-  /// Add meeting to practicum
-  Future<void> addMeetingToPracticum(
-    String id, {
-    required MeetingPost meeting,
-  });
-
-  /// Add assistance group to practicum
-  Future<void> addAssistanceGroupToPracticum(
-    String id, {
-    required AssistanceGroupPost assistanceGroup,
   });
 }
 
@@ -215,7 +201,7 @@ class PracticumDataSourceImpl implements PracticumDataSource {
   }
 
   @override
-  Future<void> addClassroomsAndAssistantsToPracticum(
+  Future<void> updateClassroomsAndAssistants(
     String id, {
     required List<ClassroomPost> classrooms,
     required List<Profile> assistants,
@@ -231,56 +217,6 @@ class PracticumDataSourceImpl implements PracticumDataSource {
           'classrooms': classrooms.map((e) => e.toJson()).toList(),
           'assistants': assistants.map((e) => e.username).toList(),
         }),
-      );
-
-      final result = DataResponse.fromJson(response.body);
-
-      if (response.statusCode != 201) {
-        throw ServerException(result.error?.code, result.error?.message);
-      }
-    } catch (e) {
-      exception(e);
-    }
-  }
-
-  @override
-  Future<void> addMeetingToPracticum(
-    String id, {
-    required MeetingPost meeting,
-  }) async {
-    try {
-      final response = await client.post(
-        Uri.parse('${ApiConfigs.baseUrl}/practicums/$id/meetings'),
-        headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
-        },
-        body: jsonEncode(meeting.toJson()),
-      );
-
-      final result = DataResponse.fromJson(response.body);
-
-      if (response.statusCode != 201) {
-        throw ServerException(result.error?.code, result.error?.message);
-      }
-    } catch (e) {
-      exception(e);
-    }
-  }
-
-  @override
-  Future<void> addAssistanceGroupToPracticum(
-    String id, {
-    required AssistanceGroupPost assistanceGroup,
-  }) async {
-    try {
-      final response = await client.post(
-        Uri.parse('${ApiConfigs.baseUrl}/practicums/$id/groups'),
-        headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
-        },
-        body: jsonEncode(assistanceGroup.toJson()),
       );
 
       final result = DataResponse.fromJson(response.body);

@@ -26,12 +26,8 @@ class Login extends _$Login {
         if (r) {
           ref.listen(credentialProvider, (_, state) {
             state.whenOrNull(
-              error: (error, _) {
-                this.state = AsyncValue.error(error, StackTrace.current);
-              },
-              data: (data) {
-                this.state = AsyncValue.data((r, data));
-              },
+              error: (error, _) => this.state = AsyncValue.error(error, StackTrace.current),
+              data: (data) => this.state = AsyncValue.data((r, data)),
             );
           });
         }

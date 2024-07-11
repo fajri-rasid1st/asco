@@ -4,7 +4,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 // Project imports:
 import 'package:asco/core/enums/action_type.dart';
 import 'package:asco/src/data/models/assistance_groups/assistance_group_post.dart';
-import 'package:asco/src/presentation/providers/repository_providers/practicum_repository_provider.dart';
+import 'package:asco/src/presentation/providers/repository_providers/assistance_group_repository_provider.dart';
 
 part 'assistance_group_actions_provider.g.dart';
 
@@ -21,7 +21,7 @@ class AssistanceGroupActions extends _$AssistanceGroupActions {
   }) async {
     state = const AsyncValue.loading();
 
-    final result = await ref.watch(practicumRepositoryProvider).addAssistanceGroupToPracticum(
+    final result = await ref.watch(assistanceGroupRepositoryProvider).addAssistanceGroupToPracticum(
           practicumId,
           assistanceGroup: assistanceGroup,
         );

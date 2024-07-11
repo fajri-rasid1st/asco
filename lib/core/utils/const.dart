@@ -3,6 +3,7 @@ import 'package:asco/core/styles/color_scheme.dart';
 
 // const error messages
 const kNoInternetConnection = 'no internet connection';
+const kUnauthorized = 'you are not authorized';
 const kNoAuthorization = 'Provide Authorization in header';
 const kAuthorizationExpired = 'jwt expired';
 const kAuthorizationError = 'token is not formed correctly. JWT format is xxxx.yyyyy.zzzz';
