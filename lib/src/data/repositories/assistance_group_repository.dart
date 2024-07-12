@@ -13,11 +13,23 @@ abstract class AssistanceGroupRepository {
   /// Get assistance groups
   Future<Either<Failure, List<AssistanceGroup>>> getAssistanceGroups(String practicumId);
 
+  /// Get assistance group detail
+  Future<Either<Failure, AssistanceGroup>> getAssistanceGroupDetail(String id);
+
   /// Add assistance group to practicum
   Future<Either<Failure, void>> addAssistanceGroupToPracticum(
     String practicumId, {
     required AssistanceGroupPost assistanceGroup,
   });
+
+  /// Edit assistance group
+  Future<Either<Failure, void>> editAssistanceGroup(
+    AssistanceGroup oldAssistanceGroup,
+    AssistanceGroupPost newAssistanceGroup,
+  );
+
+  /// Delete assistance group
+  Future<Either<Failure, void>> deleteAssistanceGroup(String id);
 }
 
 class AssistanceGroupRepositoryImpl implements AssistanceGroupRepository {
@@ -45,6 +57,21 @@ class AssistanceGroupRepositoryImpl implements AssistanceGroupRepository {
   }
 
   @override
+  Future<Either<Failure, AssistanceGroup>> getAssistanceGroupDetail(String id) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await assistanceGroupDataSource.getAssistanceGroupDetail(id);
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
   Future<Either<Failure, void>> addAssistanceGroupToPracticum(
     String practicumId, {
     required AssistanceGroupPost assistanceGroup,
@@ -55,6 +82,42 @@ class AssistanceGroupRepositoryImpl implements AssistanceGroupRepository {
           practicumId,
           assistanceGroup: assistanceGroup,
         );
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> editAssistanceGroup(
+    AssistanceGroup oldAssistanceGroup,
+    AssistanceGroupPost newAssistanceGroup,
+  ) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await assistanceGroupDataSource.editAssistanceGroup(
+          oldAssistanceGroup,
+          newAssistanceGroup,
+        );
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> deleteAssistanceGroup(String id) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await assistanceGroupDataSource.deleteAssistanceGroup(id);
 
         return Right(result);
       } catch (e) {

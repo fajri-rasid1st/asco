@@ -107,7 +107,7 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
               ),
               const SizedBox(height: 12),
               FileUploadField(
-                name: 'badgePath',
+                name: 'badge',
                 label: 'Badge',
                 extensions: const [],
                 validator: FormBuilderValidators.required(),
@@ -128,7 +128,7 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
               ),
               const SizedBox(height: 12),
               const FileUploadField(
-                name: 'courseContractPath',
+                name: 'courseContract',
                 label: 'Kontrak Kuliah',
                 extensions: ['pdf', 'doc', 'docx'],
               ),
@@ -179,11 +179,11 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
 
   void setPracticumFileFieldValues(String? badgePath, String? courseContractPath) {
     if (badgePath != null) {
-      formKey.currentState?.fields['badgePath']!.didChange(badgePath);
+      formKey.currentState?.fields['badge']!.didChange(badgePath);
     }
 
     if (courseContractPath != null) {
-      formKey.currentState?.fields['courseContractPath']!.didChange(courseContractPath);
+      formKey.currentState?.fields['courseContract']!.didChange(courseContractPath);
     }
   }
 }
@@ -198,11 +198,11 @@ class PracticumSecondFormPage extends StatefulWidget {
 }
 
 class _PracticumSecondFormPageState extends State<PracticumSecondFormPage> {
-  late List<Profile> assistants;
+  List<Profile> assistants = [];
 
   @override
   void initState() {
-    assistants = widget.args.practicum?.assistants ?? [];
+    assistants = [...?widget.args.practicum?.assistants];
 
     super.initState();
   }

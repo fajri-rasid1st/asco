@@ -32,7 +32,7 @@ class SelectUsersPage extends ConsumerStatefulWidget {
 }
 
 class _SelectUsersPageState extends ConsumerState<SelectUsersPage> {
-  late List<Profile> selectedUsers;
+  List<Profile> selectedUsers = [];
 
   @override
   void initState() {
@@ -145,6 +145,9 @@ class _SelectUsersPageState extends ConsumerState<SelectUsersPage> {
                         );
                       }
 
+                      // print(users[1].username);
+                      // print(selectedUsers.first.username);
+
                       return SliverList(
                         delegate: SliverChildBuilderDelegate(
                           (context, index) => Padding(
@@ -154,7 +157,10 @@ class _SelectUsersPageState extends ConsumerState<SelectUsersPage> {
                             child: UserCard(
                               user: users[index],
                               badgeType: UserBadgeType.text,
-                              trailing: selectedUsers.contains(users[index])
+                              trailing: selectedUsers
+                                      .map((e) => e.username)
+                                      .toList()
+                                      .contains(users[index].username)
                                   ? const CircleBorderContainer(
                                       size: 28,
                                       borderColor: Palette.purple2,

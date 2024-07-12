@@ -17,11 +17,23 @@ abstract class AssistanceGroupDataSource {
   /// Get assistance groups
   Future<List<AssistanceGroup>> getAssistanceGroups(String practicumId);
 
+  /// Get assistance group detail
+  Future<AssistanceGroup> getAssistanceGroupDetail(String id);
+
   /// Add assistance group to practicum
   Future<void> addAssistanceGroupToPracticum(
     String practicumId, {
     required AssistanceGroupPost assistanceGroup,
   });
+
+  /// Edit assistance group
+  Future<void> editAssistanceGroup(
+    AssistanceGroup oldAssistanceGroup,
+    AssistanceGroupPost newAssistanceGroup,
+  );
+
+  /// Delete assistance group
+  Future<void> deleteAssistanceGroup(String id);
 }
 
 class AssistanceGroupDataSourceImpl implements AssistanceGroupDataSource {
@@ -55,6 +67,29 @@ class AssistanceGroupDataSourceImpl implements AssistanceGroupDataSource {
   }
 
   @override
+  Future<AssistanceGroup> getAssistanceGroupDetail(String id) async {
+    try {
+      final response = await client.get(
+        Uri.parse('${ApiConfigs.baseUrl}/groups/$id'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(response.body);
+
+      if (response.statusCode == 200) {
+        return AssistanceGroup.fromJson(result.data);
+      } else {
+        throw ServerException(result.error?.code, result.error?.message);
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
   Future<void> addAssistanceGroupToPracticum(
     String practicumId, {
     required AssistanceGroupPost assistanceGroup,
@@ -72,6 +107,52 @@ class AssistanceGroupDataSourceImpl implements AssistanceGroupDataSource {
       final result = DataResponse.fromJson(response.body);
 
       if (response.statusCode != 201) {
+        throw ServerException(result.error?.code, result.error?.message);
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<void> editAssistanceGroup(
+    AssistanceGroup oldAssistanceGroup,
+    AssistanceGroupPost newAssistanceGroup,
+  ) async {
+    try {
+      final response = await client.put(
+        Uri.parse('${ApiConfigs.baseUrl}/groups/${oldAssistanceGroup.id}'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: jsonEncode(newAssistanceGroup.toJson()),
+      );
+
+      final result = DataResponse.fromJson(response.body);
+
+      if (response.statusCode != 200) {
+        throw ServerException(result.error?.code, result.error?.message);
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<void> deleteAssistanceGroup(String id) async {
+    try {
+      final response = await client.delete(
+        Uri.parse('${ApiConfigs.baseUrl}/groups/$id'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(response.body);
+
+      if (response.statusCode != 200) {
         throw ServerException(result.error?.code, result.error?.message);
       }
     } catch (e) {
