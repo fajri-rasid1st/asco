@@ -6,7 +6,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 // Project imports:
 import 'package:asco/core/extensions/context_extension.dart';
-import 'package:asco/core/extensions/datetime_extension.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
@@ -51,7 +50,7 @@ class AssistanceDialog extends StatelessWidget {
                   name: 'date',
                   label: 'Tanggal Asistensi',
                   isSmall: true,
-                  initialValue: DateTime.now().toStringPattern('d MMMM yyyy'),
+                  initialValue: DateTime.now().toIso8601String(),
                   prefixIconName: 'calendar_month_outlined.svg',
                   suffixIconName: 'close_outlined.svg',
                   textInputType: TextInputType.none,

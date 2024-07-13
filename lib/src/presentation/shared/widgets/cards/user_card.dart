@@ -74,7 +74,7 @@ class UserCard extends StatelessWidget {
                 const SizedBox(height: 2),
                 if (badgeType == UserBadgeType.pill)
                   CustomBadge(
-                    text: badgeText ?? MapHelper.getReadableRole(user.role),
+                    text: badgeText ?? '${MapHelper.getReadableRole(user.role)}',
                   )
                 else
                   Text(

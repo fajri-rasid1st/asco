@@ -12,7 +12,6 @@ import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
-import 'package:asco/src/presentation/features/admin/practicum/pages/practicum_form_page.dart';
 import 'package:asco/src/presentation/features/admin/practicum/providers/practicum_actions_provider.dart';
 import 'package:asco/src/presentation/features/admin/practicum/providers/practicums_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/animated_fab.dart';
@@ -153,10 +152,7 @@ class _PracticumListHomePageState extends ConsumerState<PracticumListHomePage>
       ),
       floatingActionButton: AnimatedFloatingActionButton(
         animationController: fabAnimationController,
-        onPressed: () => navigatorKey.currentState!.pushNamed(
-          practicumFirstFormRoute,
-          arguments: const PracticumFormPageArgs(title: 'Tambah'),
-        ),
+        onPressed: () => navigatorKey.currentState!.pushNamed(practicumFirstFormRoute),
         tooltip: 'Tambah',
         child: const Icon(
           Icons.add_rounded,

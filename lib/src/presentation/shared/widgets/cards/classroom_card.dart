@@ -3,23 +3,30 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:asco/core/enums/classroom_subtitle_type.dart';
-import 'package:asco/core/extensions/context_extension.dart';
+import 'package:asco/core/extensions/number_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
+import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/src/presentation/shared/widgets/dialogs/classroom_form_dialog.dart';
+import 'package:asco/src/data/models/classrooms/classroom.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class ClassroomCard extends StatelessWidget {
+  final Classroom classroom;
   final ClassroomSubtitleType subtitleType;
   final bool showActionButtons;
+  final VoidCallback? onUpdate;
+  final VoidCallback? onDelete;
   final VoidCallback? onTap;
 
   const ClassroomCard({
     super.key,
+    required this.classroom,
     this.subtitleType = ClassroomSubtitleType.schedule,
     this.showActionButtons = false,
+    this.onUpdate,
+    this.onDelete,
     this.onTap,
   });
 
@@ -37,7 +44,7 @@ class ClassroomCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Kelas A',
+                  'Kelas ${classroom.name}',
                   style: textTheme.titleMedium!.copyWith(
                     color: Palette.purple2,
                   ),
@@ -45,8 +52,8 @@ class ClassroomCard extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   subtitleType == ClassroomSubtitleType.schedule
-                      ? 'Setiap Sabtu 07.30 - 09.30'
-                      : '25 Peserta',
+                      ? 'Setiap ${MapHelper.getReadableDay(classroom.meetingDay)}, Pukul ${classroom.startTime?.to24TimeFormat()} - ${classroom.endTime?.to24TimeFormat()}'
+                      : '${classroom.totalStudents} Peserta',
                   style: textTheme.bodySmall!.copyWith(
                     color: Palette.secondaryText,
                   ),
@@ -57,11 +64,7 @@ class ClassroomCard extends StatelessWidget {
           if (showActionButtons) ...[
             const SizedBox(width: 8),
             IconButton(
-              onPressed: () => showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) => const ClassroomFormDialog(action: 'Edit'),
-              ),
+              onPressed: onUpdate,
               icon: SvgAsset(
                 AssetPath.getIcon('pencil_outlined.svg'),
                 width: 16,
@@ -73,12 +76,7 @@ class ClassroomCard extends StatelessWidget {
             ),
             const SizedBox(width: 6),
             IconButton(
-              onPressed: () => context.showConfirmDialog(
-                title: 'Hapus Kelas?',
-                message: 'Anda yakin ingin menghapus kelas ini?',
-                primaryButtonText: 'Hapus',
-                onPressedPrimaryButton: () {},
-              ),
+              onPressed: onDelete,
               icon: SvgAsset(
                 AssetPath.getIcon('trash_outlined.svg'),
                 width: 16,

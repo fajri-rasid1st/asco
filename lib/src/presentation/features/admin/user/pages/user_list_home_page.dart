@@ -12,7 +12,6 @@ import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
-import 'package:asco/src/presentation/features/admin/user/pages/user_form_page.dart';
 import 'package:asco/src/presentation/features/admin/user/providers/user_actions_provider.dart';
 import 'package:asco/src/presentation/features/admin/user/providers/users_provider.dart';
 import 'package:asco/src/presentation/providers/manual_providers/query_provider.dart';
@@ -251,10 +250,7 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
       ),
       floatingActionButton: AnimatedFloatingActionButton(
         animationController: fabAnimationController,
-        onPressed: () => navigatorKey.currentState!.pushNamed(
-          userFormRoute,
-          arguments: const UserFormPageArgs(title: 'Tambah'),
-        ),
+        onPressed: () => navigatorKey.currentState!.pushNamed(userFormRoute),
         tooltip: 'Tambah',
         child: const Icon(
           Icons.add_rounded,

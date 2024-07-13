@@ -19,6 +19,7 @@ class Classroom with _$Classroom {
     int? startTime,
     int? endTime,
     List<Profile>? students,
+    int? totalStudents,
   }) = _Classroom;
 
   factory Classroom.fromJson(Map<String, Object?> json) => _$ClassroomFromJson(json);

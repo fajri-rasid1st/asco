@@ -25,9 +25,9 @@ import 'package:asco/src/presentation/shared/widgets/input_fields/custom_text_fi
 import 'package:asco/src/presentation/shared/widgets/input_fields/file_upload_field.dart';
 
 class UserFormPage extends StatelessWidget {
-  final UserFormPageArgs args;
+  final Profile? user;
 
-  const UserFormPage({super.key, required this.args});
+  const UserFormPage({super.key, this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class UserFormPage extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: CustomAppBar(
-        title: '${args.title} Pengguna',
+        title: '${user != null ? 'Edit' : 'Tambah'} Pengguna',
         action: Consumer(
           builder: (context, ref, child) {
             return IconButton(
@@ -64,7 +64,7 @@ class UserFormPage extends StatelessWidget {
                 name: 'username',
                 label: 'Username',
                 hintText: 'Masukkan username',
-                initialValue: args.user?.username,
+                initialValue: user?.username,
                 textCapitalization: TextCapitalization.none,
                 validators: [
                   FormBuilderValidators.required(
@@ -81,7 +81,7 @@ class UserFormPage extends StatelessWidget {
                 name: 'fullname',
                 label: 'Nama Lengkap',
                 hintText: 'Masukkan nama lengkap',
-                initialValue: args.user?.fullname,
+                initialValue: user?.fullname,
                 textCapitalization: TextCapitalization.words,
                 validators: [
                   FormBuilderValidators.required(
@@ -99,7 +99,7 @@ class UserFormPage extends StatelessWidget {
                 label: 'Angkatan',
                 items: listOfYears,
                 values: listOfYears,
-                initialValue: args.user != null ? args.user!.classOf : listOfYears.first,
+                initialValue: user?.classOf ?? listOfYears.first,
               ),
               const SizedBox(height: 12),
               CustomDropdownField(
@@ -107,10 +107,9 @@ class UserFormPage extends StatelessWidget {
                 label: 'Role',
                 items: userRoleFilter.keys.toList().sublist(1),
                 values: userRoleFilter.values.toList().sublist(1),
-                initialValue:
-                    args.user != null ? args.user!.role : userRoleFilter.values.toList()[1],
+                initialValue: user?.role ?? userRoleFilter.values.toList()[1],
               ),
-              if (args.user == null) ...[
+              if (user == null) ...[
                 Padding(
                   padding: const EdgeInsets.only(
                     top: 20,
@@ -182,11 +181,11 @@ class UserFormPage extends StatelessWidget {
           password: formKey.currentState!.value['username'],
         );
 
-        if (args.user != null) {
+        if (this.user != null) {
           // Edit user
           ref
               .read(userActionsProvider.notifier)
-              .editUser(args.user!.username!, user.copyWith(password: null));
+              .editUser(this.user!.username!, user.copyWith(password: null));
         } else {
           // Create user
           ref.read(userActionsProvider.notifier).createUser([user]);
@@ -213,14 +212,4 @@ class UserFormPage extends StatelessWidget {
       );
     }
   }
-}
-
-class UserFormPageArgs {
-  final String title;
-  final Profile? user;
-
-  const UserFormPageArgs({
-    required this.title,
-    this.user,
-  });
 }

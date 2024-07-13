@@ -17,6 +17,8 @@ import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/services/file_service.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/data/models/classrooms/classroom.dart';
+import 'package:asco/src/data/models/classrooms/classroom_post.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/data/models/practicums/practicum_post.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
@@ -34,7 +36,7 @@ final badgePathProvider = StateProvider.autoDispose<String?>((ref) => null);
 final courseContractPathProvider = StateProvider.autoDispose<String?>((ref) => null);
 
 class PracticumFirstFormPage extends ConsumerStatefulWidget {
-  final PracticumFormPageArgs args;
+  final PracticumFormPageArgs? args;
 
   const PracticumFirstFormPage({super.key, required this.args});
 
@@ -46,7 +48,7 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
     with AfterLayoutMixin {
   @override
   FutureOr<void> afterFirstLayout(BuildContext context) async {
-    if (widget.args.practicum != null) downloadPracticumFiles();
+    if (widget.args?.practicum != null) downloadPracticumFiles();
   }
 
   @override
@@ -63,9 +65,8 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
             navigatorKey.currentState!.pushReplacementNamed(
               practicumSecondFormRoute,
               arguments: PracticumFormPageArgs(
-                title: widget.args.title,
-                practicum: widget.args.practicum,
                 id: data.message?.split(':').last,
+                practicum: widget.args?.practicum,
               ),
             );
           }
@@ -75,7 +76,7 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: '${widget.args.title} Praktikum (1/2)',
+        title: '${widget.args?.practicum != null ? 'Edit' : 'Tambah'} Praktikum (1/2)',
         action: IconButton(
           onPressed: () => createOrEditPracticum(badgePath, courseContractPath),
           icon: const Icon(Icons.chevron_right_rounded),
@@ -97,7 +98,7 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
                 name: 'course',
                 label: 'Mata kuliah',
                 hintText: 'Masukkan nama mata kuliah',
-                initialValue: widget.args.practicum?.course,
+                initialValue: widget.args?.practicum?.course,
                 textCapitalization: TextCapitalization.words,
                 validators: [
                   FormBuilderValidators.required(
@@ -145,11 +146,11 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
     if (formKey.currentState!.saveAndValidate()) {
       final practicum = PracticumPost.fromJson(formKey.currentState!.value);
 
-      if (widget.args.practicum != null) {
+      if (widget.args?.practicum != null) {
         // Edit practicum
         ref
             .read(practicumActionsProvider.notifier)
-            .editPracticum(widget.args.practicum!, practicum);
+            .editPracticum(widget.args!.practicum!, practicum);
       } else {
         // Create practicum
         ref.read(practicumActionsProvider.notifier).createPracticum(practicum);
@@ -167,11 +168,11 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
     context.showLoadingDialog();
 
     ref.read(badgePathProvider.notifier).state =
-        await FileService.downloadFile(widget.args.practicum!.badgePath!);
+        await FileService.downloadFile(widget.args!.practicum!.badgePath!);
 
-    if (widget.args.practicum!.courseContractPath != null) {
+    if (widget.args!.practicum!.courseContractPath != null) {
       ref.read(courseContractPathProvider.notifier).state =
-          await FileService.downloadFile(widget.args.practicum!.courseContractPath!);
+          await FileService.downloadFile(widget.args!.practicum!.courseContractPath!);
     }
 
     navigatorKey.currentState!.pop();
@@ -188,20 +189,22 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
   }
 }
 
-class PracticumSecondFormPage extends StatefulWidget {
+class PracticumSecondFormPage extends ConsumerStatefulWidget {
   final PracticumFormPageArgs args;
 
   const PracticumSecondFormPage({super.key, required this.args});
 
   @override
-  State<PracticumSecondFormPage> createState() => _PracticumSecondFormPageState();
+  ConsumerState<PracticumSecondFormPage> createState() => _PracticumSecondFormPageState();
 }
 
-class _PracticumSecondFormPageState extends State<PracticumSecondFormPage> {
+class _PracticumSecondFormPageState extends ConsumerState<PracticumSecondFormPage> {
+  List<Classroom> classrooms = [];
   List<Profile> assistants = [];
 
   @override
   void initState() {
+    classrooms = [...?widget.args.practicum?.classrooms];
     assistants = [...?widget.args.practicum?.assistants];
 
     super.initState();
@@ -209,11 +212,19 @@ class _PracticumSecondFormPageState extends State<PracticumSecondFormPage> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(practicumActionsProvider, (_, state) {
+      state.whenOrNull(
+        data: (data) {
+          if (data.message != null) navigatorKey.currentState!.pop();
+        },
+      );
+    });
+
     return Scaffold(
       appBar: CustomAppBar(
-        title: '${widget.args.title} Praktikum (2/2)',
+        title: '${widget.args.practicum != null ? 'Edit' : 'Tambah'} Praktikum (2/2)',
         action: IconButton(
-          onPressed: () => updatePracticum(assistants),
+          onPressed: updatePracticum,
           icon: const Icon(Icons.check_rounded),
           tooltip: 'Submit',
           style: IconButton.styleFrom(
@@ -231,19 +242,49 @@ class _PracticumSecondFormPageState extends State<PracticumSecondFormPage> {
               padding: const EdgeInsets.fromLTRB(4, 0, 0, 8),
               showDivider: true,
               showActionButton: true,
-              onPressedActionButton: () => showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) => const ClassroomFormDialog(action: 'Tambah'),
-              ),
+              onPressedActionButton: () async {
+                final result = await showDialog<Classroom>(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) => ClassroomFormDialog(
+                    lastClassroomName: classrooms.isEmpty ? null : classrooms.last.name,
+                  ),
+                );
+
+                if (result != null) setState(() => classrooms.add(result));
+              },
             ),
             ...List<Padding>.generate(
-              4,
+              classrooms.length,
               (index) => Padding(
                 padding: EdgeInsets.only(
-                  bottom: index == 3 ? 0 : 10,
+                  bottom: index == classrooms.length - 1 ? 0 : 10,
                 ),
-                child: const ClassroomCard(showActionButtons: true),
+                child: ClassroomCard(
+                  classroom: classrooms[index],
+                  showActionButtons: true,
+                  onUpdate: () async {
+                    final result = await showDialog<Classroom>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (context) => ClassroomFormDialog(
+                        classroom: classrooms[index],
+                      ),
+                    );
+
+                    if (result != null) setState(() => classrooms[index] = result);
+                  },
+                  onDelete: () => context.showConfirmDialog(
+                    title: 'Hapus Kelas?',
+                    message: 'Anda yakin ingin menghapus kelas ini?',
+                    primaryButtonText: 'Hapus',
+                    onPressedPrimaryButton: () {
+                      setState(() => classrooms.remove(classrooms[index]));
+
+                      navigatorKey.currentState!.pop();
+                    },
+                  ),
+                ),
               ),
             ),
             SectionHeader(
@@ -252,12 +293,14 @@ class _PracticumSecondFormPageState extends State<PracticumSecondFormPage> {
               showDivider: true,
               showActionButton: true,
               onPressedActionButton: () async {
+                final selectedUsers = [...assistants];
+
                 final result = await navigatorKey.currentState!.pushNamed(
                   selectUsersRoute,
                   arguments: SelectUsersPageArgs(
                     title: 'Pilih Asisten',
                     role: 'ASSISTANT',
-                    selectedUsers: assistants,
+                    selectedUsers: selectedUsers,
                   ),
                 );
 
@@ -268,13 +311,15 @@ class _PracticumSecondFormPageState extends State<PracticumSecondFormPage> {
               assistants.length,
               (index) => Padding(
                 padding: EdgeInsets.only(
-                  bottom: index == 3 ? 0 : 10,
+                  bottom: index == assistants.length - 1 ? 0 : 10,
                 ),
                 child: UserCard(
                   user: assistants[index],
                   badgeType: UserBadgeType.text,
                   showDeleteButton: true,
-                  onPressedDeleteButton: () => setState(() => assistants.remove(assistants[index])),
+                  onPressedDeleteButton: () {
+                    setState(() => assistants.remove(assistants[index]));
+                  },
                 ),
               ),
             ),
@@ -284,19 +329,26 @@ class _PracticumSecondFormPageState extends State<PracticumSecondFormPage> {
     );
   }
 
-  void updatePracticum(List<Profile> assistants) {
-    debugPrint(assistants.toString());
+  void updatePracticum() {
+    final classroomPosts = List<ClassroomPost>.generate(
+      classrooms.length,
+      (index) => ClassroomPost.fromJson(classrooms[index].toJson()),
+    );
+
+    ref.read(practicumActionsProvider.notifier).updateClassroomsAndAssistants(
+          widget.args.id!,
+          classrooms: classroomPosts,
+          assistants: assistants,
+        );
   }
 }
 
 class PracticumFormPageArgs {
-  final String title;
-  final Practicum? practicum;
   final String? id;
+  final Practicum? practicum;
 
   const PracticumFormPageArgs({
-    required this.title,
-    this.practicum,
     this.id,
+    this.practicum,
   });
 }

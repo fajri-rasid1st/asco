@@ -2,8 +2,6 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:asco/core/enums/classroom_subtitle_type.dart';
-import 'package:asco/src/presentation/shared/widgets/cards/classroom_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 
 class SelectClassroomPage extends StatelessWidget {
@@ -17,15 +15,15 @@ class SelectClassroomPage extends StatelessWidget {
       appBar: CustomAppBar(
         title: args.title,
       ),
-      body: ListView.separated(
-        padding: const EdgeInsets.all(20),
-        itemBuilder: (context, index) => ClassroomCard(
-          subtitleType: ClassroomSubtitleType.totalStudents,
-          onTap: args.onItemTapped,
-        ),
-        separatorBuilder: (context, index) => const SizedBox(height: 10),
-        itemCount: 3,
-      ),
+      // body: ListView.separated(
+      //   padding: const EdgeInsets.all(20),
+      //   itemBuilder: (context, index) => ClassroomCard(
+      //     subtitleType: ClassroomSubtitleType.totalStudents,
+      //     onTap: args.onItemTapped,
+      //   ),
+      //   separatorBuilder: (context, index) => const SizedBox(height: 10),
+      //   itemCount: 3,
+      // ),
     );
   }
 }

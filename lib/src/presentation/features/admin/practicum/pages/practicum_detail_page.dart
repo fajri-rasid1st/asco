@@ -71,10 +71,7 @@ class PracticumDetailPage extends ConsumerWidget {
             action: IconButton(
               onPressed: () => navigatorKey.currentState!.pushNamed(
                 practicumFirstFormRoute,
-                arguments: PracticumFormPageArgs(
-                  title: 'Edit',
-                  practicum: practicum,
-                ),
+                arguments: PracticumFormPageArgs(practicum: practicum),
               ),
               icon: const Icon(Icons.edit_rounded),
               iconSize: 20,
@@ -140,15 +137,23 @@ class PracticumDetailPage extends ConsumerWidget {
                   ),
                 ),
                 const SectionHeader(title: 'Kelas'),
-                ...List<Padding>.generate(
-                  4,
-                  (index) => Padding(
-                    padding: EdgeInsets.only(
-                      bottom: index == 3 ? 0 : 10,
+                if (practicum.assistants!.isEmpty)
+                  const CustomInformation(
+                    title: 'Kelas masih kosong',
+                    subtitle: 'Belum ada kelas pada praktikum ini',
+                  )
+                else
+                  ...List<Padding>.generate(
+                    practicum.classrooms!.length,
+                    (index) => Padding(
+                      padding: EdgeInsets.only(
+                        bottom: index == practicum.classrooms!.length - 1 ? 0 : 10,
+                      ),
+                      child: ClassroomCard(
+                        classroom: practicum.classrooms![index],
+                      ),
                     ),
-                    child: const ClassroomCard(),
                   ),
-                ),
                 const SectionHeader(title: 'Asisten'),
                 if (practicum.assistants!.isEmpty)
                   const CustomInformation(
@@ -160,7 +165,7 @@ class PracticumDetailPage extends ConsumerWidget {
                     practicum.assistants!.length,
                     (index) => Padding(
                       padding: EdgeInsets.only(
-                        bottom: index == 3 ? 0 : 10,
+                        bottom: index == practicum.assistants!.length - 1 ? 0 : 10,
                       ),
                       child: UserCard(
                         user: practicum.assistants![index],

@@ -14,6 +14,7 @@ class PracticumPost with _$PracticumPost {
     required String course,
     @JsonKey(name: 'badge') required String badgePath,
     @JsonKey(name: 'courseContract') String? courseContractPath,
+    String? examInfo,
   }) = _PracticumPost;
 
   factory PracticumPost.fromJson(Map<String, Object?> json) => _$PracticumPostFromJson(json);

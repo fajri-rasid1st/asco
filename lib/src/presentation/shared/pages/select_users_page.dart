@@ -137,16 +137,13 @@ class _SelectUsersPageState extends ConsumerState<SelectUsersPage> {
                       }
 
                       if (users.isEmpty) {
-                        return SliverFillRemaining(
+                        return const SliverFillRemaining(
                           child: CustomInformation(
-                            title: 'Data ${MapHelper.getReadableRole(widget.args.role)} tidak ada',
-                            subtitle: 'Belum terdapat data asisten pada database',
+                            title: 'Data user tidak ada',
+                            subtitle: 'Belum terdapat data user pada database',
                           ),
                         );
                       }
-
-                      // print(users[1].username);
-                      // print(selectedUsers.first.username);
 
                       return SliverList(
                         delegate: SliverChildBuilderDelegate(
@@ -191,8 +188,8 @@ class _SelectUsersPageState extends ConsumerState<SelectUsersPage> {
 
   void updateSelectedUsers(Profile user) {
     setState(() {
-      if (selectedUsers.contains(user)) {
-        selectedUsers.remove(user);
+      if (selectedUsers.map((e) => e.username).toList().contains(user.username)) {
+        selectedUsers.removeWhere((e) => e.username == user.username);
       } else {
         selectedUsers.add(user);
       }

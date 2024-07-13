@@ -8,7 +8,6 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 // Project imports:
 import 'package:asco/core/enums/action_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
-import 'package:asco/core/extensions/datetime_extension.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/custom_dropdown_field.dart';
@@ -73,7 +72,7 @@ class MeetingFormPage extends StatelessWidget {
               CustomTextField(
                 name: 'date',
                 label: 'Tanggal Pertemuan',
-                initialValue: meetingDate.toStringPattern('d MMMM yyyy'),
+                initialValue: meetingDate.toIso8601String(),
                 prefixIconName: 'calendar_month_outlined.svg',
                 textInputType: TextInputType.none,
                 onTap: () async {

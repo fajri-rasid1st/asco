@@ -14,7 +14,6 @@ import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
 import 'package:asco/src/data/models/profiles/profile_post.dart';
-import 'package:asco/src/presentation/features/admin/user/pages/user_form_page.dart';
 import 'package:asco/src/presentation/features/admin/user/providers/user_actions_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
@@ -41,10 +40,7 @@ class UserDetailPage extends ConsumerWidget {
         action: IconButton(
           onPressed: () => navigatorKey.currentState!.pushNamed(
             userFormRoute,
-            arguments: UserFormPageArgs(
-              title: 'Edit',
-              user: user,
-            ),
+            arguments: user,
           ),
           icon: const Icon(Icons.edit_rounded),
           iconSize: 20,
@@ -92,7 +88,7 @@ class UserDetailPage extends ConsumerWidget {
             ),
             const SizedBox(height: 4),
             CustomBadge(
-              text: MapHelper.getReadableRole(user.role),
+              text: '${MapHelper.getReadableRole(user.role)}',
               verticalPadding: 6,
               horizontalPadding: 12,
               textStyle: textTheme.bodySmall!.copyWith(

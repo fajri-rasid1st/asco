@@ -6,16 +6,25 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 
 // Project imports:
 import 'package:asco/core/extensions/context_extension.dart';
+import 'package:asco/core/extensions/number_extension.dart';
+import 'package:asco/core/extensions/string_extension.dart';
 import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/utils/const.dart';
+import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/data/models/classrooms/classroom.dart';
 import 'package:asco/src/presentation/shared/widgets/dialogs/custom_dialog.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/custom_dropdown_field.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/custom_text_field.dart';
 
 class ClassroomFormDialog extends StatelessWidget {
-  final String action;
+  final String? lastClassroomName;
+  final Classroom? classroom;
 
-  const ClassroomFormDialog({super.key, required this.action});
+  const ClassroomFormDialog({
+    super.key,
+    this.lastClassroomName,
+    this.classroom,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +34,7 @@ class ClassroomFormDialog extends StatelessWidget {
     var endTime = TimeOfDay.now();
 
     return CustomDialog(
-      title: '$action Kelas',
+      title: '${classroom != null ? 'Edit' : 'Tambah'} Kelas',
       onPressedPrimaryAction: () => submit(formKey),
       child: FormBuilder(
         key: formKey,
@@ -36,7 +45,7 @@ class ClassroomFormDialog extends StatelessWidget {
               label: 'Kelas (auto-generated)',
               isSmall: true,
               enabled: false,
-              initialValue: FunctionHelper.nextLetter('B'),
+              initialValue: classroom?.name ?? FunctionHelper.nextLetter(lastClassroomName ?? 'Z'),
             ),
             const SizedBox(height: 12),
             CustomDropdownField(
@@ -45,7 +54,7 @@ class ClassroomFormDialog extends StatelessWidget {
               isSmall: true,
               items: dayOfWeek.keys.toList(),
               values: dayOfWeek.values.toList(),
-              initialValue: dayOfWeek.values.first,
+              initialValue: classroom?.meetingDay ?? dayOfWeek.values.first,
             ),
             const SizedBox(height: 12),
             Row(
@@ -55,7 +64,8 @@ class ClassroomFormDialog extends StatelessWidget {
                     name: 'startTime',
                     label: 'Waktu Mulai',
                     isSmall: true,
-                    initialValue: startTime.format(context),
+                    initialValue:
+                        classroom?.startTime?.to24TimeFormat() ?? startTime.format(context),
                     textInputType: TextInputType.none,
                     onTap: () async {
                       final time = await context.showCustomTimePicker(
@@ -75,7 +85,7 @@ class ClassroomFormDialog extends StatelessWidget {
                     name: 'endTime',
                     label: 'Waktu Selesai',
                     isSmall: true,
-                    initialValue: endTime.format(context),
+                    initialValue: classroom?.endTime?.to24TimeFormat() ?? endTime.format(context),
                     textInputType: TextInputType.none,
                     onTap: () async {
                       final time = await context.showCustomTimePicker(
@@ -102,6 +112,13 @@ class ClassroomFormDialog extends StatelessWidget {
 
     formKey.currentState!.save();
 
-    debugPrint(formKey.currentState!.value.toString());
+    final classroom = Classroom(
+      name: formKey.currentState!.value['name'],
+      meetingDay: formKey.currentState!.value['meetingDay'],
+      startTime: (formKey.currentState!.value['startTime'] as String).to24TimeFormat(),
+      endTime: (formKey.currentState!.value['endTime'] as String).to24TimeFormat(),
+    );
+
+    navigatorKey.currentState!.pop(classroom);
   }
 }

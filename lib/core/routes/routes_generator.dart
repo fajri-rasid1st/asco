@@ -81,10 +81,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => UserDetailPage(user: user),
       );
     case userFormRoute:
-      final args = settings.arguments as UserFormPageArgs;
+      final user = settings.arguments as Profile?;
 
       return MaterialPageRoute(
-        builder: (_) => UserFormPage(args: args),
+        builder: (_) => UserFormPage(user: user),
       );
     case practicumListHomeRoute:
       return MaterialPageRoute(
@@ -97,7 +97,7 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => PracticumDetailPage(id: id),
       );
     case practicumFirstFormRoute:
-      final args = settings.arguments as PracticumFormPageArgs;
+      final args = settings.arguments as PracticumFormPageArgs?;
 
       return MaterialPageRoute(
         builder: (_) => PracticumFirstFormPage(args: args),
