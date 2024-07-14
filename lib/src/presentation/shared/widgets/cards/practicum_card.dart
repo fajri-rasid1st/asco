@@ -86,7 +86,7 @@ class PracticumCard extends StatelessWidget {
                           ),
                           Flexible(
                             child: Text(
-                              '10 Pertemuan',
+                              '${practicum.meetingsLength} Pertemuan',
                               style: textTheme.bodySmall!.copyWith(
                                 color: Palette.purple3,
                               ),
@@ -134,10 +134,8 @@ class PracticumCard extends StatelessWidget {
                     onPressed: () => navigatorKey.currentState!.pushNamed(
                       selectClassroomRoute,
                       arguments: SelectClassroomPageArgs(
-                        title: 'Pemrograman Mobile',
-                        onItemTapped: () => navigatorKey.currentState!.pushNamed(
-                          classroomDetailRoute,
-                        ),
+                        title: '${practicum.course}',
+                        classrooms: practicum.classrooms ?? [],
                       ),
                     ),
                     style: FilledButton.styleFrom(

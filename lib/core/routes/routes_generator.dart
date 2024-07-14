@@ -113,8 +113,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const PracticumBadgeGeneratorPage(),
       );
     case classroomDetailRoute:
+      final id = settings.arguments as String;
+
       return MaterialPageRoute(
-        builder: (_) => const ClassroomDetailPage(),
+        builder: (_) => ClassroomDetailPage(id: id),
       );
     case meetingListHomeRoute:
       return MaterialPageRoute(

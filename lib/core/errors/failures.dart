@@ -47,6 +47,12 @@ Failure failure(Object e) {
         return const ServerFailure('Pengguna tidak ditemukan');
       case kIncorrectPassword:
         return const ServerFailure('Password yang dimasukkan salah');
+      case kClassroomsEmpty:
+        return const ServerFailure('Minimal harus terdapat 1 kelas yang ditambahkan');
+      case kAssistantsEmpty:
+        return const ServerFailure('Minimal harus terdapat 1 asisten yang ditambahkan');
+      case kStudentsEmpty:
+        return const ServerFailure('Minimal harus terdapat 1 siswa yang ditambahkan');
       default:
         return ServerFailure(e.message);
     }

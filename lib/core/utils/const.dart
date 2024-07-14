@@ -9,6 +9,9 @@ const kAuthorizationExpired = 'jwt expired';
 const kAuthorizationError = 'token is not formed correctly. JWT format is xxxx.yyyyy.zzzz';
 const kUserNotFound = 'user\'s not found';
 const kIncorrectPassword = 'password is incorrect';
+const kClassroomsEmpty = '"classrooms" must contain at least 1 items';
+const kAssistantsEmpty = '"assistants" must contain at least 1 items';
+const kStudentsEmpty = '"students" must contain at least 1 items';
 
 // const shared preferences keys
 const accessTokenKey = 'ACCESS_TOKEN';

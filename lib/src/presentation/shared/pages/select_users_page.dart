@@ -127,20 +127,25 @@ class _SelectUsersPageState extends ConsumerState<SelectUsersPage> {
                     data: (users) {
                       if (users == null) return const SliverFillRemaining();
 
+                      for (var user in widget.args.removedUsers) {
+                        users.removeWhere((e) => e.username == user.username);
+                      }
+
                       if (users.isEmpty && query.isNotEmpty) {
-                        return const SliverFillRemaining(
+                        return SliverFillRemaining(
                           child: CustomInformation(
-                            title: 'User tidak ditemukan',
+                            title: '${MapHelper.getReadableRole(widget.args.role)} tidak ditemukan',
                             subtitle: 'Silahkan cari dengan keyword lain',
                           ),
                         );
                       }
 
                       if (users.isEmpty) {
-                        return const SliverFillRemaining(
+                        return SliverFillRemaining(
                           child: CustomInformation(
-                            title: 'Data user tidak ada',
-                            subtitle: 'Belum terdapat data user pada database',
+                            title: '${MapHelper.getReadableRole(widget.args.role)} tidak tersedia',
+                            subtitle:
+                                'Tidak ada data ${MapHelper.getReadableRole(widget.args.role)} yang dapat ditambahkan',
                           ),
                         );
                       }
@@ -214,10 +219,12 @@ class SelectUsersPageArgs {
   final String title;
   final String role;
   final List<Profile> selectedUsers;
+  final List<Profile> removedUsers;
 
   const SelectUsersPageArgs({
     required this.title,
     required this.role,
-    this.selectedUsers = const [],
+    required this.selectedUsers,
+    required this.removedUsers,
   });
 }

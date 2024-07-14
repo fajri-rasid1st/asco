@@ -53,7 +53,7 @@ class ClassroomCard extends StatelessWidget {
                 Text(
                   subtitleType == ClassroomSubtitleType.schedule
                       ? 'Setiap ${MapHelper.getReadableDay(classroom.meetingDay)}, Pukul ${classroom.startTime?.to24TimeFormat()} - ${classroom.endTime?.to24TimeFormat()}'
-                      : '${classroom.totalStudents} Peserta',
+                      : '${classroom.studentsLength} Peserta',
                   style: textTheme.bodySmall!.copyWith(
                     color: Palette.secondaryText,
                   ),

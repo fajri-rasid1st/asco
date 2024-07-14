@@ -99,7 +99,7 @@ class ClassroomDataSourceImpl implements ClassroomDataSource {
 
       final result = DataResponse.fromJson(response.body);
 
-      if (response.statusCode != 200) {
+      if (response.statusCode != 201) {
         throw ServerException(result.error?.code, result.error?.message);
       }
     } catch (e) {

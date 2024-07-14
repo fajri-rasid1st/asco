@@ -301,6 +301,7 @@ class _PracticumSecondFormPageState extends ConsumerState<PracticumSecondFormPag
                     title: 'Pilih Asisten',
                     role: 'ASSISTANT',
                     selectedUsers: selectedUsers,
+                    removedUsers: [],
                   ),
                 );
 

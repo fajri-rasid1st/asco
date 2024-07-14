@@ -78,6 +78,8 @@ class AssistanceGroupFormPage extends StatelessWidget {
                     arguments: const SelectUsersPageArgs(
                       title: 'Pilih Peserta Grup 10',
                       role: 'Peserta',
+                      selectedUsers: [],
+                      removedUsers: [],
                     ),
                   );
 

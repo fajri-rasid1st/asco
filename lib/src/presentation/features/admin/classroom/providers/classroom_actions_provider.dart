@@ -29,7 +29,7 @@ class ClassroomActions extends _$ClassroomActions {
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) => state = const AsyncValue.data((
-        message: 'Praktikan berhasil ditambahkan ke dalam kelas',
+        message: 'Praktikan berhasil ditambahkan',
         action: ActionType.create,
       )),
     );
@@ -49,7 +49,7 @@ class ClassroomActions extends _$ClassroomActions {
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) => state = const AsyncValue.data((
-        message: 'Berhasil mengeluarkan praktikan',
+        message: 'Praktikan berhasil dikeluarkan',
         action: ActionType.delete,
       )),
     );
