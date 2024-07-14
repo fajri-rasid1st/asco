@@ -16,6 +16,7 @@ import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
 import 'package:asco/src/presentation/features/admin/classroom/providers/classroom_actions_provider.dart';
 import 'package:asco/src/presentation/features/admin/classroom/providers/classroom_detail_provider.dart';
@@ -29,15 +30,15 @@ import 'package:asco/src/presentation/shared/widgets/section_header.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class ClassroomDetailPage extends ConsumerWidget {
-  final String id;
+  final ClassroomDetailPageArgs args;
 
-  const ClassroomDetailPage({super.key, required this.id});
+  const ClassroomDetailPage({super.key, required this.args});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final classroom = ref.watch(ClassroomDetailProvider(id));
+    final classroom = ref.watch(ClassroomDetailProvider(args.id));
 
-    ref.listen(ClassroomDetailProvider(id), (_, state) {
+    ref.listen(ClassroomDetailProvider(args.id), (_, state) {
       state.whenOrNull(
         error: (error, _) {
           if ('$error' == kNoInternetConnection) {
@@ -92,7 +93,7 @@ class ClassroomDetailPage extends ConsumerWidget {
 
         return Scaffold(
           appBar: CustomAppBar(
-            title: '${classroom.practicumName} ${classroom.name}',
+            title: '${args.practicum.course} ${classroom.name}',
           ),
           body: SingleChildScrollView(
             padding: const EdgeInsets.all(20),
@@ -122,8 +123,8 @@ class ClassroomDetailPage extends ConsumerWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const PracticumBadgeImage(
-                              badgeUrl: 'https://placehold.co/138x150/png',
+                            PracticumBadgeImage(
+                              badgeUrl: '${args.practicum.badgePath}',
                               width: 58,
                               height: 63,
                             ),
@@ -135,7 +136,7 @@ class ClassroomDetailPage extends ConsumerWidget {
                               ),
                             ),
                             Text(
-                              '${classroom.practicumName}',
+                              '${args.practicum.course}',
                               style: textTheme.bodyLarge!.copyWith(
                                 color: Palette.purple3,
                                 fontWeight: FontWeight.w500,
@@ -205,10 +206,26 @@ class ClassroomDetailPage extends ConsumerWidget {
   }
 
   void assignStudents(WidgetRef ref, List<Profile> students) {
-    ref.read(classroomActionsProvider.notifier).addStudentsToClassroom(id, students: students);
+    ref.read(classroomActionsProvider.notifier).addStudentsToClassroom(
+          args.id,
+          students: students,
+        );
   }
 
   void removeStudent(WidgetRef ref, Profile student) {
-    ref.read(classroomActionsProvider.notifier).removeStudentFromClassroom(id, student: student);
+    ref.read(classroomActionsProvider.notifier).removeStudentFromClassroom(
+          args.id,
+          student: student,
+        );
   }
+}
+
+class ClassroomDetailPageArgs {
+  final String id;
+  final Practicum practicum;
+
+  const ClassroomDetailPageArgs({
+    required this.id,
+    required this.practicum,
+  });
 }

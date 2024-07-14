@@ -6,18 +6,18 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 
 // Project imports:
-import 'package:asco/core/enums/action_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/data/models/meetings/meeting.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/custom_dropdown_field.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/custom_text_field.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/file_upload_field.dart';
 
 class MeetingFormPage extends StatelessWidget {
-  final MeetingFormPageArgs args;
+  final Meeting? meeting;
 
-  const MeetingFormPage({super.key, required this.args});
+  const MeetingFormPage({super.key, this.meeting});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class MeetingFormPage extends StatelessWidget {
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: '${args.title} Pertemuan',
+        title: '${meeting != null ? 'Edit' : 'Tambah'} Pertemuan',
         action: IconButton(
           onPressed: createOrEditMeeting,
           icon: const Icon(Icons.check_rounded),
@@ -132,14 +132,4 @@ class MeetingFormPage extends StatelessWidget {
       navigatorKey.currentState!.pop();
     }
   }
-}
-
-class MeetingFormPageArgs {
-  final String title;
-  final ActionType action;
-
-  const MeetingFormPageArgs({
-    required this.title,
-    required this.action,
-  });
 }

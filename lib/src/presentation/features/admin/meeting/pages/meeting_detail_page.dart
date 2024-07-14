@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:asco/core/enums/action_type.dart';
 import 'package:asco/core/extensions/button_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/routes/route_names.dart';
@@ -10,7 +9,6 @@ import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
-import 'package:asco/src/presentation/features/admin/meeting/pages/meeting_form_page.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
@@ -18,7 +16,9 @@ import 'package:asco/src/presentation/shared/widgets/section_header.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class MeetingDetailPage extends StatelessWidget {
-  const MeetingDetailPage({super.key});
+  final MeetingDetailPageArgs args;
+
+  const MeetingDetailPage({super.key, required this.args});
 
   @override
   Widget build(BuildContext context) {
@@ -28,10 +28,7 @@ class MeetingDetailPage extends StatelessWidget {
         action: IconButton(
           onPressed: () => navigatorKey.currentState!.pushNamed(
             meetingFormRoute,
-            arguments: const MeetingFormPageArgs(
-              title: 'Edit',
-              action: ActionType.update,
-            ),
+            // arguments: ,
           ),
           icon: const Icon(Icons.edit_rounded),
           iconSize: 20,
@@ -134,4 +131,14 @@ class MeetingDetailPage extends StatelessWidget {
       ),
     );
   }
+}
+
+class MeetingDetailPageArgs {
+  final String id;
+  final String practicumName;
+
+  const MeetingDetailPageArgs({
+    required this.id,
+    required this.practicumName,
+  });
 }

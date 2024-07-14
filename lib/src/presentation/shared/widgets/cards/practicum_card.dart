@@ -135,7 +135,7 @@ class PracticumCard extends StatelessWidget {
                       selectClassroomRoute,
                       arguments: SelectClassroomPageArgs(
                         title: '${practicum.course}',
-                        classrooms: practicum.classrooms ?? [],
+                        practicum: practicum,
                       ),
                     ),
                     style: FilledButton.styleFrom(
@@ -148,7 +148,10 @@ class PracticumCard extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: FilledButton(
-                    onPressed: () => navigatorKey.currentState!.pushNamed(meetingListHomeRoute),
+                    onPressed: () => navigatorKey.currentState!.pushNamed(
+                      meetingListHomeRoute,
+                      arguments: practicum,
+                    ),
                     style: FilledButton.styleFrom(
                       padding: EdgeInsets.zero,
                     ),

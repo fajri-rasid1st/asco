@@ -15,7 +15,6 @@ import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/features/common/initial/providers/log_out_provider.dart';
-import 'package:asco/src/presentation/shared/pages/select_classroom_page.dart';
 import 'package:asco/src/presentation/shared/pages/select_practicum_page.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
@@ -53,11 +52,10 @@ class AdminHomePage extends ConsumerWidget {
           arguments: SelectPracticumPageArgs(
             onItemTapped: () => navigatorKey.currentState!.pushNamed(
               selectClassroomRoute,
-              arguments: SelectClassroomPageArgs(
-                title: 'Pemrograman Mobile',
-                classrooms: [],
-                onItemTapped: () => navigatorKey.currentState!.pushNamed(attendanceListHomeRoute),
-              ),
+              // arguments: SelectClassroomPageArgs(
+              //   title: 'Pemrograman Mobile',
+              //   onItemTapped: () => navigatorKey.currentState!.pushNamed(attendanceListHomeRoute),
+              // ),
             ),
           ),
         ),

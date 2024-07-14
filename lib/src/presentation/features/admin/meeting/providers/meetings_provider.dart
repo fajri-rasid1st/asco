@@ -10,7 +10,7 @@ part 'meetings_provider.g.dart';
 @riverpod
 class Meetings extends _$Meetings {
   @override
-  Future<List<Meeting>?> build(String practicumId) async {
+  Future<List<Meeting>?> build(String practicumId, {bool ascendingOrder = true}) async {
     List<Meeting>? meetings;
 
     state = const AsyncValue.loading();
@@ -20,7 +20,12 @@ class Meetings extends _$Meetings {
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
-        meetings = r;
+        if (ascendingOrder) {
+          meetings = r..sort((a, b) => a.number!.compareTo(b.number!));
+        } else {
+          meetings = r..sort((a, b) => a.number!.compareTo(b.number!) * -1);
+        }
+
         state = AsyncValue.data(meetings);
       },
     );

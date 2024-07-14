@@ -9,7 +9,6 @@ import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
-import 'package:asco/src/presentation/shared/widgets/cards/meeting_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_icon_button.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 import 'package:asco/src/presentation/shared/widgets/practicum_badge_image.dart';
@@ -172,11 +171,11 @@ class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClient
                 padding: EdgeInsets.only(
                   bottom: index == 9 ? kBottomNavigationBarHeight : 10,
                 ),
-                child: MeetingCard(
-                  onTap: () => navigatorKey.currentState!.pushNamed(
-                    roleId == 1 ? studentMeetingDetailRoute : assistantMeetingDetailRoute,
-                  ),
-                ),
+                // child: MeetingCard(
+                //   onTap: () => navigatorKey.currentState!.pushNamed(
+                //     roleId == 1 ? studentMeetingDetailRoute : assistantMeetingDetailRoute,
+                //   ),
+                // ),
               ),
             ),
           ],

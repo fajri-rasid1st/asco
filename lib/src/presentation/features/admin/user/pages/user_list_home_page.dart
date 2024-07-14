@@ -218,7 +218,7 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
                         delegate: SliverChildBuilderDelegate(
                           (context, index) => Padding(
                             padding: EdgeInsets.only(
-                              bottom: index == 9 ? 0 : 10,
+                              bottom: index == users.length - 1 ? 0 : 10,
                             ),
                             child: UserCard(
                               user: users[index],
@@ -263,6 +263,5 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
   void filterUsers(String role) {
     ref.read(queryProvider.notifier).state = '';
     ref.read(selectedRoleProvider.notifier).state = role;
-    ref.read(UsersProvider(role: role));
   }
 }

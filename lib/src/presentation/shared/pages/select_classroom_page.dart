@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:asco/core/enums/classroom_subtitle_type.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/utils/keys.dart';
-import 'package:asco/src/data/models/classrooms/classroom.dart';
+import 'package:asco/src/data/models/practicums/practicum.dart';
+import 'package:asco/src/presentation/features/admin/classroom/pages/classroom_detail_page.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/classroom_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 
@@ -23,18 +24,21 @@ class SelectClassroomPage extends StatelessWidget {
       body: ListView.separated(
         padding: const EdgeInsets.all(20),
         itemBuilder: (context, index) => ClassroomCard(
-          classroom: args.classrooms[index],
+          classroom: args.practicum.classrooms![index],
           subtitleType: ClassroomSubtitleType.totalStudents,
           onTap: args.onItemTapped ??
               () {
                 navigatorKey.currentState!.pushNamed(
                   classroomDetailRoute,
-                  arguments: args.classrooms[index].id,
+                  arguments: ClassroomDetailPageArgs(
+                    id: args.practicum.classrooms![index].id!,
+                    practicum: args.practicum,
+                  ),
                 );
               },
         ),
         separatorBuilder: (context, index) => const SizedBox(height: 10),
-        itemCount: args.classrooms.length,
+        itemCount: args.practicum.classrooms!.length,
       ),
     );
   }
@@ -42,12 +46,12 @@ class SelectClassroomPage extends StatelessWidget {
 
 class SelectClassroomPageArgs {
   final String title;
-  final List<Classroom> classrooms;
+  final Practicum practicum;
   final VoidCallback? onItemTapped;
 
   const SelectClassroomPageArgs({
     required this.title,
-    required this.classrooms,
+    required this.practicum,
     this.onItemTapped,
   });
 }
