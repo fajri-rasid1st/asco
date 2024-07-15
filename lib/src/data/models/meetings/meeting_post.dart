@@ -16,8 +16,8 @@ class MeetingPost with _$MeetingPost {
     @JsonKey(name: 'meetingDate') required int date,
     @JsonKey(name: 'assistant') required String assistantId,
     @JsonKey(name: 'coAssistant') required String coAssistantId,
-    String? modulePath,
-    String? assignmentPath,
+    @JsonKey(name: 'module') String? modulePath,
+    @JsonKey(name: 'assignment') String? assignmentPath,
     int? assistanceDeadline,
   }) = _MeetingPost;
 

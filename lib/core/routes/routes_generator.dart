@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:asco/core/routes/route_names.dart';
-import 'package:asco/src/data/models/meetings/meeting.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
 import 'package:asco/src/presentation/features/admin/assistance_group/pages/assistance_group_detail_page.dart';
@@ -133,10 +132,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => MeetingDetailPage(args: args),
       );
     case meetingFormRoute:
-      final meeting = settings.arguments as Meeting?;
+      final args = settings.arguments as MeetingFormPageArgs;
 
       return MaterialPageRoute(
-        builder: (_) => MeetingFormPage(meeting: meeting),
+        builder: (_) => MeetingFormPage(args: args),
       );
     case attendanceListHomeRoute:
       return MaterialPageRoute(

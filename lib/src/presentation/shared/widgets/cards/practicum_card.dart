@@ -133,10 +133,7 @@ class PracticumCard extends StatelessWidget {
                   child: FilledButton(
                     onPressed: () => navigatorKey.currentState!.pushNamed(
                       selectClassroomRoute,
-                      arguments: SelectClassroomPageArgs(
-                        title: '${practicum.course}',
-                        practicum: practicum,
-                      ),
+                      arguments: SelectClassroomPageArgs(practicum: practicum),
                     ),
                     style: FilledButton.styleFrom(
                       backgroundColor: Palette.secondary,

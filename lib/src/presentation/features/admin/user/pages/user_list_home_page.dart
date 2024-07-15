@@ -208,7 +208,7 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
                       if (users.isEmpty) {
                         return const SliverFillRemaining(
                           child: CustomInformation(
-                            title: 'Data user tidak ada',
+                            title: 'Data user kosong',
                             subtitle: 'Tambahkan user dengan menekan tombol "Tambah"',
                           ),
                         );

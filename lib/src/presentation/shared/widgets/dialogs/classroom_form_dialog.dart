@@ -17,13 +17,13 @@ import 'package:asco/src/presentation/shared/widgets/input_fields/custom_dropdow
 import 'package:asco/src/presentation/shared/widgets/input_fields/custom_text_field.dart';
 
 class ClassroomFormDialog extends StatelessWidget {
-  final String? lastClassroomName;
   final Classroom? classroom;
+  final String? lastClassroomName;
 
   const ClassroomFormDialog({
     super.key,
-    this.lastClassroomName,
     this.classroom,
+    this.lastClassroomName,
   });
 
   @override

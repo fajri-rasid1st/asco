@@ -126,7 +126,7 @@ class _PracticumListHomePageState extends ConsumerState<PracticumListHomePage>
 
                 if (practicums.isEmpty) {
                   return const CustomInformation(
-                    title: 'Data praktikum tidak ada',
+                    title: 'Data praktikum kosong',
                     subtitle: 'Tambahkan praktikum dengan menekan tombol "Tambah"',
                   );
                 }

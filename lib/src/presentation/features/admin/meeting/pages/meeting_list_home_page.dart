@@ -14,6 +14,7 @@ import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
+import 'package:asco/src/presentation/features/admin/meeting/pages/meeting_form_page.dart';
 import 'package:asco/src/presentation/features/admin/meeting/providers/meeting_actions_provider.dart';
 import 'package:asco/src/presentation/features/admin/meeting/providers/meetings_provider.dart';
 import 'package:asco/src/presentation/providers/manual_providers/query_provider.dart';
@@ -62,6 +63,37 @@ class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage>
 
   @override
   Widget build(BuildContext context) {
+    final query = ref.watch(queryProvider);
+    final ascendingOrder = ref.watch(ascendingOrderProvider);
+    final meetings = ref.watch(
+      MeetingsProvider(
+        widget.practicum.id!,
+        ascendingOrder: ascendingOrder,
+      ),
+    );
+
+    ref.listen(
+      MeetingsProvider(
+        widget.practicum.id!,
+        ascendingOrder: ascendingOrder,
+      ),
+      (_, state) {
+        state.whenOrNull(
+          error: (error, _) {
+            if ('$error' == kNoInternetConnection) {
+              context.showNoConnectionSnackBar();
+            } else {
+              context.showSnackBar(
+                title: 'Terjadi Kesalahan',
+                message: '$error',
+                type: SnackBarType.error,
+              );
+            }
+          },
+        );
+      },
+    );
+
     ref.listen(meetingActionsProvider, (_, state) {
       state.when(
         loading: () => context.showLoadingDialog(),
@@ -97,95 +129,58 @@ class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage>
       );
     });
 
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: '${widget.practicum.course}',
-      ),
-      body: NotificationListener<UserScrollNotification>(
-        onNotification: (notification) => FunctionHelper.handleFabVisibilityOnScroll(
-          fabAnimationController,
-          notification,
-        ),
-        child: CustomScrollView(
-          controller: scrollController,
-          slivers: [
-            SliverAppBar(
-              pinned: true,
-              automaticallyImplyLeading: false,
-              backgroundColor: Palette.scaffoldBackground,
-              surfaceTintColor: Palette.scaffoldBackground,
-              flexibleSpace: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 20, 12, 0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Consumer(
-                        builder: (context, ref, child) {
-                          return SearchField(
-                            text: ref.watch(queryProvider),
+    return meetings.when(
+      loading: () => const LoadingIndicator(withScaffold: true),
+      error: (_, __) => const Scaffold(),
+      data: (meetings) {
+        if (meetings == null) return const Scaffold();
+
+        return Scaffold(
+          appBar: CustomAppBar(
+            title: '${widget.practicum.course}',
+          ),
+          body: NotificationListener<UserScrollNotification>(
+            onNotification: (notification) => FunctionHelper.handleFabVisibilityOnScroll(
+              fabAnimationController,
+              notification,
+            ),
+            child: CustomScrollView(
+              controller: scrollController,
+              slivers: [
+                SliverAppBar(
+                  pinned: true,
+                  automaticallyImplyLeading: false,
+                  backgroundColor: Palette.scaffoldBackground,
+                  surfaceTintColor: Palette.scaffoldBackground,
+                  flexibleSpace: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 20, 12, 0),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: SearchField(
+                            text: query,
                             hintText: 'Cari nama pertemuan',
                             onChanged: (value) => ref.read(queryProvider.notifier).state = value,
-                          );
-                        },
-                      ),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        CustomIconButton(
+                          'arrow_sort_outlined.svg',
+                          tooltip: 'Urutkan',
+                          onPressed: sortMeeting,
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 8),
-                    CustomIconButton(
-                      'arrow_sort_outlined.svg',
-                      tooltip: 'Urutkan',
-                      onPressed: sortMeeting,
-                    ),
-                  ],
+                  ),
+                  bottom: const PreferredSize(
+                    preferredSize: Size.fromHeight(20),
+                    child: SizedBox(),
+                  ),
                 ),
-              ),
-              bottom: const PreferredSize(
-                preferredSize: Size.fromHeight(20),
-                child: SizedBox(),
-              ),
-            ),
-            SliverPadding(
-              padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
-              sliver: Consumer(
-                builder: (context, ref, child) {
-                  final query = ref.watch(queryProvider);
-                  final ascendingOrder = ref.watch(ascendingOrderProvider);
-                  final meetings = ref.watch(
-                    MeetingsProvider(
-                      widget.practicum.id!,
-                      ascendingOrder: ascendingOrder,
-                    ),
-                  );
-
-                  ref.listen(
-                    MeetingsProvider(
-                      widget.practicum.id!,
-                      ascendingOrder: ascendingOrder,
-                    ),
-                    (_, state) {
-                      state.whenOrNull(
-                        error: (error, _) {
-                          if ('$error' == kNoInternetConnection) {
-                            context.showNoConnectionSnackBar();
-                          } else {
-                            context.showSnackBar(
-                              title: 'Terjadi Kesalahan',
-                              message: '$error',
-                              type: SnackBarType.error,
-                            );
-                          }
-                        },
-                      );
-                    },
-                  );
-
-                  return meetings.when(
-                    loading: () => const SliverFillRemaining(
-                      child: LoadingIndicator(),
-                    ),
-                    error: (_, __) => const SliverFillRemaining(),
-                    data: (meetings) {
-                      if (meetings == null) return const SliverFillRemaining();
-
+                SliverPadding(
+                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
+                  sliver: Builder(
+                    builder: (context) {
                       if (meetings.isEmpty && query.isNotEmpty) {
                         return const SliverFillRemaining(
                           child: CustomInformation(
@@ -198,7 +193,7 @@ class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage>
                       if (meetings.isEmpty) {
                         return const SliverFillRemaining(
                           child: CustomInformation(
-                            title: 'Data pertemuan tidak ada',
+                            title: 'Data pertemuan kosong',
                             subtitle: 'Tambahkan pertemuan dengan menekan tombol "Tambah"',
                           ),
                         );
@@ -220,22 +215,28 @@ class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage>
                         ),
                       );
                     },
-                  );
-                },
+                  ),
+                ),
+              ],
+            ),
+          ),
+          floatingActionButton: AnimatedFloatingActionButton(
+            animationController: fabAnimationController,
+            onPressed: () => navigatorKey.currentState!.pushNamed(
+              meetingFormRoute,
+              arguments: MeetingFormPageArgs(
+                meetingNumber: meetings.isEmpty ? 1 : meetings.last.number! + 1,
+                assistants: widget.practicum.assistants!,
               ),
             ),
-          ],
-        ),
-      ),
-      floatingActionButton: AnimatedFloatingActionButton(
-        animationController: fabAnimationController,
-        onPressed: () => navigatorKey.currentState!.pushNamed(meetingFormRoute),
-        tooltip: 'Tambah',
-        child: const Icon(
-          Icons.add_rounded,
-          size: 28,
-        ),
-      ),
+            tooltip: 'Tambah',
+            child: const Icon(
+              Icons.add_rounded,
+              size: 28,
+            ),
+          ),
+        );
+      },
     );
   }
 

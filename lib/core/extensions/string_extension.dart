@@ -18,9 +18,9 @@ extension IntDateTime on String {
     return hours * 60 + minutes;
   }
 
-  int toSecondsSinceEpoch(String dateTime) {
+  int toSecondsSinceEpoch() {
     final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
-    final date = dateFormat.parse(dateTime);
+    final date = dateFormat.parse(this);
 
     return date.millisecondsSinceEpoch ~/ 1000;
   }

@@ -19,7 +19,7 @@ class SelectClassroomPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: args.title,
+        title: '${args.practicum.course}',
       ),
       body: ListView.separated(
         padding: const EdgeInsets.all(20),
@@ -45,12 +45,10 @@ class SelectClassroomPage extends StatelessWidget {
 }
 
 class SelectClassroomPageArgs {
-  final String title;
   final Practicum practicum;
   final VoidCallback? onItemTapped;
 
   const SelectClassroomPageArgs({
-    required this.title,
     required this.practicum,
     this.onItemTapped,
   });
