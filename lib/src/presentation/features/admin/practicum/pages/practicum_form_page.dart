@@ -147,12 +147,10 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
       final practicum = PracticumPost.fromJson(formKey.currentState!.value);
 
       if (widget.args?.practicum != null) {
-        // Edit practicum
         ref
             .read(practicumActionsProvider.notifier)
             .editPracticum(widget.args!.practicum!, practicum);
       } else {
-        // Create practicum
         ref.read(practicumActionsProvider.notifier).createPracticum(practicum);
       }
     } else {

@@ -10,7 +10,7 @@ import 'package:asco/src/data/models/profiles/profile.dart';
 part 'classroom.freezed.dart';
 part 'classroom.g.dart';
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: false)
 class Classroom with _$Classroom {
   const factory Classroom({
     String? id,

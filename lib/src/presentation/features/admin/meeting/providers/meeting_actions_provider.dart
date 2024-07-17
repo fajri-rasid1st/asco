@@ -16,13 +16,10 @@ class MeetingActions extends _$MeetingActions {
     return const AsyncValue.data((message: null, action: ActionType.none));
   }
 
-  Future<void> addMeetingToPracticum(
-    String practicumId, {
-    required MeetingPost meeting,
-  }) async {
+  Future<void> createMeeting(String practicumId, {required MeetingPost meeting}) async {
     state = const AsyncValue.loading();
 
-    final result = await ref.watch(meetingRepositoryProvider).addMeetingToPracticum(
+    final result = await ref.watch(meetingRepositoryProvider).createMeeting(
           practicumId,
           meeting: meeting,
         );

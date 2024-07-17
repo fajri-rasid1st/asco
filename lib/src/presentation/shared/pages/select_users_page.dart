@@ -22,16 +22,16 @@ import 'package:asco/src/presentation/shared/widgets/custom_information.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/search_field.dart';
 import 'package:asco/src/presentation/shared/widgets/loading_indicator.dart';
 
-class SelectUsersPage extends ConsumerStatefulWidget {
+class SelectUsersPage extends StatefulWidget {
   final SelectUsersPageArgs args;
 
   const SelectUsersPage({super.key, required this.args});
 
   @override
-  ConsumerState<SelectUsersPage> createState() => _SelectUsersPageState();
+  State<SelectUsersPage> createState() => _SelectUsersPageState();
 }
 
-class _SelectUsersPageState extends ConsumerState<SelectUsersPage> {
+class _SelectUsersPageState extends State<SelectUsersPage> {
   List<Profile> selectedUsers = [];
 
   @override

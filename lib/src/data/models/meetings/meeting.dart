@@ -10,7 +10,7 @@ import 'package:asco/src/data/models/profiles/profile.dart';
 part 'meeting.freezed.dart';
 part 'meeting.g.dart';
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: false)
 class Meeting with _$Meeting {
   const factory Meeting({
     String? id,
@@ -19,8 +19,8 @@ class Meeting with _$Meeting {
     @JsonKey(name: 'meetingDate') int? date,
     Profile? assistant,
     Profile? coAssistant,
-    String? modulePath,
-    String? assignmentPath,
+    @JsonKey(name: 'module') String? modulePath,
+    @JsonKey(name: 'assignment') String? assignmentPath,
     int? assistanceDeadline,
   }) = _Meeting;
 

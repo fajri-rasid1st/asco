@@ -16,8 +16,8 @@ abstract class MeetingRepository {
   /// Get meeting detail
   Future<Either<Failure, Meeting>> getMeetingDetail(String id);
 
-  /// Add meeting to practicum
-  Future<Either<Failure, void>> addMeetingToPracticum(
+  /// Create meeting
+  Future<Either<Failure, void>> createMeeting(
     String practicumId, {
     required MeetingPost meeting,
   });
@@ -69,13 +69,13 @@ class MeetingRepositoryImpl implements MeetingRepository {
   }
 
   @override
-  Future<Either<Failure, void>> addMeetingToPracticum(
+  Future<Either<Failure, void>> createMeeting(
     String practicumId, {
     required MeetingPost meeting,
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await meetingDataSource.addMeetingToPracticum(
+        final result = await meetingDataSource.createMeeting(
           practicumId,
           meeting: meeting,
         );

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import 'package:asco/core/enums/action_type.dart';
 import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/function_helper.dart';
@@ -14,6 +13,7 @@ import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
+import 'package:asco/src/presentation/features/admin/meeting/pages/meeting_detail_page.dart';
 import 'package:asco/src/presentation/features/admin/meeting/pages/meeting_form_page.dart';
 import 'package:asco/src/presentation/features/admin/meeting/providers/meeting_actions_provider.dart';
 import 'package:asco/src/presentation/features/admin/meeting/providers/meetings_provider.dart';
@@ -112,10 +112,7 @@ class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage>
         },
         data: (data) {
           if (data.message != null) {
-            if (data.action == ActionType.delete) {
-              navigatorKey.currentState!.pop();
-            }
-
+            navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();
 
             ref.invalidate(meetingsProvider);
@@ -208,7 +205,13 @@ class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage>
                             child: MeetingCard(
                               meeting: meetings[index],
                               showDeleteButton: true,
-                              onTap: () => navigatorKey.currentState!.pushNamed(meetingDetailRoute),
+                              onTap: () => navigatorKey.currentState!.pushNamed(
+                                meetingDetailRoute,
+                                arguments: MeetingDetailPageArgs(
+                                  id: meetings[index].id!,
+                                  practicumName: widget.practicum.course!,
+                                ),
+                              ),
                             ),
                           ),
                           childCount: meetings.length,
@@ -225,8 +228,12 @@ class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage>
             onPressed: () => navigatorKey.currentState!.pushNamed(
               meetingFormRoute,
               arguments: MeetingFormPageArgs(
-                meetingNumber: meetings.isEmpty ? 1 : meetings.last.number! + 1,
-                assistants: widget.practicum.assistants!,
+                practicumId: widget.practicum.id!,
+                meetingNumber: meetings.isEmpty
+                    ? 1
+                    : ascendingOrder
+                        ? meetings.last.number! + 1
+                        : meetings.first.number! + 1,
               ),
             ),
             tooltip: 'Tambah',

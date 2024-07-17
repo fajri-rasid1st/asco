@@ -11,7 +11,7 @@ import 'package:asco/src/data/models/profiles/profile.dart';
 part 'practicum.freezed.dart';
 part 'practicum.g.dart';
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: false)
 class Practicum with _$Practicum {
   const factory Practicum({
     String? id,

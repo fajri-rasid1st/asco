@@ -27,15 +27,13 @@ class SelectClassroomPage extends StatelessWidget {
           classroom: args.practicum.classrooms![index],
           subtitleType: ClassroomSubtitleType.totalStudents,
           onTap: args.onItemTapped ??
-              () {
-                navigatorKey.currentState!.pushNamed(
-                  classroomDetailRoute,
-                  arguments: ClassroomDetailPageArgs(
-                    id: args.practicum.classrooms![index].id!,
-                    practicum: args.practicum,
+              () => navigatorKey.currentState!.pushNamed(
+                    classroomDetailRoute,
+                    arguments: ClassroomDetailPageArgs(
+                      id: args.practicum.classrooms![index].id!,
+                      practicum: args.practicum,
+                    ),
                   ),
-                );
-              },
         ),
         separatorBuilder: (context, index) => const SizedBox(height: 10),
         itemCount: args.practicum.classrooms!.length,

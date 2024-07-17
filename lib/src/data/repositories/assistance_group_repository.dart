@@ -16,8 +16,8 @@ abstract class AssistanceGroupRepository {
   /// Get assistance group detail
   Future<Either<Failure, AssistanceGroup>> getAssistanceGroupDetail(String id);
 
-  /// Add assistance group to practicum
-  Future<Either<Failure, void>> addAssistanceGroupToPracticum(
+  /// Create assistance group
+  Future<Either<Failure, void>> createAssistanceGroup(
     String practicumId, {
     required AssistanceGroupPost assistanceGroup,
   });
@@ -72,13 +72,13 @@ class AssistanceGroupRepositoryImpl implements AssistanceGroupRepository {
   }
 
   @override
-  Future<Either<Failure, void>> addAssistanceGroupToPracticum(
+  Future<Either<Failure, void>> createAssistanceGroup(
     String practicumId, {
     required AssistanceGroupPost assistanceGroup,
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await assistanceGroupDataSource.addAssistanceGroupToPracticum(
+        final result = await assistanceGroupDataSource.createAssistanceGroup(
           practicumId,
           assistanceGroup: assistanceGroup,
         );

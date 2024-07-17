@@ -16,13 +16,13 @@ class AssistanceGroupActions extends _$AssistanceGroupActions {
     return const AsyncValue.data((message: null, action: ActionType.none));
   }
 
-  Future<void> addAssistanceGroupToPracticum(
+  Future<void> createAssistanceGroup(
     String practicumId, {
     required AssistanceGroupPost assistanceGroup,
   }) async {
     state = const AsyncValue.loading();
 
-    final result = await ref.watch(assistanceGroupRepositoryProvider).addAssistanceGroupToPracticum(
+    final result = await ref.watch(assistanceGroupRepositoryProvider).createAssistanceGroup(
           practicumId,
           assistanceGroup: assistanceGroup,
         );

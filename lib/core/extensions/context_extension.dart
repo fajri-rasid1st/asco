@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:intl/intl.dart';
 
 // Project imports:
 import 'package:asco/core/enums/snack_bar_type.dart';
@@ -167,7 +168,7 @@ extension DatePickerExtension on BuildContext {
     );
 
     if (date != null) {
-      formKey.currentState?.fields[fieldKey]?.didChange(date.toIso8601String());
+      formKey.currentState?.fields[fieldKey]?.didChange(DateFormat('d/M/yyyy').format(date));
     }
 
     return date;

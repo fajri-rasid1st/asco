@@ -19,7 +19,7 @@ extension IntDateTime on String {
   }
 
   int toSecondsSinceEpoch() {
-    final dateFormat = DateFormat('yyyy-MM-dd HH:mm:ss');
+    final dateFormat = DateFormat('d/M/yyyy');
     final date = dateFormat.parse(this);
 
     return date.millisecondsSinceEpoch ~/ 1000;

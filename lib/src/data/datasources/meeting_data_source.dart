@@ -22,8 +22,8 @@ abstract class MeetingDataSource {
   /// Get meeting detail
   Future<Meeting> getMeetingDetail(String id);
 
-  /// Add meeting to practicum
-  Future<void> addMeetingToPracticum(String practicumId, {required MeetingPost meeting});
+  /// Create meeting
+  Future<void> createMeeting(String practicumId, {required MeetingPost meeting});
 
   /// Edit meeting
   Future<void> editMeeting(Meeting oldMeeting, MeetingPost newMeeting);
@@ -86,7 +86,7 @@ class MeetingDataSourceImpl implements MeetingDataSource {
   }
 
   @override
-  Future<void> addMeetingToPracticum(String practicumId, {required MeetingPost meeting}) async {
+  Future<void> createMeeting(String practicumId, {required MeetingPost meeting}) async {
     final modulePath =
         meeting.modulePath != null ? await FileService.uploadFile(meeting.modulePath!) : null;
 

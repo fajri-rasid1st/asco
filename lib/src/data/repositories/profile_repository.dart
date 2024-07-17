@@ -16,6 +16,7 @@ abstract class ProfileRepository {
     String role = '',
     String sortBy = '',
     String orderBy = '',
+    String practicum = '',
   });
 
   /// Get profile detail
@@ -46,6 +47,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
     String role = '',
     String sortBy = '',
     String orderBy = '',
+    String practicum = '',
   }) async {
     if (await networkInfo.isConnected) {
       try {
@@ -54,6 +56,7 @@ class ProfileRepositoryImpl implements ProfileRepository {
           role: role,
           sortBy: sortBy,
           orderBy: orderBy,
+          practicum: practicum,
         );
 
         return Right(result);

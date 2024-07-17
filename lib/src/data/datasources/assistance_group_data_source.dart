@@ -20,8 +20,8 @@ abstract class AssistanceGroupDataSource {
   /// Get assistance group detail
   Future<AssistanceGroup> getAssistanceGroupDetail(String id);
 
-  /// Add assistance group to practicum
-  Future<void> addAssistanceGroupToPracticum(
+  /// Create assistance group
+  Future<void> createAssistanceGroup(
     String practicumId, {
     required AssistanceGroupPost assistanceGroup,
   });
@@ -90,7 +90,7 @@ class AssistanceGroupDataSourceImpl implements AssistanceGroupDataSource {
   }
 
   @override
-  Future<void> addAssistanceGroupToPracticum(
+  Future<void> createAssistanceGroup(
     String practicumId, {
     required AssistanceGroupPost assistanceGroup,
   }) async {

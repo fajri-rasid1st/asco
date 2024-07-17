@@ -10,12 +10,24 @@ part 'users_provider.g.dart';
 @riverpod
 class Users extends _$Users {
   @override
-  Future<List<Profile>?> build({String role = ''}) async {
+  Future<List<Profile>?> build({
+    String query = '',
+    String role = '',
+    String sortBy = '',
+    String orderBy = '',
+    String practicum = '',
+  }) async {
     List<Profile>? users;
 
     state = const AsyncValue.loading();
 
-    final result = await ref.watch(profileRepositoryProvider).getProfiles(role: role);
+    final result = await ref.watch(profileRepositoryProvider).getProfiles(
+          query: query,
+          role: role,
+          sortBy: sortBy,
+          orderBy: orderBy,
+          practicum: practicum,
+        );
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),

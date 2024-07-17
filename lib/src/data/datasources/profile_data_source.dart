@@ -20,6 +20,7 @@ abstract class ProfileDataSource {
     String role = '',
     String sortBy = '',
     String orderBy = '',
+    String practicum = '',
   });
 
   /// Get profile detail
@@ -46,9 +47,16 @@ class ProfileDataSourceImpl implements ProfileDataSource {
     String role = '',
     String sortBy = '',
     String orderBy = '',
+    String practicum = '',
   }) async {
     try {
-      final queryParams = role.isEmpty ? "" : 'role=$role';
+      final searchParam = query.isEmpty ? query : 'query=$query';
+      final roleParam = role.isEmpty ? role : '&role=$role';
+      final sortByParam = sortBy.isEmpty ? sortBy : '&sortBy=$sortBy';
+      final orderByParam = orderBy.isEmpty ? orderBy : '&orderBy=$orderBy';
+      final practicumParam = practicum.isEmpty ? practicum : '&practicum=$practicum';
+
+      final queryParams = '$searchParam$roleParam$sortByParam$orderByParam$practicumParam';
 
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/users/master?$queryParams'),

@@ -160,7 +160,6 @@ class UserFormPage extends StatelessWidget {
     String? excelPath = formKey.currentState!.instantValue['excelPath'];
 
     if (excelPath != null) {
-      // Create users from excel file
       final excelData = ExcelHelper.convertToData(excelPath);
 
       if (excelData != null) {
@@ -173,21 +172,21 @@ class UserFormPage extends StatelessWidget {
       }
     } else {
       if (formKey.currentState!.saveAndValidate()) {
+        final value = formKey.currentState!.value;
+
         final user = ProfilePost(
-          username: formKey.currentState!.value['username'],
-          fullname: formKey.currentState!.value['fullname'],
-          classOf: formKey.currentState!.value['classOf'],
-          role: formKey.currentState!.value['role'],
-          password: formKey.currentState!.value['username'],
+          username: value['username'],
+          fullname: value['fullname'],
+          classOf: value['classOf'],
+          role: value['role'],
+          password: value['username'],
         );
 
         if (this.user != null) {
-          // Edit user
           ref
               .read(userActionsProvider.notifier)
               .editUser(this.user!.username!, user.copyWith(password: null));
         } else {
-          // Create user
           ref.read(userActionsProvider.notifier).createUser([user]);
         }
       }
