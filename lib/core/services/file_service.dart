@@ -188,5 +188,13 @@ class FileService {
     }
   }
 
-  static Future<void> openFile(String path) async => await OpenFile.open(path);
+  static Future<void> openFile(String path, [bool isUrl = false]) async {
+    if (isUrl) {
+      final newPath = await downloadFile(path);
+
+      if (newPath != null) await OpenFile.open(newPath);
+    } else {
+      await OpenFile.open(path);
+    }
+  }
 }

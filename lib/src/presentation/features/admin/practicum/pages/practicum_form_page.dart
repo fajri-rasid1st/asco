@@ -1,11 +1,7 @@
-// Dart imports:
-import 'dart:async';
-
 // Flutter imports:
 import 'package:flutter/material.dart';
 
 // Package imports:
-import 'package:after_layout/after_layout.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -15,7 +11,6 @@ import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/routes/route_names.dart';
-import 'package:asco/core/services/file_service.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/classrooms/classroom.dart';
 import 'package:asco/src/data/models/classrooms/classroom_post.dart';
@@ -32,32 +27,13 @@ import 'package:asco/src/presentation/shared/widgets/input_fields/custom_text_fi
 import 'package:asco/src/presentation/shared/widgets/input_fields/file_upload_field.dart';
 import 'package:asco/src/presentation/shared/widgets/section_header.dart';
 
-final badgePathProvider = StateProvider.autoDispose<String?>((ref) => null);
-final courseContractPathProvider = StateProvider.autoDispose<String?>((ref) => null);
-
-class PracticumFirstFormPage extends ConsumerStatefulWidget {
+class PracticumFirstFormPage extends ConsumerWidget {
   final PracticumFormPageArgs? args;
 
   const PracticumFirstFormPage({super.key, required this.args});
 
   @override
-  ConsumerState<PracticumFirstFormPage> createState() => _PracticumFirstFormPageState();
-}
-
-class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
-    with AfterLayoutMixin {
-  @override
-  FutureOr<void> afterFirstLayout(BuildContext context) async {
-    if (widget.args?.practicum != null) downloadPracticumFiles();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final badgePath = ref.watch(badgePathProvider);
-    final courseContractPath = ref.watch(courseContractPathProvider);
-
-    setPracticumFileFieldValues(badgePath, courseContractPath);
-
+  Widget build(BuildContext context, WidgetRef ref) {
     ref.listen(practicumActionsProvider, (_, state) {
       state.whenOrNull(
         data: (data) {
@@ -66,7 +42,7 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
               practicumSecondFormRoute,
               arguments: PracticumFormPageArgs(
                 id: data.message?.split(':').last,
-                practicum: widget.args?.practicum,
+                practicum: args?.practicum,
               ),
             );
           }
@@ -76,9 +52,9 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: '${widget.args?.practicum != null ? 'Edit' : 'Tambah'} Praktikum (1/2)',
+        title: '${args?.practicum != null ? 'Edit' : 'Tambah'} Praktikum (1/2)',
         action: IconButton(
-          onPressed: () => createOrEditPracticum(badgePath, courseContractPath),
+          onPressed: () => createOrEditPracticum(context, ref),
           icon: const Icon(Icons.chevron_right_rounded),
           iconSize: 30,
           tooltip: 'Selanjutnya',
@@ -98,7 +74,7 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
                 name: 'course',
                 label: 'Mata kuliah',
                 hintText: 'Masukkan nama mata kuliah',
-                initialValue: widget.args?.practicum?.course,
+                initialValue: args?.practicum?.course,
                 textCapitalization: TextCapitalization.words,
                 validators: [
                   FormBuilderValidators.required(
@@ -111,6 +87,7 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
                 name: 'badge',
                 label: 'Badge',
                 extensions: const [],
+                initialValue: args?.practicum?.badgePath,
                 validator: FormBuilderValidators.required(),
                 onPressedFilePickerButton: () async {
                   final result = await navigatorKey.currentState!.pushNamed(
@@ -128,10 +105,11 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
                 },
               ),
               const SizedBox(height: 12),
-              const FileUploadField(
+              FileUploadField(
                 name: 'courseContract',
                 label: 'Kontrak Kuliah',
-                extensions: ['pdf', 'doc', 'docx'],
+                extensions: const ['pdf', 'doc', 'docx'],
+                initialValue: args?.practicum?.courseContractPath,
               ),
             ],
           ),
@@ -140,16 +118,14 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
     );
   }
 
-  void createOrEditPracticum(String? badgePath, String? courseContractPath) {
+  void createOrEditPracticum(BuildContext context, WidgetRef ref) {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (formKey.currentState!.saveAndValidate()) {
       final practicum = PracticumPost.fromJson(formKey.currentState!.value);
 
-      if (widget.args?.practicum != null) {
-        ref
-            .read(practicumActionsProvider.notifier)
-            .editPracticum(widget.args!.practicum!, practicum);
+      if (args?.practicum != null) {
+        ref.read(practicumActionsProvider.notifier).editPracticum(args!.practicum!, practicum);
       } else {
         ref.read(practicumActionsProvider.notifier).createPracticum(practicum);
       }
@@ -159,30 +135,6 @@ class _PracticumFirstFormPageState extends ConsumerState<PracticumFirstFormPage>
         message: 'Matakuliah & badge wajib diisi',
         type: SnackBarType.error,
       );
-    }
-  }
-
-  void downloadPracticumFiles() async {
-    context.showLoadingDialog();
-
-    ref.read(badgePathProvider.notifier).state =
-        await FileService.downloadFile(widget.args!.practicum!.badgePath!);
-
-    if (widget.args!.practicum!.courseContractPath != null) {
-      ref.read(courseContractPathProvider.notifier).state =
-          await FileService.downloadFile(widget.args!.practicum!.courseContractPath!);
-    }
-
-    navigatorKey.currentState!.pop();
-  }
-
-  void setPracticumFileFieldValues(String? badgePath, String? courseContractPath) {
-    if (badgePath != null) {
-      formKey.currentState?.fields['badge']!.didChange(badgePath);
-    }
-
-    if (courseContractPath != null) {
-      formKey.currentState?.fields['courseContract']!.didChange(courseContractPath);
     }
   }
 }
@@ -265,9 +217,7 @@ class _PracticumSecondFormPageState extends ConsumerState<PracticumSecondFormPag
                     final result = await showDialog<Classroom>(
                       context: context,
                       barrierDismissible: false,
-                      builder: (context) => ClassroomFormDialog(
-                        classroom: classrooms[index],
-                      ),
+                      builder: (context) => ClassroomFormDialog(classroom: classrooms[index]),
                     );
 
                     if (result != null) setState(() => classrooms[index] = result);
@@ -316,9 +266,7 @@ class _PracticumSecondFormPageState extends ConsumerState<PracticumSecondFormPag
                   user: assistants[index],
                   badgeType: UserBadgeType.text,
                   showDeleteButton: true,
-                  onPressedDeleteButton: () {
-                    setState(() => assistants.remove(assistants[index]));
-                  },
+                  onPressedDeleteButton: () => setState(() => assistants.remove(assistants[index])),
                 ),
               ),
             ),

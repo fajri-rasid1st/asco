@@ -58,6 +58,7 @@ class FileUploadField extends StatelessWidget {
           validator: validator,
           builder: (field) {
             final path = field.value;
+            final isUrl = Uri.tryParse(path ?? '')?.isAbsolute ?? false;
 
             return Row(
               children: [
@@ -65,7 +66,7 @@ class FileUploadField extends StatelessWidget {
                   child: FilledButton(
                     onPressed: () {
                       if (path != null) {
-                        FileService.openFile(path);
+                        FileService.openFile(path, isUrl);
                       } else {
                         context.showSnackBar(
                           title: 'File Tidak Ada',

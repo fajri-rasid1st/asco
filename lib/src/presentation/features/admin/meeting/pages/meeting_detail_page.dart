@@ -168,7 +168,7 @@ class MeetingDetailPage extends ConsumerWidget {
                   onPressed: () => openFile(
                     context,
                     name: 'Soal Praktikum',
-                    path: meeting.modulePath,
+                    path: meeting.assignmentPath,
                   ),
                   icon: const Icon(Icons.menu_book_rounded),
                   label: const Text('Buka Soal Praktikum'),
@@ -202,7 +202,9 @@ class MeetingDetailPage extends ConsumerWidget {
     String? path,
   }) {
     if (path != null) {
-      FileService.openFile(path);
+      final isUrl = Uri.tryParse(path)?.isAbsolute ?? false;
+
+      FileService.openFile(path, isUrl);
     } else {
       context.showSnackBar(
         title: '$name Tidak Ada',

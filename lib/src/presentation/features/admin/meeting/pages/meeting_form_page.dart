@@ -138,19 +138,21 @@ class MeetingFormPage extends StatelessWidget {
                         items: assistants.map((e) => '${e.fullname} (${e.classOf})').toList(),
                         values: assistants.map((e) => e.id).toList(),
                         initialValue: args.meeting?.coAssistant?.id ??
-                            (assistants.isNotEmpty ? assistants.last.id : null),
+                            (assistants.isNotEmpty ? assistants.first.id : null),
                       ),
                       const SizedBox(height: 12),
-                      const FileUploadField(
+                      FileUploadField(
                         name: 'modulePath',
                         label: 'Modul',
-                        extensions: ['pdf', 'doc', 'docx'],
+                        extensions: const ['pdf', 'doc', 'docx'],
+                        initialValue: args.meeting?.modulePath,
                       ),
                       const SizedBox(height: 12),
-                      const FileUploadField(
+                      FileUploadField(
                         name: 'assignmentPath',
                         label: 'Soal praktikum',
-                        extensions: ['pdf', 'doc', 'docx'],
+                        extensions: const ['pdf', 'doc', 'docx'],
+                        initialValue: args.meeting?.assignmentPath,
                       ),
                     ],
                   );
