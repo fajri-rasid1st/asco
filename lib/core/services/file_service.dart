@@ -44,11 +44,15 @@ class FileService {
   static Future<String?> downloadFile(String url) async {
     try {
       final directory = await getTemporaryDirectory();
-      final response = await HttpClient.client.get(Uri.parse(url));
       final fileName = p.basename(url);
-      final file = await File('${directory.path}/$fileName').writeAsBytes(response.bodyBytes);
+      final file = File('${directory.path}/$fileName');
 
-      return file.path;
+      if (await file.exists()) return file.path;
+
+      final response = await HttpClient.client.get(Uri.parse(url));
+      final downloadedFile = await file.writeAsBytes(response.bodyBytes);
+
+      return downloadedFile.path;
     } catch (e) {
       return null;
     }
@@ -92,9 +96,9 @@ class FileService {
           }
         }
 
-        final response = await HttpClient.client.get(Uri.parse(url));
         final fileName = name ?? p.basename(url);
         final file = File('${directory?.path}/$fileName');
+        final response = await HttpClient.client.get(Uri.parse(url));
 
         await file.create(recursive: true);
         await file.writeAsBytes(response.bodyBytes);

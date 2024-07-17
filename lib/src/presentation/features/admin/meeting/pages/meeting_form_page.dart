@@ -57,23 +57,34 @@ class MeetingFormPage extends StatelessWidget {
           key: formKey,
           child: Consumer(
             builder: (context, ref, child) {
-              final assistants = ref.watch(UsersProvider(role: 'ASSISTANT'));
+              final assistants = ref.watch(
+                UsersProvider(
+                  role: 'ASSISTANT',
+                  practicum: args.practicumId,
+                ),
+              );
 
-              ref.listen(UsersProvider(role: 'ASSISTANT'), (_, state) {
-                state.whenOrNull(
-                  error: (error, _) {
-                    if ('$error' == kNoInternetConnection) {
-                      context.showNoConnectionSnackBar();
-                    } else {
-                      context.showSnackBar(
-                        title: 'Terjadi Kesalahan',
-                        message: '$error',
-                        type: SnackBarType.error,
-                      );
-                    }
-                  },
-                );
-              });
+              ref.listen(
+                UsersProvider(
+                  role: 'ASSISTANT',
+                  practicum: args.practicumId,
+                ),
+                (_, state) {
+                  state.whenOrNull(
+                    error: (error, _) {
+                      if ('$error' == kNoInternetConnection) {
+                        context.showNoConnectionSnackBar();
+                      } else {
+                        context.showSnackBar(
+                          title: 'Terjadi Kesalahan',
+                          message: '$error',
+                          type: SnackBarType.error,
+                        );
+                      }
+                    },
+                  );
+                },
+              );
 
               return assistants.when(
                 loading: () => const LoadingIndicator(),
@@ -194,21 +205,19 @@ class MeetingFormPage extends StatelessWidget {
       if (args.meeting != null) {
         ref.read(meetingActionsProvider.notifier).editMeeting(args.meeting!, meeting);
       } else {
-        ref
-            .read(meetingActionsProvider.notifier)
-            .createMeeting(args.practicumId!, meeting: meeting);
+        ref.read(meetingActionsProvider.notifier).createMeeting(args.practicumId, meeting: meeting);
       }
     }
   }
 }
 
 class MeetingFormPageArgs {
-  final String? practicumId;
+  final String practicumId;
   final int? meetingNumber;
   final Meeting? meeting;
 
   const MeetingFormPageArgs({
-    this.practicumId,
+    required this.practicumId,
     this.meetingNumber,
     this.meeting,
   });

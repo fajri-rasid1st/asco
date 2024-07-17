@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 // Project imports:
 import 'package:asco/core/errors/exceptions.dart';
 import 'package:asco/core/utils/const.dart';
+import 'package:flutter/foundation.dart';
 
 /// A base Failure class.
 abstract class Failure extends Equatable {
@@ -53,8 +54,12 @@ Failure failure(Object e) {
         return const ServerFailure('Minimal harus terdapat 1 asisten yang ditambahkan');
       case kStudentsEmpty:
         return const ServerFailure('Minimal harus terdapat 1 siswa yang ditambahkan');
+      case kStudentsAlreadyExists:
+        return const ServerFailure('Terdapat siswa yang telah memiliki kelas pada praktikum ini');
       default:
-        return ServerFailure(e.message);
+        if (kDebugMode) return ServerFailure(e.message);
+
+        return const ServerFailure('Terjadi kesalahan. Silahkan coba lagi');
     }
   }
 

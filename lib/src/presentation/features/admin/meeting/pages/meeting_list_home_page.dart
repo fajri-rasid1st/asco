@@ -209,7 +209,7 @@ class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage>
                                 meetingDetailRoute,
                                 arguments: MeetingDetailPageArgs(
                                   id: meetings[index].id!,
-                                  practicumName: widget.practicum.course!,
+                                  practicum: widget.practicum,
                                 ),
                               ),
                             ),

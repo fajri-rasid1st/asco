@@ -9,6 +9,7 @@ import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/presentation/features/admin/classroom/pages/classroom_detail_page.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/classroom_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
+import 'package:asco/src/presentation/shared/widgets/custom_information.dart';
 
 class SelectClassroomPage extends StatelessWidget {
   final SelectClassroomPageArgs args;
@@ -21,23 +22,28 @@ class SelectClassroomPage extends StatelessWidget {
       appBar: CustomAppBar(
         title: '${args.practicum.course}',
       ),
-      body: ListView.separated(
-        padding: const EdgeInsets.all(20),
-        itemBuilder: (context, index) => ClassroomCard(
-          classroom: args.practicum.classrooms![index],
-          subtitleType: ClassroomSubtitleType.totalStudents,
-          onTap: args.onItemTapped ??
-              () => navigatorKey.currentState!.pushNamed(
-                    classroomDetailRoute,
-                    arguments: ClassroomDetailPageArgs(
-                      id: args.practicum.classrooms![index].id!,
-                      practicum: args.practicum,
-                    ),
-                  ),
-        ),
-        separatorBuilder: (context, index) => const SizedBox(height: 10),
-        itemCount: args.practicum.classrooms!.length,
-      ),
+      body: args.practicum.classroomsLength! > 0
+          ? ListView.separated(
+              padding: const EdgeInsets.all(20),
+              itemBuilder: (context, index) => ClassroomCard(
+                classroom: args.practicum.classrooms![index],
+                subtitleType: ClassroomSubtitleType.totalStudents,
+                onTap: args.onItemTapped ??
+                    () => navigatorKey.currentState!.pushNamed(
+                          classroomDetailRoute,
+                          arguments: ClassroomDetailPageArgs(
+                            id: args.practicum.classrooms![index].id!,
+                            practicum: args.practicum,
+                          ),
+                        ),
+              ),
+              separatorBuilder: (context, index) => const SizedBox(height: 10),
+              itemCount: args.practicum.classrooms!.length,
+            )
+          : const CustomInformation(
+              title: 'Data kelas kosong',
+              subtitle: 'Tidak ada kelas yang dapat ditampilkan',
+            ),
     );
   }
 }

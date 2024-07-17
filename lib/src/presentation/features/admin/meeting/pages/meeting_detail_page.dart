@@ -16,6 +16,7 @@ import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/presentation/features/admin/meeting/pages/meeting_form_page.dart';
 import 'package:asco/src/presentation/features/admin/meeting/providers/meeting_actions_provider.dart';
 import 'package:asco/src/presentation/features/admin/meeting/providers/meeting_detail_provider.dart';
@@ -71,7 +72,10 @@ class MeetingDetailPage extends ConsumerWidget {
             action: IconButton(
               onPressed: () => navigatorKey.currentState!.pushNamed(
                 meetingFormRoute,
-                arguments: MeetingFormPageArgs(meeting: meeting),
+                arguments: MeetingFormPageArgs(
+                  practicumId: args.practicum.id!,
+                  meeting: meeting,
+                ),
               ),
               icon: const Icon(Icons.edit_rounded),
               iconSize: 20,
@@ -129,7 +133,7 @@ class MeetingDetailPage extends ConsumerWidget {
                               ),
                             ),
                             Text(
-                              args.practicumName,
+                              '${args.practicum.course}',
                               style: textTheme.bodyLarge!.copyWith(
                                 color: Palette.purple3,
                                 fontWeight: FontWeight.w500,
@@ -217,10 +221,10 @@ class MeetingDetailPage extends ConsumerWidget {
 
 class MeetingDetailPageArgs {
   final String id;
-  final String practicumName;
+  final Practicum practicum;
 
   const MeetingDetailPageArgs({
     required this.id,
-    required this.practicumName,
+    required this.practicum,
   });
 }

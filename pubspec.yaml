@@ -7,7 +7,6 @@ environment:
   sdk: ">=3.3.3 <4.0.0"
 
 dependencies:
-  after_layout: ^1.2.0
   cached_network_image: ^3.3.1
   dartz: ^0.10.1
   device_info_plus: ^10.1.0

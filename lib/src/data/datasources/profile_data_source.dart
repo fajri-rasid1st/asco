@@ -50,7 +50,7 @@ class ProfileDataSourceImpl implements ProfileDataSource {
     String practicum = '',
   }) async {
     try {
-      final searchParam = query.isEmpty ? query : 'query=$query';
+      final searchParam = query.isEmpty ? query : '&query=$query';
       final roleParam = role.isEmpty ? role : '&role=$role';
       final sortByParam = sortBy.isEmpty ? sortBy : '&sortBy=$sortBy';
       final orderByParam = orderBy.isEmpty ? orderBy : '&orderBy=$orderBy';
