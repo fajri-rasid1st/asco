@@ -164,8 +164,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => AssistanceGroupFormPage(args: args),
       );
     case controlCardListHomeRoute:
+      final practicum = settings.arguments as Practicum;
+
       return MaterialPageRoute(
-        builder: (_) => const ControlCardListHomePage(),
+        builder: (_) => ControlCardListHomePage(practicum: practicum),
       );
     case labRulesRoute:
       return MaterialPageRoute(

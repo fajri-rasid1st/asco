@@ -89,7 +89,10 @@ class AdminHomePage extends ConsumerWidget {
         onTap: () => navigatorKey.currentState!.pushNamed(
           selectPracticumRoute,
           arguments: SelectPracticumPageArgs(
-            onItemTapped: (_) => navigatorKey.currentState!.pushNamed(controlCardListHomeRoute),
+            onItemTapped: (practicum) => navigatorKey.currentState!.pushNamed(
+              controlCardListHomeRoute,
+              arguments: practicum,
+            ),
           ),
         ),
       ),

@@ -179,7 +179,7 @@ class ClassroomDetailPage extends ConsumerWidget {
                 ),
                 if (classroom.students!.isEmpty)
                   const CustomInformation(
-                    title: 'Peserta kelas masih kosong',
+                    title: 'Peserta kelas kosong',
                     subtitle: 'Tambahkan peserta dengan menekan tombol "Tambah"',
                   )
                 else
