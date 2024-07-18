@@ -50,7 +50,7 @@ class AdminHomePage extends ConsumerWidget {
         onTap: () => navigatorKey.currentState!.pushNamed(
           selectPracticumRoute,
           arguments: SelectPracticumPageArgs(
-            onItemTapped: () => navigatorKey.currentState!.pushNamed(
+            onItemTapped: (_) => navigatorKey.currentState!.pushNamed(
               selectClassroomRoute,
               // arguments: SelectClassroomPageArgs(
               //   title: 'Pemrograman Mobile',
@@ -66,7 +66,7 @@ class AdminHomePage extends ConsumerWidget {
         onTap: () => navigatorKey.currentState!.pushNamed(
           selectPracticumRoute,
           arguments: SelectPracticumPageArgs(
-            onItemTapped: () => navigatorKey.currentState!.pushNamed(scoreRecapListHomeRoute),
+            onItemTapped: (_) => navigatorKey.currentState!.pushNamed(scoreRecapListHomeRoute),
           ),
         ),
       ),
@@ -76,7 +76,10 @@ class AdminHomePage extends ConsumerWidget {
         onTap: () => navigatorKey.currentState!.pushNamed(
           selectPracticumRoute,
           arguments: SelectPracticumPageArgs(
-            onItemTapped: () => navigatorKey.currentState!.pushNamed(assistanceGroupListHomeRoute),
+            onItemTapped: (practicum) => navigatorKey.currentState!.pushNamed(
+              assistanceGroupListHomeRoute,
+              arguments: practicum,
+            ),
           ),
         ),
       ),
@@ -86,7 +89,7 @@ class AdminHomePage extends ConsumerWidget {
         onTap: () => navigatorKey.currentState!.pushNamed(
           selectPracticumRoute,
           arguments: SelectPracticumPageArgs(
-            onItemTapped: () => navigatorKey.currentState!.pushNamed(controlCardListHomeRoute),
+            onItemTapped: (_) => navigatorKey.currentState!.pushNamed(controlCardListHomeRoute),
           ),
         ),
       ),

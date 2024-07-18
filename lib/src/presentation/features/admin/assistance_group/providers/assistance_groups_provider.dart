@@ -20,7 +20,7 @@ class AssistanceGroups extends _$AssistanceGroups {
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
-        assistanceGroups = r;
+        assistanceGroups = r..sort((a, b) => a.number!.compareTo(b.number!));
         state = AsyncValue.data(assistanceGroups);
       },
     );

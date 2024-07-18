@@ -12,6 +12,7 @@ const kIncorrectPassword = 'password is incorrect';
 const kClassroomsEmpty = '"classrooms" must contain at least 1 items';
 const kAssistantsEmpty = '"assistants" must contain at least 1 items';
 const kStudentsEmpty = '"students" must contain at least 1 items';
+const kMenteesEmpty = '"mentees" must contain at least 1 items';
 const kStudentsAlreadyExists =
     'cannot assign student to this classroom has been assigned to another classroom in this practicum';
 

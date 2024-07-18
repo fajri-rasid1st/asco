@@ -10,13 +10,15 @@ import 'package:asco/src/data/models/profiles/profile.dart';
 part 'assistance_group.freezed.dart';
 part 'assistance_group.g.dart';
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: false)
 class AssistanceGroup with _$AssistanceGroup {
   const factory AssistanceGroup({
     String? id,
     int? number,
     Profile? assistant,
+    String? assistantName,
     List<Profile>? students,
+    int? studentsCount,
     String? githubRepositoryUrl,
   }) = _AssistanceGroup;
 

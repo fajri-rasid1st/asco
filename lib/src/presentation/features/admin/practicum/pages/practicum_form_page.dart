@@ -266,7 +266,9 @@ class _PracticumSecondFormPageState extends ConsumerState<PracticumSecondFormPag
                   user: assistants[index],
                   badgeType: UserBadgeType.text,
                   showDeleteButton: true,
-                  onPressedDeleteButton: () => setState(() => assistants.remove(assistants[index])),
+                  onPressedDeleteButton: () {
+                    setState(() => assistants.remove(assistants[index]));
+                  },
                 ),
               ),
             ),

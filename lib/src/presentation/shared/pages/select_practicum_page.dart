@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/utils/const.dart';
+import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/presentation/features/admin/practicum/providers/practicums_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/practicum_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
@@ -53,7 +54,7 @@ class SelectPracticumPage extends StatelessWidget {
 
               if (practicums.isEmpty) {
                 return const CustomInformation(
-                  title: 'Data praktikum belum ada',
+                  title: 'Data praktikum kosong',
                   subtitle: 'Silahkan tambah praktikum pada menu data praktikum',
                 );
               }
@@ -63,7 +64,9 @@ class SelectPracticumPage extends StatelessWidget {
                 itemBuilder: (context, index) => PracticumCard(
                   practicum: practicums[index],
                   showClassroomAndMeetingButtons: args.showClassroomAndMeetingButtons,
-                  onTap: args.onItemTapped,
+                  onTap: args.onItemTapped != null
+                      ? () => args.onItemTapped!(practicums[index])
+                      : null,
                 ),
                 separatorBuilder: (context, index) => const SizedBox(height: 10),
                 itemCount: practicums.length,
@@ -78,7 +81,7 @@ class SelectPracticumPage extends StatelessWidget {
 
 class SelectPracticumPageArgs {
   final bool showClassroomAndMeetingButtons;
-  final VoidCallback? onItemTapped;
+  final void Function(Practicum practicum)? onItemTapped;
 
   const SelectPracticumPageArgs({
     this.showClassroomAndMeetingButtons = false,

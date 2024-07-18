@@ -146,12 +146,16 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const AttendanceDetailPage(),
       );
     case assistanceGroupListHomeRoute:
+      final practicum = settings.arguments as Practicum;
+
       return MaterialPageRoute(
-        builder: (_) => const AssistanceGroupListHomePage(),
+        builder: (_) => AssistanceGroupListHomePage(practicum: practicum),
       );
     case assistanceGroupDetailRoute:
+      final args = settings.arguments as AssistanceGroupDetailPageArgs;
+
       return MaterialPageRoute(
-        builder: (_) => const AssistanceGroupDetailPage(),
+        builder: (_) => AssistanceGroupDetailPage(args: args),
       );
     case assistanceGroupFormRoute:
       final args = settings.arguments as AssistanceGroupFormPageArgs;

@@ -137,7 +137,7 @@ class MeetingFormPage extends StatelessWidget {
                       CustomDropdownField(
                         name: 'assistantId',
                         label: 'Pemateri',
-                        items: assistants.map((e) => '${e.fullname} (${e.classOf})').toList(),
+                        items: assistants.map((e) => '${e.nickname} (${e.classOf})').toList(),
                         values: assistants.map((e) => e.id).toList(),
                         initialValue: args.meeting?.assistant?.id ??
                             (assistants.isNotEmpty ? assistants.first.id : null),
@@ -146,7 +146,7 @@ class MeetingFormPage extends StatelessWidget {
                       CustomDropdownField(
                         name: 'coAssistantId',
                         label: 'Pendamping',
-                        items: assistants.map((e) => '${e.fullname} (${e.classOf})').toList(),
+                        items: assistants.map((e) => '${e.nickname} (${e.classOf})').toList(),
                         values: assistants.map((e) => e.id).toList(),
                         initialValue: args.meeting?.coAssistant?.id ??
                             (assistants.isNotEmpty ? assistants.first.id : null),
