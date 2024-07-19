@@ -71,11 +71,11 @@ class _PracticumListHomePageState extends ConsumerState<PracticumListHomePage>
           }
         },
         data: (data) {
-          if (data.message != null) {
-            if (data.action == ActionType.delete) {
-              navigatorKey.currentState!.pop();
-            }
+          if (data.action == ActionType.delete) {
+            navigatorKey.currentState!.pop();
+          }
 
+          if (data.message != null) {
             navigatorKey.currentState!.pop();
 
             ref.invalidate(practicumsProvider);

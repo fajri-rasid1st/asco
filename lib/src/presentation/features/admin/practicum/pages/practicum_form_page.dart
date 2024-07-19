@@ -222,16 +222,7 @@ class _PracticumSecondFormPageState extends ConsumerState<PracticumSecondFormPag
 
                     if (result != null) setState(() => classrooms[index] = result);
                   },
-                  onDelete: () => context.showConfirmDialog(
-                    title: 'Hapus Kelas?',
-                    message: 'Anda yakin ingin menghapus kelas ini?',
-                    primaryButtonText: 'Hapus',
-                    onPressedPrimaryButton: () {
-                      setState(() => classrooms.remove(classrooms[index]));
-
-                      navigatorKey.currentState!.pop();
-                    },
-                  ),
+                  onDelete: () => setState(() => classrooms.remove(classrooms[index])),
                 ),
               ),
             ),

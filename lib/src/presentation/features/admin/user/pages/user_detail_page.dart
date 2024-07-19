@@ -19,21 +19,13 @@ import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_badge.dart';
 
-class UserDetailPage extends ConsumerWidget {
+class UserDetailPage extends StatelessWidget {
   final Profile user;
 
   const UserDetailPage({super.key, required this.user});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    ref.listen(userActionsProvider, (_, state) {
-      state.whenOrNull(
-        data: (data) {
-          if (data.message != null) navigatorKey.currentState!.pop();
-        },
-      );
-    });
-
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Detail Pengguna',
@@ -97,21 +89,25 @@ class UserDetailPage extends ConsumerWidget {
               ),
             ),
             const Spacer(),
-            OutlinedButton(
-              onPressed: () => context.showConfirmDialog(
-                title: 'Reset Password?',
-                message: 'Password akan diubah sesuai dengan username pengguna.',
-                primaryButtonText: 'Reset',
-                onPressedPrimaryButton: () => resetPassword(ref),
-              ),
-              style: OutlinedButton.styleFrom(
-                foregroundColor: Palette.errorText,
-                side: const BorderSide(
-                  color: Palette.errorText,
-                ),
-              ),
-              child: const Text('Reset Password'),
-            ).fullWidth(),
+            Consumer(
+              builder: (context, ref, child) {
+                return OutlinedButton(
+                  onPressed: () => context.showConfirmDialog(
+                    title: 'Reset Password?',
+                    message: 'Password akan diubah sesuai dengan username pengguna.',
+                    primaryButtonText: 'Reset',
+                    onPressedPrimaryButton: () => resetPassword(ref),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: Palette.errorText,
+                    side: const BorderSide(
+                      color: Palette.errorText,
+                    ),
+                  ),
+                  child: const Text('Reset Password'),
+                ).fullWidth();
+              },
+            ),
           ],
         ),
       ),

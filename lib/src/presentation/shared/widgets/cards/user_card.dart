@@ -91,12 +91,12 @@ class UserCard extends StatelessWidget {
             const SizedBox(width: 8),
             CircleBorderContainer(
               size: 28,
-              borderColor: Palette.pink2,
-              fillColor: Palette.error,
+              borderColor: onPressedDeleteButton != null ? Palette.pink2 : null,
+              fillColor: onPressedDeleteButton != null ? Palette.error : null,
               onTap: onPressedDeleteButton,
-              child: const Icon(
+              child: Icon(
                 Icons.remove_rounded,
-                color: Palette.background,
+                color: onPressedDeleteButton != null ? Palette.background : Palette.border,
                 size: 18,
               ),
             ),

@@ -153,6 +153,13 @@ class AssistanceGroupDetailPage extends ConsumerWidget {
                     child: UserCard(
                       user: group.students![index],
                       badgeType: UserBadgeType.text,
+                      showDeleteButton: true,
+                      onPressedDeleteButton: () => context.showConfirmDialog(
+                        title: 'Keluarkan Peserta?',
+                        message: 'Anda yakin ingin mengeluarkan peserta dari grup ini?',
+                        primaryButtonText: 'Keluarkan',
+                        onPressedPrimaryButton: () {},
+                      ),
                     ),
                   ),
                 ),

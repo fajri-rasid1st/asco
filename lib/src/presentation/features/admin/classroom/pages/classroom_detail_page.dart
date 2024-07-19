@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:asco/core/enums/action_type.dart';
 import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
@@ -71,6 +72,10 @@ class ClassroomDetailPage extends ConsumerWidget {
           }
         },
         data: (data) {
+          if (data.action == ActionType.delete) {
+            navigatorKey.currentState!.pop();
+          }
+
           if (data.message != null) {
             navigatorKey.currentState!.pop();
 
@@ -193,7 +198,14 @@ class ClassroomDetailPage extends ConsumerWidget {
                         user: classroom.students![index],
                         badgeType: UserBadgeType.text,
                         showDeleteButton: true,
-                        onPressedDeleteButton: () => removeStudent(ref, classroom.students![index]),
+                        onPressedDeleteButton: () => context.showConfirmDialog(
+                          title: 'Keluarkan Peserta?',
+                          message: 'Anda yakin ingin mengeluarkan peserta dari kelas ini?',
+                          primaryButtonText: 'Keluarkan',
+                          onPressedPrimaryButton: () {
+                            removeStudent(ref, classroom.students![index]);
+                          },
+                        ),
                       ),
                     ),
                   ),

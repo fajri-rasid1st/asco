@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:asco/core/enums/action_type.dart';
 import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/function_helper.dart';
@@ -78,6 +79,10 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
           }
         },
         data: (data) {
+          if (data.action == ActionType.update) {
+            navigatorKey.currentState!.pop();
+          }
+
           if (data.message != null) {
             navigatorKey.currentState!.pop();
             navigatorKey.currentState!.pop();

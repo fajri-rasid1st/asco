@@ -36,10 +36,12 @@ class AssistanceGroupFormPage extends StatefulWidget {
 
 class _AssistanceGroupFormPageState extends State<AssistanceGroupFormPage> {
   List<Profile> students = [];
+  late List<String> currentStudents;
 
   @override
   void initState() {
     students = [...?widget.args.group?.students];
+    currentStudents = [...students.map((e) => e.username!)];
 
     super.initState();
   }
@@ -153,9 +155,10 @@ class _AssistanceGroupFormPageState extends State<AssistanceGroupFormPage> {
                             user: students[index],
                             badgeType: UserBadgeType.text,
                             showDeleteButton: true,
-                            onPressedDeleteButton: () {
-                              setState(() => students.remove(students[index]));
-                            },
+                            onPressedDeleteButton:
+                                currentStudents.contains(students[index].username)
+                                    ? null
+                                    : () => setState(() => students.remove(students[index])),
                           ),
                         ),
                       ),
