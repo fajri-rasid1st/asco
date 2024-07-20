@@ -24,7 +24,7 @@ abstract class ProfileDataSource {
   });
 
   /// Get profile detail
-  Future<Profile> getProfileDetail(String id);
+  Future<Profile> getProfileDetail(String username);
 
   /// Create profiles
   Future<void> createProfiles(List<ProfilePost> profiles);
@@ -81,10 +81,10 @@ class ProfileDataSourceImpl implements ProfileDataSource {
   }
 
   @override
-  Future<Profile> getProfileDetail(String id) async {
+  Future<Profile> getProfileDetail(String username) async {
     try {
       final response = await client.get(
-        Uri.parse('${ApiConfigs.baseUrl}/users/$id'),
+        Uri.parse('${ApiConfigs.baseUrl}/users/$username'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'

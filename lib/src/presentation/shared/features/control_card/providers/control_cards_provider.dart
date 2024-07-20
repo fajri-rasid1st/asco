@@ -2,7 +2,10 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/src/data/models/control_cards/control_card.dart';
+import 'package:asco/src/data/models/profiles/profile.dart';
+import 'package:asco/src/presentation/features/admin/user/providers/user_detail_provider.dart';
 import 'package:asco/src/presentation/providers/repository_providers/control_card_repository_provider.dart';
 
 part 'control_cards_provider.g.dart';
@@ -10,8 +13,9 @@ part 'control_cards_provider.g.dart';
 @riverpod
 class ControlCards extends _$ControlCards {
   @override
-  Future<List<ControlCard>?> build(String practicumId) async {
-    List<ControlCard>? controlCards;
+  Future<({List<ControlCard>? cards, Profile? student})> build(String practicumId) async {
+    List<ControlCard>? cards;
+    Profile? student;
 
     state = const AsyncValue.loading();
 
@@ -20,11 +24,21 @@ class ControlCards extends _$ControlCards {
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
-        controlCards = r;
-        state = AsyncValue.data(controlCards);
+        cards = r;
+
+        ref.listen(UserDetailProvider(CredentialSaver.credential!.username!), (_, state) {
+          state.when(
+            loading: () => this.state = const AsyncValue.loading(),
+            error: (error, _) => this.state = AsyncValue.error(error, StackTrace.current),
+            data: (data) {
+              student = data;
+              this.state = AsyncValue.data((cards: cards, student: student));
+            },
+          );
+        });
       },
     );
 
-    return controlCards;
+    return (cards: cards, student: student);
   }
 }

@@ -132,7 +132,7 @@ class ControlCardListHomePage extends StatelessWidget {
                                 arguments: ControlCardDetailPageArgs(
                                   practicum: practicum,
                                   groupNumber: group.number!,
-                                  studentId: group.students![index].id,
+                                  student: group.students![index],
                                 ),
                               ),
                             ),

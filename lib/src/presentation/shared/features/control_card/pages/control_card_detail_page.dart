@@ -14,6 +14,7 @@ import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
+import 'package:asco/src/data/models/profiles/profile.dart';
 import 'package:asco/src/presentation/shared/features/control_card/providers/control_cards_provider.dart';
 import 'package:asco/src/presentation/shared/features/control_card/providers/student_control_cards_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/attendance_card.dart';
@@ -37,8 +38,8 @@ class ControlCardDetailPage extends StatelessWidget {
       ),
       body: Consumer(
         builder: (context, ref, child) {
-          final controlCardsProvider = args.studentId != null
-              ? StudentControlCardsProvider(args.practicum.id!, args.studentId!)
+          final controlCardsProvider = args.student != null
+              ? StudentControlCardsProvider(args.practicum.id!, args.student!)
               : ControlCardsProvider(args.practicum.id!);
 
           final controlCards = ref.watch(controlCardsProvider);
@@ -62,8 +63,11 @@ class ControlCardDetailPage extends StatelessWidget {
           return controlCards.when(
             loading: () => const LoadingIndicator(),
             error: (_, __) => const SizedBox(),
-            data: (controlCards) {
-              if (controlCards == null) return const SizedBox();
+            data: (data) {
+              final cards = data.cards;
+              final student = data.student;
+
+              if (cards == null || student == null) return const SizedBox();
 
               return SingleChildScrollView(
                 child: Column(
@@ -98,16 +102,20 @@ class ControlCardDetailPage extends StatelessWidget {
                                       'github_filled.svg',
                                       color: Palette.background,
                                       tooltip: 'Github',
-                                      onPressed: () => FunctionHelper.openUrl(
-                                        'https://github.com/fajri-rasid1st',
+                                      onPressed: () => openUrl(
+                                        context,
+                                        name: 'Github',
+                                        url: 'https://github.com/${student.githubUsername}',
                                       ),
                                     ),
                                     const SizedBox(width: 2),
                                     CustomIconButton(
                                       'instagram_filled.svg',
                                       tooltip: 'Instagram',
-                                      onPressed: () => FunctionHelper.openUrl(
-                                        'https://instagram.com/fajri_rasid1st',
+                                      onPressed: () => openUrl(
+                                        context,
+                                        name: 'Instagram',
+                                        url: 'https://instagram.com/${student.instagramUsername}',
                                       ),
                                     ),
                                   ],
@@ -116,11 +124,11 @@ class ControlCardDetailPage extends StatelessWidget {
                             ],
                           ),
                         ),
-                        const Positioned(
+                        Positioned(
                           top: 60,
                           left: 20,
                           child: CircleNetworkImage(
-                            imageUrl: 'https://placehold.co/300x300/png',
+                            imageUrl: student.profilePicturePath,
                             size: 100,
                             withBorder: true,
                             borderWidth: 2,
@@ -136,7 +144,7 @@ class ControlCardDetailPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Muhammad Sulthan Nazhim Latenri Tatta S.H',
+                            '${student.fullname}',
                             style: textTheme.titleLarge!.copyWith(
                               color: Palette.purple2,
                               fontWeight: FontWeight.w600,
@@ -144,7 +152,7 @@ class ControlCardDetailPage extends StatelessWidget {
                           ),
                           const SizedBox(height: 2),
                           Text(
-                            'H071211074',
+                            '${student.username}',
                             style: textTheme.bodyMedium!.copyWith(
                               color: Palette.purple3,
                             ),
@@ -169,19 +177,19 @@ class ControlCardDetailPage extends StatelessWidget {
                             ),
                           ),
                           ...List<Padding>.generate(
-                            controlCards.length,
+                            cards.length,
                             (index) => Padding(
                               padding: EdgeInsets.only(
-                                bottom: index == controlCards.length - 1 ? 0 : 10,
+                                bottom: index == cards.length - 1 ? 0 : 10,
                               ),
                               child: AttendanceCard(
-                                meeting: controlCards[index].meeting!,
+                                meeting: cards[index].meeting!,
                                 attendanceType: AttendanceType.assistance,
                                 assistanceStatus: [
-                                  controlCards[index].firstAssistanceStatus!,
-                                  controlCards[index].secondAssistanceStatus!,
+                                  cards[index].firstAssistanceStatus!,
+                                  cards[index].secondAssistanceStatus!,
                                 ],
-                                locked: controlCards[index].meeting!.date! >=
+                                locked: cards[index].meeting!.date! <
                                     DateTime.now().millisecondsSinceEpoch ~/ 1000,
                               ),
                             ),
@@ -198,16 +206,32 @@ class ControlCardDetailPage extends StatelessWidget {
       ),
     );
   }
+
+  void openUrl(
+    BuildContext context, {
+    required String name,
+    required String url,
+  }) {
+    if (url.split('/').last.isNotEmpty) {
+      FunctionHelper.openUrl(url);
+    } else {
+      context.showSnackBar(
+        title: '$name Tidak Ada',
+        message: 'Pengguna belum memasukkan username $name',
+        type: SnackBarType.info,
+      );
+    }
+  }
 }
 
 class ControlCardDetailPageArgs {
   final Practicum practicum;
   final int groupNumber;
-  final String? studentId;
+  final Profile? student;
 
   const ControlCardDetailPageArgs({
     required this.practicum,
     required this.groupNumber,
-    this.studentId,
+    this.student,
   });
 }

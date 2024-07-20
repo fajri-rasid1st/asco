@@ -3,6 +3,8 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
 import 'package:asco/src/data/models/control_cards/control_card.dart';
+import 'package:asco/src/data/models/profiles/profile.dart';
+import 'package:asco/src/presentation/features/admin/user/providers/user_detail_provider.dart';
 import 'package:asco/src/presentation/providers/repository_providers/control_card_repository_provider.dart';
 
 part 'student_control_cards_provider.g.dart';
@@ -10,23 +12,38 @@ part 'student_control_cards_provider.g.dart';
 @riverpod
 class StudentControlCards extends _$StudentControlCards {
   @override
-  Future<List<ControlCard>?> build(String practicumId, String studentId) async {
-    List<ControlCard>? controlCards;
+  Future<({List<ControlCard>? cards, Profile? student})> build(
+    String practicumId,
+    Profile profile,
+  ) async {
+    List<ControlCard>? cards;
+    Profile? student;
 
     state = const AsyncValue.loading();
 
-    final result = await ref
-        .watch(controlCardRepositoryProvider)
-        .getStudentControlCards(practicumId, studentId);
+    final result = await ref.watch(controlCardRepositoryProvider).getStudentControlCards(
+          practicumId,
+          profile.id!,
+        );
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
-        controlCards = r;
-        state = AsyncValue.data(controlCards);
+        cards = r;
+
+        ref.listen(UserDetailProvider(profile.username!), (_, state) {
+          state.when(
+            loading: () => this.state = const AsyncValue.loading(),
+            error: (error, _) => this.state = AsyncValue.error(error, StackTrace.current),
+            data: (data) {
+              student = data;
+              this.state = AsyncValue.data((cards: cards, student: student));
+            },
+          );
+        });
       },
     );
 
-    return controlCards;
+    return (cards: cards, student: student);
   }
 }

@@ -76,10 +76,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const UserListHomePage(),
       );
     case userDetailRoute:
-      final user = settings.arguments as Profile;
+      final username = settings.arguments as String;
 
       return MaterialPageRoute(
-        builder: (_) => UserDetailPage(user: user),
+        builder: (_) => UserDetailPage(username: username),
       );
     case userFormRoute:
       final user = settings.arguments as Profile?;
