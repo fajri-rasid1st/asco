@@ -55,11 +55,11 @@ Failure failure(Object e) {
       case kAssistantsEmpty:
         return const ServerFailure('Minimal harus terdapat 1 asisten yang ditambahkan');
       case kStudentsEmpty:
-        return const ServerFailure('Minimal harus terdapat 1 siswa yang ditambahkan');
+        return const ServerFailure('Minimal harus terdapat 1 peserta yang ditambahkan');
       case kMenteesEmpty:
         return const ServerFailure('Minimal harus terdapat 1 praktikan yang ditambahkan');
       case kStudentsAlreadyExists:
-        return const ServerFailure('Terdapat siswa yang telah memiliki kelas pada praktikum ini');
+        return const ServerFailure('Terdapat peserta yang telah memiliki kelas pada praktikum ini');
       default:
         if (kDebugMode) return ServerFailure(e.message);
 

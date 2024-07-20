@@ -19,7 +19,7 @@ class AssistanceGroup with _$AssistanceGroup {
     String? assistantName,
     List<Profile>? students,
     int? studentsCount,
-    String? githubRepositoryUrl,
+    String? githubRepoLink,
   }) = _AssistanceGroup;
 
   factory AssistanceGroup.fromJson(Map<String, Object?> json) => _$AssistanceGroupFromJson(json);

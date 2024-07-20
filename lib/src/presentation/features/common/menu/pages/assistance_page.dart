@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:asco/core/enums/attendance_type.dart';
 import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/helpers/function_helper.dart';
@@ -12,7 +11,6 @@ import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
-import 'package:asco/src/presentation/shared/widgets/cards/attendance_card.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_icon_button.dart';
 import 'package:asco/src/presentation/shared/widgets/dialogs/github_repository_dialog.dart';
@@ -230,16 +228,16 @@ class _AssistancePageState extends State<AssistancePage> with AutomaticKeepAlive
                   20,
                   index == 9 ? kBottomNavigationBarHeight : 10,
                 ),
-                child: AttendanceCard(
-                  attendanceType: AttendanceType.meeting,
-                  meetingStatus: const {
-                    'Selesai': 8,
-                    'Belum': 4,
-                  },
-                  onTap: () => navigatorKey.currentState!.pushNamed(
-                    roleId == 1 ? studentAssistanceDetailRoute : assistantAssistanceDetailRoute,
-                  ),
-                ),
+                // child: AttendanceCard(
+                //   attendanceType: AttendanceType.meeting,
+                //   meetingStatus: const {
+                //     'Selesai': 8,
+                //     'Belum': 4,
+                //   },
+                //   onTap: () => navigatorKey.currentState!.pushNamed(
+                //     roleId == 1 ? studentAssistanceDetailRoute : assistantAssistanceDetailRoute,
+                //   ),
+                // ),
               ),
             ),
           ],

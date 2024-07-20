@@ -11,6 +11,15 @@ import 'package:asco/src/data/models/control_cards/control_card.dart';
 abstract class ControlCardRepository {
   /// Get control cards
   Future<Either<Failure, List<ControlCard>>> getControlCards(String practicumId);
+
+  /// Get student control cards
+  Future<Either<Failure, List<ControlCard>>> getStudentControlCards(
+    String practicumId,
+    String studentId,
+  );
+
+  /// Get control card detail
+  Future<Either<Failure, ControlCard>> getControlCardDetail(String id);
 }
 
 class ControlCardRepositoryImpl implements ControlCardRepository {
@@ -27,6 +36,42 @@ class ControlCardRepositoryImpl implements ControlCardRepository {
     if (await networkInfo.isConnected) {
       try {
         final result = await controlCardDataSource.getControlCards(practicumId);
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ControlCard>>> getStudentControlCards(
+    String practicumId,
+    String studentId,
+  ) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await controlCardDataSource.getStudentControlCards(
+          practicumId,
+          studentId,
+        );
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, ControlCard>> getControlCardDetail(String id) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await controlCardDataSource.getControlCardDetail(id);
 
         return Right(result);
       } catch (e) {

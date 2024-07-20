@@ -2,16 +2,12 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:asco/core/enums/attendance_type.dart';
 import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/button_extension.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/helpers/excel_helper.dart';
-import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/services/file_service.dart';
-import 'package:asco/core/utils/keys.dart';
-import 'package:asco/src/presentation/shared/widgets/cards/attendance_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
@@ -42,15 +38,15 @@ class AttendanceListHomePage extends StatelessWidget {
                 padding: EdgeInsets.only(
                   bottom: index == 4 ? 0 : 10,
                 ),
-                child: AttendanceCard(
-                  attendanceType: AttendanceType.meeting,
-                  meetingStatus: const {
-                    'Hadir': 18,
-                    'Alpa': 4,
-                    'Sakit': 3,
-                  },
-                  onTap: () => navigatorKey.currentState!.pushNamed(attendanceDetailRoute),
-                ),
+                // child: AttendanceCard(
+                //   attendanceType: AttendanceType.meeting,
+                //   meetingStatus: const {
+                //     'Hadir': 18,
+                //     'Alpa': 4,
+                //     'Sakit': 3,
+                //   },
+                //   onTap: () => navigatorKey.currentState!.pushNamed(attendanceDetailRoute),
+                // ),
               ),
             ),
           ],

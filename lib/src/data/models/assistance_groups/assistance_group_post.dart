@@ -14,7 +14,7 @@ class AssistanceGroupPost with _$AssistanceGroupPost {
     required int number,
     @JsonKey(name: 'mentor') required String assistantId,
     @JsonKey(name: 'mentees') required List<String> studentIds,
-    String? githubRepositoryUrl,
+    String? githubRepoLink,
   }) = _AssistanceGroupPost;
 
   factory AssistanceGroupPost.fromJson(Map<String, Object?> json) =>

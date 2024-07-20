@@ -65,48 +65,48 @@ class _AssistanceGroupFormPageState extends State<AssistanceGroupFormPage> {
           },
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: FormBuilder(
-          key: formKey,
-          child: Consumer(
-            builder: (context, ref, child) {
-              final assistants = ref.watch(
-                UsersProvider(
-                  role: 'ASSISTANT',
-                  practicum: widget.args.practicumId,
-                ),
-              );
+      body: Consumer(
+        builder: (context, ref, child) {
+          final assistants = ref.watch(
+            UsersProvider(
+              role: 'ASSISTANT',
+              practicum: widget.args.practicumId,
+            ),
+          );
 
-              ref.listen(
-                UsersProvider(
-                  role: 'ASSISTANT',
-                  practicum: widget.args.practicumId,
-                ),
-                (_, state) {
-                  state.whenOrNull(
-                    error: (error, _) {
-                      if ('$error' == kNoInternetConnection) {
-                        context.showNoConnectionSnackBar();
-                      } else {
-                        context.showSnackBar(
-                          title: 'Terjadi Kesalahan',
-                          message: '$error',
-                          type: SnackBarType.error,
-                        );
-                      }
-                    },
-                  );
+          ref.listen(
+            UsersProvider(
+              role: 'ASSISTANT',
+              practicum: widget.args.practicumId,
+            ),
+            (_, state) {
+              state.whenOrNull(
+                error: (error, _) {
+                  if ('$error' == kNoInternetConnection) {
+                    context.showNoConnectionSnackBar();
+                  } else {
+                    context.showSnackBar(
+                      title: 'Terjadi Kesalahan',
+                      message: '$error',
+                      type: SnackBarType.error,
+                    );
+                  }
                 },
               );
+            },
+          );
 
-              return assistants.when(
-                loading: () => const LoadingIndicator(),
-                error: (_, __) => const SizedBox(),
-                data: (assistants) {
-                  if (assistants == null) return const SizedBox();
+          return assistants.when(
+            loading: () => const LoadingIndicator(),
+            error: (_, __) => const SizedBox(),
+            data: (assistants) {
+              if (assistants == null) return const SizedBox();
 
-                  return Column(
+              return SingleChildScrollView(
+                padding: const EdgeInsets.all(20),
+                child: FormBuilder(
+                  key: formKey,
+                  child: Column(
                     children: [
                       CustomTextField(
                         name: 'number',
@@ -130,19 +130,21 @@ class _AssistanceGroupFormPageState extends State<AssistanceGroupFormPage> {
                         showActionButton: true,
                         onPressedActionButton: () async {
                           final number = formKey.currentState!.instantValue['number'];
-                          final selectedUsers = [...students];
+                          final removedUsers = [...students];
 
                           final result = await navigatorKey.currentState!.pushNamed(
                             selectUsersRoute,
                             arguments: SelectUsersPageArgs(
                               title: 'Pilih Peserta Grup $number',
                               role: 'STUDENT',
-                              selectedUsers: selectedUsers,
-                              removedUsers: [],
+                              selectedUsers: [],
+                              removedUsers: removedUsers,
                             ),
                           );
 
-                          if (result != null) setState(() => students = result as List<Profile>);
+                          if (result != null) {
+                            setState(() => students.addAll(result as List<Profile>));
+                          }
                         },
                       ),
                       ...List<Padding>.generate(
@@ -163,12 +165,12 @@ class _AssistanceGroupFormPageState extends State<AssistanceGroupFormPage> {
                         ),
                       ),
                     ],
-                  );
-                },
+                  ),
+                ),
               );
             },
-          ),
-        ),
+          );
+        },
       ),
     );
   }

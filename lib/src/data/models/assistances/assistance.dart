@@ -12,7 +12,7 @@ class Assistance with _$Assistance {
   const factory Assistance({
     String? id,
     bool? status,
-    int? datetime,
+    int? date,
     String? note,
   }) = _Assistance;
 

@@ -17,8 +17,10 @@ import 'package:asco/src/data/models/assistance_groups/assistance_group.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/presentation/features/admin/assistance_group/providers/assistance_groups_provider.dart';
 import 'package:asco/src/presentation/providers/manual_providers/query_provider.dart';
+import 'package:asco/src/presentation/shared/features/control_card/pages/control_card_detail_page.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
+import 'package:asco/src/presentation/shared/widgets/custom_information.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/search_field.dart';
 import 'package:asco/src/presentation/shared/widgets/loading_indicator.dart';
 import 'package:asco/src/presentation/shared/widgets/section_header.dart';
@@ -62,6 +64,7 @@ class ControlCardListHomePage extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
             sliver: Consumer(
               builder: (context, ref, child) {
+                final query = ref.watch(queryProvider);
                 final groups = ref.watch(AssistanceGroupsProvider(practicum.id!));
 
                 ref.listen(AssistanceGroupsProvider(practicum.id!), (_, state) {
@@ -88,6 +91,24 @@ class ControlCardListHomePage extends StatelessWidget {
                   data: (groups) {
                     if (groups == null) return const SliverFillRemaining();
 
+                    if (groups.isEmpty && query.isNotEmpty) {
+                      return const SliverFillRemaining(
+                        child: CustomInformation(
+                          title: 'Peserta tidak ditemukan',
+                          subtitle: 'Silahkan cari dengan keyword lain',
+                        ),
+                      );
+                    }
+
+                    if (groups.isEmpty) {
+                      return const SliverFillRemaining(
+                        child: CustomInformation(
+                          title: 'Data kartu kontrol kosong',
+                          subtitle: 'Tidak ada kartu kontrol peserta yang dapat ditampilkan',
+                        ),
+                      );
+                    }
+
                     return SliverGroupedListView<AssistanceGroup, int>(
                       elements: groups,
                       groupBy: (group) => group.number!,
@@ -108,6 +129,11 @@ class ControlCardListHomePage extends StatelessWidget {
                               badgeType: UserBadgeType.text,
                               onTap: () => navigatorKey.currentState!.pushNamed(
                                 controlCardDetailRoute,
+                                arguments: ControlCardDetailPageArgs(
+                                  practicum: practicum,
+                                  groupNumber: group.number!,
+                                  studentId: group.students![index].id,
+                                ),
                               ),
                             ),
                           ),

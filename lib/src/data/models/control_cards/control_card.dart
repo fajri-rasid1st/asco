@@ -18,8 +18,10 @@ class ControlCard with _$ControlCard {
     String? id,
     Meeting? meeting,
     Profile? student,
-    Assistance? assistance1,
-    Assistance? assistance2,
+    Assistance? firstAssistance,
+    Assistance? secondAssistance,
+    bool? firstAssistanceStatus,
+    bool? secondAssistanceStatus,
   }) = _ControlCard;
 
   factory ControlCard.fromJson(Map<String, Object?> json) => _$ControlCardFromJson(json);

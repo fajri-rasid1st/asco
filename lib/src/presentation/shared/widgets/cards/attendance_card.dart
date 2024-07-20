@@ -3,14 +3,17 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:asco/core/enums/attendance_type.dart';
+import 'package:asco/core/extensions/number_extension.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/const.dart';
+import 'package:asco/src/data/models/meetings/meeting.dart';
 import 'package:asco/src/presentation/shared/widgets/assistance_status_icon.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 
 class AttendanceCard extends StatelessWidget {
+  final Meeting meeting;
   final bool locked;
   final AttendanceType attendanceType;
   final Map<String, int>? meetingStatus;
@@ -19,6 +22,7 @@ class AttendanceCard extends StatelessWidget {
 
   const AttendanceCard({
     super.key,
+    required this.meeting,
     this.locked = false,
     this.attendanceType = AttendanceType.meeting,
     this.meetingStatus,
@@ -58,7 +62,7 @@ class AttendanceCard extends StatelessWidget {
                     color: Palette.disabledText,
                   )
                 : Text(
-                    '#1',
+                    '#${meeting.number}',
                     style: textTheme.titleMedium!.copyWith(
                       color: Palette.disabledText,
                     ),
@@ -70,7 +74,7 @@ class AttendanceCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Tipe Data dan Attribute',
+                  '${meeting.lesson}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: textTheme.titleSmall!.copyWith(
@@ -79,7 +83,7 @@ class AttendanceCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  '26 Februari 2024',
+                  '${meeting.date?.toDateTimeFormat('d MMMM yyyy')}',
                   style: textTheme.bodySmall!.copyWith(
                     color: locked ? Palette.disabledText : Palette.secondaryText,
                   ),

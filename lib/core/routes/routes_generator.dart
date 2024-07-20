@@ -206,8 +206,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const AssistantAssistanceScorePage(),
       );
     case controlCardDetailRoute:
+      final args = settings.arguments as ControlCardDetailPageArgs;
+
       return MaterialPageRoute(
-        builder: (_) => const ControlCardDetailPage(),
+        builder: (_) => ControlCardDetailPage(args: args),
       );
     case scoreRecapListHomeRoute:
       return MaterialPageRoute(

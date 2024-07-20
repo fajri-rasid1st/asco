@@ -51,48 +51,48 @@ class MeetingFormPage extends StatelessWidget {
           },
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: FormBuilder(
-          key: formKey,
-          child: Consumer(
-            builder: (context, ref, child) {
-              final assistants = ref.watch(
-                UsersProvider(
-                  role: 'ASSISTANT',
-                  practicum: args.practicumId,
-                ),
-              );
+      body: Consumer(
+        builder: (context, ref, child) {
+          final assistants = ref.watch(
+            UsersProvider(
+              role: 'ASSISTANT',
+              practicum: args.practicumId,
+            ),
+          );
 
-              ref.listen(
-                UsersProvider(
-                  role: 'ASSISTANT',
-                  practicum: args.practicumId,
-                ),
-                (_, state) {
-                  state.whenOrNull(
-                    error: (error, _) {
-                      if ('$error' == kNoInternetConnection) {
-                        context.showNoConnectionSnackBar();
-                      } else {
-                        context.showSnackBar(
-                          title: 'Terjadi Kesalahan',
-                          message: '$error',
-                          type: SnackBarType.error,
-                        );
-                      }
-                    },
-                  );
+          ref.listen(
+            UsersProvider(
+              role: 'ASSISTANT',
+              practicum: args.practicumId,
+            ),
+            (_, state) {
+              state.whenOrNull(
+                error: (error, _) {
+                  if ('$error' == kNoInternetConnection) {
+                    context.showNoConnectionSnackBar();
+                  } else {
+                    context.showSnackBar(
+                      title: 'Terjadi Kesalahan',
+                      message: '$error',
+                      type: SnackBarType.error,
+                    );
+                  }
                 },
               );
+            },
+          );
 
-              return assistants.when(
-                loading: () => const LoadingIndicator(),
-                error: (_, __) => const SizedBox(),
-                data: (assistants) {
-                  if (assistants == null) return const SizedBox();
+          return assistants.when(
+            loading: () => const LoadingIndicator(),
+            error: (_, __) => const SizedBox(),
+            data: (assistants) {
+              if (assistants == null) return const SizedBox();
 
-                  return Column(
+              return SingleChildScrollView(
+                padding: const EdgeInsets.all(20),
+                child: FormBuilder(
+                  key: formKey,
+                  child: Column(
                     children: [
                       CustomTextField(
                         name: 'number',
@@ -166,12 +166,12 @@ class MeetingFormPage extends StatelessWidget {
                         initialValue: args.meeting?.assignmentPath,
                       ),
                     ],
-                  );
-                },
+                  ),
+                ),
               );
             },
-          ),
-        ),
+          );
+        },
       ),
     );
   }

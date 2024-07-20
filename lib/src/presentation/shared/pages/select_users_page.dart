@@ -127,10 +127,6 @@ class _SelectUsersPageState extends State<SelectUsersPage> {
                     data: (users) {
                       if (users == null) return const SliverFillRemaining();
 
-                      for (var user in widget.args.removedUsers) {
-                        users.removeWhere((e) => e.username == user.username);
-                      }
-
                       if (users.isEmpty && query.isNotEmpty) {
                         return SliverFillRemaining(
                           child: CustomInformation(
@@ -148,6 +144,10 @@ class _SelectUsersPageState extends State<SelectUsersPage> {
                                 'Tidak ada data ${MapHelper.getReadableRole(widget.args.role)} yang dapat ditambahkan',
                           ),
                         );
+                      }
+
+                      for (var user in widget.args.removedUsers) {
+                        users.removeWhere((e) => e.username == user.username);
                       }
 
                       return SliverList(
