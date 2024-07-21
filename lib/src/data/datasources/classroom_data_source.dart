@@ -14,6 +14,9 @@ import 'package:asco/src/data/models/classrooms/classroom.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class ClassroomDataSource {
+  /// Get classrooms (student)
+  Future<List<Classroom>> getStudentClassrooms();
+
   /// Get classrooms
   Future<List<Classroom>> getClassrooms(String practicumId);
 
@@ -25,15 +28,37 @@ abstract class ClassroomDataSource {
 
   /// Remove student from classroom
   Future<void> removeStudentFromClassroom(String id, {required Profile student});
-
-  /// Get student classrooms
-  Future<List<Classroom>> getStudentClassrooms();
 }
 
 class ClassroomDataSourceImpl implements ClassroomDataSource {
   final http.Client client;
 
   const ClassroomDataSourceImpl({required this.client});
+
+  @override
+  Future<List<Classroom>> getStudentClassrooms() async {
+    try {
+      final response = await client.get(
+        Uri.parse('${ApiConfigs.baseUrl}/classes'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(response.body);
+
+      if (response.statusCode == 200) {
+        final data = result.data as List;
+
+        return data.map((e) => Classroom.fromJson(e)).toList();
+      } else {
+        throw ServerException(result.error?.code, result.error?.message);
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
 
   @override
   Future<List<Classroom>> getClassrooms(String practicumId) async {
@@ -121,31 +146,6 @@ class ClassroomDataSourceImpl implements ClassroomDataSource {
       final result = DataResponse.fromJson(response.body);
 
       if (response.statusCode != 200) {
-        throw ServerException(result.error?.code, result.error?.message);
-      }
-    } catch (e) {
-      exception(e);
-    }
-  }
-
-  @override
-  Future<List<Classroom>> getStudentClassrooms() async {
-    try {
-      final response = await client.get(
-        Uri.parse('${ApiConfigs.baseUrl}/classes'),
-        headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
-        },
-      );
-
-      final result = DataResponse.fromJson(response.body);
-
-      if (response.statusCode == 200) {
-        final data = result.data as List;
-
-        return data.map((e) => Classroom.fromJson(e)).toList();
-      } else {
         throw ServerException(result.error?.code, result.error?.message);
       }
     } catch (e) {

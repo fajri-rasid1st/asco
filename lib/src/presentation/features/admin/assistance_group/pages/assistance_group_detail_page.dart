@@ -156,7 +156,7 @@ class AssistanceGroupDetailPage extends ConsumerWidget {
                       showDeleteButton: true,
                       onPressedDeleteButton: () => context.showConfirmDialog(
                         title: 'Keluarkan Peserta?',
-                        message: 'Anda yakin ingin mengeluarkan peserta dari grup ini?',
+                        message: 'Anda yakin ingin mengeluarkan peserta ini?',
                         primaryButtonText: 'Keluarkan',
                         onPressedPrimaryButton: () {},
                       ),

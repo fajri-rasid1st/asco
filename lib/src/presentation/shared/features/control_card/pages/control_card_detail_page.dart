@@ -39,8 +39,8 @@ class ControlCardDetailPage extends StatelessWidget {
       body: Consumer(
         builder: (context, ref, child) {
           final controlCardsProvider = args.student != null
-              ? StudentControlCardsProvider(args.practicum.id!, args.student!)
-              : ControlCardsProvider(args.practicum.id!);
+              ? ControlCardsProvider(args.practicum.id!, args.student!)
+              : StudentControlCardsProvider(args.practicum.id!);
 
           final controlCards = ref.watch(controlCardsProvider);
 

@@ -152,10 +152,16 @@ class _PracticumSecondFormPageState extends ConsumerState<PracticumSecondFormPag
   List<Classroom> classrooms = [];
   List<Profile> assistants = [];
 
+  late int currentClassroomsLength;
+  late int currentAssistantsLength;
+
   @override
   void initState() {
     classrooms = [...?widget.args.practicum?.classrooms];
+    currentClassroomsLength = classrooms.length;
+
     assistants = [...?widget.args.practicum?.assistants];
+    currentAssistantsLength = assistants.length;
 
     super.initState();
   }
@@ -222,7 +228,9 @@ class _PracticumSecondFormPageState extends ConsumerState<PracticumSecondFormPag
 
                     if (result != null) setState(() => classrooms[index] = result);
                   },
-                  onDelete: () => setState(() => classrooms.remove(classrooms[index])),
+                  onDelete: index < currentClassroomsLength
+                      ? null
+                      : () => setState(() => classrooms.remove(classrooms[index])),
                 ),
               ),
             ),
@@ -232,19 +240,19 @@ class _PracticumSecondFormPageState extends ConsumerState<PracticumSecondFormPag
               showDivider: true,
               showActionButton: true,
               onPressedActionButton: () async {
-                final selectedUsers = [...assistants];
+                final removedUsers = [...assistants];
 
                 final result = await navigatorKey.currentState!.pushNamed(
                   selectUsersRoute,
                   arguments: SelectUsersPageArgs(
                     title: 'Pilih Asisten',
                     role: 'ASSISTANT',
-                    selectedUsers: selectedUsers,
-                    removedUsers: [],
+                    practicum: '',
+                    removedUsers: removedUsers,
                   ),
                 );
 
-                if (result != null) setState(() => assistants = result as List<Profile>);
+                if (result != null) setState(() => assistants.addAll(result as List<Profile>));
               },
             ),
             ...List<Padding>.generate(
@@ -257,9 +265,9 @@ class _PracticumSecondFormPageState extends ConsumerState<PracticumSecondFormPag
                   user: assistants[index],
                   badgeType: UserBadgeType.text,
                   showDeleteButton: true,
-                  onPressedDeleteButton: () {
-                    setState(() => assistants.remove(assistants[index]));
-                  },
+                  onPressedDeleteButton: index < currentAssistantsLength
+                      ? null
+                      : () => setState(() => assistants.remove(assistants[index])),
                 ),
               ),
             ),

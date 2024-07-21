@@ -22,10 +22,7 @@ abstract class PracticumRepository {
   Future<Either<Failure, String>> createPracticum(PracticumPost practicum);
 
   /// Edit practicum
-  Future<Either<Failure, String>> editPracticum(
-    Practicum oldPracticum,
-    PracticumPost newPracticum,
-  );
+  Future<Either<Failure, String>> editPracticum(Practicum oldPracticum, PracticumPost newPracticum);
 
   /// Delete practicum
   Future<Either<Failure, void>> deletePracticum(String id);
@@ -35,6 +32,15 @@ abstract class PracticumRepository {
     String id, {
     required List<ClassroomPost> classrooms,
     required List<Profile> assistants,
+  });
+
+  /// Remove classroom from practicum
+  Future<Either<Failure, void>> removeClassroomFromPracticum(String classroomId);
+
+  /// Remove assistant from practicum
+  Future<Either<Failure, void>> removeAssistantFromPracticum(
+    String id, {
+    required Profile assistant,
   });
 }
 
@@ -137,6 +143,42 @@ class PracticumRepositoryImpl implements PracticumRepository {
           id,
           classrooms: classrooms,
           assistants: assistants,
+        );
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> removeClassroomFromPracticum(String classroomId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await practicumDataSource.removeClassroomFromPracticum(classroomId);
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> removeAssistantFromPracticum(
+    String id, {
+    required Profile assistant,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await practicumDataSource.removeAssistantFromPracticum(
+          id,
+          assistant: assistant,
         );
 
         return Right(result);

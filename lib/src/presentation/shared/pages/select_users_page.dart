@@ -35,13 +35,6 @@ class _SelectUsersPageState extends State<SelectUsersPage> {
   List<Profile> selectedUsers = [];
 
   @override
-  void initState() {
-    selectedUsers = widget.args.selectedUsers;
-
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
@@ -235,15 +228,13 @@ class _SelectUsersPageState extends State<SelectUsersPage> {
 class SelectUsersPageArgs {
   final String title;
   final String role;
-  final List<Profile> selectedUsers;
-  final List<Profile> removedUsers;
   final String practicum;
+  final List<Profile> removedUsers;
 
   const SelectUsersPageArgs({
     required this.title,
     required this.role,
-    required this.selectedUsers,
-    required this.removedUsers,
     this.practicum = '',
+    required this.removedUsers,
   });
 }

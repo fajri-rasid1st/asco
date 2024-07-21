@@ -62,27 +62,30 @@ class ClassroomCard extends StatelessWidget {
             ),
           ),
           if (showActionButtons) ...[
-            const SizedBox(width: 8),
-            IconButton(
-              onPressed: onUpdate,
-              icon: SvgAsset(
-                AssetPath.getIcon('pencil_outlined.svg'),
-                width: 16,
+            if (onUpdate != null) ...[
+              const SizedBox(width: 8),
+              IconButton(
+                onPressed: onUpdate,
+                icon: SvgAsset(
+                  AssetPath.getIcon('pencil_outlined.svg'),
+                  width: 16,
+                ),
+                style: IconButton.styleFrom(
+                  minimumSize: const Size(32, 32),
+                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
               ),
-              style: IconButton.styleFrom(
-                minimumSize: const Size(32, 32),
-                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              ),
-            ),
+            ],
             const SizedBox(width: 6),
             IconButton(
               onPressed: onDelete,
               icon: SvgAsset(
                 AssetPath.getIcon('trash_outlined.svg'),
+                color: onDelete != null ? Palette.background : Palette.border,
                 width: 16,
               ),
               style: IconButton.styleFrom(
-                backgroundColor: Palette.error,
+                backgroundColor: onDelete != null ? Palette.error : Palette.secondaryBackground,
                 minimumSize: const Size(32, 32),
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),

@@ -39,6 +39,12 @@ abstract class PracticumDataSource {
     required List<ClassroomPost> classrooms,
     required List<Profile> assistants,
   });
+
+  /// Remove classroom from practicum
+  Future<void> removeClassroomFromPracticum(String classroomId);
+
+  /// Remove assistant from practicum
+  Future<void> removeAssistantFromPracticum(String id, {required Profile assistant});
 }
 
 class PracticumDataSourceImpl implements PracticumDataSource {
@@ -222,6 +228,48 @@ class PracticumDataSourceImpl implements PracticumDataSource {
       final result = DataResponse.fromJson(response.body);
 
       if (response.statusCode != 201) {
+        throw ServerException(result.error?.code, result.error?.message);
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<void> removeClassroomFromPracticum(String classroomId) async {
+    try {
+      final response = await client.delete(
+        Uri.parse('${ApiConfigs.baseUrl}/classrooms/$classroomId'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(response.body);
+
+      if (response.statusCode != 200) {
+        throw ServerException(result.error?.code, result.error?.message);
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<void> removeAssistantFromPracticum(String id, {required Profile assistant}) async {
+    try {
+      final response = await client.delete(
+        Uri.parse('${ApiConfigs.baseUrl}/practicums/$id/assistants/${assistant.username}'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(response.body);
+
+      if (response.statusCode != 200) {
         throw ServerException(result.error?.code, result.error?.message);
       }
     } catch (e) {

@@ -172,7 +172,6 @@ class ClassroomDetailPage extends ConsumerWidget {
                       arguments: SelectUsersPageArgs(
                         title: 'Pilih Peserta Kelas ${classroom.name}',
                         role: 'STUDENT',
-                        selectedUsers: [],
                         removedUsers: removedUsers,
                       ),
                     );
@@ -200,7 +199,7 @@ class ClassroomDetailPage extends ConsumerWidget {
                         showDeleteButton: true,
                         onPressedDeleteButton: () => context.showConfirmDialog(
                           title: 'Keluarkan Peserta?',
-                          message: 'Anda yakin ingin mengeluarkan peserta dari kelas ini?',
+                          message: 'Anda yakin ingin mengeluarkan peserta ini?',
                           primaryButtonText: 'Keluarkan',
                           onPressedPrimaryButton: () {
                             removeStudent(ref, classroom.students![index]);

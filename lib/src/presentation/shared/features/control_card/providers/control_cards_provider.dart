@@ -2,7 +2,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
-import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/src/data/models/control_cards/control_card.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
 import 'package:asco/src/presentation/features/admin/user/providers/user_detail_provider.dart';
@@ -13,20 +12,26 @@ part 'control_cards_provider.g.dart';
 @riverpod
 class ControlCards extends _$ControlCards {
   @override
-  Future<({List<ControlCard>? cards, Profile? student})> build(String practicumId) async {
+  Future<({List<ControlCard>? cards, Profile? student})> build(
+    String practicumId,
+    Profile profile,
+  ) async {
     List<ControlCard>? cards;
     Profile? student;
 
     state = const AsyncValue.loading();
 
-    final result = await ref.watch(controlCardRepositoryProvider).getControlCards(practicumId);
+    final result = await ref.watch(controlCardRepositoryProvider).getControlCards(
+          practicumId,
+          profile.id!,
+        );
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
         cards = r;
 
-        ref.listen(UserDetailProvider(CredentialSaver.credential!.username!), (_, state) {
+        ref.listen(UserDetailProvider(profile.username!), (_, state) {
           state.whenOrNull(
             error: (error, _) => this.state = AsyncValue.error(error, StackTrace.current),
             data: (data) {

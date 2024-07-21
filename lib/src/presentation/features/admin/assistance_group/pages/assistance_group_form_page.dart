@@ -36,12 +36,14 @@ class AssistanceGroupFormPage extends StatefulWidget {
 
 class _AssistanceGroupFormPageState extends State<AssistanceGroupFormPage> {
   List<Profile> students = [];
-  late List<String> currentStudents;
+
+  late int currentStudentsLength;
 
   @override
   void initState() {
     students = [...?widget.args.group?.students];
-    currentStudents = [...students.map((e) => e.username!)];
+
+    currentStudentsLength = students.length;
 
     super.initState();
   }
@@ -138,7 +140,6 @@ class _AssistanceGroupFormPageState extends State<AssistanceGroupFormPage> {
                               title: 'Pilih Peserta Grup $number',
                               role: 'STUDENT',
                               practicum: widget.args.practicumId,
-                              selectedUsers: [],
                               removedUsers: removedUsers,
                             ),
                           );
@@ -158,10 +159,9 @@ class _AssistanceGroupFormPageState extends State<AssistanceGroupFormPage> {
                             user: students[index],
                             badgeType: UserBadgeType.text,
                             showDeleteButton: true,
-                            onPressedDeleteButton:
-                                currentStudents.contains(students[index].username)
-                                    ? null
-                                    : () => setState(() => students.remove(students[index])),
+                            onPressedDeleteButton: index < currentStudentsLength
+                                ? null
+                                : () => setState(() => students.remove(students[index])),
                           ),
                         ),
                       ),

@@ -53,6 +53,7 @@ class PracticumDetailPage extends ConsumerWidget {
 
     ref.listen(practicumActionsProvider, (_, state) {
       state.whenOrNull(
+        error: (_, __) => navigatorKey.currentState!.pop(),
         data: (data) {
           if (data.message != null) ref.invalidate(practicumDetailProvider);
         },
@@ -137,7 +138,7 @@ class PracticumDetailPage extends ConsumerWidget {
                   ),
                 ),
                 const SectionHeader(title: 'Kelas'),
-                if (practicum.assistants!.isEmpty)
+                if (practicum.classrooms!.isEmpty)
                   const CustomInformation(
                     title: 'Kelas masih kosong',
                     subtitle: 'Belum ada kelas pada praktikum ini',
@@ -151,6 +152,15 @@ class PracticumDetailPage extends ConsumerWidget {
                       ),
                       child: ClassroomCard(
                         classroom: practicum.classrooms![index],
+                        showActionButtons: true,
+                        onDelete: () => context.showConfirmDialog(
+                          title: 'Hapus Kelas?',
+                          message: 'Anda yakin ingin menghapus kelas ini?',
+                          primaryButtonText: 'Hapus',
+                          onPressedPrimaryButton: () => ref
+                              .read(practicumActionsProvider.notifier)
+                              .removeClassroomFromPracticum(practicum.classrooms![index].id!),
+                        ),
                       ),
                     ),
                   ),
@@ -170,6 +180,18 @@ class PracticumDetailPage extends ConsumerWidget {
                       child: UserCard(
                         user: practicum.assistants![index],
                         badgeType: UserBadgeType.text,
+                        showDeleteButton: true,
+                        onPressedDeleteButton: () => context.showConfirmDialog(
+                          title: 'Keluarkan Asisten?',
+                          message: 'Anda yakin ingin mengeluarkan asisten ini?',
+                          primaryButtonText: 'Keluarkan',
+                          onPressedPrimaryButton: () => ref
+                              .read(practicumActionsProvider.notifier)
+                              .removeAssistantFromPracticum(
+                                id,
+                                assistant: practicum.assistants![index],
+                              ),
+                        ),
                       ),
                     ),
                   ),

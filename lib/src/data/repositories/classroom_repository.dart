@@ -10,6 +10,9 @@ import 'package:asco/src/data/models/classrooms/classroom.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class ClassroomRepository {
+  /// Get classrooms (student)
+  Future<Either<Failure, List<Classroom>>> getStudentClassrooms();
+
   /// Get classrooms
   Future<Either<Failure, List<Classroom>>> getClassrooms(String practicumId);
 
@@ -27,9 +30,6 @@ abstract class ClassroomRepository {
     String id, {
     required Profile student,
   });
-
-  /// Get student classrooms
-  Future<Either<Failure, List<Classroom>>> getStudentClassrooms();
 }
 
 class ClassroomRepositoryImpl implements ClassroomRepository {
@@ -40,6 +40,21 @@ class ClassroomRepositoryImpl implements ClassroomRepository {
     required this.classroomDataSource,
     required this.networkInfo,
   });
+
+  @override
+  Future<Either<Failure, List<Classroom>>> getStudentClassrooms() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await classroomDataSource.getStudentClassrooms();
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
 
   @override
   Future<Either<Failure, List<Classroom>>> getClassrooms(String practicumId) async {
@@ -97,21 +112,6 @@ class ClassroomRepositoryImpl implements ClassroomRepository {
     if (await networkInfo.isConnected) {
       try {
         final result = await classroomDataSource.removeStudentFromClassroom(id, student: student);
-
-        return Right(result);
-      } catch (e) {
-        return Left(failure(e));
-      }
-    } else {
-      return const Left(ConnectionFailure(kNoInternetConnection));
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<Classroom>>> getStudentClassrooms() async {
-    if (await networkInfo.isConnected) {
-      try {
-        final result = await classroomDataSource.getStudentClassrooms();
 
         return Right(result);
       } catch (e) {

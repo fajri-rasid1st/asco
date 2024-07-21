@@ -39,10 +39,7 @@ class PracticumActions extends _$PracticumActions {
     return data;
   }
 
-  Future<String?> editPracticum(
-    Practicum oldPracticum,
-    PracticumPost newPracticum,
-  ) async {
+  Future<String?> editPracticum(Practicum oldPracticum, PracticumPost newPracticum) async {
     String? data;
 
     state = const AsyncValue.loading();
@@ -81,14 +78,14 @@ class PracticumActions extends _$PracticumActions {
   }
 
   Future<void> updateClassroomsAndAssistants(
-    String practicumId, {
+    String id, {
     required List<ClassroomPost> classrooms,
     required List<Profile> assistants,
   }) async {
     state = const AsyncValue.loading();
 
     final result = await ref.watch(practicumRepositoryProvider).updateClassroomsAndAssistants(
-          practicumId,
+          id,
           classrooms: classrooms,
           assistants: assistants,
         );
@@ -98,6 +95,38 @@ class PracticumActions extends _$PracticumActions {
       (r) => state = const AsyncValue.data((
         message: 'Berhasil mengupdate kelas dan asisten praktikum',
         action: ActionType.update,
+      )),
+    );
+  }
+
+  Future<void> removeClassroomFromPracticum(String classroomId) async {
+    state = const AsyncValue.loading();
+
+    final result =
+        await ref.watch(practicumRepositoryProvider).removeClassroomFromPracticum(classroomId);
+
+    result.fold(
+      (l) => state = AsyncValue.error(l.message!, StackTrace.current),
+      (r) => state = const AsyncValue.data((
+        message: 'Berhasil menghapus kelas dari praktikum',
+        action: ActionType.delete,
+      )),
+    );
+  }
+
+  Future<void> removeAssistantFromPracticum(String id, {required Profile assistant}) async {
+    state = const AsyncValue.loading();
+
+    final result = await ref.watch(practicumRepositoryProvider).removeAssistantFromPracticum(
+          id,
+          assistant: assistant,
+        );
+
+    result.fold(
+      (l) => state = AsyncValue.error(l.message!, StackTrace.current),
+      (r) => state = const AsyncValue.data((
+        message: 'Berhasil mengeluarkan asisten dari praktikum',
+        action: ActionType.delete,
       )),
     );
   }
