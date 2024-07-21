@@ -78,7 +78,7 @@ class CustomSnackBar extends StatelessWidget {
                     const SizedBox(height: 4),
                     Text(
                       message,
-                      maxLines: 2,
+                      maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                       style: textTheme.bodyMedium!.copyWith(
                         color: Palette.scaffoldBackground,

@@ -48,13 +48,19 @@ class _SelectUsersPageState extends State<SelectUsersPage> {
       onPopInvoked: (didPop) {
         if (didPop) return;
 
-        showCancelMessage(context);
+        if (selectedUsers.isEmpty) {
+          navigatorKey.currentState!.pop();
+        } else {
+          showCancelMessage(context);
+        }
       },
       child: Scaffold(
         appBar: CustomAppBar(
           title: widget.args.title,
           leading: IconButton(
-            onPressed: () => showCancelMessage(context),
+            onPressed: () => selectedUsers.isEmpty
+                ? navigatorKey.currentState!.pop()
+                : showCancelMessage(context),
             icon: const Icon(Icons.close_rounded),
             tooltip: 'Batalkan',
             style: IconButton.styleFrom(
@@ -101,23 +107,34 @@ class _SelectUsersPageState extends State<SelectUsersPage> {
               sliver: Consumer(
                 builder: (context, ref, child) {
                   final query = ref.watch(queryProvider);
-                  final users = ref.watch(UsersProvider(role: widget.args.role));
+                  final users = ref.watch(
+                    UsersProvider(
+                      role: widget.args.role,
+                      practicum: widget.args.practicum,
+                    ),
+                  );
 
-                  ref.listen(UsersProvider(role: widget.args.role), (_, state) {
-                    state.whenOrNull(
-                      error: (error, _) {
-                        if ('$error' == kNoInternetConnection) {
-                          context.showNoConnectionSnackBar();
-                        } else {
-                          context.showSnackBar(
-                            title: 'Terjadi Kesalahan',
-                            message: '$error',
-                            type: SnackBarType.error,
-                          );
-                        }
-                      },
-                    );
-                  });
+                  ref.listen(
+                    UsersProvider(
+                      role: widget.args.role,
+                      practicum: widget.args.practicum,
+                    ),
+                    (_, state) {
+                      state.whenOrNull(
+                        error: (error, _) {
+                          if ('$error' == kNoInternetConnection) {
+                            context.showNoConnectionSnackBar();
+                          } else {
+                            context.showSnackBar(
+                              title: 'Terjadi Kesalahan',
+                              message: '$error',
+                              type: SnackBarType.error,
+                            );
+                          }
+                        },
+                      );
+                    },
+                  );
 
                   return users.when(
                     loading: () => const SliverFillRemaining(
@@ -220,11 +237,13 @@ class SelectUsersPageArgs {
   final String role;
   final List<Profile> selectedUsers;
   final List<Profile> removedUsers;
+  final String practicum;
 
   const SelectUsersPageArgs({
     required this.title,
     required this.role,
     required this.selectedUsers,
     required this.removedUsers,
+    this.practicum = '',
   });
 }

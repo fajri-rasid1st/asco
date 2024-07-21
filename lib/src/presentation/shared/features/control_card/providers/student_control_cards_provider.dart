@@ -32,8 +32,7 @@ class StudentControlCards extends _$StudentControlCards {
         cards = r;
 
         ref.listen(UserDetailProvider(profile.username!), (_, state) {
-          state.when(
-            loading: () => this.state = const AsyncValue.loading(),
+          state.whenOrNull(
             error: (error, _) => this.state = AsyncValue.error(error, StackTrace.current),
             data: (data) {
               student = data;

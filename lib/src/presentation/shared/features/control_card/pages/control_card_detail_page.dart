@@ -189,7 +189,7 @@ class ControlCardDetailPage extends StatelessWidget {
                                   cards[index].firstAssistanceStatus!,
                                   cards[index].secondAssistanceStatus!,
                                 ],
-                                locked: cards[index].meeting!.date! <
+                                locked: cards[index].meeting!.date! >=
                                     DateTime.now().millisecondsSinceEpoch ~/ 1000,
                               ),
                             ),

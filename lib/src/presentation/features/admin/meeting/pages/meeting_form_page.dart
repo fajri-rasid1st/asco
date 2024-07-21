@@ -34,6 +34,8 @@ class MeetingFormPage extends StatelessWidget {
         ? DateTime.fromMillisecondsSinceEpoch((args.meeting!.date! * 1000).truncate())
         : DateTime.now();
 
+    final isExpired = meetingDate.isBefore(DateTime.now());
+
     return Scaffold(
       appBar: CustomAppBar(
         title: '${args.meeting != null ? 'Edit' : 'Tambah'} Pertemuan',
@@ -123,7 +125,7 @@ class MeetingFormPage extends StatelessWidget {
                         onTap: () async {
                           final date = await context.showCustomDatePicker(
                             initialdate: meetingDate,
-                            firstDate: DateTime.now(),
+                            firstDate: isExpired ? meetingDate : DateTime.now(),
                             lastDate: DateTime.now().add(const Duration(days: 180)),
                             formKey: formKey,
                             fieldKey: 'date',

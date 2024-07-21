@@ -137,6 +137,7 @@ class _AssistanceGroupFormPageState extends State<AssistanceGroupFormPage> {
                             arguments: SelectUsersPageArgs(
                               title: 'Pilih Peserta Grup $number',
                               role: 'STUDENT',
+                              practicum: widget.args.practicumId,
                               selectedUsers: [],
                               removedUsers: removedUsers,
                             ),
