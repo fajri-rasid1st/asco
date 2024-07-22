@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:asco/core/enums/classroom_subtitle_type.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/data/models/classrooms/classroom.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/presentation/features/admin/classroom/pages/classroom_detail_page.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/classroom_card.dart';
@@ -28,8 +29,9 @@ class SelectClassroomPage extends StatelessWidget {
               itemBuilder: (context, index) => ClassroomCard(
                 classroom: args.practicum.classrooms![index],
                 subtitleType: ClassroomSubtitleType.totalStudents,
-                onTap: args.onItemTapped ??
-                    () => navigatorKey.currentState!.pushNamed(
+                onTap: args.onItemTapped != null
+                    ? () => args.onItemTapped!(args.practicum.classrooms![index])
+                    : () => navigatorKey.currentState!.pushNamed(
                           classroomDetailRoute,
                           arguments: ClassroomDetailPageArgs(
                             id: args.practicum.classrooms![index].id!,
@@ -50,7 +52,7 @@ class SelectClassroomPage extends StatelessWidget {
 
 class SelectClassroomPageArgs {
   final Practicum practicum;
-  final VoidCallback? onItemTapped;
+  final void Function(Classroom classroom)? onItemTapped;
 
   const SelectClassroomPageArgs({
     required this.practicum,

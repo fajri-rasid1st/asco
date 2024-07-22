@@ -12,7 +12,6 @@ import 'package:asco/src/presentation/features/admin/attendance/pages/attendance
 import 'package:asco/src/presentation/features/admin/attendance/pages/attendance_list_home_page.dart';
 import 'package:asco/src/presentation/features/admin/classroom/pages/classroom_detail_page.dart';
 import 'package:asco/src/presentation/features/admin/control_card/pages/control_card_list_home_page.dart';
-import 'package:asco/src/presentation/features/admin/home/pages/admin_home_page.dart';
 import 'package:asco/src/presentation/features/admin/lab_rules/pages/lab_rules_page.dart';
 import 'package:asco/src/presentation/features/admin/meeting/pages/meeting_detail_page.dart';
 import 'package:asco/src/presentation/features/admin/meeting/pages/meeting_form_page.dart';
@@ -31,6 +30,7 @@ import 'package:asco/src/presentation/features/assistant/meeting/pages/assistant
 import 'package:asco/src/presentation/features/assistant/meeting/pages/assistant_meeting_scanner_page.dart';
 import 'package:asco/src/presentation/features/assistant/meeting/pages/assistant_meeting_schedule_page.dart';
 import 'package:asco/src/presentation/features/assistant/profile/pages/assistant_profile_page.dart';
+import 'package:asco/src/presentation/features/common/home/pages/admin_home_page.dart';
 import 'package:asco/src/presentation/features/common/home/pages/home_page.dart';
 import 'package:asco/src/presentation/features/common/initial/pages/on_boarding_page.dart';
 import 'package:asco/src/presentation/features/common/main_menu/pages/main_menu_page.dart';
@@ -138,8 +138,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => MeetingFormPage(args: args),
       );
     case attendanceListHomeRoute:
+      final args = settings.arguments as AttendanceListHomePageArgs;
+
       return MaterialPageRoute(
-        builder: (_) => const AttendanceListHomePage(),
+        builder: (_) => AttendanceListHomePage(args: args),
       );
     case attendanceDetailRoute:
       return MaterialPageRoute(

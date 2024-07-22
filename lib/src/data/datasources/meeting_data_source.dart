@@ -87,14 +87,14 @@ class MeetingDataSourceImpl implements MeetingDataSource {
 
   @override
   Future<void> createMeeting(String practicumId, {required MeetingPost meeting}) async {
-    final modulePath =
-        meeting.modulePath != null ? await FileService.uploadFile(meeting.modulePath!) : null;
-
-    final assignmentPath = meeting.assignmentPath != null
-        ? await FileService.uploadFile(meeting.assignmentPath!)
-        : null;
-
     try {
+      final modulePath =
+          meeting.modulePath != null ? await FileService.uploadFile(meeting.modulePath!) : null;
+
+      final assignmentPath = meeting.assignmentPath != null
+          ? await FileService.uploadFile(meeting.assignmentPath!)
+          : null;
+
       final response = await client.post(
         Uri.parse('${ApiConfigs.baseUrl}/practicums/$practicumId/meetings'),
         headers: {

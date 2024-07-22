@@ -11,16 +11,16 @@ import 'package:asco/src/data/models/profiles/profile.dart';
 part 'attendance.freezed.dart';
 part 'attendance.g.dart';
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: false)
 class Attendance with _$Attendance {
   const factory Attendance({
     String? id,
     Meeting? meeting,
     Profile? student,
-    String? status,
+    @JsonKey(name: 'attendanceStatus') String? status,
     int? datetime,
     String? note,
-    int? pointPlus,
+    int? extraPoint,
   }) = _Attendance;
 
   factory Attendance.fromJson(Map<String, Object?> json) => _$AttendanceFromJson(json);

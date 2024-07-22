@@ -17,9 +17,6 @@ abstract class ClassroomDataSource {
   /// Get classrooms (student)
   Future<List<Classroom>> getStudentClassrooms();
 
-  /// Get classrooms
-  Future<List<Classroom>> getClassrooms(String practicumId);
-
   /// Get classroom detail
   Future<Classroom> getClassroomDetail(String id);
 
@@ -40,31 +37,6 @@ class ClassroomDataSourceImpl implements ClassroomDataSource {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/classes'),
-        headers: {
-          HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
-        },
-      );
-
-      final result = DataResponse.fromJson(response.body);
-
-      if (response.statusCode == 200) {
-        final data = result.data as List;
-
-        return data.map((e) => Classroom.fromJson(e)).toList();
-      } else {
-        throw ServerException(result.error?.code, result.error?.message);
-      }
-    } catch (e) {
-      exception(e);
-    }
-  }
-
-  @override
-  Future<List<Classroom>> getClassrooms(String practicumId) async {
-    try {
-      final response = await client.get(
-        Uri.parse('${ApiConfigs.baseUrl}/practicums/$practicumId/classes'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'

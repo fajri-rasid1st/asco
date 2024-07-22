@@ -13,9 +13,6 @@ abstract class ClassroomRepository {
   /// Get classrooms (student)
   Future<Either<Failure, List<Classroom>>> getStudentClassrooms();
 
-  /// Get classrooms
-  Future<Either<Failure, List<Classroom>>> getClassrooms(String practicumId);
-
   /// Get classroom detail
   Future<Either<Failure, Classroom>> getClassroomDetail(String id);
 
@@ -46,21 +43,6 @@ class ClassroomRepositoryImpl implements ClassroomRepository {
     if (await networkInfo.isConnected) {
       try {
         final result = await classroomDataSource.getStudentClassrooms();
-
-        return Right(result);
-      } catch (e) {
-        return Left(failure(e));
-      }
-    } else {
-      return const Left(ConnectionFailure(kNoInternetConnection));
-    }
-  }
-
-  @override
-  Future<Either<Failure, List<Classroom>>> getClassrooms(String practicumId) async {
-    if (await networkInfo.isConnected) {
-      try {
-        final result = await classroomDataSource.getClassrooms(practicumId);
 
         return Right(result);
       } catch (e) {

@@ -29,7 +29,7 @@ class ControlCards extends _$ControlCards {
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
-        cards = r;
+        cards = r..sort((a, b) => a.meeting!.number!.compareTo(b.meeting!.number!));
 
         ref.listen(UserDetailProvider(profile.username!), (_, state) {
           state.whenOrNull(

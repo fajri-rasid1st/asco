@@ -8,17 +8,20 @@ import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/helpers/excel_helper.dart';
 import 'package:asco/core/services/file_service.dart';
+import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class AttendanceListHomePage extends StatelessWidget {
-  const AttendanceListHomePage({super.key});
+  final AttendanceListHomePageArgs args;
+
+  const AttendanceListHomePage({super.key, required this.args});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(
-        title: 'Pemrograman Mobile A',
+      appBar: CustomAppBar(
+        title: args.title,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(20),
@@ -96,4 +99,14 @@ class AttendanceListHomePage extends StatelessWidget {
       type: SnackBarType.error,
     );
   }
+}
+
+class AttendanceListHomePageArgs {
+  final String title;
+  final Practicum practicum;
+
+  const AttendanceListHomePageArgs({
+    required this.title,
+    required this.practicum,
+  });
 }

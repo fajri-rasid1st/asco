@@ -12,7 +12,7 @@ import 'package:asco/src/data/models/profiles/profile.dart';
 part 'control_card.freezed.dart';
 part 'control_card.g.dart';
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: false)
 class ControlCard with _$ControlCard {
   const factory ControlCard({
     String? id,
