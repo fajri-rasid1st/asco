@@ -138,10 +138,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => MeetingFormPage(args: args),
       );
     case attendanceListHomeRoute:
-      final args = settings.arguments as AttendanceListHomePageArgs;
+      final practicum = settings.arguments as Practicum;
 
       return MaterialPageRoute(
-        builder: (_) => AttendanceListHomePage(args: args),
+        builder: (_) => AttendanceListHomePage(practicum: practicum),
       );
     case attendanceDetailRoute:
       return MaterialPageRoute(

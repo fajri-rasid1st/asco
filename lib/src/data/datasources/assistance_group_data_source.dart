@@ -12,6 +12,7 @@ import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/data_response.dart';
 import 'package:asco/src/data/models/assistance_groups/assistance_group.dart';
 import 'package:asco/src/data/models/assistance_groups/assistance_group_post.dart';
+import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class AssistanceGroupDataSource {
   /// Get assistance groups
@@ -34,6 +35,9 @@ abstract class AssistanceGroupDataSource {
 
   /// Delete assistance group
   Future<void> deleteAssistanceGroup(String id);
+
+  /// Remove student from assistance group
+  Future<void> removeStudentFromAssistanceGroup(String id, {required Profile student});
 }
 
 class AssistanceGroupDataSourceImpl implements AssistanceGroupDataSource {
@@ -144,6 +148,27 @@ class AssistanceGroupDataSourceImpl implements AssistanceGroupDataSource {
     try {
       final response = await client.delete(
         Uri.parse('${ApiConfigs.baseUrl}/groups/$id'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(response.body);
+
+      if (response.statusCode != 200) {
+        throw ServerException(result.error?.code, result.error?.message);
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<void> removeStudentFromAssistanceGroup(String id, {required Profile student}) async {
+    try {
+      final response = await client.delete(
+        Uri.parse('${ApiConfigs.baseUrl}/groups/$id/students/${student.username}'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'

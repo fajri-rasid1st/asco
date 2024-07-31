@@ -8,6 +8,7 @@ import 'package:asco/core/utils/const.dart';
 import 'package:asco/src/data/datasources/assistance_group_data_source.dart';
 import 'package:asco/src/data/models/assistance_groups/assistance_group.dart';
 import 'package:asco/src/data/models/assistance_groups/assistance_group_post.dart';
+import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class AssistanceGroupRepository {
   /// Get assistance groups
@@ -30,6 +31,12 @@ abstract class AssistanceGroupRepository {
 
   /// Delete assistance group
   Future<Either<Failure, void>> deleteAssistanceGroup(String id);
+
+  /// Remove student from assistance group
+  Future<Either<Failure, void>> removeStudentFromAssistanceGroup(
+    String id, {
+    required Profile student,
+  });
 }
 
 class AssistanceGroupRepositoryImpl implements AssistanceGroupRepository {
@@ -118,6 +125,27 @@ class AssistanceGroupRepositoryImpl implements AssistanceGroupRepository {
     if (await networkInfo.isConnected) {
       try {
         final result = await assistanceGroupDataSource.deleteAssistanceGroup(id);
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> removeStudentFromAssistanceGroup(
+    String id, {
+    required Profile student,
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await assistanceGroupDataSource.removeStudentFromAssistanceGroup(
+          id,
+          student: student,
+        );
 
         return Right(result);
       } catch (e) {

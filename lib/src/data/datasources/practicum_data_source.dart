@@ -239,7 +239,7 @@ class PracticumDataSourceImpl implements PracticumDataSource {
   Future<void> removeClassroomFromPracticum(String classroomId) async {
     try {
       final response = await client.delete(
-        Uri.parse('${ApiConfigs.baseUrl}/classrooms/$classroomId'),
+        Uri.parse('${ApiConfigs.baseUrl}/classes/$classroomId'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'

@@ -7,16 +7,20 @@ import 'package:asco/core/errors/failures.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/src/data/datasources/attendance_data_source.dart';
 import 'package:asco/src/data/models/attendances/attendance.dart';
+import 'package:asco/src/data/models/attendances/attendance_meeting.dart';
 import 'package:asco/src/data/models/attendances/attendance_post.dart';
 
 abstract class AttendanceRepository {
   /// Get attendances (student)
   Future<Either<Failure, List<Attendance>>> getStudentAttendances(String practicumId);
 
-  /// Get attendances
-  Future<Either<Failure, List<Attendance>>> getAttendances(String practicumId, String studentId);
+  /// Get attendance meetings
+  Future<Either<Failure, List<AttendanceMeeting>>> getAttendanceMeetings(String practicumId);
 
-  /// Add attendance for student in a meeting
+  /// Get attendances by meeting
+  Future<Either<Failure, List<Attendance>>> getAttendances(String meetingId);
+
+  /// Create attendance by meeting
   Future<Either<Failure, void>> createAttendance(
     String meetingId, {
     required AttendancePost attendance,
@@ -48,13 +52,25 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
   }
 
   @override
-  Future<Either<Failure, List<Attendance>>> getAttendances(
-    String practicumId,
-    String studentId,
-  ) async {
+  Future<Either<Failure, List<AttendanceMeeting>>> getAttendanceMeetings(String practicumId) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await attendanceDataSource.getAttendances(practicumId, studentId);
+        final result = await attendanceDataSource.getAttendanceMeetings(practicumId);
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Attendance>>> getAttendances(String meetingId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await attendanceDataSource.getAttendances(meetingId);
 
         return Right(result);
       } catch (e) {

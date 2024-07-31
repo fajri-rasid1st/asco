@@ -5,6 +5,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:asco/core/enums/action_type.dart';
 import 'package:asco/src/data/models/assistance_groups/assistance_group.dart';
 import 'package:asco/src/data/models/assistance_groups/assistance_group_post.dart';
+import 'package:asco/src/data/models/profiles/profile.dart';
 import 'package:asco/src/presentation/providers/repository_providers/assistance_group_repository_provider.dart';
 
 part 'assistance_group_actions_provider.g.dart';
@@ -65,6 +66,27 @@ class AssistanceGroupActions extends _$AssistanceGroupActions {
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) => state = const AsyncValue.data((
         message: 'Berhasil menghapus grup asistensi',
+        action: ActionType.delete,
+      )),
+    );
+  }
+
+  Future<void> removeStudentFromAssistanceGroup(
+    String id, {
+    required Profile student,
+  }) async {
+    state = const AsyncValue.loading();
+
+    final result =
+        await ref.watch(assistanceGroupRepositoryProvider).removeStudentFromAssistanceGroup(
+              id,
+              student: student,
+            );
+
+    result.fold(
+      (l) => state = AsyncValue.error(l.message!, StackTrace.current),
+      (r) => state = const AsyncValue.data((
+        message: 'Praktikan berhasil dikeluarkan',
         action: ActionType.delete,
       )),
     );

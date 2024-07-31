@@ -247,7 +247,6 @@ class _PracticumSecondFormPageState extends ConsumerState<PracticumSecondFormPag
                   arguments: SelectUsersPageArgs(
                     title: 'Pilih Asisten',
                     role: 'ASSISTANT',
-                    practicum: '',
                     removedUsers: removedUsers,
                   ),
                 );

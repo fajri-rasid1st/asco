@@ -11,16 +11,20 @@ import 'package:asco/core/errors/exceptions.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/data_response.dart';
 import 'package:asco/src/data/models/attendances/attendance.dart';
+import 'package:asco/src/data/models/attendances/attendance_meeting.dart';
 import 'package:asco/src/data/models/attendances/attendance_post.dart';
 
 abstract class AttendanceDataSource {
   /// Get attendances (student)
   Future<List<Attendance>> getStudentAttendances(String practicumId);
 
-  /// Get attendances
-  Future<List<Attendance>> getAttendances(String practicumId, String studentId);
+  /// Get attendance meetings
+  Future<List<AttendanceMeeting>> getAttendanceMeetings(String practicumId);
 
-  /// Add attendance for student in a meeting
+  /// Get attendances by meeting
+  Future<List<Attendance>> getAttendances(String meetingId);
+
+  /// Create attendance by meeting
   Future<void> createAttendance(String meetingId, {required AttendancePost attendance});
 }
 
@@ -55,10 +59,35 @@ class AttendanceDataSourceImpl implements AttendanceDataSource {
   }
 
   @override
-  Future<List<Attendance>> getAttendances(String practicumId, String studentId) async {
+  Future<List<AttendanceMeeting>> getAttendanceMeetings(String practicumId) async {
     try {
       final response = await client.get(
-        Uri.parse('${ApiConfigs.baseUrl}/practicums/$practicumId/students/$studentId/attendances'),
+        Uri.parse('${ApiConfigs.baseUrl}/practicums/$practicumId/meetings/attendances'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(response.body);
+
+      if (response.statusCode == 200) {
+        final data = result.data as List;
+
+        return data.map((e) => AttendanceMeeting.fromJson(e)).toList();
+      } else {
+        throw ServerException(result.error?.code, result.error?.message);
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<List<Attendance>> getAttendances(String meetingId) async {
+    try {
+      final response = await client.get(
+        Uri.parse('${ApiConfigs.baseUrl}/meetings/$meetingId/attendances'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'

@@ -11,7 +11,7 @@ part 'assistance_group_detail_provider.g.dart';
 class AssistanceGroupDetail extends _$AssistanceGroupDetail {
   @override
   Future<AssistanceGroup?> build(String practicumId) async {
-    AssistanceGroup? assistanceGroups;
+    AssistanceGroup? assistanceGroup;
 
     state = const AsyncValue.loading();
 
@@ -21,11 +21,11 @@ class AssistanceGroupDetail extends _$AssistanceGroupDetail {
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
-        assistanceGroups = r;
-        state = AsyncValue.data(assistanceGroups);
+        assistanceGroup = r;
+        state = AsyncValue.data(assistanceGroup);
       },
     );
 
-    return assistanceGroups;
+    return assistanceGroup;
   }
 }
