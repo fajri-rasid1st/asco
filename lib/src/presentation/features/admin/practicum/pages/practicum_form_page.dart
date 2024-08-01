@@ -121,20 +121,22 @@ class PracticumFirstFormPage extends ConsumerWidget {
   void createOrEditPracticum(BuildContext context, WidgetRef ref) {
     FocusManager.instance.primaryFocus?.unfocus();
 
-    if (formKey.currentState!.saveAndValidate()) {
-      final practicum = PracticumPost.fromJson(formKey.currentState!.value);
-
-      if (args?.practicum != null) {
-        ref.read(practicumActionsProvider.notifier).editPracticum(args!.practicum!, practicum);
-      } else {
-        ref.read(practicumActionsProvider.notifier).createPracticum(practicum);
-      }
-    } else {
+    if (!formKey.currentState!.saveAndValidate()) {
       context.showSnackBar(
         title: 'Terjadi Kesalahan',
         message: 'Matakuliah & badge wajib diisi',
         type: SnackBarType.error,
       );
+
+      return;
+    }
+
+    final practicum = PracticumPost.fromJson(formKey.currentState!.value);
+
+    if (args?.practicum != null) {
+      ref.read(practicumActionsProvider.notifier).editPracticum(args!.practicum!, practicum);
+    } else {
+      ref.read(practicumActionsProvider.notifier).createPracticum(practicum);
     }
   }
 }

@@ -204,9 +204,7 @@ class EditExtraPage extends ConsumerWidget {
   void updateExtra() {
     FocusManager.instance.primaryFocus?.unfocus();
 
-    if (formKey.currentState!.saveAndValidate()) {
-      debugPrint(formKey.currentState!.value.toString());
-    }
+    if (!formKey.currentState!.saveAndValidate()) return;
   }
 }
 

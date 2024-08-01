@@ -359,11 +359,7 @@ class StudentScoreCard extends StatelessWidget {
   void inputScore() {
     FocusManager.instance.primaryFocus?.unfocus();
 
-    if (formKey.currentState!.saveAndValidate()) {
-      debugPrint(formKey.currentState!.value.toString());
-
-      navigatorKey.currentState!.pop();
-    }
+    if (!formKey.currentState!.saveAndValidate()) return;
   }
 }
 

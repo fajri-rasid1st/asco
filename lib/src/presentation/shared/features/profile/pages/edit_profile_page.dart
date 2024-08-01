@@ -223,17 +223,13 @@ class EditProfilePage extends ConsumerWidget {
   void updateProfile() {
     FocusManager.instance.primaryFocus?.unfocus();
 
-    if (formKey.currentState!.saveAndValidate()) {
-      debugPrint(formKey.currentState!.value.toString());
-    }
+    if (!formKey.currentState!.saveAndValidate()) return;
   }
 
   void updatePassword(GlobalKey<FormBuilderState> formKey) {
     FocusManager.instance.primaryFocus?.unfocus();
 
-    if (formKey.currentState!.saveAndValidate()) {
-      debugPrint(formKey.currentState!.value.toString());
-    }
+    if (!formKey.currentState!.saveAndValidate()) return;
   }
 
   void showCancelMessage(BuildContext context) {

@@ -157,7 +157,7 @@ class UserFormPage extends StatelessWidget {
   void createOrEditUser(WidgetRef ref) async {
     FocusManager.instance.primaryFocus?.unfocus();
 
-    String? excelPath = formKey.currentState!.instantValue['excelPath'];
+    final String? excelPath = formKey.currentState!.instantValue['excelPath'];
 
     if (excelPath != null) {
       final excelData = ExcelHelper.convertToData(excelPath);
@@ -171,24 +171,24 @@ class UserFormPage extends StatelessWidget {
         ref.read(userActionsProvider.notifier).createUser(users);
       }
     } else {
-      if (formKey.currentState!.saveAndValidate()) {
-        final value = formKey.currentState!.value;
+      if (!formKey.currentState!.saveAndValidate()) return;
 
-        final user = ProfilePost(
-          username: value['username'],
-          fullname: value['fullname'],
-          classOf: value['classOf'],
-          role: value['role'],
-          password: value['username'],
-        );
+      final data = formKey.currentState!.value;
 
-        if (this.user != null) {
-          ref
-              .read(userActionsProvider.notifier)
-              .editUser(this.user!.username!, user.copyWith(password: null));
-        } else {
-          ref.read(userActionsProvider.notifier).createUser([user]);
-        }
+      final user = ProfilePost(
+        username: data['username'],
+        fullname: data['fullname'],
+        classOf: data['classOf'],
+        role: data['role'],
+        password: data['username'],
+      );
+
+      if (this.user != null) {
+        ref
+            .read(userActionsProvider.notifier)
+            .editUser(this.user!.username!, user.copyWith(password: null));
+      } else {
+        ref.read(userActionsProvider.notifier).createUser([user]);
       }
     }
   }

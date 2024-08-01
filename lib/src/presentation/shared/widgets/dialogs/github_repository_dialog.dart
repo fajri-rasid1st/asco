@@ -129,8 +129,6 @@ class GithubRepositoryDialog extends ConsumerWidget {
   void submit(GlobalKey<FormBuilderState> formKey) {
     FocusManager.instance.primaryFocus?.unfocus();
 
-    if (formKey.currentState!.saveAndValidate()) {
-      debugPrint(formKey.currentState!.value.toString());
-    }
+    if (!formKey.currentState!.saveAndValidate()) return;
   }
 }

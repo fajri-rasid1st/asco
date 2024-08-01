@@ -228,12 +228,12 @@ class _LoginFormState extends State<LoginForm> {
   void login(WidgetRef ref) {
     FocusManager.instance.primaryFocus?.unfocus();
 
-    if (formKey.currentState!.saveAndValidate()) {
-      navigatorKey.currentState!.pop();
+    if (!formKey.currentState!.saveAndValidate()) return;
 
-      final data = formKey.currentState!.value;
+    navigatorKey.currentState!.pop();
 
-      ref.read(loginProvider.notifier).login(data['username'], data['password']);
-    }
+    final data = formKey.currentState!.value;
+
+    ref.read(loginProvider.notifier).login(data['username'], data['password']);
   }
 }

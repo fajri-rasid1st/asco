@@ -131,7 +131,7 @@ class _AssistanceGroupFormPageState extends State<AssistanceGroupFormPage> {
                         showDivider: true,
                         showActionButton: true,
                         onPressedActionButton: () async {
-                          final number = formKey.currentState!.instantValue['number'];
+                          final String? number = formKey.currentState!.instantValue['number'];
                           final removedUsers = [...students];
 
                           final result = await navigatorKey.currentState!.pushNamed(
@@ -179,11 +179,11 @@ class _AssistanceGroupFormPageState extends State<AssistanceGroupFormPage> {
   void createOrEditAssistanceGroup(WidgetRef ref, List<Profile> students) {
     formKey.currentState!.save();
 
-    final value = formKey.currentState!.value;
+    final data = formKey.currentState!.value;
 
     final group = AssistanceGroupPost(
-      number: int.parse(value['number']),
-      assistantId: value['assistantId'],
+      number: int.parse(data['number']),
+      assistantId: data['assistantId'],
       studentIds: students.map((e) => e.id!).toList(),
     );
 

@@ -181,34 +181,34 @@ class MeetingFormPage extends StatelessWidget {
   void createOrEditMeeting(BuildContext context, WidgetRef ref) {
     FocusManager.instance.primaryFocus?.unfocus();
 
-    if (formKey.currentState!.saveAndValidate()) {
-      final value = formKey.currentState!.value;
+    if (!formKey.currentState!.saveAndValidate()) return;
 
-      if (value['assistantId'] == value['coAssistantId']) {
-        context.showSnackBar(
-          title: 'Terjadi Kesalahan',
-          message: 'Pemateri & Pendamping tidak boleh asisten yang sama',
-          type: SnackBarType.error,
-        );
+    final data = formKey.currentState!.value;
 
-        return;
-      }
-
-      final meeting = MeetingPost(
-        number: int.parse(value['number']),
-        lesson: value['lesson'],
-        date: (value['date'] as String).toSecondsSinceEpoch(),
-        assistantId: value['assistantId'],
-        coAssistantId: value['coAssistantId'],
-        modulePath: value['modulePath'],
-        assignmentPath: value['assignmentPath'],
+    if (data['assistantId'] == data['coAssistantId']) {
+      context.showSnackBar(
+        title: 'Terjadi Kesalahan',
+        message: 'Pemateri & Pendamping tidak boleh asisten yang sama',
+        type: SnackBarType.error,
       );
 
-      if (args.meeting != null) {
-        ref.read(meetingActionsProvider.notifier).editMeeting(args.meeting!, meeting);
-      } else {
-        ref.read(meetingActionsProvider.notifier).createMeeting(args.practicumId, meeting: meeting);
-      }
+      return;
+    }
+
+    final meeting = MeetingPost(
+      number: int.parse(data['number']),
+      lesson: data['lesson'],
+      date: (data['date'] as String).toSecondsSinceEpoch(),
+      assistantId: data['assistantId'],
+      coAssistantId: data['coAssistantId'],
+      modulePath: data['modulePath'],
+      assignmentPath: data['assignmentPath'],
+    );
+
+    if (args.meeting != null) {
+      ref.read(meetingActionsProvider.notifier).editMeeting(args.meeting!, meeting);
+    } else {
+      ref.read(meetingActionsProvider.notifier).createMeeting(args.practicumId, meeting: meeting);
     }
   }
 }

@@ -112,13 +112,13 @@ class ClassroomFormDialog extends StatelessWidget {
 
     formKey.currentState!.save();
 
-    final value = formKey.currentState!.value;
+    final data = formKey.currentState!.value;
 
     final classroom = Classroom(
-      name: value['name'],
-      meetingDay: value['meetingDay'],
-      startTime: (value['startTime'] as String).to24TimeFormat(),
-      endTime: (value['endTime'] as String).to24TimeFormat(),
+      name: data['name'],
+      meetingDay: data['meetingDay'],
+      startTime: (data['startTime'] as String).to24TimeFormat(),
+      endTime: (data['endTime'] as String).to24TimeFormat(),
     );
 
     navigatorKey.currentState!.pop(classroom);
