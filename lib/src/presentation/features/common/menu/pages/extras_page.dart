@@ -7,10 +7,11 @@ import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/helpers/function_helper.dart';
+import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/core/utils/const.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/features/assistant/extra/pages/edit_extra_page.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
@@ -35,7 +36,7 @@ class _ExtrasPageState extends State<ExtrasPage> with AutomaticKeepAliveClientMi
         description: 'Isian singkat di akhir kelas',
         iconName: 'game_controller_outlined.svg',
         iconBackgroundColor: Palette.purple3,
-        onTap: roleId == 1
+        onTap: MapHelper.getRoleId(CredentialSaver.credential?.role) == 1
             ? () => FunctionHelper.openUrl('https://quizizz.com/?lng=id')
             : () => navigatorKey.currentState!.pushNamed(
                   editExtraRoute,
@@ -52,7 +53,7 @@ class _ExtrasPageState extends State<ExtrasPage> with AutomaticKeepAliveClientMi
         description: 'Isi form seputar praktikum',
         iconName: 'form_outlined.svg',
         iconBackgroundColor: Palette.errorText,
-        onTap: roleId == 1
+        onTap: MapHelper.getRoleId(CredentialSaver.credential?.role) == 1
             ? () => context.showSnackBar(
                   title: 'Segera Hadir',
                   message: 'Kuesioner belum tersedia.',

@@ -5,8 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
-import 'package:asco/core/utils/const.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/features/common/menu/pages/assistance_page.dart';
 import 'package:asco/src/presentation/features/common/menu/pages/extras_page.dart';
@@ -61,7 +62,9 @@ class _MainMenuPageState extends ConsumerState<MainMenuPage> {
           ref.read(selectedMainMenuProvider.notifier).state = previous ?? 0;
 
           navigatorKey.currentState!.pushNamed(
-            roleId == 1 ? studentProfileRoute : assistantProfileRoute,
+            MapHelper.getRoleId(CredentialSaver.credential?.role) == 1
+                ? studentProfileRoute
+                : assistantProfileRoute,
           );
         }
 

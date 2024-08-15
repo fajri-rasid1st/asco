@@ -7,10 +7,10 @@ import 'package:asco/core/enums/leaderboard_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/core/helpers/asset_path.dart';
+import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
@@ -152,7 +152,7 @@ class Leaderboard extends StatelessWidget {
           ),
           if (type == LeaderboardType.practicum) ...[
             const SizedBox(height: 12),
-            if (roleId == 1)
+            if (MapHelper.getRoleId(CredentialSaver.credential?.role) == 1)
               LeaderboardContainer(
                 padding: const EdgeInsets.fromLTRB(8, 8, 12, 8),
                 onTap: () => navigatorKey.currentState!.pushNamed(

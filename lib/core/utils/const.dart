@@ -21,8 +21,6 @@ const accessTokenKey = 'ACCESS_TOKEN';
 const credentialKey = 'CREDENTIAL';
 
 // another consts
-const roleId = 2; // 0 admin, 1 student, 2 assistant
-
 const userRoleFilter = {
   'Semua': '',
   'Praktikan': 'STUDENT',

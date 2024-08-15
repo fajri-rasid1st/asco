@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 
 // Project imports:
 import 'package:asco/core/helpers/app_size.dart';
+import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/core/utils/const.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_icon_button.dart';
@@ -40,7 +41,7 @@ class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClient
         icon: Icons.description_outlined,
         onTap: () {},
       ),
-      if (roleId == 1)
+      if (MapHelper.getRoleId(CredentialSaver.credential?.role) == 1)
         MeetingMenuCard(
           title: 'Riwayat Pertemuan',
           strokeColor: Palette.azure1,

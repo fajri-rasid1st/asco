@@ -9,13 +9,13 @@ import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 class MentorListTile extends StatelessWidget {
   final String name;
   final String role;
-  final String imageUrl;
+  final String? imageUrl;
 
   const MentorListTile({
     super.key,
     required this.name,
     required this.role,
-    required this.imageUrl,
+    this.imageUrl,
   });
 
   @override

@@ -124,8 +124,8 @@ class MeetingFormPage extends StatelessWidget {
                         textInputType: TextInputType.none,
                         onTap: () async {
                           final date = await context.showCustomDatePicker(
-                            initialdate: meetingDate,
-                            firstDate: isExpired ? meetingDate : DateTime.now(),
+                            initialdate: isExpired ? DateTime.now() : meetingDate,
+                            firstDate: DateTime.now(),
                             lastDate: DateTime.now().add(const Duration(days: 180)),
                             formKey: formKey,
                             fieldKey: 'date',

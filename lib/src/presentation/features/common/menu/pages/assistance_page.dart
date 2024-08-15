@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/helpers/function_helper.dart';
+import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/core/utils/const.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
@@ -129,7 +130,7 @@ class _AssistancePageState extends State<AssistancePage> with AutomaticKeepAlive
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          trailing: roleId == 1
+                          trailing: MapHelper.getRoleId(CredentialSaver.credential?.role) == 1
                               ? CustomIconButton(
                                   'github_filled.svg',
                                   color: Palette.purple2,

@@ -8,10 +8,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/helpers/function_helper.dart';
+import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/providers/manual_providers/query_provider.dart';
@@ -73,7 +73,7 @@ class _ScoreRecapListHomePageState extends State<ScoreRecapListHomePage>
         ),
       ),
       body: NotificationListener<UserScrollNotification>(
-        onNotification: (notification) => roleId == 0
+        onNotification: (notification) => MapHelper.getRoleId(CredentialSaver.credential?.role) == 0
             ? FunctionHelper.handleFabVisibilityOnScroll(fabAnimationController, notification)
             : false,
         child: CustomScrollView(
@@ -134,7 +134,7 @@ class _ScoreRecapListHomePageState extends State<ScoreRecapListHomePage>
           ],
         ),
       ),
-      floatingActionButton: roleId == 0
+      floatingActionButton: MapHelper.getRoleId(CredentialSaver.credential?.role) == 0
           ? AnimatedFloatingActionButton(
               animationController: fabAnimationController,
               onPressed: () {},
