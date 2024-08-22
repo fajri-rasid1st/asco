@@ -10,10 +10,10 @@ part 'attendance_meeting.g.dart';
 @Freezed(makeCollectionsUnmodifiable: false)
 class AttendanceMeeting with _$AttendanceMeeting {
   const factory AttendanceMeeting({
-    String? meetingId,
+    @JsonKey(name: 'meetingId') String? id,
     int? number,
     String? lesson,
-    int? meetingDate,
+    @JsonKey(name: 'meetingDate') int? date,
     int? absent,
     int? sick,
     int? permission,

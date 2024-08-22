@@ -11,7 +11,7 @@ part 'attendance_meetings_provider.g.dart';
 class AttendanceMeetings extends _$AttendanceMeetings {
   @override
   Future<List<AttendanceMeeting>?> build(String practicumId) async {
-    List<AttendanceMeeting>? meetings;
+    List<AttendanceMeeting>? attendanceMeetings;
 
     state = const AsyncValue.loading();
 
@@ -20,11 +20,11 @@ class AttendanceMeetings extends _$AttendanceMeetings {
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
-        meetings = r..sort((a, b) => a.number!.compareTo(b.number!));
-        state = AsyncValue.data(meetings);
+        attendanceMeetings = r..sort((a, b) => a.number!.compareTo(b.number!));
+        state = AsyncValue.data(attendanceMeetings);
       },
     );
 
-    return meetings;
+    return attendanceMeetings;
   }
 }

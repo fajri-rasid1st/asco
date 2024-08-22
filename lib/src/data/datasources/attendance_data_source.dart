@@ -24,7 +24,7 @@ abstract class AttendanceDataSource {
   /// Get attendances by meeting
   Future<List<Attendance>> getAttendances(String meetingId);
 
-  /// Create attendance by meeting
+  /// Insert attendances meeting
   Future<void> createAttendance(String meetingId, {required AttendancePost attendance});
 }
 

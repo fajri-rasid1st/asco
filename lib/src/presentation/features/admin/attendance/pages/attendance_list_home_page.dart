@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 // Package imports:
+import 'package:excel/excel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
@@ -15,11 +16,14 @@ import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/services/file_service.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/data/models/attendances/attendance_meeting.dart';
 import 'package:asco/src/data/models/meetings/meeting.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/presentation/features/admin/attendance/providers/attendance_meetings_provider.dart';
+import 'package:asco/src/presentation/features/admin/attendance/providers/attendances_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/attendance_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
+import 'package:asco/src/presentation/shared/widgets/custom_information.dart';
 import 'package:asco/src/presentation/shared/widgets/loading_indicator.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
@@ -36,7 +40,7 @@ class AttendanceListHomePage extends StatelessWidget {
       ),
       body: Consumer(
         builder: (context, ref, child) {
-          final meetings = ref.watch(AttendanceMeetingsProvider(practicum.id!));
+          final attendanceMeetings = ref.watch(AttendanceMeetingsProvider(practicum.id!));
 
           ref.listen(AttendanceMeetingsProvider(practicum.id!), (_, state) {
             state.whenOrNull(
@@ -54,18 +58,25 @@ class AttendanceListHomePage extends StatelessWidget {
             );
           });
 
-          return meetings.when(
+          return attendanceMeetings.when(
             loading: () => const LoadingIndicator(),
             error: (_, __) => const SizedBox(),
-            data: (meetings) {
-              if (meetings == null) return const SizedBox();
+            data: (attendanceMeetings) {
+              if (attendanceMeetings == null) return const SizedBox();
+
+              if (attendanceMeetings.isEmpty) {
+                return const CustomInformation(
+                  title: 'Data absensi kosong',
+                  subtitle: 'Belum ada data absensi yang dapat ditampilkan',
+                );
+              }
 
               return SingleChildScrollView(
                 padding: const EdgeInsets.all(20),
                 child: Column(
                   children: [
                     FilledButton.icon(
-                      onPressed: () => exportToExcel(context),
+                      onPressed: () => exportToExcel(context, ref, attendanceMeetings),
                       icon: SvgAsset(
                         AssetPath.getIcon('file_excel_outlined.svg'),
                       ),
@@ -73,25 +84,28 @@ class AttendanceListHomePage extends StatelessWidget {
                     ).fullWidth(),
                     const SizedBox(height: 16),
                     ...List<Padding>.generate(
-                      meetings.length,
+                      attendanceMeetings.length,
                       (index) => Padding(
                         padding: EdgeInsets.only(
-                          bottom: index == meetings.length - 1 ? 0 : 10,
+                          bottom: index == attendanceMeetings.length - 1 ? 0 : 10,
                         ),
                         child: AttendanceCard(
                           meeting: Meeting(
-                            number: meetings[index].number,
-                            lesson: meetings[index].lesson,
-                            date: meetings[index].meetingDate,
+                            number: attendanceMeetings[index].number,
+                            lesson: attendanceMeetings[index].lesson,
+                            date: attendanceMeetings[index].date,
                           ),
                           attendanceType: AttendanceType.meeting,
                           meetingStatus: {
-                            'Hadir': meetings[index].attend!,
-                            'Alpa': meetings[index].absent!,
-                            'Sakit': meetings[index].sick!,
-                            'Izin': meetings[index].permission!,
+                            'Hadir': attendanceMeetings[index].attend!,
+                            'Alpa': attendanceMeetings[index].absent!,
+                            'Sakit': attendanceMeetings[index].sick!,
+                            'Izin': attendanceMeetings[index].permission!,
                           },
-                          onTap: () => navigatorKey.currentState!.pushNamed(attendanceDetailRoute),
+                          onTap: () => navigatorKey.currentState!.pushNamed(
+                            attendanceDetailRoute,
+                            arguments: attendanceMeetings[index],
+                          ),
                         ),
                       ),
                     ),
@@ -105,45 +119,56 @@ class AttendanceListHomePage extends StatelessWidget {
     );
   }
 
-  Future<void> exportToExcel(BuildContext context) async {
-    final excelBytes = ExcelHelper.createAttendanceData(
-      data: [
-        {
-          'username': 'H071211074',
-          'fullname': 'Wd. Ananda Lesmono',
-          'attendanceStatus': ['present', 'sick'],
-        },
-        {
-          'username': 'H071211051',
-          'fullname': 'Febi Fiantika',
-          'attendanceStatus': ['absent', 'excused'],
-        },
-      ],
-      totalAttendances: 2,
-    );
+  Future<void> exportToExcel(
+    BuildContext context,
+    WidgetRef ref,
+    List<AttendanceMeeting> attendanceMeetings,
+  ) async {
+    try {
+      context.showLoadingDialog();
 
-    if (excelBytes != null) {
+      final excel = Excel.createExcel();
+
+      for (var i = 0; i < attendanceMeetings.length; i++) {
+        final attendances = await ref.watch(AttendancesProvider(attendanceMeetings[i].id!).future);
+
+        if (attendances == null) return;
+
+        ExcelHelper.insertAttendancesToExcel(
+          excel: excel,
+          sheetNumber: attendanceMeetings[i].number!,
+          isLastSheet: i == attendanceMeetings.length - 1,
+          attendances: attendances,
+        );
+      }
+
+      final excelBytes = excel.save();
+
+      if (excelBytes == null) return;
+
       if (await FileService.saveFileFromRawBytes(
         excelBytes,
-        name: 'Kehadiran_Pemrograman_Mobile_A.xlsx',
+        name: 'Data Kehadiran ${practicum.course}.xlsx',
       )) {
         if (!context.mounted) return;
 
         context.showSnackBar(
           title: 'Berhasil',
-          message: 'Data kehadiran kelas berhasil diekspor pada folder Download.',
+          message: 'Data kehadiran praktikum berhasil diekspor pada folder Download.',
         );
-
-        return;
       }
+
+      navigatorKey.currentState!.pop();
+    } catch (e) {
+      navigatorKey.currentState!.pop();
+
+      if (!context.mounted) return;
+
+      context.showSnackBar(
+        title: 'Terjadi Kesalahan',
+        message: 'Data kehadiran praktikum gagal diekspor.',
+        type: SnackBarType.error,
+      );
     }
-
-    if (!context.mounted) return;
-
-    context.showSnackBar(
-      title: 'Terjadi Kesalahan',
-      message: 'Data kehadiran kelas gagal diekspor.',
-      type: SnackBarType.error,
-    );
   }
 }

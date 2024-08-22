@@ -14,8 +14,8 @@ import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 
 class AttendanceCard extends StatelessWidget {
   final Meeting meeting;
-  final bool locked;
   final AttendanceType attendanceType;
+  final bool locked;
   final Map<String, int>? meetingStatus;
   final List<bool>? assistanceStatus;
   final VoidCallback? onTap;
@@ -23,8 +23,8 @@ class AttendanceCard extends StatelessWidget {
   const AttendanceCard({
     super.key,
     required this.meeting,
-    this.locked = false,
     this.attendanceType = AttendanceType.meeting,
+    this.locked = false,
     this.meetingStatus,
     this.assistanceStatus,
     this.onTap,
@@ -97,25 +97,27 @@ class AttendanceCard extends StatelessWidget {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 8),
-                          Row(
-                            children: List<Expanded>.generate(
-                              meetingStatus!.length,
-                              (index) => Expanded(
-                                flex: values[index],
-                                child: Container(
-                                  height: 6,
-                                  margin: EdgeInsets.only(
-                                    right: index == meetingStatus!.length ? 0 : 2,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: attendanceStatusColor[keys[index]]!,
-                                    borderRadius: BorderRadius.circular(3),
+                          if (!values.every((e) => e == 0)) ...[
+                            const SizedBox(height: 8),
+                            Row(
+                              children: List<Expanded>.generate(
+                                meetingStatus!.length,
+                                (index) => Expanded(
+                                  flex: values[index],
+                                  child: Container(
+                                    height: 6,
+                                    margin: EdgeInsets.only(
+                                      right: index == meetingStatus!.length ? 0 : 2,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: attendanceStatusColor[keys[index]]!,
+                                      borderRadius: BorderRadius.circular(3),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
+                          ],
                           const SizedBox(height: 4),
                           Row(
                             children: List<Flexible>.generate(

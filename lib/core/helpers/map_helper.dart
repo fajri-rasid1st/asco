@@ -1,3 +1,9 @@
+// Flutter imports:
+import 'package:flutter/material.dart';
+
+// Project imports:
+import 'package:asco/core/styles/color_scheme.dart';
+
 class MapHelper {
   static int? getRoleId(String? role) {
     final roleMap = {
@@ -20,7 +26,7 @@ class MapHelper {
   }
 
   static String? getReadableDay(String? day) {
-    const daysMap = {
+    const dayMap = {
       'SUNDAY': 'Minggu',
       'MONDAY': 'Senin',
       'TUESDAY': 'Selasa',
@@ -30,6 +36,28 @@ class MapHelper {
       'SATURDAY': 'Sabtu'
     };
 
-    return daysMap[day];
+    return dayMap[day];
+  }
+
+  static String? getReadableAttendanceStatus(String? attendanceStatus) {
+    final attendanceStatusMap = {
+      'ATTEND': 'Hadir',
+      'ABSENT': 'Alpa',
+      'SICK': 'Sakit',
+      'PERMISSION': 'Izin',
+    };
+
+    return attendanceStatusMap[attendanceStatus];
+  }
+
+  static Color? getAttendanceStatusColor(String? attendanceStatus) {
+    const attendanceStatusColorMap = {
+      'ATTEND': Palette.success,
+      'ABSENT': Palette.error,
+      'SICK': Palette.warning,
+      'PERMISSION': Palette.info,
+    };
+
+    return attendanceStatusColorMap[attendanceStatus];
   }
 }

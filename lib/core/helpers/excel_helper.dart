@@ -4,6 +4,10 @@ import 'dart:io';
 // Package imports:
 import 'package:excel/excel.dart';
 
+// Project imports:
+import 'package:asco/core/helpers/map_helper.dart';
+import 'package:asco/src/data/models/attendances/attendance.dart';
+
 class ExcelHelper {
   static List<Map<String, String?>>? convertToData(String path) {
     try {
@@ -38,19 +42,22 @@ class ExcelHelper {
     }
   }
 
-  static List<int>? createAttendanceData({
-    required List<Map<String, Object>> data,
-    required int totalAttendances,
+  static void insertAttendancesToExcel({
+    required Excel excel,
+    required int sheetNumber,
+    required bool isLastSheet,
+    required List<Attendance> attendances,
   }) {
-    final excel = Excel.createExcel();
+    // Rename first sheet
+    if (sheetNumber == 1) {
+      excel.rename('Sheet1', 'Pertemuan $sheetNumber');
+    }
 
-    excel.setDefaultSheet('Kehadiran Kelas');
+    // Get active sheet
+    final sheet = excel.sheets['Pertemuan $sheetNumber']!;
 
-    final sheet = excel.sheets['Kehadiran Kelas']!;
-
-    /// Create header
+    // Create header cell style
     final headerCellStyle = CellStyle(
-      backgroundColorHex: ExcelColor.yellow,
       fontFamily: getFontFamily(FontFamily.Calibri),
       fontSize: 11,
       bold: true,
@@ -63,13 +70,10 @@ class ExcelHelper {
       bottomBorder: Border(borderStyle: BorderStyle.Thin),
     );
 
-    final meetings = List<String>.generate(
-      totalAttendances,
-      (index) => 'Pertemuan ${index + 1}',
-    );
+    // Define header values
+    final headers = ['No.', 'NIM', 'Nama Lengkap', 'Status'];
 
-    final headers = ['No.', 'NIM', 'Nama Lengkap', ...meetings];
-
+    // Set header values to cells
     for (var i = 0; i < headers.length; i++) {
       final cellIndex = CellIndex.indexByColumnRow(columnIndex: i, rowIndex: 0);
 
@@ -77,10 +81,10 @@ class ExcelHelper {
         ..value = TextCellValue(headers[i])
         ..cellStyle = headerCellStyle;
 
-      if (i >= 3) sheet.setColumnWidth(i, 16);
+      if (i == headers.length - 1) sheet.setColumnWidth(i, 16);
     }
 
-    /// Create data
+    // Create data cell style
     final dataCellStyle = CellStyle(
       fontFamily: getFontFamily(FontFamily.Calibri),
       fontSize: 11,
@@ -93,27 +97,47 @@ class ExcelHelper {
       bottomBorder: Border(borderStyle: BorderStyle.Thin),
     );
 
-    for (var i = 0; i < data.length; i++) {
-      final dataMap = data[i];
+    // Set data values to cells
+    // Column looping
+    for (var i = 0; i < attendances.length; i++) {
+      final attendance = attendances[i];
 
-      final dataList = [
+      final data = [
         (i + 1).toString(),
-        dataMap['username'] as String,
-        dataMap['fullname'] as String,
-        ...(dataMap['attendanceStatus'] as List<String>),
+        attendance.student!.username!,
+        attendance.student!.fullname!,
+        MapHelper.getReadableAttendanceStatus(attendance.status)!,
       ];
 
-      for (var j = 0; j < dataList.length; j++) {
+      // Row looping
+      for (var j = 0; j < data.length; j++) {
         final cellIndex = CellIndex.indexByColumnRow(columnIndex: j, rowIndex: i + 1);
 
-        sheet.cell(cellIndex).value = TextCellValue(dataList[j]);
+        sheet.cell(cellIndex).value = TextCellValue(data[j]);
 
-        if (j != 2) {
-          sheet.cell(cellIndex).cellStyle = dataCellStyle;
-        } else {
+        if (j == 2) {
           sheet.cell(cellIndex).cellStyle = dataCellStyle.copyWith(
             horizontalAlignVal: HorizontalAlign.Left,
           );
+        } else if (j == 3) {
+          String hexColor = '#FFFFFF';
+
+          switch (data.last) {
+            case 'Hadir':
+              hexColor = '#744BE4';
+            case 'Alpa':
+              hexColor = '#FA78A6';
+            case 'Sakit':
+              hexColor = '#FAC678';
+            case 'Izin':
+              hexColor = '#788DFA';
+          }
+
+          sheet.cell(cellIndex).cellStyle = dataCellStyle.copyWith(
+            backgroundColorHexVal: ExcelColor.fromHexString(hexColor),
+          );
+        } else {
+          sheet.cell(cellIndex).cellStyle = dataCellStyle;
         }
       }
     }
@@ -123,6 +147,8 @@ class ExcelHelper {
     sheet.setColumnWidth(1, 18);
     sheet.setColumnWidth(2, 36);
 
-    return excel.save();
+    if (!isLastSheet) {
+      excel.copy('Pertemuan $sheetNumber', 'Pertemuan ${sheetNumber + 1}');
+    }
   }
 }

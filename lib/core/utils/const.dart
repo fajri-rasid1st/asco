@@ -20,7 +20,7 @@ const kStudentsAlreadyExists =
 const accessTokenKey = 'ACCESS_TOKEN';
 const credentialKey = 'CREDENTIAL';
 
-// another consts
+// map consts
 const userRoleFilter = {
   'Semua': '',
   'Praktikan': 'STUDENT',
@@ -38,10 +38,10 @@ const dayOfWeek = {
 };
 
 const attendanceStatus = {
-  'Hadir': 'present',
-  'Alpa': 'absent',
-  'Sakit': 'sick',
-  'Izin': 'excused',
+  'Hadir': 'ATTEND',
+  'Alpa': 'ABSENT',
+  'Sakit': 'SICK',
+  'Izin': 'PERMISSION',
 };
 
 const attendanceStatusColor = {
@@ -49,6 +49,4 @@ const attendanceStatusColor = {
   'Alpa': Palette.error,
   'Sakit': Palette.warning,
   'Izin': Palette.info,
-  'Selesai': Palette.success,
-  'Belum': Palette.error,
 };
