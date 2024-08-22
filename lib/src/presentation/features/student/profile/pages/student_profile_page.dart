@@ -339,6 +339,7 @@ class IdCardBackSide extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     RichText(
                       textAlign: TextAlign.center,

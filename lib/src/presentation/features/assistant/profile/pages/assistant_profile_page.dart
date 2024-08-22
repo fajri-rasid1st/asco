@@ -190,36 +190,38 @@ class AssistantBadgeCard extends StatelessWidget {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const PracticumBadgeImage(
-                  badgeUrl: 'https://placehold.co/138x150/png',
-                  width: 48,
-                  height: 52,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Asisten',
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: textTheme.titleMedium!.copyWith(
-                    fontWeight: FontWeight.w600,
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const PracticumBadgeImage(
+                    badgeUrl: 'https://placehold.co/138x150/png',
+                    width: 48,
+                    height: 52,
                   ),
-                ),
-                Text(
-                  'Algoritma dan Pemrograman Dasar',
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.center,
-                  style: textTheme.bodySmall!.copyWith(
-                    color: Palette.secondaryText,
+                  const SizedBox(height: 8),
+                  Text(
+                    'Asisten',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: textTheme.titleMedium!.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-              ],
+                  Text(
+                    'Algoritma dan Pemrograman Dasar',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: textTheme.bodySmall!.copyWith(
+                      color: Palette.secondaryText,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

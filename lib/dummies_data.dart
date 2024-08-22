@@ -4,19 +4,18 @@ import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
 
 const List<Profile> assistantDummies = [
- Profile(
-      username: 'rafmas',
-      nickname: 'Masloman',
-      fullname: 'Rafly Masloman',
-      classOf: '2016',
-    ),
-Profile(
+  Profile(
+    username: 'rafmas',
+    nickname: 'Masloman',
+    fullname: 'Rafly Masloman',
+    classOf: '2016',
+  ),
+  Profile(
     username: 'cick',
     nickname: 'Fajri',
     fullname: 'Muhammad Fajri Rasid',
     classOf: '2019',
-  )
-
+  ),
 ];
 
 const List<Profile> studentDummies = [
