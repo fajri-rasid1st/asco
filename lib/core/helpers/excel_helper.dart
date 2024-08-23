@@ -45,7 +45,6 @@ class ExcelHelper {
   static void insertAttendancesToExcel({
     required Excel excel,
     required int sheetNumber,
-    required bool isLastSheet,
     required List<Attendance> attendances,
   }) {
     // Rename first sheet
@@ -113,25 +112,21 @@ class ExcelHelper {
       for (var j = 0; j < data.length; j++) {
         final cellIndex = CellIndex.indexByColumnRow(columnIndex: j, rowIndex: i + 1);
 
-        sheet.cell(cellIndex).value = TextCellValue(data[j]);
+        sheet.cell(cellIndex).value =
+            j == 0 ? IntCellValue(int.parse(data[j])) : TextCellValue(data[j]);
 
         if (j == 2) {
           sheet.cell(cellIndex).cellStyle = dataCellStyle.copyWith(
             horizontalAlignVal: HorizontalAlign.Left,
           );
         } else if (j == 3) {
-          String hexColor = '#FFFFFF';
-
-          switch (data.last) {
-            case 'Hadir':
-              hexColor = '#744BE4';
-            case 'Alpa':
-              hexColor = '#FA78A6';
-            case 'Sakit':
-              hexColor = '#FAC678';
-            case 'Izin':
-              hexColor = '#788DFA';
-          }
+          String hexColor = switch (data.last) {
+            'Hadir' => '#9D7DF5',
+            'Alpa' => '#FA78A6',
+            'Sakit' => '#FAC678',
+            'Izin' => '#788DFA',
+            _ => '#FFFFFF',
+          };
 
           sheet.cell(cellIndex).cellStyle = dataCellStyle.copyWith(
             backgroundColorHexVal: ExcelColor.fromHexString(hexColor),
@@ -146,9 +141,5 @@ class ExcelHelper {
     sheet.setColumnAutoFit(0);
     sheet.setColumnWidth(1, 18);
     sheet.setColumnWidth(2, 36);
-
-    if (!isLastSheet) {
-      excel.copy('Pertemuan $sheetNumber', 'Pertemuan ${sheetNumber + 1}');
-    }
   }
 }

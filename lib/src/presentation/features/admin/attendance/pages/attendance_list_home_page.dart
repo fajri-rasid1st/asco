@@ -134,12 +134,20 @@ class AttendanceListHomePage extends StatelessWidget {
 
         if (attendances == null) return;
 
-        ExcelHelper.insertAttendancesToExcel(
-          excel: excel,
-          sheetNumber: attendanceMeetings[i].number!,
-          isLastSheet: i == attendanceMeetings.length - 1,
-          attendances: attendances,
-        );
+        if (attendances.isNotEmpty) {
+          ExcelHelper.insertAttendancesToExcel(
+            excel: excel,
+            sheetNumber: attendanceMeetings[i].number!,
+            attendances: attendances,
+          );
+
+          excel.copy(
+            'Pertemuan ${attendanceMeetings[i].number}',
+            'Pertemuan ${attendanceMeetings[i].number! + 1}',
+          );
+        } else {
+          excel.delete('Pertemuan ${attendanceMeetings[i].number}');
+        }
       }
 
       final excelBytes = excel.save();
