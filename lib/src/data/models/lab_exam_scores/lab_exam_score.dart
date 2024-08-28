@@ -11,7 +11,7 @@ import 'package:asco/src/data/models/profiles/profile.dart';
 part 'lab_exam_score.freezed.dart';
 part 'lab_exam_score.g.dart';
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: false)
 class LabExamScore with _$LabExamScore {
   const factory LabExamScore({
     String? id,

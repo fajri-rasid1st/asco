@@ -141,10 +141,12 @@ class AttendanceListHomePage extends StatelessWidget {
             attendances: attendances,
           );
 
-          excel.copy(
-            'Pertemuan ${attendanceMeetings[i].number}',
-            'Pertemuan ${attendanceMeetings[i].number! + 1}',
-          );
+          if (i != attendanceMeetings.length - 1) {
+            excel.copy(
+              'Pertemuan ${attendanceMeetings[i].number}',
+              'Pertemuan ${attendanceMeetings[i].number! + 1}',
+            );
+          }
         } else {
           excel.delete('Pertemuan ${attendanceMeetings[i].number}');
         }

@@ -11,7 +11,7 @@ import 'package:asco/src/data/models/profiles/profile.dart';
 part 'score.freezed.dart';
 part 'score.g.dart';
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: false)
 class Score with _$Score {
   const factory Score({
     String? id,

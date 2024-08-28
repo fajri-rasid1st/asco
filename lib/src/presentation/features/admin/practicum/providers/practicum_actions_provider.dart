@@ -77,14 +77,14 @@ class PracticumActions extends _$PracticumActions {
     );
   }
 
-  Future<void> updateClassroomsAndAssistants(
+  Future<void> createClassroomsAndAssistants(
     String id, {
     required List<ClassroomPost> classrooms,
     required List<Profile> assistants,
   }) async {
     state = const AsyncValue.loading();
 
-    final result = await ref.watch(practicumRepositoryProvider).updateClassroomsAndAssistants(
+    final result = await ref.watch(practicumRepositoryProvider).createClassroomsAndAssistants(
           id,
           classrooms: classrooms,
           assistants: assistants,
@@ -93,7 +93,7 @@ class PracticumActions extends _$PracticumActions {
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) => state = const AsyncValue.data((
-        message: 'Berhasil mengupdate kelas dan asisten praktikum',
+        message: 'Berhasil menambahkan kelas dan asisten praktikum',
         action: ActionType.update,
       )),
     );

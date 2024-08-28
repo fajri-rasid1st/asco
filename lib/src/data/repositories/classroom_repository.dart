@@ -10,8 +10,8 @@ import 'package:asco/src/data/models/classrooms/classroom.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class ClassroomRepository {
-  /// Get classrooms (student)
-  Future<Either<Failure, List<Classroom>>> getStudentClassrooms();
+  /// Get classrooms (authorized for student & assistant)
+  Future<Either<Failure, List<Classroom>>> getUserClassrooms();
 
   /// Get classroom detail
   Future<Either<Failure, Classroom>> getClassroomDetail(String id);
@@ -39,10 +39,10 @@ class ClassroomRepositoryImpl implements ClassroomRepository {
   });
 
   @override
-  Future<Either<Failure, List<Classroom>>> getStudentClassrooms() async {
+  Future<Either<Failure, List<Classroom>>> getUserClassrooms() async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await classroomDataSource.getStudentClassrooms();
+        final result = await classroomDataSource.getUserClassrooms();
 
         return Right(result);
       } catch (e) {

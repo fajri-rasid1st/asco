@@ -14,8 +14,8 @@ import 'package:asco/src/data/models/classrooms/classroom.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class ClassroomDataSource {
-  /// Get classrooms (student)
-  Future<List<Classroom>> getStudentClassrooms();
+  /// Get classrooms (authorized for student & assistant)
+  Future<List<Classroom>> getUserClassrooms();
 
   /// Get classroom detail
   Future<Classroom> getClassroomDetail(String id);
@@ -33,7 +33,7 @@ class ClassroomDataSourceImpl implements ClassroomDataSource {
   const ClassroomDataSourceImpl({required this.client});
 
   @override
-  Future<List<Classroom>> getStudentClassrooms() async {
+  Future<List<Classroom>> getUserClassrooms() async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/classes'),

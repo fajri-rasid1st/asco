@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 // Project imports:
+import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
 
 part 'classroom.freezed.dart';
@@ -20,6 +21,8 @@ class Classroom with _$Classroom {
     int? endTime,
     List<Profile>? students,
     int? studentsLength,
+    int? studentsCount,
+    Practicum? practicum,
   }) = _Classroom;
 
   factory Classroom.fromJson(Map<String, Object?> json) => _$ClassroomFromJson(json);

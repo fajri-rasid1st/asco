@@ -182,7 +182,7 @@ class _PracticumSecondFormPageState extends ConsumerState<PracticumSecondFormPag
       appBar: CustomAppBar(
         title: '${widget.args.practicum != null ? 'Edit' : 'Tambah'} Praktikum (2/2)',
         action: IconButton(
-          onPressed: updatePracticum,
+          onPressed: addClassroomsAndAssistants,
           icon: const Icon(Icons.check_rounded),
           tooltip: 'Submit',
           style: IconButton.styleFrom(
@@ -278,13 +278,13 @@ class _PracticumSecondFormPageState extends ConsumerState<PracticumSecondFormPag
     );
   }
 
-  void updatePracticum() {
+  void addClassroomsAndAssistants() {
     final classroomPosts = List<ClassroomPost>.generate(
       classrooms.length,
       (index) => ClassroomPost.fromJson(classrooms[index].toJson()),
     );
 
-    ref.read(practicumActionsProvider.notifier).updateClassroomsAndAssistants(
+    ref.read(practicumActionsProvider.notifier).createClassroomsAndAssistants(
           widget.args.id!,
           classrooms: classroomPosts,
           assistants: assistants,

@@ -33,8 +33,8 @@ abstract class PracticumDataSource {
   /// Delete practicum
   Future<void> deletePracticum(String id);
 
-  /// Update classrooms and assistants
-  Future<void> updateClassroomsAndAssistants(
+  /// Create classrooms and assistants
+  Future<void> createClassroomsAndAssistants(
     String id, {
     required List<ClassroomPost> classrooms,
     required List<Profile> assistants,
@@ -207,7 +207,7 @@ class PracticumDataSourceImpl implements PracticumDataSource {
   }
 
   @override
-  Future<void> updateClassroomsAndAssistants(
+  Future<void> createClassroomsAndAssistants(
     String id, {
     required List<ClassroomPost> classrooms,
     required List<Profile> assistants,

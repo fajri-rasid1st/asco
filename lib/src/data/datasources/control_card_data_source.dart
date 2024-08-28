@@ -12,12 +12,13 @@ import 'package:asco/core/utils/data_response.dart';
 import 'package:asco/src/data/models/control_cards/control_card.dart';
 
 abstract class ControlCardDataSource {
-  /// Get control cards (student)
+  /// Get control cards (authorized for student)
   Future<List<ControlCard>> getStudentControlCards(String practicumId);
 
   /// Get control cards
   Future<List<ControlCard>> getControlCards(String practicumId, String studentId);
 
+  // TODO: need implemented in Provider
   /// Get control card detail
   Future<ControlCard> getControlCardDetail(String id);
 }

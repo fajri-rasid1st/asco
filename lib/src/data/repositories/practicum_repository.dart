@@ -27,8 +27,8 @@ abstract class PracticumRepository {
   /// Delete practicum
   Future<Either<Failure, void>> deletePracticum(String id);
 
-  /// Update classrooms and assistants
-  Future<Either<Failure, void>> updateClassroomsAndAssistants(
+  /// Create classrooms and assistants
+  Future<Either<Failure, void>> createClassroomsAndAssistants(
     String id, {
     required List<ClassroomPost> classrooms,
     required List<Profile> assistants,
@@ -132,14 +132,14 @@ class PracticumRepositoryImpl implements PracticumRepository {
   }
 
   @override
-  Future<Either<Failure, void>> updateClassroomsAndAssistants(
+  Future<Either<Failure, void>> createClassroomsAndAssistants(
     String id, {
     required List<ClassroomPost> classrooms,
     required List<Profile> assistants,
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await practicumDataSource.updateClassroomsAndAssistants(
+        final result = await practicumDataSource.createClassroomsAndAssistants(
           id,
           classrooms: classrooms,
           assistants: assistants,

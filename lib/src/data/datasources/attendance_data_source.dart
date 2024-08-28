@@ -15,7 +15,7 @@ import 'package:asco/src/data/models/attendances/attendance_meeting.dart';
 import 'package:asco/src/data/models/attendances/attendance_post.dart';
 
 abstract class AttendanceDataSource {
-  /// Get attendances (student)
+  /// Get attendances (authorized for student)
   Future<List<Attendance>> getStudentAttendances(String practicumId);
 
   /// Get attendance meetings
