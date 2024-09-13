@@ -6,11 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:asco/core/enums/action_type.dart';
-import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
-import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/features/admin/practicum/providers/practicum_actions_provider.dart';
 import 'package:asco/src/presentation/features/admin/practicum/providers/practicums_provider.dart';
@@ -57,18 +55,10 @@ class _PracticumListHomePageState extends ConsumerState<PracticumListHomePage>
     ref.listen(practicumActionsProvider, (_, state) {
       state.when(
         loading: () => context.showLoadingDialog(),
-        error: (error, _) {
+        error: (error, stackTrace) {
           navigatorKey.currentState!.pop();
 
-          if ('$error' == kNoInternetConnection) {
-            context.showNoConnectionSnackBar();
-          } else {
-            context.showSnackBar(
-              title: 'Terjadi Kesalahan',
-              message: '$error',
-              type: SnackBarType.error,
-            );
-          }
+          context.responseError(error, stackTrace);
         },
         data: (data) {
           if (data.action == ActionType.delete) {
@@ -103,19 +93,7 @@ class _PracticumListHomePageState extends ConsumerState<PracticumListHomePage>
             final practicums = ref.watch(practicumsProvider);
 
             ref.listen(practicumsProvider, (_, state) {
-              state.whenOrNull(
-                error: (error, _) {
-                  if ('$error' == kNoInternetConnection) {
-                    context.showNoConnectionSnackBar();
-                  } else {
-                    context.showSnackBar(
-                      title: 'Terjadi Kesalahan',
-                      message: '$error',
-                      type: SnackBarType.error,
-                    );
-                  }
-                },
-              );
+              state.whenOrNull(error: context.responseError);
             });
 
             return practicums.when(

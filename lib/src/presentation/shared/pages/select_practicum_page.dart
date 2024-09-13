@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
-import 'package:asco/core/utils/const.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/presentation/features/admin/practicum/providers/practicums_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/practicum_card.dart';
@@ -31,19 +29,7 @@ class SelectPracticumPage extends StatelessWidget {
           final practicums = ref.watch(practicumsProvider);
 
           ref.listen(practicumsProvider, (_, state) {
-            state.whenOrNull(
-              error: (error, _) {
-                if ('$error' == kNoInternetConnection) {
-                  context.showNoConnectionSnackBar();
-                } else {
-                  context.showSnackBar(
-                    title: 'Terjadi Kesalahan',
-                    message: '$error',
-                    type: SnackBarType.error,
-                  );
-                }
-              },
-            );
+            state.whenOrNull(error: context.responseError);
           });
 
           return practicums.when(

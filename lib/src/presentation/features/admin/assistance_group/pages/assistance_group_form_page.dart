@@ -6,11 +6,9 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/routes/route_names.dart';
-import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/assistance_groups/assistance_group.dart';
 import 'package:asco/src/data/models/assistance_groups/assistance_group_post.dart';
@@ -81,21 +79,7 @@ class _AssistanceGroupFormPageState extends State<AssistanceGroupFormPage> {
               role: 'ASSISTANT',
               practicum: widget.args.practicumId,
             ),
-            (_, state) {
-              state.whenOrNull(
-                error: (error, _) {
-                  if ('$error' == kNoInternetConnection) {
-                    context.showNoConnectionSnackBar();
-                  } else {
-                    context.showSnackBar(
-                      title: 'Terjadi Kesalahan',
-                      message: '$error',
-                      type: SnackBarType.error,
-                    );
-                  }
-                },
-              );
-            },
+            (_, state) => state.whenOrNull(error: context.responseError),
           );
 
           return assistants.when(

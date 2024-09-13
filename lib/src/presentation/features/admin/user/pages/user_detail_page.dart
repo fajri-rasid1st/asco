@@ -5,14 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/button_extension.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
 import 'package:asco/src/data/models/profiles/profile_post.dart';
@@ -33,19 +31,7 @@ class UserDetailPage extends ConsumerWidget {
     final user = ref.watch(UserDetailProvider(username));
 
     ref.listen(UserDetailProvider(username), (_, state) {
-      state.whenOrNull(
-        error: (error, _) {
-          if ('$error' == kNoInternetConnection) {
-            context.showNoConnectionSnackBar();
-          } else {
-            context.showSnackBar(
-              title: 'Terjadi Kesalahan',
-              message: '$error',
-              type: SnackBarType.error,
-            );
-          }
-        },
-      );
+      state.whenOrNull(error: context.responseError);
     });
 
     ref.listen(userActionsProvider, (_, state) {

@@ -14,7 +14,6 @@ import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/services/file_service.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/presentation/features/admin/meeting/pages/meeting_form_page.dart';
@@ -37,19 +36,7 @@ class MeetingDetailPage extends ConsumerWidget {
     final meeting = ref.watch(MeetingDetailProvider(args.id));
 
     ref.listen(MeetingDetailProvider(args.id), (_, state) {
-      state.whenOrNull(
-        error: (error, _) {
-          if ('$error' == kNoInternetConnection) {
-            context.showNoConnectionSnackBar();
-          } else {
-            context.showSnackBar(
-              title: 'Terjadi Kesalahan',
-              message: '$error',
-              type: SnackBarType.error,
-            );
-          }
-        },
-      );
+      state.whenOrNull(error: context.responseError);
     });
 
     ref.listen(meetingActionsProvider, (_, state) {

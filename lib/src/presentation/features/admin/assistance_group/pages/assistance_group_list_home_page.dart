@@ -6,14 +6,12 @@ import 'package:collection/collection.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/presentation/features/admin/assistance_group/pages/assistance_group_detail_page.dart';
@@ -68,36 +66,16 @@ class _AssistanceGroupListHomePageState extends ConsumerState<AssistanceGroupLis
     final groups = ref.watch(AssistanceGroupsProvider(widget.practicum.id!));
 
     ref.listen(AssistanceGroupsProvider(widget.practicum.id!), (_, state) {
-      state.whenOrNull(
-        error: (error, _) {
-          if ('$error' == kNoInternetConnection) {
-            context.showNoConnectionSnackBar();
-          } else {
-            context.showSnackBar(
-              title: 'Terjadi Kesalahan',
-              message: '$error',
-              type: SnackBarType.error,
-            );
-          }
-        },
-      );
+      state.whenOrNull(error: context.responseError);
     });
 
     ref.listen(assistanceGroupActionsProvider, (_, state) {
       state.when(
         loading: () => context.showLoadingDialog(),
-        error: (error, _) {
+        error: (error, stackTrace) {
           navigatorKey.currentState!.pop();
 
-          if ('$error' == kNoInternetConnection) {
-            context.showNoConnectionSnackBar();
-          } else {
-            context.showSnackBar(
-              title: 'Terjadi Kesalahan',
-              message: '$error',
-              type: SnackBarType.error,
-            );
-          }
+          context.responseError(error, stackTrace);
         },
         data: (data) {
           if (data.message != null) {

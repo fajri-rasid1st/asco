@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/map_helper.dart';
@@ -29,19 +28,7 @@ class AttendanceDetailPage extends ConsumerWidget {
     final attendances = ref.watch(AttendancesProvider(attendanceMeeting.id!));
 
     ref.listen(AttendancesProvider(attendanceMeeting.id!), (_, state) {
-      state.whenOrNull(
-        error: (error, _) {
-          if ('$error' == kNoInternetConnection) {
-            context.showNoConnectionSnackBar();
-          } else {
-            context.showSnackBar(
-              title: 'Terjadi Kesalahan',
-              message: '$error',
-              type: SnackBarType.error,
-            );
-          }
-        },
-      );
+      state.whenOrNull(error: context.responseError);
     });
 
     return attendances.when(

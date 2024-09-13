@@ -14,7 +14,6 @@ import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/helpers/excel_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/services/file_service.dart';
-import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/attendances/attendance_meeting.dart';
 import 'package:asco/src/data/models/meetings/meeting.dart';
@@ -43,19 +42,7 @@ class AttendanceListHomePage extends StatelessWidget {
           final attendanceMeetings = ref.watch(AttendanceMeetingsProvider(practicum.id!));
 
           ref.listen(AttendanceMeetingsProvider(practicum.id!), (_, state) {
-            state.whenOrNull(
-              error: (error, _) {
-                if ('$error' == kNoInternetConnection) {
-                  context.showNoConnectionSnackBar();
-                } else {
-                  context.showSnackBar(
-                    title: 'Terjadi Kesalahan',
-                    message: '$error',
-                    type: SnackBarType.error,
-                  );
-                }
-              },
-            );
+            state.whenOrNull(error: context.responseError);
           });
 
           return attendanceMeetings.when(

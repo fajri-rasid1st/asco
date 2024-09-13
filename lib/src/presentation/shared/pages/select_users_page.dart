@@ -5,12 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/styles/color_scheme.dart';
-import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
 import 'package:asco/src/presentation/features/admin/user/providers/users_provider.dart';
@@ -112,21 +110,7 @@ class _SelectUsersPageState extends State<SelectUsersPage> {
                       role: widget.args.role,
                       practicum: widget.args.practicum,
                     ),
-                    (_, state) {
-                      state.whenOrNull(
-                        error: (error, _) {
-                          if ('$error' == kNoInternetConnection) {
-                            context.showNoConnectionSnackBar();
-                          } else {
-                            context.showSnackBar(
-                              title: 'Terjadi Kesalahan',
-                              message: '$error',
-                              type: SnackBarType.error,
-                            );
-                          }
-                        },
-                      );
-                    },
+                    (_, state) => state.whenOrNull(error: context.responseError),
                   );
 
                   return users.when(

@@ -11,7 +11,6 @@ import 'package:intl/intl.dart';
 import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/extensions/string_extension.dart';
-import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/meetings/meeting.dart';
 import 'package:asco/src/data/models/meetings/meeting_post.dart';
@@ -67,21 +66,7 @@ class MeetingFormPage extends StatelessWidget {
               role: 'ASSISTANT',
               practicum: args.practicumId,
             ),
-            (_, state) {
-              state.whenOrNull(
-                error: (error, _) {
-                  if ('$error' == kNoInternetConnection) {
-                    context.showNoConnectionSnackBar();
-                  } else {
-                    context.showSnackBar(
-                      title: 'Terjadi Kesalahan',
-                      message: '$error',
-                      type: SnackBarType.error,
-                    );
-                  }
-                },
-              );
-            },
+            (_, state) => state.whenOrNull(error: context.responseError),
           );
 
           return assistants.when(

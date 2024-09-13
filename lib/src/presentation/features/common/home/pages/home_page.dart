@@ -13,6 +13,7 @@ import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/presentation/features/common/home/providers/user_classrooms_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/drawer_menu/drawer_menu_widget.dart';
@@ -27,6 +28,7 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final roleId = MapHelper.getRoleId(CredentialSaver.credential?.role);
     final selectedIndex = ref.watch(selectedMenuProvider);
 
     ref.listen(
@@ -36,9 +38,7 @@ class HomePage extends ConsumerWidget {
           ref.read(selectedMenuProvider.notifier).state = -1;
 
           navigatorKey.currentState!.pushNamed(
-            MapHelper.getRoleId(CredentialSaver.credential?.role) == 1
-                ? studentProfileRoute
-                : assistantProfileRoute,
+            roleId == 1 ? studentProfileRoute : assistantProfileRoute,
           );
         }
 
@@ -73,6 +73,19 @@ class HomePage extends ConsumerWidget {
               children: [
                 const AscoAppBar(),
                 const SizedBox(height: 24),
+                Consumer(
+                  builder: (context, ref, child) {
+                    if (roleId == 1) {
+                      final classrooms = ref.watch(userClassroomsProvider);
+
+                      ref.listen(userClassroomsProvider, (_, state) {
+                        state.whenOrNull(error: context.responseError);
+                      });
+                    }
+
+                    return const SizedBox();
+                  },
+                ),
                 ...List<Padding>.generate(
                   3,
                   (index) => Padding(

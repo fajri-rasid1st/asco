@@ -6,12 +6,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grouped_list/sliver_grouped_list.dart';
 
 // Project imports:
-import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
-import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/assistance_groups/assistance_group.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
@@ -68,19 +66,7 @@ class ControlCardListHomePage extends StatelessWidget {
                 final groups = ref.watch(AssistanceGroupsProvider(practicum.id!));
 
                 ref.listen(AssistanceGroupsProvider(practicum.id!), (_, state) {
-                  state.whenOrNull(
-                    error: (error, _) {
-                      if ('$error' == kNoInternetConnection) {
-                        context.showNoConnectionSnackBar();
-                      } else {
-                        context.showSnackBar(
-                          title: 'Terjadi Kesalahan',
-                          message: '$error',
-                          type: SnackBarType.error,
-                        );
-                      }
-                    },
-                  );
+                  state.whenOrNull(error: context.responseError);
                 });
 
                 return groups.when(

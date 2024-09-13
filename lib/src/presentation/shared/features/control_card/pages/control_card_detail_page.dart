@@ -12,7 +12,6 @@ import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/core/utils/const.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
 import 'package:asco/src/presentation/shared/features/control_card/providers/control_cards_provider.dart';
@@ -45,19 +44,7 @@ class ControlCardDetailPage extends StatelessWidget {
           final controlCards = ref.watch(controlCardsProvider);
 
           ref.listen(controlCardsProvider, (_, state) {
-            state.whenOrNull(
-              error: (error, _) {
-                if ('$error' == kNoInternetConnection) {
-                  context.showNoConnectionSnackBar();
-                } else {
-                  context.showSnackBar(
-                    title: 'Terjadi Kesalahan',
-                    message: '$error',
-                    type: SnackBarType.error,
-                  );
-                }
-              },
-            );
+            state.whenOrNull(error: context.responseError);
           });
 
           return controlCards.when(

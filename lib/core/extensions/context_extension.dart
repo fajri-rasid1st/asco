@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 
 // Project imports:
 import 'package:asco/core/enums/snack_bar_type.dart';
+import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/core/utils/widget_utils.dart';
 import 'package:asco/src/presentation/shared/widgets/dialogs/confirm_dialog.dart';
@@ -172,5 +173,19 @@ extension DatePickerExtension on BuildContext {
     }
 
     return date;
+  }
+}
+
+extension ProviderResponseError on BuildContext {
+  Null responseError(Object e, StackTrace st) {
+    if (e == kNoInternetConnection) {
+      showNoConnectionSnackBar();
+    } else {
+      showSnackBar(
+        title: 'Terjadi Kesalahan',
+        message: '$e',
+        type: SnackBarType.error,
+      );
+    }
   }
 }

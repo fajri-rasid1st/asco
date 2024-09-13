@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
@@ -64,18 +63,10 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
     ref.listen(userActionsProvider, (_, state) {
       state.when(
         loading: () => context.showLoadingDialog(),
-        error: (error, _) {
+        error: (error, stackTrace) {
           navigatorKey.currentState!.pop();
 
-          if ('$error' == kNoInternetConnection) {
-            context.showNoConnectionSnackBar();
-          } else {
-            context.showSnackBar(
-              title: 'Terjadi Kesalahan',
-              message: '$error',
-              type: SnackBarType.error,
-            );
-          }
+          context.responseError(error, stackTrace);
         },
         data: (data) {
           if (data.message != null) {
@@ -173,19 +164,7 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
                   final users = ref.watch(UsersProvider(role: role));
 
                   ref.listen(UsersProvider(role: role), (_, state) {
-                    state.whenOrNull(
-                      error: (error, _) {
-                        if ('$error' == kNoInternetConnection) {
-                          context.showNoConnectionSnackBar();
-                        } else {
-                          context.showSnackBar(
-                            title: 'Terjadi Kesalahan',
-                            message: '$error',
-                            type: SnackBarType.error,
-                          );
-                        }
-                      },
-                    );
+                    state.whenOrNull(error: context.responseError);
                   });
 
                   return users.when(

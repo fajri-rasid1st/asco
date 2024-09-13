@@ -7,7 +7,6 @@ import 'package:asco/src/presentation/providers/repository_providers/classroom_r
 
 part 'user_classrooms_provider.g.dart';
 
-// TODO: need implemented in UI
 @riverpod
 class UserClassrooms extends _$UserClassrooms {
   @override

@@ -5,14 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/features/admin/practicum/pages/practicum_form_page.dart';
 import 'package:asco/src/presentation/features/admin/practicum/providers/practicum_actions_provider.dart';
@@ -36,19 +34,7 @@ class PracticumDetailPage extends ConsumerWidget {
     final practicum = ref.watch(PracticumDetailProvider(id));
 
     ref.listen(PracticumDetailProvider(id), (_, state) {
-      state.whenOrNull(
-        error: (error, _) {
-          if ('$error' == kNoInternetConnection) {
-            context.showNoConnectionSnackBar();
-          } else {
-            context.showSnackBar(
-              title: 'Terjadi Kesalahan',
-              message: '$error',
-              type: SnackBarType.error,
-            );
-          }
-        },
-      );
+      state.whenOrNull(error: context.responseError);
     });
 
     ref.listen(practicumActionsProvider, (_, state) {
