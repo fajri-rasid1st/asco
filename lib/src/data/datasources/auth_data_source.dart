@@ -15,7 +15,10 @@ import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class AuthDataSource {
   /// Login
-  Future<bool> login(String username, String password);
+  Future<bool> login(
+    String username,
+    String password,
+  );
 
   /// Is login
   Future<bool> isLogin();
@@ -37,7 +40,10 @@ class AuthDataSourceImpl implements AuthDataSource {
   });
 
   @override
-  Future<bool> login(String username, String password) async {
+  Future<bool> login(
+    String username,
+    String password,
+  ) async {
     try {
       final response = await client.post(
         Uri.parse('${ApiConfigs.baseUrl}/users/login'),

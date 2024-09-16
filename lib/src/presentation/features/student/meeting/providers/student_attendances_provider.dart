@@ -16,7 +16,7 @@ class StudentAttendances extends _$StudentAttendances {
 
     state = const AsyncValue.loading();
 
-    final result = await ref.watch(attendanceRepositoryProvider).getStudentAttendances(practicumId);
+    final result = await ref.watch(attendanceRepositoryProvider).getAttendances(practicumId);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),

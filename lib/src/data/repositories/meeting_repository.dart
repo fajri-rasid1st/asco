@@ -23,7 +23,10 @@ abstract class MeetingRepository {
   });
 
   /// Edit meeting
-  Future<Either<Failure, void>> editMeeting(Meeting oldMeeting, MeetingPost newMeeting);
+  Future<Either<Failure, void>> editMeeting(
+    Meeting oldMeeting,
+    MeetingPost newMeeting,
+  );
 
   /// Delete meeting
   Future<Either<Failure, void>> deleteMeeting(String id);
@@ -90,7 +93,10 @@ class MeetingRepositoryImpl implements MeetingRepository {
   }
 
   @override
-  Future<Either<Failure, void>> editMeeting(Meeting oldMeeting, MeetingPost newMeeting) async {
+  Future<Either<Failure, void>> editMeeting(
+    Meeting oldMeeting,
+    MeetingPost newMeeting,
+  ) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await meetingDataSource.editMeeting(oldMeeting, newMeeting);

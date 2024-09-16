@@ -13,13 +13,15 @@ import 'package:asco/src/data/models/control_cards/control_card.dart';
 
 abstract class ControlCardDataSource {
   /// Get control cards (authorized for student)
-  Future<List<ControlCard>> getStudentControlCards(String practicumId);
+  Future<List<ControlCard>> getControlCards(String practicumId);
 
-  /// Get control cards
-  Future<List<ControlCard>> getControlCards(String practicumId, String studentId);
+  /// Get control cards (authorized for admin & assistant)
+  Future<List<ControlCard>> getStudentControlCards(
+    String practicumId,
+    String studentId,
+  );
 
-  // TODO: need implemented in Provider
-  /// Get control card detail
+  /// Get control card detail (authorized for student)
   Future<ControlCard> getControlCardDetail(String id);
 }
 
@@ -29,7 +31,7 @@ class ControlCardDataSourceImpl implements ControlCardDataSource {
   const ControlCardDataSourceImpl({required this.client});
 
   @override
-  Future<List<ControlCard>> getStudentControlCards(String practicumId) async {
+  Future<List<ControlCard>> getControlCards(String practicumId) async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/practicums/$practicumId/cards'),
@@ -54,7 +56,10 @@ class ControlCardDataSourceImpl implements ControlCardDataSource {
   }
 
   @override
-  Future<List<ControlCard>> getControlCards(String practicumId, String studentId) async {
+  Future<List<ControlCard>> getStudentControlCards(
+    String practicumId,
+    String studentId,
+  ) async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/practicums/$practicumId/students/$studentId/cards'),

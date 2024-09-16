@@ -28,7 +28,10 @@ abstract class PracticumDataSource {
   Future<String> createPracticum(PracticumPost practicum);
 
   /// Edit practicum
-  Future<String> editPracticum(Practicum oldPracticum, PracticumPost newPracticum);
+  Future<String> editPracticum(
+    Practicum oldPracticum,
+    PracticumPost newPracticum,
+  );
 
   /// Delete practicum
   Future<void> deletePracticum(String id);
@@ -44,7 +47,10 @@ abstract class PracticumDataSource {
   Future<void> removeClassroomFromPracticum(String classroomId);
 
   /// Remove assistant from practicum
-  Future<void> removeAssistantFromPracticum(String id, {required Profile assistant});
+  Future<void> removeAssistantFromPracticum(
+    String id, {
+    required Profile assistant,
+  });
 }
 
 class PracticumDataSourceImpl implements PracticumDataSource {
@@ -138,7 +144,10 @@ class PracticumDataSourceImpl implements PracticumDataSource {
   }
 
   @override
-  Future<String> editPracticum(Practicum oldPracticum, PracticumPost newPracticum) async {
+  Future<String> editPracticum(
+    Practicum oldPracticum,
+    PracticumPost newPracticum,
+  ) async {
     try {
       final isBadgeUpdated =
           p.basename(oldPracticum.badgePath!) != p.basename(newPracticum.badgePath);
@@ -257,7 +266,10 @@ class PracticumDataSourceImpl implements PracticumDataSource {
   }
 
   @override
-  Future<void> removeAssistantFromPracticum(String id, {required Profile assistant}) async {
+  Future<void> removeAssistantFromPracticum(
+    String id, {
+    required Profile assistant,
+  }) async {
     try {
       final response = await client.delete(
         Uri.parse('${ApiConfigs.baseUrl}/practicums/$id/assistants/${assistant.username}'),

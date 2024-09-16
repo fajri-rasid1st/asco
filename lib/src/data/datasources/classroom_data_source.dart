@@ -14,17 +14,23 @@ import 'package:asco/src/data/models/classrooms/classroom.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class ClassroomDataSource {
-  /// Get classrooms (authorized for student & assistant)
-  Future<List<Classroom>> getUserClassrooms();
+  /// Get classrooms (authorized for student)
+  Future<List<Classroom>> getClassrooms();
 
-  /// Get classroom detail
+  /// Get classroom detail (authorized for admin)
   Future<Classroom> getClassroomDetail(String id);
 
-  /// Add students to classroom
-  Future<void> addStudentsToClassroom(String id, {required List<Profile> students});
+  /// Add students to classroom (authorized for admin)
+  Future<void> addStudentsToClassroom(
+    String id, {
+    required List<Profile> students,
+  });
 
-  /// Remove student from classroom
-  Future<void> removeStudentFromClassroom(String id, {required Profile student});
+  /// Remove student from classroom (authorized for admin)
+  Future<void> removeStudentFromClassroom(
+    String id, {
+    required Profile student,
+  });
 }
 
 class ClassroomDataSourceImpl implements ClassroomDataSource {
@@ -33,7 +39,7 @@ class ClassroomDataSourceImpl implements ClassroomDataSource {
   const ClassroomDataSourceImpl({required this.client});
 
   @override
-  Future<List<Classroom>> getUserClassrooms() async {
+  Future<List<Classroom>> getClassrooms() async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/classes'),
@@ -81,7 +87,10 @@ class ClassroomDataSourceImpl implements ClassroomDataSource {
   }
 
   @override
-  Future<void> addStudentsToClassroom(String id, {required List<Profile> students}) async {
+  Future<void> addStudentsToClassroom(
+    String id, {
+    required List<Profile> students,
+  }) async {
     try {
       final response = await client.put(
         Uri.parse('${ApiConfigs.baseUrl}/classes/$id/students'),
@@ -105,7 +114,10 @@ class ClassroomDataSourceImpl implements ClassroomDataSource {
   }
 
   @override
-  Future<void> removeStudentFromClassroom(String id, {required Profile student}) async {
+  Future<void> removeStudentFromClassroom(
+    String id, {
+    required Profile student,
+  }) async {
     try {
       final response = await client.delete(
         Uri.parse('${ApiConfigs.baseUrl}/classes/$id/students/${student.username}'),

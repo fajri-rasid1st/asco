@@ -10,12 +10,15 @@ import 'package:asco/src/data/models/control_cards/control_card.dart';
 
 abstract class ControlCardRepository {
   /// Get control cards (authorized for student)
-  Future<Either<Failure, List<ControlCard>>> getStudentControlCards(String practicumId);
+  Future<Either<Failure, List<ControlCard>>> getControlCards(String practicumId);
 
-  /// Get control cards
-  Future<Either<Failure, List<ControlCard>>> getControlCards(String practicumId, String studentId);
+  /// Get control cards (authorized for admin & assistant)
+  Future<Either<Failure, List<ControlCard>>> getStudentControlCards(
+    String practicumId,
+    String studentId,
+  );
 
-  /// Get control card detail
+  /// Get control card detail (authorized for student)
   Future<Either<Failure, ControlCard>> getControlCardDetail(String id);
 }
 
@@ -29,10 +32,10 @@ class ControlCardRepositoryImpl implements ControlCardRepository {
   });
 
   @override
-  Future<Either<Failure, List<ControlCard>>> getStudentControlCards(String practicumId) async {
+  Future<Either<Failure, List<ControlCard>>> getControlCards(String practicumId) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await controlCardDataSource.getStudentControlCards(practicumId);
+        final result = await controlCardDataSource.getControlCards(practicumId);
 
         return Right(result);
       } catch (e) {
@@ -44,13 +47,13 @@ class ControlCardRepositoryImpl implements ControlCardRepository {
   }
 
   @override
-  Future<Either<Failure, List<ControlCard>>> getControlCards(
+  Future<Either<Failure, List<ControlCard>>> getStudentControlCards(
     String practicumId,
     String studentId,
   ) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await controlCardDataSource.getControlCards(practicumId, studentId);
+        final result = await controlCardDataSource.getStudentControlCards(practicumId, studentId);
 
         return Right(result);
       } catch (e) {

@@ -10,7 +10,10 @@ import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class AuthRepository {
   /// Login
-  Future<Either<Failure, bool>> login(String username, String password);
+  Future<Either<Failure, bool>> login(
+    String username,
+    String password,
+  );
 
   /// Is login
   Future<Either<Failure, bool>> isLogin();
@@ -32,7 +35,10 @@ class AuthRepositoryImpl implements AuthRepository {
   });
 
   @override
-  Future<Either<Failure, bool>> login(String username, String password) async {
+  Future<Either<Failure, bool>> login(
+    String username,
+    String password,
+  ) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await authDataSource.login(username, password);

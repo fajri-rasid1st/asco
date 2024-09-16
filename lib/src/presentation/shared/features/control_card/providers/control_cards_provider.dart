@@ -21,10 +21,9 @@ class ControlCards extends _$ControlCards {
 
     state = const AsyncValue.loading();
 
-    final result = await ref.watch(controlCardRepositoryProvider).getControlCards(
-          practicumId,
-          profile.id!,
-        );
+    final result = await ref
+        .watch(controlCardRepositoryProvider)
+        .getStudentControlCards(practicumId, profile.id!);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),

@@ -16,16 +16,20 @@ import 'package:asco/src/data/models/attendances/attendance_post.dart';
 
 abstract class AttendanceDataSource {
   /// Get attendances (authorized for student)
-  Future<List<Attendance>> getStudentAttendances(String practicumId);
+  Future<List<Attendance>> getAttendances(String practicumId);
 
-  /// Get attendance meetings
+  /// Get attendance meetings (authorized for admin)
   Future<List<AttendanceMeeting>> getAttendanceMeetings(String practicumId);
 
-  /// Get attendances by meeting
-  Future<List<Attendance>> getAttendances(String meetingId);
+  /// Get attendances by meeting id (authorized for admin)
+  Future<List<Attendance>> getMeetingAttendances(String meetingId);
 
-  /// Insert attendances meeting
-  Future<void> createAttendance(String meetingId, {required AttendancePost attendance});
+  // TODO: need updated from [createAttendance] to [updateAttendance]
+  /// Insert all attendances in a meeting (authorized for assistant)
+  Future<void> createAttendance(
+    String meetingId, {
+    required AttendancePost attendance,
+  });
 }
 
 class AttendanceDataSourceImpl implements AttendanceDataSource {
@@ -34,7 +38,7 @@ class AttendanceDataSourceImpl implements AttendanceDataSource {
   const AttendanceDataSourceImpl({required this.client});
 
   @override
-  Future<List<Attendance>> getStudentAttendances(String practicumId) async {
+  Future<List<Attendance>> getAttendances(String practicumId) async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/practicums/$practicumId/attendances'),
@@ -84,7 +88,7 @@ class AttendanceDataSourceImpl implements AttendanceDataSource {
   }
 
   @override
-  Future<List<Attendance>> getAttendances(String meetingId) async {
+  Future<List<Attendance>> getMeetingAttendances(String meetingId) async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/meetings/$meetingId/attendances'),
@@ -109,7 +113,10 @@ class AttendanceDataSourceImpl implements AttendanceDataSource {
   }
 
   @override
-  Future<void> createAttendance(String meetingId, {required AttendancePost attendance}) async {
+  Future<void> createAttendance(
+    String meetingId, {
+    required AttendancePost attendance,
+  }) async {
     try {
       final response = await client.post(
         Uri.parse('${ApiConfigs.baseUrl}/meetings/$meetingId/attendances'),

@@ -22,7 +22,10 @@ abstract class PracticumRepository {
   Future<Either<Failure, String>> createPracticum(PracticumPost practicum);
 
   /// Edit practicum
-  Future<Either<Failure, String>> editPracticum(Practicum oldPracticum, PracticumPost newPracticum);
+  Future<Either<Failure, String>> editPracticum(
+    Practicum oldPracticum,
+    PracticumPost newPracticum,
+  );
 
   /// Delete practicum
   Future<Either<Failure, void>> deletePracticum(String id);

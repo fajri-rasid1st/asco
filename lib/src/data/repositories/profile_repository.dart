@@ -26,7 +26,10 @@ abstract class ProfileRepository {
   Future<Either<Failure, void>> createProfiles(List<ProfilePost> profiles);
 
   /// Edit profile
-  Future<Either<Failure, void>> editProfile(String username, ProfilePost profile);
+  Future<Either<Failure, void>> editProfile(
+    String username,
+    ProfilePost profile,
+  );
 
   /// Delete profile
   Future<Either<Failure, void>> deleteProfile(String username);
@@ -99,7 +102,10 @@ class ProfileRepositoryImpl implements ProfileRepository {
   }
 
   @override
-  Future<Either<Failure, void>> editProfile(String username, ProfilePost profile) async {
+  Future<Either<Failure, void>> editProfile(
+    String username,
+    ProfilePost profile,
+  ) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await profileDataSource.editProfile(username, profile);

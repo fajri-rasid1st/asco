@@ -7,7 +7,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'assistance.freezed.dart';
 part 'assistance.g.dart';
 
-@freezed
+@Freezed(makeCollectionsUnmodifiable: false)
 class Assistance with _$Assistance {
   const factory Assistance({
     String? id,

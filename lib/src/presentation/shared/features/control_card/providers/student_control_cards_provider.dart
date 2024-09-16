@@ -19,8 +19,7 @@ class StudentControlCards extends _$StudentControlCards {
 
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(controlCardRepositoryProvider).getStudentControlCards(practicumId);
+    final result = await ref.watch(controlCardRepositoryProvider).getControlCards(practicumId);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),

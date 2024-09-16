@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:asco/core/extensions/context_extension.dart';
+import 'package:asco/core/extensions/number_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
@@ -13,11 +14,13 @@ import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
-import 'package:asco/src/presentation/features/common/home/providers/user_classrooms_provider.dart';
+import 'package:asco/src/presentation/features/common/home/providers/student_classrooms_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
+import 'package:asco/src/presentation/shared/widgets/custom_information.dart';
 import 'package:asco/src/presentation/shared/widgets/drawer_menu/drawer_menu_widget.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
+import 'package:asco/src/presentation/shared/widgets/loading_indicator.dart';
 import 'package:asco/src/presentation/shared/widgets/practicum_badge_image.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
@@ -67,38 +70,68 @@ class HomePage extends ConsumerWidget {
       onSelected: (index) => ref.read(selectedMenuProvider.notifier).state = index,
       child: Scaffold(
         body: SafeArea(
-          child: SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              children: [
-                const AscoAppBar(),
-                const SizedBox(height: 24),
-                Consumer(
-                  builder: (context, ref, child) {
-                    if (roleId == 1) {
-                      final classrooms = ref.watch(userClassroomsProvider);
+          child: Consumer(
+            builder: (context, ref, child) {
+              if (roleId == 1) {
+                final classrooms = ref.watch(studentClassroomsProvider);
 
-                      ref.listen(userClassroomsProvider, (_, state) {
-                        state.whenOrNull(error: context.responseError);
-                      });
+                ref.listen(studentClassroomsProvider, (_, state) {
+                  state.whenOrNull(error: context.responseError);
+                });
+
+                return classrooms.when(
+                  loading: () => const LoadingIndicator(),
+                  error: (_, __) => const SizedBox(),
+                  data: (classrooms) {
+                    if (classrooms == null) return const SizedBox();
+
+                    if (classrooms.isEmpty) {
+                      return const CustomInformation(
+                        title: 'Kelas Masih Kosong',
+                        subtitle: 'Kamu belum terdaftar pada kelas manapun',
+                      );
                     }
 
-                    return const SizedBox();
+                    return ListView(
+                      padding: const EdgeInsets.all(20),
+                      children: [
+                        child!,
+                        ...List<Padding>.generate(
+                          classrooms.length,
+                          (index) {
+                            final classroom = classrooms[index];
+                            final day = MapHelper.getReadableDay(classroom.meetingDay);
+                            final start = classroom.startTime?.to24TimeFormat();
+                            final end = classroom.endTime?.to24TimeFormat();
+
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                bottom: index == classrooms.length - 1 ? 0 : 12,
+                              ),
+                              child: CourseCard(
+                                title: '${classroom.practicum?.course} ${classroom.name}',
+                                schedule: 'Setiap hari $day, Pukul $start - $end',
+                                badgeUrl: '${classroom.practicum?.badgePath}',
+                                totalStudents: classroom.studentsCount ?? 0,
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    );
                   },
-                ),
-                ...List<Padding>.generate(
-                  3,
-                  (index) => Padding(
-                    padding: EdgeInsets.only(
-                      bottom: index == 2 ? 0 : 12,
-                    ),
-                    child: const CourseCard(
-                      title: 'Pemrograman Mobile A',
-                      time: 'Setiap hari Rabu, Pukul 10.10 - 12.40',
-                      badgeUrl: 'https://placehold.co/138x150/png',
-                    ),
-                  ),
-                ),
+                );
+              }
+
+              //TODO: handle assistant homepage
+
+              // final practicums = ...;
+              return child!;
+            },
+            child: const Column(
+              children: [
+                AscoAppBar(),
+                SizedBox(height: 24),
               ],
             ),
           ),
@@ -110,14 +143,16 @@ class HomePage extends ConsumerWidget {
 
 class CourseCard extends StatelessWidget {
   final String title;
-  final String time;
+  final String schedule;
   final String badgeUrl;
+  final int totalStudents;
 
   const CourseCard({
     super.key,
     required this.title,
-    required this.time,
+    required this.schedule,
     required this.badgeUrl,
+    required this.totalStudents,
   });
 
   @override
@@ -164,22 +199,33 @@ class CourseCard extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        width: 200,
-                        child: Text(
-                          title,
-                          style: textTheme.titleLarge!.copyWith(
-                            color: Palette.background,
-                            fontWeight: FontWeight.w600,
-                            height: 1.25,
-                          ),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              title,
+                              style: textTheme.titleLarge!.copyWith(
+                                color: Palette.background,
+                                fontWeight: FontWeight.w600,
+                                height: 1.25,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              schedule,
+                              style: textTheme.bodySmall!.copyWith(
+                                color: Palette.background,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      const Spacer(),
+                      const SizedBox(width: 16),
                       PracticumBadgeImage(
                         badgeUrl: badgeUrl,
                         width: 44,
@@ -187,17 +233,10 @@ class CourseCard extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    time,
-                    style: textTheme.bodySmall!.copyWith(
-                      color: Palette.background,
-                    ),
-                  ),
                   const Spacer(),
                   Row(
                     children: List<Transform>.generate(
-                      4,
+                      totalStudents >= 4 ? 4 : totalStudents,
                       (index) => Transform.translate(
                         offset: Offset((-18 * index).toDouble(), 0),
                         child: index == 3
@@ -210,7 +249,7 @@ class CourseCard extends StatelessWidget {
                                 ),
                                 child: Center(
                                   child: Text(
-                                    '+24',
+                                    '+${totalStudents - 3}',
                                     style: textTheme.labelSmall!.copyWith(
                                       fontWeight: FontWeight.w600,
                                     ),
@@ -218,7 +257,7 @@ class CourseCard extends StatelessWidget {
                                 ),
                               )
                             : const CircleNetworkImage(
-                                imageUrl: 'https://placehold.co/150x150/png',
+                                imageUrl: null,
                                 size: 32,
                                 withBorder: true,
                                 borderColor: Palette.background,

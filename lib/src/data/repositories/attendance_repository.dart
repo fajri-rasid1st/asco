@@ -12,15 +12,15 @@ import 'package:asco/src/data/models/attendances/attendance_post.dart';
 
 abstract class AttendanceRepository {
   /// Get attendances (authorized for student)
-  Future<Either<Failure, List<Attendance>>> getStudentAttendances(String practicumId);
+  Future<Either<Failure, List<Attendance>>> getAttendances(String practicumId);
 
-  /// Get attendance meetings
+  /// Get attendance meetings (authorized for admin)
   Future<Either<Failure, List<AttendanceMeeting>>> getAttendanceMeetings(String practicumId);
 
-  /// Get attendances by meeting
-  Future<Either<Failure, List<Attendance>>> getAttendances(String meetingId);
+  /// Get attendances by meeting id (authorized for admin)
+  Future<Either<Failure, List<Attendance>>> getMeetingAttendances(String meetingId);
 
-  /// Create attendance by meeting
+  /// Insert all attendances in a meeting (authorized for assistant)
   Future<Either<Failure, void>> createAttendance(
     String meetingId, {
     required AttendancePost attendance,
@@ -37,10 +37,10 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
   });
 
   @override
-  Future<Either<Failure, List<Attendance>>> getStudentAttendances(String practicumId) async {
+  Future<Either<Failure, List<Attendance>>> getAttendances(String practicumId) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await attendanceDataSource.getStudentAttendances(practicumId);
+        final result = await attendanceDataSource.getAttendances(practicumId);
 
         return Right(result);
       } catch (e) {
@@ -67,10 +67,10 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
   }
 
   @override
-  Future<Either<Failure, List<Attendance>>> getAttendances(String meetingId) async {
+  Future<Either<Failure, List<Attendance>>> getMeetingAttendances(String meetingId) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await attendanceDataSource.getAttendances(meetingId);
+        final result = await attendanceDataSource.getMeetingAttendances(meetingId);
 
         return Right(result);
       } catch (e) {

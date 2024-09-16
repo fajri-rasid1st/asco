@@ -6,6 +6,7 @@ import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
@@ -66,11 +67,7 @@ class DrawerMenuContent extends StatelessWidget {
       color: Palette.black2,
       child: Column(
         children: [
-          UserProfileListTile(
-            title: 'Wd. Ananda Lesmono',
-            subtitle: 'H071211074',
-            onTap: () => onSelected(-2),
-          ),
+          UserProfileListTile(onTap: () => onSelected(-2)),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -121,16 +118,9 @@ class DrawerMenuContent extends StatelessWidget {
 }
 
 class UserProfileListTile extends StatelessWidget {
-  final String title;
-  final String subtitle;
   final VoidCallback onTap;
 
-  const UserProfileListTile({
-    super.key,
-    required this.title,
-    required this.subtitle,
-    required this.onTap,
-  });
+  const UserProfileListTile({super.key, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -140,8 +130,8 @@ class UserProfileListTile extends StatelessWidget {
         onTap: onTap,
         child: Row(
           children: [
-            const CircleNetworkImage(
-              imageUrl: 'https://placehold.co/150x150/png',
+            CircleNetworkImage(
+              imageUrl: CredentialSaver.credential?.profilePicturePath,
               size: 40,
             ),
             const SizedBox(width: 10),
@@ -151,7 +141,7 @@ class UserProfileListTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    title,
+                    '${CredentialSaver.credential?.fullname}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: textTheme.titleSmall!.copyWith(
@@ -160,7 +150,7 @@ class UserProfileListTile extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    subtitle,
+                    '${CredentialSaver.credential?.username}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: textTheme.bodySmall!.copyWith(

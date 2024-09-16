@@ -37,7 +37,10 @@ abstract class AssistanceGroupDataSource {
   Future<void> deleteAssistanceGroup(String id);
 
   /// Remove student from assistance group
-  Future<void> removeStudentFromAssistanceGroup(String id, {required Profile student});
+  Future<void> removeStudentFromAssistanceGroup(
+    String id, {
+    required Profile student,
+  });
 }
 
 class AssistanceGroupDataSourceImpl implements AssistanceGroupDataSource {
@@ -165,7 +168,10 @@ class AssistanceGroupDataSourceImpl implements AssistanceGroupDataSource {
   }
 
   @override
-  Future<void> removeStudentFromAssistanceGroup(String id, {required Profile student}) async {
+  Future<void> removeStudentFromAssistanceGroup(
+    String id, {
+    required Profile student,
+  }) async {
     try {
       final response = await client.delete(
         Uri.parse('${ApiConfigs.baseUrl}/groups/$id/students/${student.username}'),

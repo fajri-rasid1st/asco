@@ -23,10 +23,16 @@ abstract class MeetingDataSource {
   Future<Meeting> getMeetingDetail(String id);
 
   /// Create meeting
-  Future<void> createMeeting(String practicumId, {required MeetingPost meeting});
+  Future<void> createMeeting(
+    String practicumId, {
+    required MeetingPost meeting,
+  });
 
   /// Edit meeting
-  Future<void> editMeeting(Meeting oldMeeting, MeetingPost newMeeting);
+  Future<void> editMeeting(
+    Meeting oldMeeting,
+    MeetingPost newMeeting,
+  );
 
   /// Delete meeting
   Future<void> deleteMeeting(String id);
@@ -86,7 +92,10 @@ class MeetingDataSourceImpl implements MeetingDataSource {
   }
 
   @override
-  Future<void> createMeeting(String practicumId, {required MeetingPost meeting}) async {
+  Future<void> createMeeting(
+    String practicumId, {
+    required MeetingPost meeting,
+  }) async {
     try {
       final modulePath =
           meeting.modulePath != null ? await FileService.uploadFile(meeting.modulePath!) : null;
@@ -122,7 +131,10 @@ class MeetingDataSourceImpl implements MeetingDataSource {
   }
 
   @override
-  Future<void> editMeeting(Meeting oldMeeting, MeetingPost newMeeting) async {
+  Future<void> editMeeting(
+    Meeting oldMeeting,
+    MeetingPost newMeeting,
+  ) async {
     try {
       final isModuleUpdated = newMeeting.modulePath != null &&
           p.basename(oldMeeting.modulePath ?? '') != p.basename(newMeeting.modulePath!);
