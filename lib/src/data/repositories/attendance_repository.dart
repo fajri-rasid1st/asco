@@ -8,7 +8,6 @@ import 'package:asco/core/utils/const.dart';
 import 'package:asco/src/data/datasources/attendance_data_source.dart';
 import 'package:asco/src/data/models/attendances/attendance.dart';
 import 'package:asco/src/data/models/attendances/attendance_meeting.dart';
-import 'package:asco/src/data/models/attendances/attendance_post.dart';
 
 abstract class AttendanceRepository {
   /// Get attendances (authorized for student)
@@ -21,10 +20,7 @@ abstract class AttendanceRepository {
   Future<Either<Failure, List<Attendance>>> getMeetingAttendances(String meetingId);
 
   /// Insert all attendances in a meeting (authorized for assistant)
-  Future<Either<Failure, void>> createAttendance(
-    String meetingId, {
-    required AttendancePost attendance,
-  });
+  Future<Either<Failure, void>> insertMeetingAttendances(String meetingId);
 }
 
 class AttendanceRepositoryImpl implements AttendanceRepository {
@@ -82,16 +78,10 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
   }
 
   @override
-  Future<Either<Failure, void>> createAttendance(
-    String meetingId, {
-    required AttendancePost attendance,
-  }) async {
+  Future<Either<Failure, void>> insertMeetingAttendances(String meetingId) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await attendanceDataSource.createAttendance(
-          meetingId,
-          attendance: attendance,
-        );
+        final result = await attendanceDataSource.insertMeetingAttendances(meetingId);
 
         return Right(result);
       } catch (e) {

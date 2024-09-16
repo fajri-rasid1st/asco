@@ -15,7 +15,7 @@ abstract class ControlCardDataSource {
   /// Get control cards (authorized for student)
   Future<List<ControlCard>> getControlCards(String practicumId);
 
-  /// Get control cards (authorized for admin & assistant)
+  /// Get student control cards (authorized for admin & assistant)
   Future<List<ControlCard>> getStudentControlCards(
     String practicumId,
     String studentId,

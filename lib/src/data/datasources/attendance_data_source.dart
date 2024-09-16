@@ -1,5 +1,4 @@
 // Dart imports:
-import 'dart:convert';
 import 'dart:io';
 
 // Package imports:
@@ -12,7 +11,6 @@ import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/data_response.dart';
 import 'package:asco/src/data/models/attendances/attendance.dart';
 import 'package:asco/src/data/models/attendances/attendance_meeting.dart';
-import 'package:asco/src/data/models/attendances/attendance_post.dart';
 
 abstract class AttendanceDataSource {
   /// Get attendances (authorized for student)
@@ -24,12 +22,9 @@ abstract class AttendanceDataSource {
   /// Get attendances by meeting id (authorized for admin)
   Future<List<Attendance>> getMeetingAttendances(String meetingId);
 
-  // TODO: need updated from [createAttendance] to [updateAttendance]
+  // TODO: need implemented in Provider
   /// Insert all attendances in a meeting (authorized for assistant)
-  Future<void> createAttendance(
-    String meetingId, {
-    required AttendancePost attendance,
-  });
+  Future<void> insertMeetingAttendances(String meetingId);
 }
 
 class AttendanceDataSourceImpl implements AttendanceDataSource {
@@ -113,18 +108,14 @@ class AttendanceDataSourceImpl implements AttendanceDataSource {
   }
 
   @override
-  Future<void> createAttendance(
-    String meetingId, {
-    required AttendancePost attendance,
-  }) async {
+  Future<void> insertMeetingAttendances(String meetingId) async {
     try {
       final response = await client.post(
-        Uri.parse('${ApiConfigs.baseUrl}/meetings/$meetingId/attendances'),
+        Uri.parse('${ApiConfigs.baseUrl}/meetings/$meetingId/attendances/v2'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
-        body: jsonEncode(attendance.toJson()),
       );
 
       final result = DataResponse.fromJson(response.body);
