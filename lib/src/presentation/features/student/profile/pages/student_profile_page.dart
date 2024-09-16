@@ -10,9 +10,11 @@ import 'package:qr/qr.dart';
 // Project imports:
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
+import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_icon_button.dart';
@@ -90,6 +92,8 @@ class IdCardFrontSide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final profile = CredentialSaver.credential;
+
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 24, 16, 32),
       decoration: BoxDecoration(
@@ -167,32 +171,35 @@ class IdCardFrontSide extends StatelessWidget {
                         ),
                       ),
                       child: GestureDetector(
-                        onTap: () => context.showProfilePictureDialog(
-                          'https://placehold.co/300x300/png',
-                        ),
-                        child: CachedNetworkImage(
-                          imageUrl: 'https://placehold.co/300x300/png',
-                          fadeInDuration: const Duration(milliseconds: 200),
-                          fadeOutDuration: const Duration(milliseconds: 200),
-                          fit: BoxFit.fitHeight,
-                          placeholder: (context, url) => const Center(
-                            child: SizedBox(
-                              width: 40,
-                              height: 40,
-                              child: SpinKitRing(
-                                lineWidth: 2,
-                                color: Palette.secondaryText,
+                        onTap: () => context.showProfilePictureDialog(profile?.profilePicturePath),
+                        child: profile?.profilePicturePath != null
+                            ? CachedNetworkImage(
+                                imageUrl: profile!.profilePicturePath!,
+                                fadeInDuration: const Duration(milliseconds: 200),
+                                fadeOutDuration: const Duration(milliseconds: 200),
+                                fit: BoxFit.fitHeight,
+                                placeholder: (context, url) => const Center(
+                                  child: SizedBox(
+                                    width: 40,
+                                    height: 40,
+                                    child: SpinKitRing(
+                                      lineWidth: 2,
+                                      color: Palette.secondaryText,
+                                    ),
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) => const Center(
+                                  child: Icon(
+                                    Icons.hide_source_rounded,
+                                    color: Palette.secondaryText,
+                                    size: 40,
+                                  ),
+                                ),
+                              )
+                            : Image.asset(
+                                AssetPath.getImage('no-profile.png'),
+                                fit: BoxFit.fitHeight,
                               ),
-                            ),
-                          ),
-                          errorWidget: (context, url, error) => const Center(
-                            child: Icon(
-                              Icons.hide_source_rounded,
-                              color: Palette.secondaryText,
-                              size: 40,
-                            ),
-                          ),
-                        ),
                       ),
                     ),
                   ),
@@ -206,28 +213,28 @@ class IdCardFrontSide extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'H071191049',
+                            '${profile?.username}',
                             style: textTheme.titleMedium!.copyWith(
                               color: Palette.violet3,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
                           Text(
-                            'Rafly Ramdhani Putra Masloman',
+                            '${profile?.fullname}',
                             style: textTheme.titleLarge!.copyWith(
                               color: Palette.background,
                               height: 1.25,
                             ),
                           ),
                           Text(
-                            '(Rafly)',
+                            '(${profile?.nickname})',
                             style: textTheme.bodySmall!.copyWith(
                               color: Palette.violet3,
                             ),
                           ),
                           const SizedBox(height: 12),
                           Text(
-                            'SISTEM INFORMASI 21',
+                            'SISTEM INFORMASI ${profile?.classOf}',
                             style: textTheme.bodyLarge!.copyWith(
                               color: Palette.background,
                             ),
@@ -235,15 +242,22 @@ class IdCardFrontSide extends StatelessWidget {
                           const Spacer(),
                           Row(
                             children: [
-                              SvgAsset(
-                                AssetPath.getIcon('github_filled.svg'),
-                                color: Palette.background,
-                                width: 18,
+                              GestureDetector(
+                                onTap: () => FunctionHelper.openUrl(
+                                  'https://github.com/${profile?.githubUsername}',
+                                ),
+                                child: SvgAsset(
+                                  AssetPath.getIcon('github_filled.svg'),
+                                  color: Palette.background,
+                                  width: 18,
+                                ),
                               ),
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
-                                  'github.com/bayu-ajid',
+                                  '${profile?.githubUsername}'.isNotEmpty
+                                      ? 'github.com/${profile?.githubUsername}'
+                                      : 'Github tidak tersedia',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: textTheme.bodySmall!.copyWith(
@@ -256,14 +270,21 @@ class IdCardFrontSide extends StatelessWidget {
                           const SizedBox(height: 8),
                           Row(
                             children: [
-                              SvgAsset(
-                                AssetPath.getIcon('instagram_filled.svg'),
-                                width: 18,
+                              GestureDetector(
+                                onTap: () => FunctionHelper.openUrl(
+                                  'https://instagram.com/${profile?.instagramUsername}',
+                                ),
+                                child: SvgAsset(
+                                  AssetPath.getIcon('instagram_filled.svg'),
+                                  width: 18,
+                                ),
                               ),
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Text(
-                                  'instagram.com/bayuajid_',
+                                  '${profile?.instagramUsername}'.isNotEmpty
+                                      ? 'instagram.com/${profile?.instagramUsername}'
+                                      : 'Instagram tidak tersedia',
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: textTheme.bodySmall!.copyWith(
@@ -292,6 +313,8 @@ class IdCardBackSide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final profile = CredentialSaver.credential;
+
     return Container(
       margin: const EdgeInsets.fromLTRB(16, 24, 16, 32),
       decoration: BoxDecoration(
@@ -360,20 +383,20 @@ class IdCardBackSide extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 20),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 20),
                       child: AspectRatio(
                         aspectRatio: 1,
                         child: PrettyQrCode(
-                          data: 'H071191051',
+                          data: '${profile?.profileId}',
                           roundedEdges: true,
-                          errorCorrectionLevel: QrErrorCorrectLevel.H,
+                          errorCorrectionLevel: QrErrorCorrectLevel.Q,
                           color: Palette.purple2,
                         ),
                       ),
                     ),
                     Text(
-                      'Rafly Ramdhani Putra Masloman',
+                      '${profile?.fullname}',
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
@@ -384,7 +407,7 @@ class IdCardBackSide extends StatelessWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      'H071191049',
+                      '${profile?.username}',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,

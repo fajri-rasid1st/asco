@@ -97,7 +97,7 @@ extension DialogExtension on BuildContext {
       barrierLabel: 'profile_picture',
       barrierColor: Colors.transparent,
       barrierDismissible: true,
-      transitionDuration: const Duration(milliseconds: 250),
+      transitionDuration: const Duration(milliseconds: 200),
       transitionBuilder: (context, anim1, anim2, child) {
         return ScaleTransition(
           scale: Tween<double>(begin: 0, end: 1).animate(

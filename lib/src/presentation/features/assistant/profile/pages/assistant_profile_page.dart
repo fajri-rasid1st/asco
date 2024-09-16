@@ -7,6 +7,7 @@ import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_icon_button.dart';
@@ -18,6 +19,8 @@ class AssistantProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final profile = CredentialSaver.credential;
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -53,7 +56,7 @@ class AssistantProfilePage extends StatelessWidget {
                               color: Palette.background,
                               tooltip: 'Github',
                               onPressed: () => FunctionHelper.openUrl(
-                                'https://github.com/fajri-rasid1st',
+                                'https://github.com/${profile?.githubUsername}',
                               ),
                             ),
                             const SizedBox(width: 2),
@@ -61,7 +64,7 @@ class AssistantProfilePage extends StatelessWidget {
                               'instagram_filled.svg',
                               tooltip: 'Instagram',
                               onPressed: () => FunctionHelper.openUrl(
-                                'https://instagram.com/fajri_rasid1st',
+                                'https://instagram.com/${profile?.instagramUsername}',
                               ),
                             ),
                           ],
@@ -98,11 +101,11 @@ class AssistantProfilePage extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Positioned(
+                Positioned(
                   top: 60 + kToolbarHeight,
                   left: 20,
                   child: CircleNetworkImage(
-                    imageUrl: 'https://placehold.co/300x300/png',
+                    imageUrl: profile?.profilePicturePath,
                     size: 100,
                     withBorder: true,
                     borderWidth: 2,
@@ -118,7 +121,7 @@ class AssistantProfilePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Eurico Devon Bura Pakilaran',
+                    '${profile?.fullname}',
                     style: textTheme.titleLarge!.copyWith(
                       color: Palette.purple2,
                       fontWeight: FontWeight.w600,
@@ -126,7 +129,7 @@ class AssistantProfilePage extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    'Devonian',
+                    '${profile?.nickname}',
                     style: textTheme.bodyMedium!.copyWith(
                       color: Palette.purple3,
                     ),
