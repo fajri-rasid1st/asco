@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/extensions/number_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
@@ -15,6 +16,7 @@ import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/features/common/home/providers/student_classrooms_provider.dart';
+import 'package:asco/src/presentation/features/common/initial/providers/log_out_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_information.dart';
@@ -52,16 +54,29 @@ class HomePage extends ConsumerWidget {
             title: 'Log Out?',
             message: 'Dengan ini seluruh sesi Anda akan berakhir.',
             primaryButtonText: 'Log Out',
-            onPressedPrimaryButton: () {
-              navigatorKey.currentState!.pushNamedAndRemoveUntil(
-                onBoardingRoute,
-                (route) => false,
-              );
-            },
+            onPressedPrimaryButton: () => ref.read(logOutProvider.notifier).logOut(),
           );
         }
       },
     );
+
+    ref.listen(logOutProvider, (_, state) {
+      state.whenOrNull(
+        error: (error, _) => context.showSnackBar(
+          title: 'Terjadi Kesalahan',
+          message: '$error',
+          type: SnackBarType.error,
+        ),
+        data: (data) {
+          if (data != null) {
+            navigatorKey.currentState!.pushNamedAndRemoveUntil(
+              onBoardingRoute,
+              (route) => false,
+            );
+          }
+        },
+      );
+    });
 
     return DrawerMenuWidget(
       isMainMenu: false,

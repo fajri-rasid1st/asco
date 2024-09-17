@@ -19,7 +19,7 @@ import 'package:asco/src/data/models/attendances/attendance_meeting.dart';
 import 'package:asco/src/data/models/meetings/meeting.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/presentation/features/admin/attendance/providers/attendance_meetings_provider.dart';
-import 'package:asco/src/presentation/features/admin/attendance/providers/attendances_provider.dart';
+import 'package:asco/src/presentation/features/admin/attendance/providers/meeting_attendances_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/attendance_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_information.dart';
@@ -117,7 +117,9 @@ class AttendanceListHomePage extends StatelessWidget {
       final excel = Excel.createExcel();
 
       for (var i = 0; i < attendanceMeetings.length; i++) {
-        final attendances = await ref.watch(AttendancesProvider(attendanceMeetings[i].id!).future);
+        final attendances = await ref.watch(
+          MeetingAttendancesProvider(attendanceMeetings[i].id!).future,
+        );
 
         if (attendances == null) return;
 
