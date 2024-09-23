@@ -18,7 +18,7 @@ import 'package:asco/src/data/models/practicums/practicum_post.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class PracticumDataSource {
-  /// Get Practicums
+  /// Get Practicums (authorized for admin & assistant)
   Future<List<Practicum>> getPracticums();
 
   /// Get practicum detail

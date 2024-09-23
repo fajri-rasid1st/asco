@@ -9,6 +9,7 @@ import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/data/models/classrooms/classroom.dart';
 import 'package:asco/src/presentation/features/common/menu/pages/assistance_page.dart';
 import 'package:asco/src/presentation/features/common/menu/pages/extras_page.dart';
 import 'package:asco/src/presentation/features/common/menu/pages/leaderboard_page.dart';
@@ -19,7 +20,9 @@ import 'package:asco/src/presentation/shared/widgets/drawer_menu/drawer_menu_wid
 final selectedMainMenuProvider = StateProvider.autoDispose<int>((ref) => 0);
 
 class MainMenuPage extends ConsumerStatefulWidget {
-  const MainMenuPage({super.key});
+  final Classroom classroom;
+
+  const MainMenuPage({super.key, required this.classroom});
 
   @override
   ConsumerState<MainMenuPage> createState() => _MainMenuPageState();
@@ -34,7 +37,7 @@ class _MainMenuPageState extends ConsumerState<MainMenuPage> {
     pageController = PageController();
 
     pages = [
-      const MeetingPage(),
+      MeetingPage(classroom: widget.classroom),
       const AssistancePage(),
       const LeaderboardPage(),
       const ExtrasPage(),

@@ -5,13 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
-import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/button_extension.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/extensions/number_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/routes/route_names.dart';
-import 'package:asco/core/services/file_service.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
@@ -141,8 +139,7 @@ class MeetingDetailPage extends ConsumerWidget {
                 ),
                 const SectionHeader(title: 'Modul'),
                 FilledButton.icon(
-                  onPressed: () => openFile(
-                    context,
+                  onPressed: () => context.openFile(
                     name: 'Modul',
                     path: meeting.modulePath,
                   ),
@@ -156,8 +153,7 @@ class MeetingDetailPage extends ConsumerWidget {
                 ).fullWidth(),
                 const SectionHeader(title: 'Soal Praktikum'),
                 FilledButton.icon(
-                  onPressed: () => openFile(
-                    context,
+                  onPressed: () => context.openFile(
                     name: 'Soal Praktikum',
                     path: meeting.assignmentPath,
                   ),
@@ -185,24 +181,6 @@ class MeetingDetailPage extends ConsumerWidget {
         );
       },
     );
-  }
-
-  void openFile(
-    BuildContext context, {
-    required String name,
-    String? path,
-  }) {
-    if (path != null) {
-      final isUrl = Uri.tryParse(path)?.isAbsolute ?? false;
-
-      FileService.openFile(path, isUrl);
-    } else {
-      context.showSnackBar(
-        title: '$name Tidak Ada',
-        message: 'File $name belum dimasukkan.',
-        type: SnackBarType.info,
-      );
-    }
   }
 }
 

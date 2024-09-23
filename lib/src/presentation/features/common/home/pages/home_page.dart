@@ -15,8 +15,12 @@ import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/data/models/classrooms/classroom.dart';
+import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/presentation/features/common/home/providers/student_classrooms_provider.dart';
 import 'package:asco/src/presentation/features/common/initial/providers/log_out_provider.dart';
+import 'package:asco/src/presentation/shared/pages/select_classroom_page.dart';
+import 'package:asco/src/presentation/shared/providers/practicums_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_information.dart';
@@ -113,35 +117,61 @@ class HomePage extends ConsumerWidget {
                         child!,
                         ...List<Padding>.generate(
                           classrooms.length,
-                          (index) {
-                            final classroom = classrooms[index];
-                            final day = MapHelper.getReadableDay(classroom.meetingDay);
-                            final start = classroom.startTime?.to24TimeFormat();
-                            final end = classroom.endTime?.to24TimeFormat();
+                          (index) => Padding(
+                            padding: EdgeInsets.only(
+                              bottom: index == classrooms.length - 1 ? 0 : 12,
+                            ),
+                            child: CourseCard(
+                              classroom: classrooms[index],
+                              roleId: roleId,
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              } else {
+                final practicums = ref.watch(practicumsProvider);
 
-                            return Padding(
-                              padding: EdgeInsets.only(
-                                bottom: index == classrooms.length - 1 ? 0 : 12,
-                              ),
-                              child: CourseCard(
-                                title: '${classroom.practicum?.course} ${classroom.name}',
-                                schedule: 'Setiap hari $day, Pukul $start - $end',
-                                badgeUrl: '${classroom.practicum?.badgePath}',
-                                totalStudents: classroom.studentsCount ?? 0,
-                              ),
-                            );
-                          },
+                ref.listen(practicumsProvider, (_, state) {
+                  state.whenOrNull(error: context.responseError);
+                });
+
+                return practicums.when(
+                  loading: () => const LoadingIndicator(),
+                  error: (_, __) => const SizedBox(),
+                  data: (practicums) {
+                    if (practicums == null) return const SizedBox();
+
+                    if (practicums.isEmpty) {
+                      return const CustomInformation(
+                        title: 'Praktikum Masih Kosong',
+                        subtitle: 'Kamu belum terdaftar pada praktikum manapun',
+                      );
+                    }
+
+                    return ListView(
+                      padding: const EdgeInsets.all(20),
+                      children: [
+                        child!,
+                        ...List<Padding>.generate(
+                          practicums.length,
+                          (index) => Padding(
+                            padding: EdgeInsets.only(
+                              bottom: index == practicums.length - 1 ? 0 : 12,
+                            ),
+                            child: CourseCard(
+                              practicum: practicums[index],
+                              roleId: roleId,
+                            ),
+                          ),
                         ),
                       ],
                     );
                   },
                 );
               }
-
-              //TODO: handle assistant homepage
-
-              // final practicums = ...;
-              return child!;
             },
             child: const Column(
               children: [
@@ -157,28 +187,47 @@ class HomePage extends ConsumerWidget {
 }
 
 class CourseCard extends StatelessWidget {
-  final String title;
-  final String schedule;
-  final String badgeUrl;
-  final int totalStudents;
+  final Practicum? practicum;
+  final Classroom? classroom;
+  final int? roleId;
 
   const CourseCard({
     super.key,
-    required this.title,
-    required this.schedule,
-    required this.badgeUrl,
-    required this.totalStudents,
+    this.practicum,
+    this.classroom,
+    this.roleId,
   });
 
   @override
   Widget build(BuildContext context) {
+    if (roleId == 1) {
+      assert(classroom != null);
+    } else {
+      assert(practicum != null);
+    }
+
+    final totalStudents = classroom?.studentsCount ?? 0;
+
     return InkWellContainer(
       radius: 16,
       clipBehavior: Clip.antiAlias,
-      onTap: () => navigatorKey.currentState!.pushNamedAndRemoveUntil(
-        mainMenuRoute,
-        (route) => false,
-      ),
+      onTap: () => roleId == 1
+          ? navigatorKey.currentState!.pushNamedAndRemoveUntil(
+              mainMenuRoute,
+              (route) => false,
+              arguments: classroom,
+            )
+          : navigatorKey.currentState!.pushNamed(
+              selectClassroomRoute,
+              arguments: SelectClassroomPageArgs(
+                practicum: practicum!,
+                onItemTapped: (classroom) => navigatorKey.currentState!.pushNamedAndRemoveUntil(
+                  mainMenuRoute,
+                  (route) => false,
+                  arguments: classroom.copyWith(practicum: practicum),
+                ),
+              ),
+            ),
       child: Stack(
         children: [
           Container(
@@ -223,7 +272,9 @@ class CourseCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              title,
+                              roleId == 1
+                                  ? '${classroom?.practicum?.course} ${classroom?.name}'
+                                  : '${practicum?.course}',
                               style: textTheme.titleLarge!.copyWith(
                                 color: Palette.background,
                                 fontWeight: FontWeight.w600,
@@ -232,7 +283,9 @@ class CourseCard extends StatelessWidget {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              schedule,
+                              roleId == 1
+                                  ? 'Setiap hari ${MapHelper.getReadableDay(classroom?.meetingDay)}, Pukul ${classroom?.startTime?.to24TimeFormat()} - ${classroom?.endTime?.to24TimeFormat()}'
+                                  : '${practicum?.classroomsLength} Kelas ● ${practicum?.meetingsLength} Pertemuan',
                               style: textTheme.bodySmall!.copyWith(
                                 color: Palette.background,
                               ),
@@ -242,7 +295,9 @@ class CourseCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 16),
                       PracticumBadgeImage(
-                        badgeUrl: badgeUrl,
+                        badgeUrl: roleId == 1
+                            ? '${classroom?.practicum?.badgePath}'
+                            : '${practicum?.badgePath}',
                         width: 44,
                         height: 48,
                       ),

@@ -1,7 +1,11 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 // Project imports:
+import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
@@ -9,8 +13,11 @@ import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/data/models/practicums/practicum.dart';
+import 'package:asco/src/presentation/shared/providers/practicums_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_icon_button.dart';
+import 'package:asco/src/presentation/shared/widgets/loading_indicator.dart';
 import 'package:asco/src/presentation/shared/widgets/practicum_badge_image.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
@@ -83,7 +90,7 @@ class AssistantProfilePage extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Text(
-                              'ID Card',
+                              'Data Diri',
                               style: textTheme.headlineSmall!.copyWith(
                                 color: Palette.background,
                                 fontWeight: FontWeight.w600,
@@ -135,18 +142,38 @@ class AssistantProfilePage extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 14,
-                      mainAxisSpacing: 16,
-                      childAspectRatio: 1.1,
-                    ),
-                    itemBuilder: (context, index) => const AssistantBadgeCard(),
-                    itemCount: 2,
+                  Consumer(
+                    builder: (context, ref, child) {
+                      final practicums = ref.watch(practicumsProvider);
+
+                      ref.listen(practicumsProvider, (_, state) {
+                        state.whenOrNull(error: context.responseError);
+                      });
+
+                      return practicums.when(
+                        loading: () => const LoadingIndicator(),
+                        error: (_, __) => const SizedBox(),
+                        data: (practicums) {
+                          if (practicums == null) return const SizedBox();
+
+                          return GridView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 14,
+                              mainAxisSpacing: 16,
+                              childAspectRatio: 1.1,
+                            ),
+                            itemBuilder: (context, index) => AssistantBadgeCard(
+                              practicum: practicums[index],
+                            ),
+                            itemCount: practicums.length,
+                          );
+                        },
+                      );
+                    },
                   ),
                 ],
               ),
@@ -159,7 +186,9 @@ class AssistantProfilePage extends StatelessWidget {
 }
 
 class AssistantBadgeCard extends StatelessWidget {
-  const AssistantBadgeCard({super.key});
+  final Practicum practicum;
+
+  const AssistantBadgeCard({super.key, required this.practicum});
 
   @override
   Widget build(BuildContext context) {
@@ -199,8 +228,8 @@ class AssistantBadgeCard extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const PracticumBadgeImage(
-                    badgeUrl: 'https://placehold.co/138x150/png',
+                  PracticumBadgeImage(
+                    badgeUrl: '${practicum.badgePath}',
                     width: 48,
                     height: 52,
                   ),
@@ -215,7 +244,7 @@ class AssistantBadgeCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Algoritma dan Pemrograman Dasar',
+                    '${practicum.course}',
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,

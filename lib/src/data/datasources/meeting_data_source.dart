@@ -14,6 +14,7 @@ import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/data_response.dart';
 import 'package:asco/src/data/models/meetings/meeting.dart';
 import 'package:asco/src/data/models/meetings/meeting_post.dart';
+import 'package:asco/src/data/models/meetings/meeting_schedule.dart';
 
 abstract class MeetingDataSource {
   /// Get meetings
@@ -36,6 +37,12 @@ abstract class MeetingDataSource {
 
   /// Delete meeting
   Future<void> deleteMeeting(String id);
+
+  /// Get classroom meetings (authorized for student & assistant)
+  Future<List<Meeting>> getClassroomMeetings(String classroomId);
+
+  /// Get meeting schedules (authorized for assistant)
+  Future<List<MeetingSchedule>> getMeetingSchedules({String practicum = ''});
 }
 
 class MeetingDataSourceImpl implements MeetingDataSource {
@@ -194,6 +201,58 @@ class MeetingDataSourceImpl implements MeetingDataSource {
       final result = DataResponse.fromJson(response.body);
 
       if (response.statusCode != 200) {
+        throw ServerException(result.error?.code, result.error?.message);
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<List<Meeting>> getClassroomMeetings(String classroomId) async {
+    try {
+      final response = await client.get(
+        Uri.parse('${ApiConfigs.baseUrl}/classes/$classroomId/meetings'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(response.body);
+
+      if (response.statusCode == 200) {
+        final data = result.data as List;
+
+        return data.map((e) => Meeting.fromJson(e)).toList();
+      } else {
+        throw ServerException(result.error?.code, result.error?.message);
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<List<MeetingSchedule>> getMeetingSchedules({String practicum = ''}) async {
+    try {
+      final queryParam = practicum.isEmpty ? practicum : '?practicum=$practicum';
+
+      final response = await client.get(
+        Uri.parse('${ApiConfigs.baseUrl}/users/meetings$queryParam'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
+        },
+      );
+
+      final result = DataResponse.fromJson(response.body);
+
+      if (response.statusCode == 200) {
+        final data = result.data as List;
+
+        return data.map((e) => MeetingSchedule.fromJson(e)).toList();
+      } else {
         throw ServerException(result.error?.code, result.error?.message);
       }
     } catch (e) {

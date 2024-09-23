@@ -10,6 +10,7 @@ import 'package:intl/intl.dart';
 
 // Project imports:
 import 'package:asco/core/enums/snack_bar_type.dart';
+import 'package:asco/core/services/file_service.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/core/utils/widget_utils.dart';
@@ -185,6 +186,22 @@ extension ProviderResponseError on BuildContext {
         title: 'Terjadi Kesalahan',
         message: '$e',
         type: SnackBarType.error,
+      );
+    }
+  }
+}
+
+extension FileExtension on BuildContext {
+  void openFile({required String name, String? path}) {
+    if (path != null && path.isNotEmpty) {
+      final isUrl = Uri.tryParse(path)?.isAbsolute ?? false;
+
+      FileService.openFile(path, isUrl);
+    } else {
+      showSnackBar(
+        title: 'File Tidak Ada',
+        message: 'File ${name.toLowerCase()} belum dimasukkan.',
+        type: SnackBarType.info,
       );
     }
   }

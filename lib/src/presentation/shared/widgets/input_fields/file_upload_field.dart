@@ -6,7 +6,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:path/path.dart' as p;
 
 // Project imports:
-import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/services/file_service.dart';
@@ -58,23 +57,15 @@ class FileUploadField extends StatelessWidget {
           validator: validator,
           builder: (field) {
             final path = field.value;
-            final isUrl = Uri.tryParse(path ?? '')?.isAbsolute ?? false;
 
             return Row(
               children: [
                 Expanded(
                   child: FilledButton(
-                    onPressed: () {
-                      if (path != null) {
-                        FileService.openFile(path, isUrl);
-                      } else {
-                        context.showSnackBar(
-                          title: 'File Tidak Ada',
-                          message: 'File ${label.toLowerCase()} belum dipilih.',
-                          type: SnackBarType.info,
-                        );
-                      }
-                    },
+                    onPressed: () => context.openFile(
+                      name: label,
+                      path: path,
+                    ),
                     style: FilledButton.styleFrom(
                       backgroundColor: Palette.azure2,
                       tapTargetSize: MaterialTapTargetSize.shrinkWrap,

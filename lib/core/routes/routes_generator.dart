@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/src/data/models/attendances/attendance_meeting.dart';
+import 'package:asco/src/data/models/classrooms/classroom.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
 import 'package:asco/src/presentation/features/admin/assistance_group/pages/assistance_group_detail_page.dart';
@@ -69,8 +70,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const HomePage(),
       );
     case mainMenuRoute:
+      final classroom = settings.arguments as Classroom;
+
       return MaterialPageRoute(
-        builder: (_) => const MainMenuPage(),
+        builder: (_) => MainMenuPage(classroom: classroom),
       );
     case userListHomeRoute:
       return MaterialPageRoute(
@@ -179,16 +182,20 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => const LabRulesPage(),
       );
     case studentMeetingHistoryRoute:
+      final practicumId = settings.arguments as String;
+
       return MaterialPageRoute(
-        builder: (_) => const StudentMeetingHistoryPage(),
+        builder: (_) => StudentMeetingHistoryPage(practicumId: practicumId),
       );
     case studentMeetingDetailRoute:
       return MaterialPageRoute(
         builder: (_) => const StudentMeetingDetailPage(),
       );
     case assistantMeetingScheduleRoute:
+      final practicumId = settings.arguments as String;
+
       return MaterialPageRoute(
-        builder: (_) => const AssistantMeetingSchedulePage(),
+        builder: (_) => AssistantMeetingSchedulePage(practicumId: practicumId),
       );
     case assistantMeetingDetailRoute:
       return MaterialPageRoute(

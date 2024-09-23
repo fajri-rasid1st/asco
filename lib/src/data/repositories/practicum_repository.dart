@@ -12,7 +12,7 @@ import 'package:asco/src/data/models/practicums/practicum_post.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class PracticumRepository {
-  /// Get Practicums
+  /// Get Practicums (authorized for admin & assistant)
   Future<Either<Failure, List<Practicum>>> getPracticums();
 
   /// Get practicum detail

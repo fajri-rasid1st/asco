@@ -1,18 +1,28 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 // Project imports:
+import 'package:asco/core/extensions/context_extension.dart';
+import 'package:asco/core/extensions/number_extension.dart';
+import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/presentation/features/student/meeting/providers/student_attendances_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
+import 'package:asco/src/presentation/shared/widgets/custom_information.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
+import 'package:asco/src/presentation/shared/widgets/loading_indicator.dart';
 
 class StudentMeetingHistoryPage extends StatelessWidget {
-  const StudentMeetingHistoryPage({super.key});
+  final String practicumId;
+
+  const StudentMeetingHistoryPage({super.key, required this.practicumId});
 
   @override
   Widget build(BuildContext context) {
@@ -20,62 +30,89 @@ class StudentMeetingHistoryPage extends StatelessWidget {
       appBar: const CustomAppBar(
         title: 'Riwayat Pertemuan',
       ),
-      body: ListView.separated(
-        padding: const EdgeInsets.all(20),
-        itemBuilder: (context, index) => InkWellContainer(
-          radius: 99,
-          color: Palette.background,
-          padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
-          onTap: () => navigatorKey.currentState!.pushNamed(studentMeetingDetailRoute),
-          child: Row(
-            children: [
-              CircleBorderContainer(
-                size: 60,
-                withBorder: false,
-                fillColor: attendanceStatusColor.values.toList()[index % 4],
-                child: Text(
-                  '#${index + 1}',
-                  style: textTheme.titleMedium!.copyWith(
-                    color: Palette.background,
+      body: Consumer(
+        builder: (context, ref, child) {
+          final attendances = ref.watch(StudentAttendancesProvider(practicumId));
+
+          ref.listen(StudentAttendancesProvider(practicumId), (_, state) {
+            state.whenOrNull(error: context.responseError);
+          });
+
+          return attendances.when(
+            loading: () => const LoadingIndicator(),
+            error: (_, __) => const SizedBox(),
+            data: (attendances) {
+              if (attendances == null) return const SizedBox();
+
+              if (attendances.isEmpty) {
+                return const CustomInformation(
+                  title: 'Riwayat Pertemuan Kosong',
+                  subtitle: 'Belum ada pertemuan yang kamu lalui',
+                );
+              }
+
+              return ListView.separated(
+                padding: const EdgeInsets.all(20),
+                itemBuilder: (context, index) => InkWellContainer(
+                  radius: 99,
+                  color: Palette.background,
+                  padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
+                  onTap: () => navigatorKey.currentState!.pushNamed(studentMeetingDetailRoute),
+                  child: Row(
+                    children: [
+                      CircleBorderContainer(
+                        size: 60,
+                        withBorder: false,
+                        fillColor: MapHelper.getAttendanceStatusColor(attendances[index].status),
+                        child: Text(
+                          '#${attendances[index].meeting?.number}',
+                          style: textTheme.titleMedium!.copyWith(
+                            color: Palette.background,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${attendances[index].meeting?.lesson}',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: textTheme.titleSmall!.copyWith(
+                                color: Palette.purple2,
+                              ),
+                            ),
+                            const SizedBox(height: 1),
+                            Text(
+                              '${MapHelper.getReadableAttendanceStatus(attendances[index].status)}',
+                              style: textTheme.bodySmall!.copyWith(
+                                color: MapHelper.getAttendanceStatusColor(
+                                  attendances[index].status,
+                                ),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                            const SizedBox(height: 2),
+                            Text(
+                              'Waktu absensi ${attendances[index].time?.to24TimeFormat()}, ${attendances[index].meeting?.date?.toDateTimeFormat('d/M/yyyy')}',
+                              style: textTheme.labelSmall!.copyWith(
+                                color: Palette.secondaryText,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Tipe Data dan Attribute',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: textTheme.titleSmall!.copyWith(
-                        color: Palette.purple2,
-                      ),
-                    ),
-                    const SizedBox(height: 1),
-                    Text(
-                      attendanceStatusColor.keys.toList()[index % 4],
-                      style: textTheme.bodySmall!.copyWith(
-                        color: attendanceStatusColor.values.toList()[index % 4],
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      '26 Februari 2024',
-                      style: textTheme.labelSmall!.copyWith(
-                        color: Palette.secondaryText,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        separatorBuilder: (context, index) => const SizedBox(height: 10),
-        itemCount: 10,
+                separatorBuilder: (context, index) => const SizedBox(height: 10),
+                itemCount: attendances.length,
+              );
+            },
+          );
+        },
       ),
     );
   }

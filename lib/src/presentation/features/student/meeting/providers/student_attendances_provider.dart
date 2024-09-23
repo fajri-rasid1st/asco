@@ -7,7 +7,6 @@ import 'package:asco/src/presentation/providers/repository_providers/attendance_
 
 part 'student_attendances_provider.g.dart';
 
-// TODO: need implemented in UI
 @riverpod
 class StudentAttendances extends _$StudentAttendances {
   @override

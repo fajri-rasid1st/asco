@@ -1,18 +1,28 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 // Project imports:
+import 'package:asco/core/extensions/context_extension.dart';
+import 'package:asco/core/extensions/number_extension.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/presentation/features/assistant/meeting/providers/meeting_schedules_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_badge.dart';
+import 'package:asco/src/presentation/shared/widgets/custom_information.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
+import 'package:asco/src/presentation/shared/widgets/loading_indicator.dart';
 
 class AssistantMeetingSchedulePage extends StatelessWidget {
-  const AssistantMeetingSchedulePage({super.key});
+  final String practicumId;
+
+  const AssistantMeetingSchedulePage({super.key, required this.practicumId});
 
   @override
   Widget build(BuildContext context) {
@@ -20,59 +30,84 @@ class AssistantMeetingSchedulePage extends StatelessWidget {
       appBar: const CustomAppBar(
         title: 'Jadwal Pemateri',
       ),
-      body: ListView.separated(
-        padding: const EdgeInsets.all(20),
-        itemBuilder: (context, index) => InkWellContainer(
-          radius: 99,
-          color: Palette.background,
-          padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
-          onTap: () => navigatorKey.currentState!.pushNamed(assistantMeetingDetailRoute),
-          child: Row(
-            children: [
-              CircleBorderContainer(
-                size: 60,
-                withBorder: false,
-                fillColor: Palette.purple3,
-                child: Text(
-                  '#${index + 1}',
-                  style: textTheme.titleMedium!.copyWith(
-                    color: Palette.background,
+      body: Consumer(
+        builder: (context, ref, child) {
+          final schedules = ref.watch(MeetingSchedulesProvider(practicum: practicumId));
+
+          ref.listen(MeetingSchedulesProvider(practicum: practicumId), (_, state) {
+            state.whenOrNull(error: context.responseError);
+          });
+
+          return schedules.when(
+            loading: () => const LoadingIndicator(),
+            error: (_, __) => const SizedBox(),
+            data: (schedules) {
+              if (schedules == null) return const SizedBox();
+
+              if (schedules.isEmpty) {
+                return const CustomInformation(
+                  title: 'Jadwal Tidak Ada',
+                  subtitle: 'Anda belum memiliki jadwal sebagai asisten/pendamping',
+                );
+              }
+
+              return ListView.separated(
+                padding: const EdgeInsets.all(20),
+                itemBuilder: (context, index) => InkWellContainer(
+                  radius: 99,
+                  color: Palette.background,
+                  padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
+                  onTap: () => navigatorKey.currentState!.pushNamed(assistantMeetingDetailRoute),
+                  child: Row(
+                    children: [
+                      CircleBorderContainer(
+                        size: 60,
+                        withBorder: false,
+                        fillColor: Palette.purple3,
+                        child: Text(
+                          '#${schedules[index].number}',
+                          style: textTheme.titleMedium!.copyWith(
+                            color: Palette.background,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${schedules[index].lesson}',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: textTheme.titleSmall!.copyWith(
+                                color: Palette.purple2,
+                              ),
+                            ),
+                            const SizedBox(height: 1),
+                            Text(
+                              '${schedules[index].date?.toDateTimeFormat('d MMMM yyyy')}',
+                              style: textTheme.labelSmall!.copyWith(
+                                color: Palette.secondaryText,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            CustomBadge(
+                              text: schedules[index].asMain! ? 'Pemateri' : 'Pendamping',
+                              color: schedules[index].asMain! ? Palette.plum1 : Palette.plum2,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Tipe Data dan Attribute',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: textTheme.titleSmall!.copyWith(
-                        color: Palette.purple2,
-                      ),
-                    ),
-                    const SizedBox(height: 1),
-                    Text(
-                      '26 Februari 2024',
-                      style: textTheme.labelSmall!.copyWith(
-                        color: Palette.secondaryText,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    CustomBadge(
-                      text: index % 2 == 1 ? 'Pemateri' : 'Pendamping',
-                      color: index % 2 == 1 ? Palette.plum1 : Palette.plum2,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        separatorBuilder: (context, index) => const SizedBox(height: 10),
-        itemCount: 10,
+                separatorBuilder: (context, index) => const SizedBox(height: 10),
+                itemCount: schedules.length,
+              );
+            },
+          );
+        },
       ),
     );
   }

@@ -1,7 +1,12 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 // Project imports:
+import 'package:asco/core/extensions/context_extension.dart';
+import 'package:asco/core/extensions/number_extension.dart';
 import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
@@ -9,13 +14,21 @@ import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/data/models/classrooms/classroom.dart';
+import 'package:asco/src/presentation/features/common/menu/providers/classroom_meetings_provider.dart';
+import 'package:asco/src/presentation/providers/manual_providers/sorting_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
+import 'package:asco/src/presentation/shared/widgets/cards/meeting_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_icon_button.dart';
+import 'package:asco/src/presentation/shared/widgets/custom_information.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
+import 'package:asco/src/presentation/shared/widgets/loading_indicator.dart';
 import 'package:asco/src/presentation/shared/widgets/practicum_badge_image.dart';
 
 class MeetingPage extends StatefulWidget {
-  const MeetingPage({super.key});
+  final Classroom classroom;
+
+  const MeetingPage({super.key, required this.classroom});
 
   @override
   State<MeetingPage> createState() => _MeetingPageState();
@@ -26,28 +39,39 @@ class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClient
   Widget build(BuildContext context) {
     super.build(context);
 
+    final roleId = MapHelper.getRoleId(CredentialSaver.credential?.role);
+
     final meetingMenuCards = [
       MeetingMenuCard(
         title: 'Tata Tertib',
         strokeColor: Palette.purple3,
         fillColor: Palette.purple4,
         icon: Icons.list_alt_outlined,
-        onTap: () {},
+        onTap: () => context.openFile(
+          name: 'Tata Tertib',
+          path: null,
+        ),
       ),
       MeetingMenuCard(
         title: 'Kontrak Kuliah',
         strokeColor: Palette.salmon1,
         fillColor: Palette.salmon2,
         icon: Icons.description_outlined,
-        onTap: () {},
+        onTap: () => context.openFile(
+          name: 'Kontrak Kuliah',
+          path: widget.classroom.practicum?.courseContractPath,
+        ),
       ),
-      if (MapHelper.getRoleId(CredentialSaver.credential?.role) == 1)
+      if (roleId == 1)
         MeetingMenuCard(
           title: 'Riwayat Pertemuan',
           strokeColor: Palette.azure1,
           fillColor: Palette.azure2,
           icon: Icons.history_outlined,
-          onTap: () => navigatorKey.currentState!.pushNamed(studentMeetingHistoryRoute),
+          onTap: () => navigatorKey.currentState!.pushNamed(
+            studentMeetingHistoryRoute,
+            arguments: widget.classroom.practicum?.id,
+          ),
         )
       else
         MeetingMenuCard(
@@ -55,7 +79,10 @@ class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClient
           strokeColor: Palette.azure1,
           fillColor: Palette.azure2,
           icon: Icons.calendar_today_outlined,
-          onTap: () => navigatorKey.currentState!.pushNamed(assistantMeetingScheduleRoute),
+          onTap: () => navigatorKey.currentState!.pushNamed(
+            assistantMeetingScheduleRoute,
+            arguments: widget.classroom.practicum?.id,
+          ),
         ),
     ];
 
@@ -101,7 +128,7 @@ class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClient
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Pemrograman Mobile A',
+                                '${widget.classroom.practicum?.course} ${widget.classroom.name}',
                                 style: textTheme.titleLarge!.copyWith(
                                   color: Palette.background,
                                   fontWeight: FontWeight.w600,
@@ -110,7 +137,7 @@ class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClient
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                'Setiap hari Senin Pukul 10.10 - 12.40',
+                                'Setiap hari ${MapHelper.getReadableDay(widget.classroom.meetingDay)}, Pukul ${widget.classroom.startTime?.to24TimeFormat()} - ${widget.classroom.endTime?.to24TimeFormat()}',
                                 style: textTheme.bodySmall!.copyWith(
                                   color: Palette.scaffoldBackground,
                                 ),
@@ -119,8 +146,8 @@ class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClient
                           ),
                         ),
                         const SizedBox(width: 16),
-                        const PracticumBadgeImage(
-                          badgeUrl: 'https://placehold.co/138x150/png',
+                        PracticumBadgeImage(
+                          badgeUrl: '${widget.classroom.practicum?.badgePath}',
                           width: 44,
                           height: 48,
                         ),
@@ -156,28 +183,72 @@ class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClient
                   ),
                 ),
                 const SizedBox(width: 8),
-                CustomIconButton(
-                  'arrow_sort_outlined.svg',
-                  color: Palette.primaryText,
-                  size: 20,
-                  tooltip: 'Urutkan',
-                  onPressed: () {},
+                Consumer(
+                  builder: (context, ref, child) {
+                    return CustomIconButton(
+                      'arrow_sort_outlined.svg',
+                      color: Palette.primaryText,
+                      size: 20,
+                      tooltip: 'Urutkan',
+                      onPressed: () {
+                        ref.read(ascendingOrderProvider.notifier).update((state) => !state);
+                      },
+                    );
+                  },
                 ),
               ],
             ),
             const SizedBox(height: 6),
-            ...List<Padding>.generate(
-              10,
-              (index) => Padding(
-                padding: EdgeInsets.only(
-                  bottom: index == 9 ? kBottomNavigationBarHeight : 10,
-                ),
-                // child: MeetingCard(
-                //   onTap: () => navigatorKey.currentState!.pushNamed(
-                //     roleId == 1 ? studentMeetingDetailRoute : assistantMeetingDetailRoute,
-                //   ),
-                // ),
-              ),
+            Consumer(
+              builder: (context, ref, child) {
+                final ascendingOrder = ref.watch(ascendingOrderProvider);
+                final meetings = ref.watch(
+                  ClassroomMeetingsProvider(
+                    widget.classroom.id!,
+                    ascendingOrder: ascendingOrder,
+                  ),
+                );
+
+                ref.listen(
+                  ClassroomMeetingsProvider(
+                    widget.classroom.id!,
+                    ascendingOrder: ascendingOrder,
+                  ),
+                  (_, state) => state.whenOrNull(error: context.responseError),
+                );
+
+                return meetings.when(
+                  loading: () => const LoadingIndicator(),
+                  error: (_, __) => const SizedBox(),
+                  data: (meetings) {
+                    if (meetings == null) return const SizedBox();
+
+                    if (meetings.isEmpty) {
+                      return const CustomInformation(
+                        title: 'Pertemuan Masih kosong',
+                        subtitle: 'Belum terdapat pertemuan pada praktikum ini',
+                      );
+                    }
+
+                    return Column(
+                      children: List<Padding>.generate(
+                        meetings.length,
+                        (index) => Padding(
+                          padding: EdgeInsets.only(
+                            bottom: index == meetings.length - 1 ? kBottomNavigationBarHeight : 10,
+                          ),
+                          child: MeetingCard(
+                            meeting: meetings[index],
+                            onTap: () => navigatorKey.currentState!.pushNamed(
+                              roleId == 1 ? studentMeetingDetailRoute : assistantMeetingDetailRoute,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
             ),
           ],
         ),

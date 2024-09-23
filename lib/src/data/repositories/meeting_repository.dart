@@ -8,6 +8,7 @@ import 'package:asco/core/utils/const.dart';
 import 'package:asco/src/data/datasources/meeting_data_source.dart';
 import 'package:asco/src/data/models/meetings/meeting.dart';
 import 'package:asco/src/data/models/meetings/meeting_post.dart';
+import 'package:asco/src/data/models/meetings/meeting_schedule.dart';
 
 abstract class MeetingRepository {
   /// Get meetings
@@ -30,6 +31,12 @@ abstract class MeetingRepository {
 
   /// Delete meeting
   Future<Either<Failure, void>> deleteMeeting(String id);
+
+  /// Get classroom meetings (authorized for student & assistant)
+  Future<Either<Failure, List<Meeting>>> getClassroomMeetings(String classroomId);
+
+  /// Get meeting schedules (authorized for assistant)
+  Future<Either<Failure, List<MeetingSchedule>>> getMeetingSchedules({String practicum = ''});
 }
 
 class MeetingRepositoryImpl implements MeetingRepository {
@@ -115,6 +122,37 @@ class MeetingRepositoryImpl implements MeetingRepository {
     if (await networkInfo.isConnected) {
       try {
         final result = await meetingDataSource.deleteMeeting(id);
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Meeting>>> getClassroomMeetings(String classroomId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await meetingDataSource.getClassroomMeetings(classroomId);
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<MeetingSchedule>>> getMeetingSchedules(
+      {String practicum = ''}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await meetingDataSource.getMeetingSchedules(practicum: practicum);
 
         return Right(result);
       } catch (e) {
