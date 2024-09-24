@@ -15,28 +15,28 @@ import 'package:asco/src/data/models/assistance_groups/assistance_group_post.dar
 import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class AssistanceGroupDataSource {
-  /// Get assistance groups
+  /// Admin: Get assistance groups
   Future<List<AssistanceGroup>> getAssistanceGroups(String practicumId);
 
-  /// Get assistance group detail
+  /// Admin: Get assistance group detail
   Future<AssistanceGroup> getAssistanceGroupDetail(String id);
 
-  /// Create assistance group
+  /// Admin: Create assistance group
   Future<void> createAssistanceGroup(
     String practicumId, {
     required AssistanceGroupPost assistanceGroup,
   });
 
-  /// Edit assistance group
+  /// Admin: Edit assistance group
   Future<void> editAssistanceGroup(
     AssistanceGroup oldAssistanceGroup,
     AssistanceGroupPost newAssistanceGroup,
   );
 
-  /// Delete assistance group
+  /// Admin: Delete assistance group
   Future<void> deleteAssistanceGroup(String id);
 
-  /// Remove student from assistance group
+  /// Admin: Remove student from assistance group
   Future<void> removeStudentFromAssistanceGroup(
     String id, {
     required Profile student,

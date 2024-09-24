@@ -10,19 +10,19 @@ import 'package:asco/src/data/models/classrooms/classroom.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class ClassroomRepository {
-  /// Get classrooms (authorized for student)
+  /// Student: Get classrooms
   Future<Either<Failure, List<Classroom>>> getClassrooms();
 
-  /// Get classroom detail (authorized for admin)
+  /// Admin: Get classroom detail
   Future<Either<Failure, Classroom>> getClassroomDetail(String id);
 
-  /// Add students to classroom (authorized for admin)
+  /// Admin: Add students to classroom
   Future<Either<Failure, void>> addStudentsToClassroom(
     String id, {
     required List<Profile> students,
   });
 
-  /// Remove student from classroom (authorized for admin)
+  /// Admin: Remove student from classroom
   Future<Either<Failure, void>> removeStudentFromClassroom(
     String id, {
     required Profile student,

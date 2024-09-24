@@ -177,7 +177,7 @@ extension DatePickerExtension on BuildContext {
   }
 }
 
-extension ProviderResponseError on BuildContext {
+extension ProviderResponse on BuildContext {
   Null responseError(Object e, StackTrace st) {
     if (e == kNoInternetConnection) {
       showNoConnectionSnackBar();

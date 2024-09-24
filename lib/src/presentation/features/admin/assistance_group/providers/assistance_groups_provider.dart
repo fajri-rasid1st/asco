@@ -10,12 +10,13 @@ part 'assistance_groups_provider.g.dart';
 @riverpod
 class AssistanceGroups extends _$AssistanceGroups {
   @override
-  Future<List<AssistanceGroup>?> build(String id) async {
+  Future<List<AssistanceGroup>?> build(String practicumId) async {
     List<AssistanceGroup>? assistanceGroups;
 
     state = const AsyncValue.loading();
 
-    final result = await ref.watch(assistanceGroupRepositoryProvider).getAssistanceGroups(id);
+    final result =
+        await ref.watch(assistanceGroupRepositoryProvider).getAssistanceGroups(practicumId);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),

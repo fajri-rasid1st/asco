@@ -15,7 +15,6 @@ import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
 import 'package:asco/src/presentation/shared/features/control_card/providers/control_cards_provider.dart';
-import 'package:asco/src/presentation/shared/features/control_card/providers/student_control_cards_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/attendance_card.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
@@ -37,13 +36,9 @@ class ControlCardDetailPage extends StatelessWidget {
       ),
       body: Consumer(
         builder: (context, ref, child) {
-          final controlCardsProvider = args.student != null
-              ? ControlCardsProvider(args.practicum.id!, args.student!)
-              : StudentControlCardsProvider(args.practicum.id!);
+          final controlCards = ref.watch(ControlCardsProvider(args.practicum.id!, args.student));
 
-          final controlCards = ref.watch(controlCardsProvider);
-
-          ref.listen(controlCardsProvider, (_, state) {
+          ref.listen(ControlCardsProvider(args.practicum.id!, args.student), (_, state) {
             state.whenOrNull(error: context.responseError);
           });
 
@@ -212,13 +207,13 @@ class ControlCardDetailPage extends StatelessWidget {
 }
 
 class ControlCardDetailPageArgs {
+  final Profile student;
   final Practicum practicum;
   final int groupNumber;
-  final Profile? student;
 
   const ControlCardDetailPageArgs({
+    required this.student,
     required this.practicum,
     required this.groupNumber,
-    this.student,
   });
 }

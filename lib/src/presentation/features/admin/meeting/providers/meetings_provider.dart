@@ -10,7 +10,10 @@ part 'meetings_provider.g.dart';
 @riverpod
 class Meetings extends _$Meetings {
   @override
-  Future<List<Meeting>?> build(String practicumId, {bool ascendingOrder = true}) async {
+  Future<List<Meeting>?> build(
+    String practicumId, {
+    bool ascendingOrder = true,
+  }) async {
     List<Meeting>? meetings;
 
     state = const AsyncValue.loading();

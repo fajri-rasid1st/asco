@@ -9,16 +9,16 @@ import 'package:asco/src/data/datasources/control_card_data_source.dart';
 import 'package:asco/src/data/models/control_cards/control_card.dart';
 
 abstract class ControlCardRepository {
-  /// Get control cards (authorized for student)
+  /// Student: Get control cards
   Future<Either<Failure, List<ControlCard>>> getControlCards(String practicumId);
 
-  /// Get student control cards (authorized for admin & assistant)
+  /// Admin, Assistant, Student: Get student control cards
   Future<Either<Failure, List<ControlCard>>> getStudentControlCards(
     String practicumId,
     String studentId,
   );
 
-  /// Get control card detail (authorized for student)
+  /// Student: Get control card detail
   Future<Either<Failure, ControlCard>> getControlCardDetail(String id);
 }
 

@@ -14,19 +14,19 @@ import 'package:asco/src/data/models/classrooms/classroom.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class ClassroomDataSource {
-  /// Get classrooms (authorized for student)
+  /// Student: Get classrooms
   Future<List<Classroom>> getClassrooms();
 
-  /// Get classroom detail (authorized for admin)
+  /// Admin: Get classroom detail
   Future<Classroom> getClassroomDetail(String id);
 
-  /// Add students to classroom (authorized for admin)
+  /// Admin: Add students to classroom
   Future<void> addStudentsToClassroom(
     String id, {
     required List<Profile> students,
   });
 
-  /// Remove student from classroom (authorized for admin)
+  /// Admin: Remove student from classroom
   Future<void> removeStudentFromClassroom(
     String id, {
     required Profile student,

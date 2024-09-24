@@ -29,10 +29,16 @@ class UserActions extends _$UserActions {
     );
   }
 
-  Future<void> editUser(String username, ProfilePost user) async {
+  Future<void> editUser(
+    String username,
+    ProfilePost user,
+  ) async {
     state = const AsyncValue.loading();
 
-    final result = await ref.watch(profileRepositoryProvider).editProfile(username, user);
+    final result = await ref.watch(profileRepositoryProvider).editProfile(
+          username,
+          user,
+        );
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),

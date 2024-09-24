@@ -12,35 +12,35 @@ import 'package:asco/src/data/models/practicums/practicum_post.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class PracticumRepository {
-  /// Get Practicums (authorized for admin & assistant)
+  /// Admin, Assistant: Get Practicums
   Future<Either<Failure, List<Practicum>>> getPracticums();
 
-  /// Get practicum detail
+  /// Admin: Get practicum detail
   Future<Either<Failure, Practicum>> getPracticumDetail(String id);
 
-  /// Create practicum
+  /// Admin: Create practicum
   Future<Either<Failure, String>> createPracticum(PracticumPost practicum);
 
-  /// Edit practicum
+  /// Admin: Edit practicum
   Future<Either<Failure, String>> editPracticum(
     Practicum oldPracticum,
     PracticumPost newPracticum,
   );
 
-  /// Delete practicum
+  /// Admin: Delete practicum
   Future<Either<Failure, void>> deletePracticum(String id);
 
-  /// Create classrooms and assistants
+  /// Admin: Create classrooms and assistants
   Future<Either<Failure, void>> createClassroomsAndAssistants(
     String id, {
     required List<ClassroomPost> classrooms,
     required List<Profile> assistants,
   });
 
-  /// Remove classroom from practicum
+  /// Admin: Remove classroom from practicum
   Future<Either<Failure, void>> removeClassroomFromPracticum(String classroomId);
 
-  /// Remove assistant from practicum
+  /// Admin: Remove assistant from practicum
   Future<Either<Failure, void>> removeAssistantFromPracticum(
     String id, {
     required Profile assistant,

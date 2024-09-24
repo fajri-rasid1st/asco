@@ -16,7 +16,10 @@ class MeetingActions extends _$MeetingActions {
     return const AsyncValue.data((message: null, action: ActionType.none));
   }
 
-  Future<void> createMeeting(String practicumId, {required MeetingPost meeting}) async {
+  Future<void> createMeeting(
+    String practicumId, {
+    required MeetingPost meeting,
+  }) async {
     state = const AsyncValue.loading();
 
     final result = await ref.watch(meetingRepositoryProvider).createMeeting(
@@ -33,10 +36,16 @@ class MeetingActions extends _$MeetingActions {
     );
   }
 
-  Future<void> editMeeting(Meeting oldMeeting, MeetingPost newMeeting) async {
+  Future<void> editMeeting(
+    Meeting oldMeeting,
+    MeetingPost newMeeting,
+  ) async {
     state = const AsyncValue.loading();
 
-    final result = await ref.watch(meetingRepositoryProvider).editMeeting(oldMeeting, newMeeting);
+    final result = await ref.watch(meetingRepositoryProvider).editMeeting(
+          oldMeeting,
+          newMeeting,
+        );
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),

@@ -39,7 +39,10 @@ class PracticumActions extends _$PracticumActions {
     return data;
   }
 
-  Future<String?> editPracticum(Practicum oldPracticum, PracticumPost newPracticum) async {
+  Future<String?> editPracticum(
+    Practicum oldPracticum,
+    PracticumPost newPracticum,
+  ) async {
     String? data;
 
     state = const AsyncValue.loading();
@@ -114,7 +117,10 @@ class PracticumActions extends _$PracticumActions {
     );
   }
 
-  Future<void> removeAssistantFromPracticum(String id, {required Profile assistant}) async {
+  Future<void> removeAssistantFromPracticum(
+    String id, {
+    required Profile assistant,
+  }) async {
     state = const AsyncValue.loading();
 
     final result = await ref.watch(practicumRepositoryProvider).removeAssistantFromPracticum(

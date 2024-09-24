@@ -9,32 +9,32 @@ import 'package:asco/core/configs/api_configs.dart';
 import 'package:asco/core/errors/exceptions.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/data_response.dart';
-import 'package:asco/src/data/models/control_cards/control_card.dart';
+import 'package:asco/src/data/models/scores/score_recap.dart';
 
-abstract class ControlCardDataSource {
-  /// Student: Get control cards
-  Future<List<ControlCard>> getControlCards(String practicumId);
+abstract class ScoreDataSource {
+  /// Admin, Assistant, Student: Get scores
+  Future<List<ScoreRecap>> getScores(String practicumId);
 
-  /// Admin, Assistant, Student: Get student control cards
-  Future<List<ControlCard>> getStudentControlCards(
+  /// Admin, Assistant: Get student score detail
+  Future<ScoreRecap> getStudentScoreDetail(
     String practicumId,
-    String studentId,
+    String username,
   );
 
-  /// Student: Get control card detail
-  Future<ControlCard> getControlCardDetail(String id);
+  /// Student: Get score detail
+  Future<ScoreRecap> getScoreDetail(String practicumId);
 }
 
-class ControlCardDataSourceImpl implements ControlCardDataSource {
+class ScoreDataSourceImpl implements ScoreDataSource {
   final http.Client client;
 
-  const ControlCardDataSourceImpl({required this.client});
+  const ScoreDataSourceImpl({required this.client});
 
   @override
-  Future<List<ControlCard>> getControlCards(String practicumId) async {
+  Future<List<ScoreRecap>> getScores(String practicumId) async {
     try {
       final response = await client.get(
-        Uri.parse('${ApiConfigs.baseUrl}/practicums/$practicumId/cards'),
+        Uri.parse('${ApiConfigs.baseUrl}/practicums/$practicumId/scores'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
@@ -46,7 +46,7 @@ class ControlCardDataSourceImpl implements ControlCardDataSource {
       if (response.statusCode == 200) {
         final data = result.data as List;
 
-        return data.map((e) => ControlCard.fromJson(e)).toList();
+        return data.map((e) => ScoreRecap.fromJson(e)).toList();
       } else {
         throw ServerException(result.error?.code, result.error?.message);
       }
@@ -56,13 +56,13 @@ class ControlCardDataSourceImpl implements ControlCardDataSource {
   }
 
   @override
-  Future<List<ControlCard>> getStudentControlCards(
+  Future<ScoreRecap> getStudentScoreDetail(
     String practicumId,
-    String studentId,
+    String username,
   ) async {
     try {
       final response = await client.get(
-        Uri.parse('${ApiConfigs.baseUrl}/practicums/$practicumId/students/$studentId/cards'),
+        Uri.parse('${ApiConfigs.baseUrl}/practicums/$practicumId/students/$username/scores'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
@@ -72,9 +72,7 @@ class ControlCardDataSourceImpl implements ControlCardDataSource {
       final result = DataResponse.fromJson(response.body);
 
       if (response.statusCode == 200) {
-        final data = result.data as List;
-
-        return data.map((e) => ControlCard.fromJson(e)).toList();
+        return ScoreRecap.fromJson(result.data);
       } else {
         throw ServerException(result.error?.code, result.error?.message);
       }
@@ -84,10 +82,10 @@ class ControlCardDataSourceImpl implements ControlCardDataSource {
   }
 
   @override
-  Future<ControlCard> getControlCardDetail(String id) async {
+  Future<ScoreRecap> getScoreDetail(String practicumId) async {
     try {
       final response = await client.get(
-        Uri.parse('${ApiConfigs.baseUrl}/cards/$id'),
+        Uri.parse('${ApiConfigs.baseUrl}/practicums/$practicumId/students/scores'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
@@ -97,7 +95,7 @@ class ControlCardDataSourceImpl implements ControlCardDataSource {
       final result = DataResponse.fromJson(response.body);
 
       if (response.statusCode == 200) {
-        return ControlCard.fromJson(result.data);
+        return ScoreRecap.fromJson(result.data);
       } else {
         throw ServerException(result.error?.code, result.error?.message);
       }

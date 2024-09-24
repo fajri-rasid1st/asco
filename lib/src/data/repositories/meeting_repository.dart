@@ -11,31 +11,31 @@ import 'package:asco/src/data/models/meetings/meeting_post.dart';
 import 'package:asco/src/data/models/meetings/meeting_schedule.dart';
 
 abstract class MeetingRepository {
-  /// Get meetings
+  /// Admin: Get meetings
   Future<Either<Failure, List<Meeting>>> getMeetings(String practicumId);
 
-  /// Get meeting detail
+  /// Admin: Get meeting detail
   Future<Either<Failure, Meeting>> getMeetingDetail(String id);
 
-  /// Create meeting
+  /// Admin: Create meeting
   Future<Either<Failure, void>> createMeeting(
     String practicumId, {
     required MeetingPost meeting,
   });
 
-  /// Edit meeting
+  /// Admin: Edit meeting
   Future<Either<Failure, void>> editMeeting(
     Meeting oldMeeting,
     MeetingPost newMeeting,
   );
 
-  /// Delete meeting
+  /// Admin: Delete meeting
   Future<Either<Failure, void>> deleteMeeting(String id);
 
-  /// Get classroom meetings (authorized for student & assistant)
+  /// Student, Assistant: Get classroom meetings
   Future<Either<Failure, List<Meeting>>> getClassroomMeetings(String classroomId);
 
-  /// Get meeting schedules (authorized for assistant)
+  /// Assistant: Get meeting schedules
   Future<Either<Failure, List<MeetingSchedule>>> getMeetingSchedules({String practicum = ''});
 }
 

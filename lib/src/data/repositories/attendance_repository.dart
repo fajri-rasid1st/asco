@@ -10,16 +10,16 @@ import 'package:asco/src/data/models/attendances/attendance.dart';
 import 'package:asco/src/data/models/attendances/attendance_meeting.dart';
 
 abstract class AttendanceRepository {
-  /// Get attendances (authorized for student)
+  /// Student: Get attendances
   Future<Either<Failure, List<Attendance>>> getAttendances(String practicumId);
 
-  /// Get attendance meetings (authorized for admin)
+  /// Admin: Get attendance meetings
   Future<Either<Failure, List<AttendanceMeeting>>> getAttendanceMeetings(String practicumId);
 
-  /// Get attendances by meeting id (authorized for admin)
+  /// Admin: Get attendances by meeting id
   Future<Either<Failure, List<Attendance>>> getMeetingAttendances(String meetingId);
 
-  /// Insert all attendances in a meeting (authorized for assistant)
+  /// Assistant: Insert all attendances in a meeting
   Future<Either<Failure, void>> insertMeetingAttendances(String meetingId);
 }
 
