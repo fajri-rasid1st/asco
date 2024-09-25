@@ -106,7 +106,7 @@ class HomePage extends ConsumerWidget {
 
                     if (classrooms.isEmpty) {
                       return const CustomInformation(
-                        title: 'Kelas Masih Kosong',
+                        title: 'Kelas masih kosong',
                         subtitle: 'Kamu belum terdaftar pada kelas manapun',
                       );
                     }
@@ -146,7 +146,7 @@ class HomePage extends ConsumerWidget {
 
                     if (practicums.isEmpty) {
                       return const CustomInformation(
-                        title: 'Praktikum Masih Kosong',
+                        title: 'Praktikum masih kosong',
                         subtitle: 'Kamu belum terdaftar pada praktikum manapun',
                       );
                     }

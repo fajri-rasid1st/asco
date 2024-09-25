@@ -46,8 +46,8 @@ class AssistantMeetingSchedulePage extends StatelessWidget {
 
               if (schedules.isEmpty) {
                 return const CustomInformation(
-                  title: 'Jadwal Tidak Ada',
-                  subtitle: 'Anda belum memiliki jadwal sebagai asisten/pendamping',
+                  title: 'Jadwal tidak ada',
+                  subtitle: 'Anda belum memiliki jadwal sebagai pemateri/pendamping',
                 );
               }
 

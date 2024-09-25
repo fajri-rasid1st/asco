@@ -59,7 +59,7 @@ class FileService {
   }
 
   static Future<String?> createFile(
-    List<int> bytes, {
+    Uint8List bytes, {
     String? extension,
     String? name,
   }) async {
@@ -111,7 +111,7 @@ class FileService {
   }
 
   static Future<bool> saveFileFromRawBytes(
-    List<int> bytes, {
+    Uint8List bytes, {
     String? extension,
     String? name,
   }) async {

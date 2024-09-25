@@ -224,8 +224,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => ControlCardDetailPage(args: args),
       );
     case scoreRecapListHomeRoute:
+      final practicum = settings.arguments as Practicum;
+
       return MaterialPageRoute(
-        builder: (_) => const ScoreRecapListHomePage(),
+        builder: (_) => ScoreRecapListHomePage(practicum: practicum),
       );
     case scoreRecapDetailRoute:
       final title = settings.arguments as String;

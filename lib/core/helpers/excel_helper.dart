@@ -7,6 +7,7 @@ import 'package:excel/excel.dart';
 // Project imports:
 import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/src/data/models/attendances/attendance.dart';
+import 'package:asco/src/data/models/scores/score_recap.dart';
 
 class ExcelHelper {
   static List<Map<String, String?>>? convertToData(String path) {
@@ -42,7 +43,7 @@ class ExcelHelper {
     }
   }
 
-  static void insertAttendancesToExcel({
+  static void insertAttendanceToExcel({
     required Excel excel,
     required int sheetNumber,
     required List<Attendance> attendances,
@@ -70,7 +71,12 @@ class ExcelHelper {
     );
 
     // Define header values
-    final headers = ['No.', 'NIM', 'Nama Lengkap', 'Status'];
+    final headers = [
+      'No.',
+      'NIM',
+      'Nama Lengkap',
+      'Status',
+    ];
 
     // Set header values to cells
     for (var i = 0; i < headers.length; i++) {
@@ -111,10 +117,20 @@ class ExcelHelper {
       // Row looping
       for (var j = 0; j < data.length; j++) {
         final cellIndex = CellIndex.indexByColumnRow(columnIndex: j, rowIndex: i + 1);
+        final value = num.tryParse(data[j]);
 
-        sheet.cell(cellIndex).value =
-            j == 0 ? IntCellValue(int.parse(data[j])) : TextCellValue(data[j]);
+        // Update cell value
+        if (value != null) {
+          if (j == 0) {
+            sheet.cell(cellIndex).value = IntCellValue(value.toInt());
+          } else {
+            sheet.cell(cellIndex).value = DoubleCellValue(value.toDouble());
+          }
+        } else {
+          sheet.cell(cellIndex).value = TextCellValue(data[j]);
+        }
 
+        // Update cell style
         if (j == 2) {
           sheet.cell(cellIndex).cellStyle = dataCellStyle.copyWith(
             horizontalAlignVal: HorizontalAlign.Left,
@@ -130,6 +146,112 @@ class ExcelHelper {
 
           sheet.cell(cellIndex).cellStyle = dataCellStyle.copyWith(
             backgroundColorHexVal: ExcelColor.fromHexString(hexColor),
+          );
+        } else {
+          sheet.cell(cellIndex).cellStyle = dataCellStyle;
+        }
+      }
+    }
+
+    sheet.setRowHeight(0, 25);
+    sheet.setColumnAutoFit(0);
+    sheet.setColumnWidth(1, 18);
+    sheet.setColumnWidth(2, 36);
+  }
+
+  static void insertScoreToExcel({
+    required Excel excel,
+    required List<ScoreRecap> scores,
+  }) {
+    // Get active sheet
+    final sheet = excel.sheets['Sheet1']!;
+
+    // Create header cell style
+    final headerCellStyle = CellStyle(
+      fontFamily: getFontFamily(FontFamily.Calibri),
+      fontSize: 11,
+      bold: true,
+      textWrapping: TextWrapping.WrapText,
+      verticalAlign: VerticalAlign.Center,
+      horizontalAlign: HorizontalAlign.Center,
+      leftBorder: Border(borderStyle: BorderStyle.Thin),
+      rightBorder: Border(borderStyle: BorderStyle.Thin),
+      topBorder: Border(borderStyle: BorderStyle.Thin),
+      bottomBorder: Border(borderStyle: BorderStyle.Thin),
+    );
+
+    // Define header values
+    final headers = [
+      'No.',
+      'NIM',
+      'Nama Lengkap',
+      'Kuis',
+      'Respons',
+      'Praktikum',
+      'Ujian Lab',
+      'Nilai Akhir',
+    ];
+
+    // Set header values to cells
+    for (var i = 0; i < headers.length; i++) {
+      final cellIndex = CellIndex.indexByColumnRow(columnIndex: i, rowIndex: 0);
+
+      sheet.cell(cellIndex)
+        ..value = TextCellValue(headers[i])
+        ..cellStyle = headerCellStyle;
+
+      if (i > 2) sheet.setColumnWidth(i, 12);
+    }
+
+    // Create data cell style
+    final dataCellStyle = CellStyle(
+      fontFamily: getFontFamily(FontFamily.Calibri),
+      fontSize: 11,
+      textWrapping: TextWrapping.WrapText,
+      verticalAlign: VerticalAlign.Center,
+      horizontalAlign: HorizontalAlign.Center,
+      leftBorder: Border(borderStyle: BorderStyle.Thin),
+      rightBorder: Border(borderStyle: BorderStyle.Thin),
+      topBorder: Border(borderStyle: BorderStyle.Thin),
+      bottomBorder: Border(borderStyle: BorderStyle.Thin),
+    );
+
+    // Set data values to cells
+    // Column looping
+    for (var i = 0; i < scores.length; i++) {
+      final score = scores[i];
+
+      final data = [
+        (i + 1).toString(),
+        score.student!.username!,
+        score.student!.fullname!,
+        score.quizAverageScore!.toStringAsFixed(1),
+        score.responseAverageScore!.toStringAsFixed(1),
+        score.assignmentAverageScore!.toStringAsFixed(1),
+        score.labExamScore!.toStringAsFixed(1),
+        score.finalScore!.toStringAsFixed(1),
+      ];
+
+      // Row looping
+      for (var j = 0; j < data.length; j++) {
+        final cellIndex = CellIndex.indexByColumnRow(columnIndex: j, rowIndex: i + 1);
+        final value = num.tryParse(data[j]);
+
+        // Update cell value
+        if (value != null) {
+          if (j == 0) {
+            sheet.cell(cellIndex).value = IntCellValue(value.toInt());
+          } else {
+            sheet.cell(cellIndex).value = DoubleCellValue(value.toDouble());
+          }
+        } else {
+          sheet.cell(cellIndex).value = TextCellValue(data[j]);
+        }
+
+        // Update cell style
+        if (j == 2) {
+          sheet.cell(cellIndex).cellStyle = dataCellStyle.copyWith(
+            horizontalAlignVal: HorizontalAlign.Left,
           );
         } else {
           sheet.cell(cellIndex).cellStyle = dataCellStyle;

@@ -46,7 +46,7 @@ class StudentMeetingHistoryPage extends StatelessWidget {
 
               if (attendances.isEmpty) {
                 return const CustomInformation(
-                  title: 'Riwayat Pertemuan Kosong',
+                  title: 'Riwayat pertemuan kosong',
                   subtitle: 'Belum ada pertemuan yang kamu lalui',
                 );
               }

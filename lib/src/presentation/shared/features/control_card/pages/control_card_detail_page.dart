@@ -165,12 +165,12 @@ class ControlCardDetailPage extends StatelessWidget {
                                 bottom: index == cards.length - 1 ? 0 : 10,
                               ),
                               child: AttendanceCard(
-                                meeting: cards[index].meeting!,
                                 attendanceType: AttendanceType.assistance,
                                 assistanceStatus: [
                                   cards[index].firstAssistanceStatus!,
                                   cards[index].secondAssistanceStatus!,
                                 ],
+                                meeting: cards[index].meeting!,
                                 locked: cards[index].meeting!.date! >=
                                     DateTime.now().millisecondsSinceEpoch ~/ 1000,
                               ),

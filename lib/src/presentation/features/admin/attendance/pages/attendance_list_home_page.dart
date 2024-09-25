@@ -1,3 +1,6 @@
+// Dart imports:
+import 'dart:typed_data';
+
 // Flutter imports:
 import 'package:flutter/material.dart';
 
@@ -63,7 +66,7 @@ class AttendanceListHomePage extends StatelessWidget {
                 child: Column(
                   children: [
                     FilledButton.icon(
-                      onPressed: () => exportToExcel(context, ref, attendanceMeetings),
+                      onPressed: () => exportAttendanceToExcel(context, ref, attendanceMeetings),
                       icon: SvgAsset(
                         AssetPath.getIcon('file_excel_outlined.svg'),
                       ),
@@ -77,11 +80,6 @@ class AttendanceListHomePage extends StatelessWidget {
                           bottom: index == attendanceMeetings.length - 1 ? 0 : 10,
                         ),
                         child: AttendanceCard(
-                          meeting: Meeting(
-                            number: attendanceMeetings[index].number,
-                            lesson: attendanceMeetings[index].lesson,
-                            date: attendanceMeetings[index].date,
-                          ),
                           attendanceType: AttendanceType.meeting,
                           meetingStatus: {
                             'Hadir': attendanceMeetings[index].attend!,
@@ -89,6 +87,11 @@ class AttendanceListHomePage extends StatelessWidget {
                             'Sakit': attendanceMeetings[index].sick!,
                             'Izin': attendanceMeetings[index].permission!,
                           },
+                          meeting: Meeting(
+                            number: attendanceMeetings[index].number,
+                            lesson: attendanceMeetings[index].lesson,
+                            date: attendanceMeetings[index].date,
+                          ),
                           onTap: () => navigatorKey.currentState!.pushNamed(
                             attendanceDetailRoute,
                             arguments: attendanceMeetings[index],
@@ -106,7 +109,7 @@ class AttendanceListHomePage extends StatelessWidget {
     );
   }
 
-  Future<void> exportToExcel(
+  Future<void> exportAttendanceToExcel(
     BuildContext context,
     WidgetRef ref,
     List<AttendanceMeeting> attendanceMeetings,
@@ -124,7 +127,7 @@ class AttendanceListHomePage extends StatelessWidget {
         if (attendances == null) return;
 
         if (attendances.isNotEmpty) {
-          ExcelHelper.insertAttendancesToExcel(
+          ExcelHelper.insertAttendanceToExcel(
             excel: excel,
             sheetNumber: attendanceMeetings[i].number!,
             attendances: attendances,
@@ -146,14 +149,22 @@ class AttendanceListHomePage extends StatelessWidget {
       if (excelBytes == null) return;
 
       if (await FileService.saveFileFromRawBytes(
-        excelBytes,
-        name: 'Data Kehadiran ${practicum.course}.xlsx',
+        Uint8List.fromList(excelBytes),
+        name: 'Kehadiran ${practicum.course}.xlsx',
       )) {
         if (!context.mounted) return;
 
         context.showSnackBar(
           title: 'Berhasil',
           message: 'Data kehadiran praktikum berhasil diekspor pada folder Download.',
+        );
+      } else {
+        if (!context.mounted) return;
+
+        context.showSnackBar(
+          title: 'Terjadi Kesalahan',
+          message: 'Data kehadiran praktikum gagal diekspor.',
+          type: SnackBarType.error,
         );
       }
 

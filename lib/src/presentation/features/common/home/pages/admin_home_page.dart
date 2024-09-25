@@ -63,7 +63,10 @@ class AdminHomePage extends ConsumerWidget {
         onTap: () => navigatorKey.currentState!.pushNamed(
           selectPracticumRoute,
           arguments: SelectPracticumPageArgs(
-            onItemTapped: (_) => navigatorKey.currentState!.pushNamed(scoreRecapListHomeRoute),
+            onItemTapped: (practicum) => navigatorKey.currentState!.pushNamed(
+              scoreRecapListHomeRoute,
+              arguments: practicum,
+            ),
           ),
         ),
       ),

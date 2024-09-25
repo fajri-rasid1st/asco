@@ -225,7 +225,7 @@ class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClient
 
                     if (meetings.isEmpty) {
                       return const CustomInformation(
-                        title: 'Pertemuan Masih kosong',
+                        title: 'Pertemuan masih kosong',
                         subtitle: 'Belum terdapat pertemuan pada praktikum ini',
                       );
                     }
