@@ -1,7 +1,7 @@
 // Project imports:
 import 'package:asco/core/styles/color_scheme.dart';
 
-// const error messages
+// error messages
 const kNoInternetConnection = 'no internet connection';
 const kUnauthorized = 'you are not authorized';
 const kNoAuthorization = 'Provide Authorization in header';
@@ -16,11 +16,11 @@ const kMenteesEmpty = '"mentees" must contain at least 1 items';
 const kStudentsAlreadyExists =
     'cannot assign student to this classroom has been assigned to another classroom in this practicum';
 
-// const shared preferences keys
+// shared preferences keys
 const accessTokenKey = 'ACCESS_TOKEN';
 const credentialKey = 'CREDENTIAL';
 
-// map consts
+// maps
 const userRoleFilter = {
   'Semua': '',
   'Praktikan': 'STUDENT',
@@ -35,13 +35,6 @@ const dayOfWeek = {
   'Kamis': 'THURSDAY',
   'Jum\'at': 'FRIDAY',
   'Sabtu': 'SATURDAY',
-};
-
-const attendanceStatus = {
-  'Hadir': 'ATTEND',
-  'Alpa': 'ABSENT',
-  'Sakit': 'SICK',
-  'Izin': 'PERMISSION',
 };
 
 const attendanceStatusColor = {

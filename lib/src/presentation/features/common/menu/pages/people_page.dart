@@ -8,18 +8,11 @@ import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/section_header.dart';
 
-class PeoplePage extends StatefulWidget {
+class PeoplePage extends StatelessWidget {
   const PeoplePage({super.key});
 
   @override
-  State<PeoplePage> createState() => _PeoplePageState();
-}
-
-class _PeoplePageState extends State<PeoplePage> with AutomaticKeepAliveClientMixin {
-  @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 20 + kBottomNavigationBarHeight),
@@ -47,9 +40,6 @@ class _PeoplePageState extends State<PeoplePage> with AutomaticKeepAliveClientMi
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
 
 class SectionContainer extends StatelessWidget {

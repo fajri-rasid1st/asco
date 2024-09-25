@@ -25,6 +25,7 @@ import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/data/models/scores/score_recap.dart';
 import 'package:asco/src/presentation/providers/manual_providers/query_provider.dart';
+import 'package:asco/src/presentation/shared/features/score/pages/score_recap_detail_page.dart';
 import 'package:asco/src/presentation/shared/features/score/providers/scores_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/animated_fab.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
@@ -72,7 +73,7 @@ class _ScoreRecapListHomePageState extends State<ScoreRecapListHomePage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Rekap Nilai - Pemrograman Mobile',
+        title: 'Rekap Nilai (${widget.practicum.course})',
         action: IconButton(
           onPressed: () => context.showSortingDialog(
             items: ['Nilai', 'NIM', 'Nama Lengkap'],
@@ -173,7 +174,10 @@ class _ScoreRecapListHomePageState extends State<ScoreRecapListHomePage>
                               ),
                               onTap: () => navigatorKey.currentState!.pushNamed(
                                 scoreRecapDetailRoute,
-                                arguments: scores[index].student?.username,
+                                arguments: ScoreRecapDetailPageArgs(
+                                  practicumId: widget.practicum.id!,
+                                  username: scores[index].student?.username,
+                                ),
                               ),
                             ),
                           ),

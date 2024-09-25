@@ -18,18 +18,11 @@ import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
-class ExtrasPage extends StatefulWidget {
+class ExtrasPage extends StatelessWidget {
   const ExtrasPage({super.key});
 
   @override
-  State<ExtrasPage> createState() => _ExtrasPageState();
-}
-
-class _ExtrasPageState extends State<ExtrasPage> with AutomaticKeepAliveClientMixin {
-  @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     final extraCards = [
       ExtraCard(
         title: 'Quiz',
@@ -114,9 +107,6 @@ class _ExtrasPageState extends State<ExtrasPage> with AutomaticKeepAliveClientMi
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
 
 class ExtraCard extends StatelessWidget {

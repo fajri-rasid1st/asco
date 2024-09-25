@@ -230,10 +230,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => ScoreRecapListHomePage(practicum: practicum),
       );
     case scoreRecapDetailRoute:
-      final title = settings.arguments as String;
+      final args = settings.arguments as ScoreRecapDetailPageArgs;
 
       return MaterialPageRoute(
-        builder: (_) => ScoreRecapDetailPage(title: title),
+        builder: (_) => ScoreRecapDetailPage(args: args),
       );
     case scoreInputRoute:
       final args = settings.arguments as ScoreInputPageArgs;

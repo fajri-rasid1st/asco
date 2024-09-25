@@ -1,10 +1,14 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 // Project imports:
 import 'package:asco/core/enums/leaderboard_rank_type.dart';
 import 'package:asco/core/enums/leaderboard_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
+import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/helpers/map_helper.dart';
@@ -13,37 +17,33 @@ import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/data/models/classrooms/classroom.dart';
+import 'package:asco/src/data/models/scores/score_recap.dart';
+import 'package:asco/src/presentation/features/common/menu/providers/leaderboard_provider.dart';
+import 'package:asco/src/presentation/shared/features/score/pages/score_recap_detail_page.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_badge.dart';
+import 'package:asco/src/presentation/shared/widgets/custom_information.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
+import 'package:asco/src/presentation/shared/widgets/loading_indicator.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class LeaderboardPage extends StatefulWidget {
-  const LeaderboardPage({super.key});
+  final Classroom classroom;
+
+  const LeaderboardPage({super.key, required this.classroom});
 
   @override
   State<LeaderboardPage> createState() => _LeaderboardPageState();
 }
 
-class _LeaderboardPageState extends State<LeaderboardPage> with AutomaticKeepAliveClientMixin {
+class _LeaderboardPageState extends State<LeaderboardPage> {
   late final PageController pageController;
-  late final List<Widget> pages;
 
   @override
   void initState() {
     pageController = PageController();
-
-    pages = [
-      Leaderboard(
-        pageController: pageController,
-        type: LeaderboardType.practicum,
-      ),
-      Leaderboard(
-        pageController: pageController,
-        type: LeaderboardType.labExam,
-      ),
-    ];
 
     super.initState();
   }
@@ -57,8 +57,6 @@ class _LeaderboardPageState extends State<LeaderboardPage> with AutomaticKeepAli
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     return Scaffold(
       backgroundColor: const Color(0xFF6A5BE0),
       body: Stack(
@@ -71,34 +69,78 @@ class _LeaderboardPageState extends State<LeaderboardPage> with AutomaticKeepAli
           SvgAsset(
             AssetPath.getVector('exclude.svg'),
           ),
-          Positioned.fill(
-            child: PageView(
-              controller: pageController,
-              physics: const NeverScrollableScrollPhysics(),
-              children: pages,
-            ),
+          Consumer(
+            builder: (context, ref, child) {
+              final data = ref.watch(LeaderboardProvider(widget.classroom.practicum!.id!));
+
+              ref.listen(
+                LeaderboardProvider(widget.classroom.practicum!.id!),
+                (_, state) => state.whenOrNull(error: context.responseError),
+              );
+
+              return data.when(
+                loading: () => const LoadingIndicator(),
+                error: (_, __) => const SizedBox(),
+                data: (data) {
+                  if (data.$1 == null || data.$2 == null) return const SizedBox();
+
+                  if (data.$1!.isEmpty || data.$2!.isEmpty) {
+                    return const CustomInformation(
+                      title: 'Leaderboard belum tersedia',
+                      subtitle: 'Saat ini, daftar peringkat praktikan masih kosong',
+                    );
+                  }
+
+                  print(data.$1!.first.finalScore);
+                  print(data.$2!.first.finalScore);
+
+                  final pages = [
+                    Leaderboard(
+                      pageController: pageController,
+                      type: LeaderboardType.practicum,
+                      data: data,
+                    ),
+                    Leaderboard(
+                      pageController: pageController,
+                      type: LeaderboardType.labExam,
+                      data: data,
+                    ),
+                  ];
+
+                  return Positioned.fill(
+                    child: PageView(
+                      controller: pageController,
+                      physics: const NeverScrollableScrollPhysics(),
+                      children: pages,
+                    ),
+                  );
+                },
+              );
+            },
           ),
         ],
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
 
 class Leaderboard extends StatelessWidget {
   final PageController pageController;
   final LeaderboardType type;
+  final (List<ScoreRecap>?, List<ScoreRecap>?) data;
 
   const Leaderboard({
     super.key,
     required this.pageController,
     required this.type,
+    required this.data,
   });
 
   @override
   Widget build(BuildContext context) {
+    final scores = type == LeaderboardType.practicum ? data.$1! : data.$2!;
+    final subScores = type == LeaderboardType.practicum ? data.$1!.sublist(3) : data.$2!.sublist(3);
+
     return SingleChildScrollView(
       padding: const EdgeInsets.only(top: 70),
       child: Column(
@@ -153,51 +195,64 @@ class Leaderboard extends StatelessWidget {
           if (type == LeaderboardType.practicum) ...[
             const SizedBox(height: 12),
             if (MapHelper.getRoleId(CredentialSaver.credential?.role) == 1)
-              LeaderboardContainer(
-                padding: const EdgeInsets.fromLTRB(8, 8, 12, 8),
-                onTap: () => navigatorKey.currentState!.pushNamed(
-                  scoreRecapDetailRoute,
-                  arguments: 'Wd. Ananda Lesmono',
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFFF9A57),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        '#4',
-                        style: textTheme.titleLarge!.copyWith(
-                          color: Palette.background,
-                          fontWeight: FontWeight.w600,
-                        ),
+              Builder(
+                builder: (context) {
+                  final myScore = data.$1!.firstWhere(
+                    (e) => e.student?.username == CredentialSaver.credential?.username,
+                  );
+
+                  final myRank = data.$1!.indexOf(myScore) + 1;
+
+                  return LeaderboardContainer(
+                    padding: const EdgeInsets.fromLTRB(8, 8, 12, 8),
+                    onTap: () => navigatorKey.currentState!.pushNamed(
+                      scoreRecapDetailRoute,
+                      arguments: ScoreRecapDetailPageArgs(
+                        practicumId: myScore.practicumId!,
+                        username: myScore.student?.username,
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Kamu telah memperoleh nilai 90.',
-                            style: textTheme.titleSmall!.copyWith(
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFF9A57),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            '#$myRank',
+                            style: textTheme.titleLarge!.copyWith(
                               color: Palette.background,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          Text(
-                            'Klik untuk melihat detail',
-                            style: textTheme.bodySmall!.copyWith(
-                              color: const Color(0xFF724A34),
-                            ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Kamu telah memperoleh nilai ${myScore.finalScore?.toStringAsFixed(1)}',
+                                style: textTheme.titleSmall!.copyWith(
+                                  color: Palette.background,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                              Text(
+                                'Klik untuk melihat detail',
+                                style: textTheme.bodySmall!.copyWith(
+                                  color: const Color(0xFF724A34),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  );
+                },
               )
             else
               LeaderboardContainer(
@@ -233,6 +288,8 @@ class Leaderboard extends StatelessWidget {
                 LeaderboardRank(
                   rank: 2,
                   rankType: LeaderboardRankType.silver,
+                  score: scores[1],
+                  leaderboardType: type,
                   clipper: CustomClipPathSilver(),
                   height: 110,
                   color: const Color(0xFF9088E6),
@@ -240,6 +297,8 @@ class Leaderboard extends StatelessWidget {
                 LeaderboardRank(
                   rank: 1,
                   rankType: LeaderboardRankType.gold,
+                  score: scores[0],
+                  leaderboardType: type,
                   clipper: CustomClipPathGold(),
                   height: 160,
                   gradient: const LinearGradient(
@@ -254,6 +313,8 @@ class Leaderboard extends StatelessWidget {
                 LeaderboardRank(
                   rank: 3,
                   rankType: LeaderboardRankType.bronze,
+                  score: scores[2],
+                  leaderboardType: type,
                   clipper: CustomClipPathBronze(),
                   height: 80,
                   color: const Color(0xFF9088E6),
@@ -271,15 +332,17 @@ class Leaderboard extends StatelessWidget {
             ),
             child: Column(
               children: List<Padding>.generate(
-                7,
+                subScores.length,
                 (index) => Padding(
                   padding: EdgeInsets.only(
-                    bottom: index == 6 ? kBottomNavigationBarHeight : 10,
+                    bottom: index == subScores.length - 1 ? kBottomNavigationBarHeight : 10,
                   ),
                   child: UserCard(
-                    user: CredentialSaver.credential!,
+                    user: subScores[index].student!,
                     badgeType: UserBadgeType.text,
-                    badgeText: 'Nilai: 80.0',
+                    badgeText: type == LeaderboardType.practicum
+                        ? subScores[index].finalScore!.toStringAsFixed(1)
+                        : subScores[index].labExamScore!.toStringAsFixed(1),
                     trailing: Padding(
                       padding: const EdgeInsets.only(right: 4),
                       child: Text(
@@ -328,6 +391,8 @@ class LeaderboardContainer extends StatelessWidget {
 class LeaderboardRank extends StatelessWidget {
   final int rank;
   final LeaderboardRankType rankType;
+  final ScoreRecap score;
+  final LeaderboardType leaderboardType;
   final CustomClipper<Path> clipper;
   final double height;
   final Color? color;
@@ -337,6 +402,8 @@ class LeaderboardRank extends StatelessWidget {
     super.key,
     required this.rank,
     required this.rankType,
+    required this.score,
+    required this.leaderboardType,
     required this.clipper,
     required this.height,
     this.color,
@@ -352,8 +419,8 @@ class LeaderboardRank extends StatelessWidget {
             clipBehavior: Clip.none,
             alignment: Alignment.topRight,
             children: [
-              const CircleNetworkImage(
-                imageUrl: 'https://placehold.co/100x100/png',
+              CircleNetworkImage(
+                imageUrl: score.student?.profilePicturePath,
                 size: 60,
                 withBorder: true,
                 borderColor: Palette.background,
@@ -367,7 +434,7 @@ class LeaderboardRank extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            'Rafly',
+            '${score.student?.nickname}',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: textTheme.titleMedium!.copyWith(
@@ -380,7 +447,9 @@ class LeaderboardRank extends StatelessWidget {
             verticalPadding: 6,
             horizontalPadding: 12,
             color: const Color(0xFF938AE5),
-            text: '98.0',
+            text: leaderboardType == LeaderboardType.practicum
+                ? score.finalScore!.toStringAsFixed(1)
+                : score.labExamScore!.toStringAsFixed(1),
             textStyle: textTheme.bodySmall!.copyWith(
               color: Palette.background,
               fontWeight: FontWeight.w600,

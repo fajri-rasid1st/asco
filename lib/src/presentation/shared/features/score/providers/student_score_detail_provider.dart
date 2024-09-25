@@ -7,7 +7,6 @@ import 'package:asco/src/presentation/providers/repository_providers/score_repos
 
 part 'student_score_detail_provider.g.dart';
 
-// TODO: need implemented in UI
 @riverpod
 class StudentScoreDetail extends _$StudentScoreDetail {
   @override

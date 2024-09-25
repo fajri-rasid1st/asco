@@ -25,20 +25,13 @@ import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 import 'package:asco/src/presentation/shared/widgets/loading_indicator.dart';
 import 'package:asco/src/presentation/shared/widgets/practicum_badge_image.dart';
 
-class MeetingPage extends StatefulWidget {
+class MeetingPage extends StatelessWidget {
   final Classroom classroom;
 
   const MeetingPage({super.key, required this.classroom});
 
   @override
-  State<MeetingPage> createState() => _MeetingPageState();
-}
-
-class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClientMixin {
-  @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     final roleId = MapHelper.getRoleId(CredentialSaver.credential?.role);
 
     final meetingMenuCards = [
@@ -59,7 +52,7 @@ class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClient
         icon: Icons.description_outlined,
         onTap: () => context.openFile(
           name: 'Kontrak Kuliah',
-          path: widget.classroom.practicum?.courseContractPath,
+          path: classroom.practicum?.courseContractPath,
         ),
       ),
       if (roleId == 1)
@@ -70,7 +63,7 @@ class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClient
           icon: Icons.history_outlined,
           onTap: () => navigatorKey.currentState!.pushNamed(
             studentMeetingHistoryRoute,
-            arguments: widget.classroom.practicum?.id,
+            arguments: classroom.practicum?.id,
           ),
         )
       else
@@ -81,7 +74,7 @@ class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClient
           icon: Icons.calendar_today_outlined,
           onTap: () => navigatorKey.currentState!.pushNamed(
             assistantMeetingScheduleRoute,
-            arguments: widget.classroom.practicum?.id,
+            arguments: classroom.practicum?.id,
           ),
         ),
     ];
@@ -128,7 +121,7 @@ class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClient
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                '${widget.classroom.practicum?.course} ${widget.classroom.name}',
+                                '${classroom.practicum?.course} ${classroom.name}',
                                 style: textTheme.titleLarge!.copyWith(
                                   color: Palette.background,
                                   fontWeight: FontWeight.w600,
@@ -137,7 +130,7 @@ class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClient
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                'Setiap hari ${MapHelper.getReadableDay(widget.classroom.meetingDay)}, Pukul ${widget.classroom.startTime?.to24TimeFormat()} - ${widget.classroom.endTime?.to24TimeFormat()}',
+                                'Setiap hari ${MapHelper.getReadableDay(classroom.meetingDay)}, Pukul ${classroom.startTime?.to24TimeFormat()} - ${classroom.endTime?.to24TimeFormat()}',
                                 style: textTheme.bodySmall!.copyWith(
                                   color: Palette.scaffoldBackground,
                                 ),
@@ -147,7 +140,7 @@ class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClient
                         ),
                         const SizedBox(width: 16),
                         PracticumBadgeImage(
-                          badgeUrl: '${widget.classroom.practicum?.badgePath}',
+                          badgeUrl: '${classroom.practicum?.badgePath}',
                           width: 44,
                           height: 48,
                         ),
@@ -204,14 +197,14 @@ class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClient
                 final ascendingOrder = ref.watch(ascendingOrderProvider);
                 final meetings = ref.watch(
                   ClassroomMeetingsProvider(
-                    widget.classroom.id!,
+                    classroom.id!,
                     ascendingOrder: ascendingOrder,
                   ),
                 );
 
                 ref.listen(
                   ClassroomMeetingsProvider(
-                    widget.classroom.id!,
+                    classroom.id!,
                     ascendingOrder: ascendingOrder,
                   ),
                   (_, state) => state.whenOrNull(error: context.responseError),
@@ -255,9 +248,6 @@ class _MeetingPageState extends State<MeetingPage> with AutomaticKeepAliveClient
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
 
 class MeetingMenuCard extends StatelessWidget {

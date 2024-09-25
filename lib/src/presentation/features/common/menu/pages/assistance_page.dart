@@ -18,18 +18,11 @@ import 'package:asco/src/presentation/shared/widgets/dialogs/github_repository_d
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
-class AssistancePage extends StatefulWidget {
+class AssistancePage extends StatelessWidget {
   const AssistancePage({super.key});
 
   @override
-  State<AssistancePage> createState() => _AssistancePageState();
-}
-
-class _AssistancePageState extends State<AssistancePage> with AutomaticKeepAliveClientMixin {
-  @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(vertical: 20),
@@ -246,9 +239,6 @@ class _AssistancePageState extends State<AssistancePage> with AutomaticKeepAlive
       ),
     );
   }
-
-  @override
-  bool get wantKeepAlive => true;
 }
 
 class SectionTitle extends StatelessWidget {

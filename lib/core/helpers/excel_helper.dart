@@ -117,15 +117,11 @@ class ExcelHelper {
       // Row looping
       for (var j = 0; j < data.length; j++) {
         final cellIndex = CellIndex.indexByColumnRow(columnIndex: j, rowIndex: i + 1);
-        final value = num.tryParse(data[j]);
+        final value = int.tryParse(data[j]);
 
         // Update cell value
         if (value != null) {
-          if (j == 0) {
-            sheet.cell(cellIndex).value = IntCellValue(value.toInt());
-          } else {
-            sheet.cell(cellIndex).value = DoubleCellValue(value.toDouble());
-          }
+          sheet.cell(cellIndex).value = IntCellValue(value);
         } else {
           sheet.cell(cellIndex).value = TextCellValue(data[j]);
         }
