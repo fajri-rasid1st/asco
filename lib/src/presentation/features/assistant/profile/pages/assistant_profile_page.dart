@@ -14,7 +14,7 @@ import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
-import 'package:asco/src/presentation/shared/providers/practicums_provider.dart';
+import 'package:asco/src/presentation/shared/features/practicum/providers/practicums_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_icon_button.dart';
 import 'package:asco/src/presentation/shared/widgets/loading_indicator.dart';

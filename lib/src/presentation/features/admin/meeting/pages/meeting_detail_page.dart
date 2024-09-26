@@ -16,7 +16,7 @@ import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/presentation/features/admin/meeting/pages/meeting_form_page.dart';
 import 'package:asco/src/presentation/features/admin/meeting/providers/meeting_actions_provider.dart';
-import 'package:asco/src/presentation/features/admin/meeting/providers/meeting_detail_provider.dart';
+import 'package:asco/src/presentation/shared/features/meeting/providers/meeting_detail_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';

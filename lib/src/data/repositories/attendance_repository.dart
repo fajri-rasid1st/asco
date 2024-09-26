@@ -17,7 +17,10 @@ abstract class AttendanceRepository {
   Future<Either<Failure, List<AttendanceMeeting>>> getAttendanceMeetings(String practicumId);
 
   /// Admin: Get attendances by meeting id
-  Future<Either<Failure, List<Attendance>>> getMeetingAttendances(String meetingId);
+  Future<Either<Failure, List<Attendance>>> getMeetingAttendances(
+    String meetingId, {
+    String classroomId = '',
+  });
 
   /// Assistant: Insert all attendances in a meeting
   Future<Either<Failure, void>> insertMeetingAttendances(String meetingId);
@@ -63,10 +66,16 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
   }
 
   @override
-  Future<Either<Failure, List<Attendance>>> getMeetingAttendances(String meetingId) async {
+  Future<Either<Failure, List<Attendance>>> getMeetingAttendances(
+    String meetingId, {
+    String classroomId = '',
+  }) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await attendanceDataSource.getMeetingAttendances(meetingId);
+        final result = await attendanceDataSource.getMeetingAttendances(
+          meetingId,
+          classroomId: classroomId,
+        );
 
         return Right(result);
       } catch (e) {

@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Project imports:
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
-import 'package:asco/src/presentation/shared/providers/practicums_provider.dart';
+import 'package:asco/src/presentation/shared/features/practicum/providers/practicums_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/practicum_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_information.dart';

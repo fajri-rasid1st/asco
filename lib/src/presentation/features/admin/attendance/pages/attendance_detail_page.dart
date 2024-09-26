@@ -11,7 +11,7 @@ import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/src/data/models/attendances/attendance_meeting.dart';
-import 'package:asco/src/presentation/features/admin/attendance/providers/meeting_attendances_provider.dart';
+import 'package:asco/src/presentation/shared/features/meeting/providers/meeting_attendances_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';

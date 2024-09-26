@@ -22,7 +22,7 @@ import 'package:asco/src/data/models/attendances/attendance_meeting.dart';
 import 'package:asco/src/data/models/meetings/meeting.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/presentation/features/admin/attendance/providers/attendance_meetings_provider.dart';
-import 'package:asco/src/presentation/features/admin/attendance/providers/meeting_attendances_provider.dart';
+import 'package:asco/src/presentation/shared/features/meeting/providers/meeting_attendances_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/attendance_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_information.dart';

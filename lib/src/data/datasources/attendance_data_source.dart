@@ -20,7 +20,10 @@ abstract class AttendanceDataSource {
   Future<List<AttendanceMeeting>> getAttendanceMeetings(String practicumId);
 
   /// Admin: Get attendances by meeting id
-  Future<List<Attendance>> getMeetingAttendances(String meetingId);
+  Future<List<Attendance>> getMeetingAttendances(
+    String meetingId, {
+    String classroomId = '',
+  });
 
   // TODO: need implemented in Provider
   /// Assistant: Insert all attendances in a meeting
@@ -83,7 +86,10 @@ class AttendanceDataSourceImpl implements AttendanceDataSource {
   }
 
   @override
-  Future<List<Attendance>> getMeetingAttendances(String meetingId) async {
+  Future<List<Attendance>> getMeetingAttendances(
+    String meetingId, {
+    String classroomId = '',
+  }) async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/meetings/$meetingId/attendances'),

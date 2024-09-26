@@ -11,7 +11,7 @@ import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/features/admin/practicum/providers/practicum_actions_provider.dart';
-import 'package:asco/src/presentation/shared/providers/practicums_provider.dart';
+import 'package:asco/src/presentation/shared/features/practicum/providers/practicums_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/animated_fab.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/practicum_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';

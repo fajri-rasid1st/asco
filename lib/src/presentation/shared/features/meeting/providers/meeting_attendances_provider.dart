@@ -7,15 +7,22 @@ import 'package:asco/src/presentation/providers/repository_providers/attendance_
 
 part 'meeting_attendances_provider.g.dart';
 
+// TODO: need implemented in assistant feature
 @riverpod
 class MeetingAttendances extends _$MeetingAttendances {
   @override
-  Future<List<Attendance>?> build(String meetingId) async {
+  Future<List<Attendance>?> build(
+    String meetingId, {
+    String classroomId = '',
+  }) async {
     List<Attendance>? attendances;
 
     state = const AsyncValue.loading();
 
-    final result = await ref.watch(attendanceRepositoryProvider).getMeetingAttendances(meetingId);
+    final result = await ref.watch(attendanceRepositoryProvider).getMeetingAttendances(
+          meetingId,
+          classroomId: classroomId,
+        );
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
