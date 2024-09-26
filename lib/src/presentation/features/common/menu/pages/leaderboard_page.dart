@@ -204,9 +204,7 @@ class Leaderboard extends ConsumerWidget {
                   Builder(
                     builder: (context) {
                       final myScore = scores.firstWhere(
-                        (e) => e.student?.username == CredentialSaver.credential?.username,
-                      );
-
+                          (e) => e.student?.username == CredentialSaver.credential?.username);
                       final myRank = scores.indexOf(myScore) + 1;
 
                       return LeaderboardContainer(

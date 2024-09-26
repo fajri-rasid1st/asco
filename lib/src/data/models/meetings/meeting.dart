@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 // Project imports:
+import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
 
 part 'meeting.freezed.dart';
@@ -22,6 +23,7 @@ class Meeting with _$Meeting {
     @JsonKey(name: 'module') String? modulePath,
     @JsonKey(name: 'assignment') String? assignmentPath,
     int? assistanceDeadline,
+    Practicum? practicum,
   }) = _Meeting;
 
   factory Meeting.fromJson(Map<String, Object?> json) => _$MeetingFromJson(json);

@@ -12,6 +12,7 @@ import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/presentation/features/student/meeting/pages/student_meeting_detail_page.dart';
 import 'package:asco/src/presentation/features/student/meeting/providers/student_attendances_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
@@ -57,7 +58,13 @@ class StudentMeetingHistoryPage extends StatelessWidget {
                   radius: 99,
                   color: Palette.background,
                   padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
-                  onTap: () => navigatorKey.currentState!.pushNamed(studentMeetingDetailRoute),
+                  onTap: () => navigatorKey.currentState!.pushNamed(
+                    studentMeetingDetailRoute,
+                    arguments: StudentMeetingDetailPageArgs(
+                      id: attendances[index].meeting!.id!,
+                      attendance: attendances[index],
+                    ),
+                  ),
                   child: Row(
                     children: [
                       CircleBorderContainer(

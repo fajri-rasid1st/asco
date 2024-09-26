@@ -36,13 +36,13 @@ class ControlCardDetailPage extends StatelessWidget {
       ),
       body: Consumer(
         builder: (context, ref, child) {
-          final controlCards = ref.watch(ControlCardsProvider(args.practicum.id!, args.student));
+          final data = ref.watch(ControlCardsProvider(args.practicum.id!, args.student));
 
           ref.listen(ControlCardsProvider(args.practicum.id!, args.student), (_, state) {
             state.whenOrNull(error: context.responseError);
           });
 
-          return controlCards.when(
+          return data.when(
             loading: () => const LoadingIndicator(),
             error: (_, __) => const SizedBox(),
             data: (data) {

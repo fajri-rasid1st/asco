@@ -30,7 +30,7 @@ class MeetingFormPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var meetingDate = args.meeting?.date != null
-        ? DateTime.fromMillisecondsSinceEpoch((args.meeting!.date! * 1000).truncate())
+        ? DateTime.fromMillisecondsSinceEpoch(args.meeting!.date! * 1000)
         : DateTime.now();
 
     final isExpired = meetingDate.isBefore(DateTime.now());
