@@ -10,9 +10,11 @@ part 'leaderboard_provider.g.dart';
 @riverpod
 class Leaderboard extends _$Leaderboard {
   @override
-  Future<(List<ScoreRecap>?, List<ScoreRecap>?)> build(String practicumId) async {
+  Future<List<ScoreRecap>?> build(
+    String practicumId, {
+    bool isLabExam = false,
+  }) async {
     List<ScoreRecap>? scores;
-    List<ScoreRecap>? labExamScores;
 
     state = const AsyncValue.loading();
 
@@ -21,14 +23,16 @@ class Leaderboard extends _$Leaderboard {
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
-        scores = r..sort((a, b) => a.finalScore!.compareTo(b.finalScore!) * -1);
+        if (isLabExam) {
+          scores = r..sort((a, b) => a.labExamScore!.compareTo(b.labExamScore!) * -1);
+        } else {
+          scores = r..sort((a, b) => a.finalScore!.compareTo(b.finalScore!) * -1);
+        }
 
-        labExamScores = r..sort((a, b) => a.labExamScore!.compareTo(b.labExamScore!) * -1);
-
-        state = AsyncValue.data((scores, labExamScores));
+        state = AsyncValue.data(scores);
       },
     );
 
-    return (scores, labExamScores);
+    return scores;
   }
 }
