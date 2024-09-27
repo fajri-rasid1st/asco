@@ -25,7 +25,9 @@ import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/data/models/scores/score_recap.dart';
+import 'package:asco/src/presentation/providers/manual_providers/ascending_provider.dart';
 import 'package:asco/src/presentation/providers/manual_providers/query_provider.dart';
+import 'package:asco/src/presentation/providers/manual_providers/score_attribute_provider.dart';
 import 'package:asco/src/presentation/shared/features/score/pages/score_recap_detail_page.dart';
 import 'package:asco/src/presentation/shared/features/score/providers/scores_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/animated_fab.dart';
@@ -75,20 +77,35 @@ class _ScoreRecapListHomePageState extends State<ScoreRecapListHomePage>
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Rekap Nilai (${widget.practicum.course})',
-        action: IconButton(
-          onPressed: () => context.showSortingDialog(
-            asc: true,
-            sortedBy: UserAttribute.fullname,
-            items: ['Nilai', 'NIM', 'Nama Lengkap'],
-            values: ['score', 'username', 'fullname'],
-            onSubmitted: (value) {},
-          ),
-          icon: const Icon(Icons.filter_list_rounded),
-          tooltip: 'Urutkan',
-          style: IconButton.styleFrom(
-            backgroundColor: Colors.transparent,
-            shape: const CircleBorder(),
-          ),
+        action: Consumer(
+          builder: (context, ref, child) {
+            final scoreAttribute = ref.watch(scoreAttributeProvider);
+            final asc = ref.watch(ascendingProvider);
+
+            return IconButton(
+              onPressed: () => context.showSortingDialog(
+                items: [
+                  'Nilai',
+                  'NIM',
+                  'Nama Lengkap',
+                ],
+                values: [
+                  ScoreAttribute.finalScore,
+                  ScoreAttribute.username,
+                  ScoreAttribute.fullname,
+                ],
+                sortedBy: scoreAttribute,
+                asc: asc,
+                onSubmitted: (value) => sortScores(ref, value),
+              ),
+              icon: const Icon(Icons.filter_list_rounded),
+              tooltip: 'Urutkan',
+              style: IconButton.styleFrom(
+                backgroundColor: Colors.transparent,
+                shape: const CircleBorder(),
+              ),
+            );
+          },
         ),
       ),
       body: NotificationListener<UserScrollNotification>(
@@ -110,7 +127,7 @@ class _ScoreRecapListHomePageState extends State<ScoreRecapListHomePage>
                     return SearchField(
                       text: ref.watch(queryProvider),
                       hintText: 'Cari nama atau NIM',
-                      onChanged: (value) => ref.read(queryProvider.notifier).state = value,
+                      onChanged: (query) => searchScores(ref, query),
                     );
                   },
                 ),
@@ -125,11 +142,27 @@ class _ScoreRecapListHomePageState extends State<ScoreRecapListHomePage>
               sliver: Consumer(
                 builder: (context, ref, child) {
                   final query = ref.watch(queryProvider);
-                  final scores = ref.watch(ScoresProvider(widget.practicum.id!));
+                  final sortedBy = ref.watch(scoreAttributeProvider);
+                  final asc = ref.watch(ascendingProvider);
 
-                  ref.listen(ScoresProvider(widget.practicum.id!), (_, state) {
-                    state.whenOrNull(error: context.responseError);
-                  });
+                  final scores = ref.watch(
+                    ScoresProvider(
+                      widget.practicum.id!,
+                      query: query,
+                      sortedBy: sortedBy,
+                      asc: asc,
+                    ),
+                  );
+
+                  ref.listen(
+                    ScoresProvider(
+                      widget.practicum.id!,
+                      query: query,
+                      sortedBy: sortedBy,
+                      asc: asc,
+                    ),
+                    (_, state) => state.whenOrNull(error: context.responseError),
+                  );
 
                   return scores.when(
                     loading: () => const SliverFillRemaining(
@@ -213,6 +246,18 @@ class _ScoreRecapListHomePageState extends State<ScoreRecapListHomePage>
             )
           : null,
     );
+  }
+
+  void sortScores(WidgetRef ref, Map<String, dynamic> value) {
+    ref.read(scoreAttributeProvider.notifier).state = value['sortedBy'];
+    ref.read(ascendingProvider.notifier).state = value['asc'];
+    ref.invalidate(queryProvider);
+  }
+
+  void searchScores(WidgetRef ref, String query) {
+    ref.read(queryProvider.notifier).state = query;
+    ref.invalidate(scoreAttributeProvider);
+    ref.invalidate(ascendingProvider);
   }
 
   Future<void> exportScoreToExcel(

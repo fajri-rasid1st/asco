@@ -2,6 +2,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
+import 'package:asco/core/enums/model_attributes.dart';
 import 'package:asco/src/data/models/scores/score_recap.dart';
 import 'package:asco/src/presentation/providers/repository_providers/score_repository_provider.dart';
 
@@ -18,17 +19,16 @@ class Leaderboard extends _$Leaderboard {
 
     state = const AsyncValue.loading();
 
-    final result = await ref.watch(scoreRepositoryProvider).getScores(practicumId);
+    final result = await ref.watch(scoreRepositoryProvider).getScores(
+          practicumId,
+          sortedBy: isLabExam ? ScoreAttribute.labExamScore : ScoreAttribute.finalScore,
+          asc: false,
+        );
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
-        if (isLabExam) {
-          scores = r..sort((a, b) => a.labExamScore!.compareTo(b.labExamScore!) * -1);
-        } else {
-          scores = r..sort((a, b) => a.finalScore!.compareTo(b.finalScore!) * -1);
-        }
-
+        scores = r;
         state = AsyncValue.data(scores);
       },
     );

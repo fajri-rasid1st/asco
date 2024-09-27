@@ -101,8 +101,14 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
 
             return IconButton(
               onPressed: () => context.showSortingDialog(
-                items: ['Username', 'Nama Lengkap'],
-                values: [UserAttribute.username, UserAttribute.fullname],
+                items: [
+                  'Username',
+                  'Nama Lengkap',
+                ],
+                values: [
+                  UserAttribute.username,
+                  UserAttribute.fullname,
+                ],
                 sortedBy: userAttribute,
                 asc: asc,
                 onSubmitted: (value) => sortUsers(value),
