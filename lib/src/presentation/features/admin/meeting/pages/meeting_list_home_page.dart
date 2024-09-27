@@ -92,6 +92,8 @@ class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage>
             navigatorKey.currentState!.pop();
 
             ref.invalidate(meetingsProvider);
+            ref.invalidate(queryProvider);
+            ref.invalidate(ascendingOrderProvider);
 
             context.showSnackBar(
               title: 'Berhasil',

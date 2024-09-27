@@ -25,15 +25,13 @@ class StudentMeetingDetail extends _$StudentMeetingDetail {
       (r) {
         meeting = r;
 
-        ref.listen(StudentScoreDetailProvider(r.practicum!.id!), (_, state) {
-          state.whenOrNull(
-            error: (error, _) => this.state = AsyncValue.error(error, StackTrace.current),
-            data: (data) {
-              score = data;
-              this.state = AsyncValue.data((meeting: meeting, score: score));
-            },
-          );
-        });
+        ref.listen(
+          StudentScoreDetailProvider(r.practicum!.id!),
+          (_, state) => state.whenData((data) {
+            score = data;
+            this.state = AsyncValue.data((meeting: meeting, score: score));
+          }),
+        );
       },
     );
 

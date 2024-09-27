@@ -200,8 +200,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => AssistantMeetingSchedulePage(practicumId: practicumId),
       );
     case assistantMeetingDetailRoute:
+      final args = settings.arguments as AssistantMeetingDetailPageArgs;
+
       return MaterialPageRoute(
-        builder: (_) => const AssistantMeetingDetailPage(),
+        builder: (_) => AssistantMeetingDetailPage(args: args),
       );
     case assistantMeetingScannerRoute:
       return MaterialPageRoute(

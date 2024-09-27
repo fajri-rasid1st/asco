@@ -15,6 +15,7 @@ import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/classrooms/classroom.dart';
+import 'package:asco/src/presentation/features/assistant/meeting/pages/assistant_meeting_detail_page.dart';
 import 'package:asco/src/presentation/features/common/menu/providers/classroom_meetings_provider.dart';
 import 'package:asco/src/presentation/features/student/meeting/pages/student_meeting_detail_page.dart';
 import 'package:asco/src/presentation/providers/manual_providers/sorting_provider.dart';
@@ -236,8 +237,13 @@ class MeetingPage extends StatelessWidget {
                             onTap: () => navigatorKey.currentState!.pushNamed(
                               roleId == 1 ? studentMeetingDetailRoute : assistantMeetingDetailRoute,
                               arguments: roleId == 1
-                                  ? StudentMeetingDetailPageArgs(id: meetings[index].id!)
-                                  : null,
+                                  ? StudentMeetingDetailPageArgs(
+                                      id: meetings[index].id!,
+                                    )
+                                  : AssistantMeetingDetailPageArgs(
+                                      id: meetings[index].id!,
+                                      classroomId: classroom.id!,
+                                    ),
                             ),
                           ),
                         ),

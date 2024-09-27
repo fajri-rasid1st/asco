@@ -23,6 +23,7 @@ class FileUploadField extends StatelessWidget {
   final Future<String?> Function()? onPressedFilePickerButton;
   final String? Function(String?)? validator;
   final TextStyle? labelStyle;
+  final bool withDeleteButton;
 
   const FileUploadField({
     super.key,
@@ -34,6 +35,7 @@ class FileUploadField extends StatelessWidget {
     this.onPressedFilePickerButton,
     this.validator,
     this.labelStyle,
+    this.withDeleteButton = true,
   });
 
   @override
@@ -94,27 +96,29 @@ class FileUploadField extends StatelessWidget {
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   ),
                 ),
-                const SizedBox(width: 6),
-                IconButton(
-                  onPressed: () => context.showConfirmDialog(
-                    title: 'Hapus File?',
-                    message: 'Hapus file ${label.toLowerCase()} yang telah dipilih?',
-                    primaryButtonText: 'Hapus',
-                    onPressedPrimaryButton: () {
-                      field.didChange(null);
+                if (withDeleteButton) ...[
+                  const SizedBox(width: 6),
+                  IconButton(
+                    onPressed: () => context.showConfirmDialog(
+                      title: 'Hapus File?',
+                      message: 'Hapus file ${label.toLowerCase()} yang telah dipilih?',
+                      primaryButtonText: 'Hapus',
+                      onPressedPrimaryButton: () {
+                        field.didChange(null);
 
-                      navigatorKey.currentState!.pop();
-                    },
+                        navigatorKey.currentState!.pop();
+                      },
+                    ),
+                    icon: SvgAsset(
+                      AssetPath.getIcon('trash_outlined.svg'),
+                      width: 20,
+                    ),
+                    style: IconButton.styleFrom(
+                      backgroundColor: Palette.error,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
                   ),
-                  icon: SvgAsset(
-                    AssetPath.getIcon('trash_outlined.svg'),
-                    width: 20,
-                  ),
-                  style: IconButton.styleFrom(
-                    backgroundColor: Palette.error,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                  ),
-                ),
+                ],
               ],
             );
           },

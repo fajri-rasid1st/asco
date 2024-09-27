@@ -7,7 +7,6 @@ import 'package:asco/src/presentation/providers/repository_providers/attendance_
 
 part 'meeting_attendances_provider.g.dart';
 
-// TODO: need implemented in assistant feature
 @riverpod
 class MeetingAttendances extends _$MeetingAttendances {
   @override

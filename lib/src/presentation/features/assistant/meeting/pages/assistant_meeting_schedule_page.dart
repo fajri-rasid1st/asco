@@ -7,10 +7,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Project imports:
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/extensions/number_extension.dart';
-import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/features/assistant/meeting/providers/meeting_schedules_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
@@ -57,7 +55,6 @@ class AssistantMeetingSchedulePage extends StatelessWidget {
                   radius: 99,
                   color: Palette.background,
                   padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
-                  onTap: () => navigatorKey.currentState!.pushNamed(assistantMeetingDetailRoute),
                   child: Row(
                     children: [
                       CircleBorderContainer(

@@ -31,15 +31,13 @@ class ControlCards extends _$ControlCards {
       (r) {
         cards = r..sort((a, b) => a.meeting!.number!.compareTo(b.meeting!.number!));
 
-        ref.listen(UserDetailProvider(profile.username!), (_, state) {
-          state.whenOrNull(
-            error: (error, _) => this.state = AsyncValue.error(error, StackTrace.current),
-            data: (data) {
-              student = data;
-              this.state = AsyncValue.data((cards: cards, student: student));
-            },
-          );
-        });
+        ref.listen(
+          UserDetailProvider(profile.username!),
+          (_, state) => state.whenData((data) {
+            student = data;
+            this.state = AsyncValue.data((cards: cards, student: student));
+          }),
+        );
       },
     );
 

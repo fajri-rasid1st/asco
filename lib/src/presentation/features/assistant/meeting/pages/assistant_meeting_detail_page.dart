@@ -11,36 +11,46 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:asco/core/enums/attendance_type.dart';
 import 'package:asco/core/enums/score_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
+import 'package:asco/core/extensions/context_extension.dart';
+import 'package:asco/core/extensions/number_extension.dart';
 import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/data/models/meetings/meeting.dart';
+import 'package:asco/src/data/models/meetings/meeting_post.dart';
+import 'package:asco/src/presentation/features/admin/meeting/providers/meeting_actions_provider.dart';
 import 'package:asco/src/presentation/providers/manual_providers/query_provider.dart';
+import 'package:asco/src/presentation/shared/features/meeting/providers/meeting_attendances_provider.dart';
+import 'package:asco/src/presentation/shared/features/meeting/providers/meeting_detail_provider.dart';
 import 'package:asco/src/presentation/shared/features/score/pages/score_input_page.dart';
 import 'package:asco/src/presentation/shared/widgets/animated_fab.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
+import 'package:asco/src/presentation/shared/widgets/custom_information.dart';
 import 'package:asco/src/presentation/shared/widgets/dialogs/attendance_dialog.dart';
 import 'package:asco/src/presentation/shared/widgets/dialogs/attendance_status_dialog.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/file_upload_field.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/search_field.dart';
+import 'package:asco/src/presentation/shared/widgets/loading_indicator.dart';
 import 'package:asco/src/presentation/shared/widgets/mentor_list_tile.dart';
 import 'package:asco/src/presentation/shared/widgets/section_title.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
-class AssistantMeetingDetailPage extends StatefulWidget {
-  const AssistantMeetingDetailPage({super.key});
+class AssistantMeetingDetailPage extends ConsumerStatefulWidget {
+  final AssistantMeetingDetailPageArgs args;
+
+  const AssistantMeetingDetailPage({super.key, required this.args});
 
   @override
-  State<AssistantMeetingDetailPage> createState() => _AssistantMeetingDetailPageState();
+  ConsumerState<AssistantMeetingDetailPage> createState() => _AssistantMeetingDetailPageState();
 }
 
-class _AssistantMeetingDetailPageState extends State<AssistantMeetingDetailPage>
+class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDetailPage>
     with SingleTickerProviderStateMixin {
   late final AnimationController fabAnimationController;
   late final ScrollController scrollController;
@@ -67,186 +77,284 @@ class _AssistantMeetingDetailPageState extends State<AssistantMeetingDetailPage>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const CustomAppBar(
-        title: 'Pertemuan 1',
-      ),
-      body: NotificationListener<UserScrollNotification>(
-        onNotification: (notification) => FunctionHelper.handleFabVisibilityOnScroll(
-          fabAnimationController,
-          notification,
-        ),
-        child: NestedScrollView(
-          controller: scrollController,
-          headerSliverBuilder: (context, innerBoxIsScrolled) {
-            return [
-              SliverToBoxAdapter(
-                child: Container(
-                  color: Palette.purple2,
-                  child: Stack(
-                    alignment: AlignmentDirectional.bottomEnd,
-                    children: [
-                      RotatedBox(
-                        quarterTurns: -2,
-                        child: SvgAsset(
-                          AssetPath.getVector('bg_attribute.svg'),
-                          width: AppSize.getAppWidth(context) / 2,
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+    final meeting = ref.watch(MeetingDetailProvider(widget.args.id));
+
+    ref.listen(MeetingDetailProvider(widget.args.id), (_, state) {
+      state.whenOrNull(error: context.responseError);
+    });
+
+    ref.listen(meetingActionsProvider, (_, state) {
+      state.when(
+        loading: () => context.showLoadingDialog(),
+        error: (error, stackTrace) {
+          navigatorKey.currentState!.pop();
+
+          context.responseError(error, stackTrace);
+        },
+        data: (data) {
+          if (data.message != null) {
+            navigatorKey.currentState!.pop();
+
+            ref.invalidate(meetingDetailProvider);
+
+            context.showSnackBar(
+              title: 'Berhasil',
+              message: data.message!,
+            );
+          }
+        },
+      );
+    });
+
+    return meeting.when(
+      loading: () => const LoadingIndicator(withScaffold: true),
+      error: (_, __) => const Scaffold(),
+      data: (meeting) {
+        if (meeting == null) return const Scaffold();
+
+        return Scaffold(
+          appBar: CustomAppBar(
+            title: 'Pertemuan ${meeting.number}',
+          ),
+          body: NotificationListener<UserScrollNotification>(
+            onNotification: (notification) => FunctionHelper.handleFabVisibilityOnScroll(
+              fabAnimationController,
+              notification,
+            ),
+            child: NestedScrollView(
+              controller: scrollController,
+              headerSliverBuilder: (context, innerBoxIsScrolled) {
+                return [
+                  SliverToBoxAdapter(
+                    child: Container(
+                      color: Palette.purple2,
+                      child: Stack(
+                        alignment: AlignmentDirectional.bottomEnd,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
-                            child: Text(
-                              'Tipe Data dan Attribute',
-                              style: textTheme.headlineSmall!.copyWith(
-                                color: Palette.background,
-                              ),
+                          RotatedBox(
+                            quarterTurns: -2,
+                            child: SvgAsset(
+                              AssetPath.getVector('bg_attribute.svg'),
+                              width: AppSize.getAppWidth(context) / 2,
                             ),
                           ),
-                          const MentorListTile(
-                            name: 'Muhammad Fajri Rasid',
-                            role: 'Pemateri',
-                            imageUrl: 'https://placehold.co/100x100/png',
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+                                child: Text(
+                                  '${meeting.lesson}',
+                                  style: textTheme.headlineSmall!.copyWith(
+                                    color: Palette.background,
+                                  ),
+                                ),
+                              ),
+                              MentorListTile(
+                                name: '${meeting.assistant?.fullname}',
+                                role: 'Pemateri',
+                                imageUrl: meeting.assistant?.profilePicturePath,
+                              ),
+                              MentorListTile(
+                                name: '${meeting.coAssistant?.fullname}',
+                                role: 'Pendamping',
+                                imageUrl: meeting.coAssistant?.profilePicturePath,
+                              ),
+                              const SizedBox(height: 16),
+                            ],
                           ),
-                          const MentorListTile(
-                            name: 'Wd. Ananda Lesmono',
-                            role: 'Pendamping',
-                            imageUrl: 'https://placehold.co/100x100/png',
-                          ),
-                          const SizedBox(height: 16),
                         ],
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              SliverAppBar(
-                elevation: 0,
-                pinned: true,
-                automaticallyImplyLeading: false,
-                toolbarHeight: 6,
-                flexibleSpace: Container(
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Palette.violet2,
-                        Palette.violet4,
-                      ],
                     ),
                   ),
-                ),
-              ),
-              SliverToBoxAdapter(
-                child: Container(
-                  padding: const EdgeInsets.all(20),
-                  color: Palette.scaffoldBackground,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      FileUploadField(
-                        name: 'modulePath',
-                        label: 'Modul',
-                        labelStyle: textTheme.titleLarge!.copyWith(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 18,
+                  SliverAppBar(
+                    elevation: 0,
+                    pinned: true,
+                    automaticallyImplyLeading: false,
+                    toolbarHeight: 6,
+                    flexibleSpace: Container(
+                      decoration: const BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: [
+                            Palette.violet2,
+                            Palette.violet4,
+                          ],
                         ),
-                        extensions: const ['pdf', 'doc', 'docx'],
-                        onChanged: (value) => debugPrint(value),
                       ),
-                      const SectionTitle(text: 'Respon & Quiz'),
-                      Row(
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: Container(
+                      padding: const EdgeInsets.all(20),
+                      color: Palette.scaffoldBackground,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Expanded(
-                            child: FilledButton(
-                              onPressed: () => navigatorKey.currentState!.pushNamed(
-                                scoreInputRoute,
-                                arguments: const ScoreInputPageArgs(
-                                  title: 'Respon',
-                                  scoreType: ScoreType.response,
-                                  practicumName: 'Pemrograman Mobile A',
-                                  meetingName: '1. Tipe Data & Attribute',
-                                ),
-                              ),
-                              style: FilledButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                                backgroundColor: Palette.secondary,
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                              ),
-                              child: const Text('Nilai Respon'),
+                          FileUploadField(
+                            name: 'modulePath',
+                            label: 'Modul',
+                            extensions: const ['pdf', 'doc', 'docx'],
+                            withDeleteButton: false,
+                            initialValue: meeting.modulePath,
+                            onChanged: (path) => uploadModule(path, meeting),
+                            labelStyle: textTheme.titleLarge!.copyWith(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 18,
                             ),
                           ),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: FilledButton(
-                              onPressed: () => navigatorKey.currentState!.pushNamed(
-                                scoreInputRoute,
-                                arguments: const ScoreInputPageArgs(
-                                  title: 'Quiz',
-                                  scoreType: ScoreType.quiz,
-                                  practicumName: 'Pemrograman Mobile A',
-                                  meetingName: '1. Tipe Data & Attribute',
+                          const SectionTitle(text: 'Respon & Quiz'),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: FilledButton(
+                                  onPressed: () => navigatorKey.currentState!.pushNamed(
+                                    scoreInputRoute,
+                                    arguments: const ScoreInputPageArgs(
+                                      title: 'Respon',
+                                      scoreType: ScoreType.response,
+                                      practicumName: 'Pemrograman Mobile A',
+                                      meetingName: '1. Tipe Data & Attribute',
+                                    ),
+                                  ),
+                                  style: FilledButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    backgroundColor: Palette.secondary,
+                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  ),
+                                  child: const Text('Nilai Respon'),
                                 ),
                               ),
-                              style: FilledButton.styleFrom(
-                                padding: EdgeInsets.zero,
-                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: FilledButton(
+                                  onPressed: () => navigatorKey.currentState!.pushNamed(
+                                    scoreInputRoute,
+                                    arguments: const ScoreInputPageArgs(
+                                      title: 'Quiz',
+                                      scoreType: ScoreType.quiz,
+                                      practicumName: 'Pemrograman Mobile A',
+                                      meetingName: '1. Tipe Data & Attribute',
+                                    ),
+                                  ),
+                                  style: FilledButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                  ),
+                                  child: const Text('Nilai Quiz'),
+                                ),
                               ),
-                              child: const Text('Nilai Quiz'),
-                            ),
+                            ],
+                          ),
+                          const SectionTitle(text: 'Absensi'),
+                          Consumer(
+                            builder: (context, ref, child) {
+                              return SearchField(
+                                text: ref.watch(queryProvider),
+                                hintText: 'Cari nama atau username',
+                                onChanged: (value) {
+                                  ref.read(queryProvider.notifier).state = value;
+                                },
+                              );
+                            },
                           ),
                         ],
                       ),
-                      const SectionTitle(text: 'Absensi'),
-                      Consumer(
-                        builder: (context, ref, child) {
-                          return SearchField(
-                            text: ref.watch(queryProvider),
-                            hintText: 'Cari nama atau username',
-                            onChanged: (value) => ref.read(queryProvider.notifier).state = value,
+                    ),
+                  ),
+                ];
+              },
+              body: Consumer(
+                builder: (context, ref, child) {
+                  final attendances = ref.watch(
+                    MeetingAttendancesProvider(
+                      widget.args.id,
+                      classroomId: widget.args.classroomId,
+                    ),
+                  );
+
+                  ref.listen(
+                    MeetingAttendancesProvider(
+                      widget.args.id,
+                      classroomId: widget.args.classroomId,
+                    ),
+                    (_, state) => state.whenOrNull(error: context.responseError),
+                  );
+
+                  return attendances.when(
+                    loading: () => const LoadingIndicator(),
+                    error: (_, __) => const SizedBox(),
+                    data: (attendances) {
+                      if (attendances == null) return const SizedBox();
+
+                      if (attendances.isEmpty) {
+                        return const CustomInformation(
+                          title: 'Data absensi kosong',
+                          subtitle: 'Belum ada data absensi pada pertemuan ini.',
+                        );
+                      }
+
+                      return ListView.separated(
+                        padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                        itemBuilder: (context, index) {
+                          final attendance = attendances[index];
+                          final isAttend = attendance.status == 'ATTEND';
+
+                          return UserCard(
+                            user: attendance.student!,
+                            badgeType: UserBadgeType.text,
+                            badgeText: isAttend
+                                ? 'Waktu absensi ${attendance.time?.to24TimeFormat()}'
+                                : attendance.note != null && attendance.note!.isNotEmpty
+                                    ? attendance.note!
+                                    : 'Tidak ada keterangan',
+                            trailing: CircleBorderContainer(
+                              size: 28,
+                              borderColor: isAttend ? Palette.purple2 : Palette.pink2,
+                              fillColor: isAttend ? Palette.success : Palette.error,
+                              child: Icon(
+                                isAttend ? Icons.check_rounded : Icons.remove_rounded,
+                                color: Palette.background,
+                                size: 18,
+                              ),
+                            ),
+                            onTap: () => showAttendanceDialog(
+                              context,
+                              meetingNumber: 1,
+                            ),
                           );
                         },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ];
-          },
-          body: ListView.separated(
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-            itemBuilder: (context, index) => UserCard(
-              user: CredentialSaver.credential!,
-              badgeType: UserBadgeType.text,
-              badgeText: 'Waktu absensi 10:15',
-              trailing: const CircleBorderContainer(
-                size: 28,
-                borderColor: Palette.pink2,
-                fillColor: Palette.error,
-                child: Icon(
-                  Icons.remove_rounded,
-                  color: Palette.background,
-                  size: 18,
-                ),
-              ),
-              onTap: () => showAttendanceDialog(
-                context,
-                meetingNumber: 1,
+                        separatorBuilder: (context, index) => const SizedBox(height: 10),
+                        itemCount: attendances.length,
+                      );
+                    },
+                  );
+                },
               ),
             ),
-            separatorBuilder: (context, index) => const SizedBox(height: 10),
-            itemCount: 10,
           ),
-        ),
-      ),
-      floatingActionButton: AnimatedFloatingActionButton(
-        animationController: fabAnimationController,
-        onPressed: () => navigatorKey.currentState!.pushNamed(assistantMeetingScannerRoute),
-        tooltip: 'Scan QR',
-        child: const Icon(Icons.qr_code_scanner_outlined),
-      ),
+          floatingActionButton: AnimatedFloatingActionButton(
+            animationController: fabAnimationController,
+            onPressed: () => navigatorKey.currentState!.pushNamed(assistantMeetingScannerRoute),
+            tooltip: 'Scan QR',
+            child: const Icon(Icons.qr_code_scanner_outlined),
+          ),
+        );
+      },
     );
+  }
+
+  void uploadModule(String? path, Meeting meeting) {
+    final updatedMeeting = MeetingPost(
+      number: meeting.number!,
+      lesson: meeting.lesson!,
+      date: meeting.date!,
+      assistantId: meeting.assistant!.id!,
+      coAssistantId: meeting.coAssistant!.id!,
+      modulePath: path,
+      assignmentPath: meeting.assignmentPath,
+    );
+
+    ref.read(meetingActionsProvider.notifier).editMeeting(meeting, updatedMeeting);
   }
 
   Future<void> showAttendanceDialog(
@@ -279,4 +387,14 @@ class _AssistantMeetingDetailPageState extends State<AssistantMeetingDetailPage>
       });
     }
   }
+}
+
+class AssistantMeetingDetailPageArgs {
+  final String id;
+  final String classroomId;
+
+  const AssistantMeetingDetailPageArgs({
+    required this.id,
+    required this.classroomId,
+  });
 }

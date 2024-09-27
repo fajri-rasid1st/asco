@@ -17,7 +17,6 @@ import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/src/data/models/attendances/attendance.dart';
 import 'package:asco/src/presentation/features/student/meeting/providers/student_meeting_detail_provider.dart';
-import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/loading_indicator.dart';
 import 'package:asco/src/presentation/shared/widgets/mentor_list_tile.dart';
@@ -301,7 +300,10 @@ class AttendanceStatusInfo extends StatelessWidget {
         ],
       ),
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.symmetric(
+          vertical: 10,
+          horizontal: 12,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -310,17 +312,30 @@ class AttendanceStatusInfo extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: textTheme.titleMedium!.copyWith(
-                color: Palette.purple2,
+                color: MapHelper.getAttendanceStatusColor(attendance.status),
                 fontWeight: FontWeight.w600,
               ),
             ),
             const SizedBox(height: 2),
             Text(
-              'Waktu absensi ${attendance.time?.to24TimeFormat()}, ${attendance.meeting?.date?.toDateTimeFormat('d/M/yyyy')}',
+              attendance.status == 'ATTEND'
+                  ? 'Waktu absensi ${attendance.time?.to24TimeFormat()}'
+                  : attendance.note != null && attendance.note!.isNotEmpty
+                      ? attendance.note!
+                      : 'Tidak ada keterangan',
               style: textTheme.bodySmall!.copyWith(
                 color: Palette.secondaryText,
               ),
             ),
+            if (attendance.extraPoint != null && attendance.extraPoint != 0) ...[
+              const SizedBox(height: 2),
+              Text(
+                'Extra poin +${attendance.extraPoint}',
+                style: textTheme.bodySmall!.copyWith(
+                  color: Palette.secondaryText,
+                ),
+              ),
+            ],
           ],
         ),
       ),
@@ -331,13 +346,11 @@ class AttendanceStatusInfo extends StatelessWidget {
 class ScoreIndicator extends StatelessWidget {
   final String title;
   final double score;
-  final int? poinPlus;
 
   const ScoreIndicator({
     super.key,
     required this.title,
     required this.score,
-    this.poinPlus,
   });
 
   @override
@@ -382,19 +395,6 @@ class ScoreIndicator extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (poinPlus != null)
-                  CircleBorderContainer(
-                    size: 32,
-                    borderColor: const Color(0xFFE3B640),
-                    fillColor: const Color(0xFFF2CF74),
-                    child: Text(
-                      '+$poinPlus',
-                      style: textTheme.bodySmall!.copyWith(
-                        color: Palette.background,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
               ],
             ),
           ],
