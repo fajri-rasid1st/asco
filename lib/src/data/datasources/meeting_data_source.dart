@@ -9,6 +9,7 @@ import 'package:path/path.dart' as p;
 // Project imports:
 import 'package:asco/core/configs/api_configs.dart';
 import 'package:asco/core/errors/exceptions.dart';
+import 'package:asco/core/extensions/iterable_extension.dart';
 import 'package:asco/core/services/file_service.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/data_response.dart';
@@ -18,7 +19,11 @@ import 'package:asco/src/data/models/meetings/meeting_schedule.dart';
 
 abstract class MeetingDataSource {
   /// Admin: Get meetings
-  Future<List<Meeting>> getMeetings(String practicumId);
+  Future<List<Meeting>> getMeetings(
+    String practicumId, {
+    String query = '',
+    bool asc = true,
+  });
 
   /// Admin: Get meeting detail
   Future<Meeting> getMeetingDetail(String id);
@@ -51,7 +56,11 @@ class MeetingDataSourceImpl implements MeetingDataSource {
   const MeetingDataSourceImpl({required this.client});
 
   @override
-  Future<List<Meeting>> getMeetings(String practicumId) async {
+  Future<List<Meeting>> getMeetings(
+    String practicumId, {
+    String query = '',
+    bool asc = true,
+  }) async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/practicums/$practicumId/meetings'),
@@ -66,7 +75,16 @@ class MeetingDataSourceImpl implements MeetingDataSource {
       if (response.statusCode == 200) {
         final data = result.data as List;
 
-        return data.map((e) => Meeting.fromJson(e)).toList();
+        return data.map((e) {
+          return Meeting.fromJson(e);
+        }).where((e) {
+          final lesson = e.lesson!.toLowerCase();
+          final keyword = query.toLowerCase();
+
+          return lesson.contains(keyword);
+        }).sortedBy((e) {
+          return e.number!;
+        }, asc: asc);
       } else {
         throw ServerException(result.error?.code, result.error?.message);
       }

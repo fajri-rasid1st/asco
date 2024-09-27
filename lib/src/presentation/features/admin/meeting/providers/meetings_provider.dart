@@ -12,23 +12,23 @@ class Meetings extends _$Meetings {
   @override
   Future<List<Meeting>?> build(
     String practicumId, {
-    bool ascendingOrder = true,
+    String query = '',
+    bool asc = true,
   }) async {
     List<Meeting>? meetings;
 
     state = const AsyncValue.loading();
 
-    final result = await ref.watch(meetingRepositoryProvider).getMeetings(practicumId);
+    final result = await ref.watch(meetingRepositoryProvider).getMeetings(
+          practicumId,
+          query: query,
+          asc: asc,
+        );
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
-        if (ascendingOrder) {
-          meetings = r..sort((a, b) => a.number!.compareTo(b.number!));
-        } else {
-          meetings = r..sort((a, b) => a.number!.compareTo(b.number!) * -1);
-        }
-
+        meetings = r;
         state = AsyncValue.data(meetings);
       },
     );

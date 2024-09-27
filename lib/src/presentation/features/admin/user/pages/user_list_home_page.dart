@@ -77,6 +77,8 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
             navigatorKey.currentState!.pop();
 
             ref.invalidate(usersProvider);
+            ref.invalidate(userAttributeProvider);
+            ref.invalidate(ascendingProvider);
             ref.invalidate(queryProvider);
             ref.invalidate(selectedRoleProvider);
 
@@ -267,21 +269,21 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
   void sortUsers(Map<String, dynamic> value) {
     ref.read(userAttributeProvider.notifier).state = value['sortedBy'];
     ref.read(ascendingProvider.notifier).state = value['asc'];
-    ref.read(queryProvider.notifier).state = '';
-    ref.read(selectedRoleProvider.notifier).state = '';
-  }
-
-  void filterUsers(String role) {
-    ref.read(selectedRoleProvider.notifier).state = role;
-    ref.read(userAttributeProvider.notifier).state = UserAttribute.username;
-    ref.read(ascendingProvider.notifier).state = true;
-    ref.read(queryProvider.notifier).state = '';
+    ref.invalidate(queryProvider);
+    ref.invalidate(selectedRoleProvider);
   }
 
   void searchUsers(String query) {
     ref.read(queryProvider.notifier).state = query;
-    ref.read(userAttributeProvider.notifier).state = UserAttribute.username;
-    ref.read(ascendingProvider.notifier).state = true;
-    ref.read(selectedRoleProvider.notifier).state = '';
+    ref.invalidate(userAttributeProvider);
+    ref.invalidate(ascendingProvider);
+    ref.invalidate(selectedRoleProvider);
+  }
+
+  void filterUsers(String role) {
+    ref.read(selectedRoleProvider.notifier).state = role;
+    ref.invalidate(userAttributeProvider);
+    ref.invalidate(ascendingProvider);
+    ref.invalidate(queryProvider);
   }
 }

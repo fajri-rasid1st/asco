@@ -12,7 +12,11 @@ import 'package:asco/src/data/models/meetings/meeting_schedule.dart';
 
 abstract class MeetingRepository {
   /// Admin: Get meetings
-  Future<Either<Failure, List<Meeting>>> getMeetings(String practicumId);
+  Future<Either<Failure, List<Meeting>>> getMeetings(
+    String practicumId, {
+    String query = '',
+    bool asc = true,
+  });
 
   /// Admin: Get meeting detail
   Future<Either<Failure, Meeting>> getMeetingDetail(String id);
@@ -49,10 +53,18 @@ class MeetingRepositoryImpl implements MeetingRepository {
   });
 
   @override
-  Future<Either<Failure, List<Meeting>>> getMeetings(String practicumId) async {
+  Future<Either<Failure, List<Meeting>>> getMeetings(
+    String practicumId, {
+    String query = '',
+    bool asc = true,
+  }) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await meetingDataSource.getMeetings(practicumId);
+        final result = await meetingDataSource.getMeetings(
+          practicumId,
+          query: query,
+          asc: asc,
+        );
 
         return Right(result);
       } catch (e) {

@@ -61,22 +61,7 @@ class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage>
 
   @override
   Widget build(BuildContext context) {
-    final query = ref.watch(queryProvider);
-    final ascendingOrder = ref.watch(ascendingProvider);
-    final meetings = ref.watch(
-      MeetingsProvider(
-        widget.practicum.id!,
-        ascendingOrder: ascendingOrder,
-      ),
-    );
-
-    ref.listen(
-      MeetingsProvider(
-        widget.practicum.id!,
-        ascendingOrder: ascendingOrder,
-      ),
-      (_, state) => state.whenOrNull(error: context.responseError),
-    );
+    final meetings = ref.watch(MeetingsProvider(widget.practicum.id!)).valueOrNull;
 
     ref.listen(meetingActionsProvider, (_, state) {
       state.when(
@@ -104,58 +89,84 @@ class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage>
       );
     });
 
-    return meetings.when(
-      loading: () => const LoadingIndicator(withScaffold: true),
-      error: (_, __) => const Scaffold(),
-      data: (meetings) {
-        if (meetings == null) return const Scaffold();
-
-        return Scaffold(
-          appBar: CustomAppBar(
-            title: '${widget.practicum.course}',
-          ),
-          body: NotificationListener<UserScrollNotification>(
-            onNotification: (notification) => FunctionHelper.handleFabVisibilityOnScroll(
-              fabAnimationController,
-              notification,
-            ),
-            child: CustomScrollView(
-              controller: scrollController,
-              slivers: [
-                SliverAppBar(
-                  pinned: true,
-                  automaticallyImplyLeading: false,
-                  backgroundColor: Palette.scaffoldBackground,
-                  surfaceTintColor: Palette.scaffoldBackground,
-                  flexibleSpace: Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 20, 12, 0),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: SearchField(
-                            text: query,
+    return Scaffold(
+      appBar: CustomAppBar(
+        title: '${widget.practicum.course}',
+      ),
+      body: NotificationListener<UserScrollNotification>(
+        onNotification: (notification) => FunctionHelper.handleFabVisibilityOnScroll(
+          fabAnimationController,
+          notification,
+        ),
+        child: CustomScrollView(
+          controller: scrollController,
+          slivers: [
+            SliverAppBar(
+              pinned: true,
+              automaticallyImplyLeading: false,
+              backgroundColor: Palette.scaffoldBackground,
+              surfaceTintColor: Palette.scaffoldBackground,
+              flexibleSpace: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 20, 12, 0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Consumer(
+                        builder: (context, ref, child) {
+                          return SearchField(
+                            text: ref.watch(queryProvider),
                             hintText: 'Cari nama pertemuan',
-                            onChanged: (value) => ref.read(queryProvider.notifier).state = value,
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        CustomIconButton(
-                          'arrow_sort_outlined.svg',
-                          tooltip: 'Urutkan',
-                          onPressed: sortMeeting,
-                        ),
-                      ],
+                            onChanged: (query) => searchMeetings(query),
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                  bottom: const PreferredSize(
-                    preferredSize: Size.fromHeight(20),
-                    child: SizedBox(),
-                  ),
+                    const SizedBox(width: 8),
+                    CustomIconButton(
+                      'arrow_sort_outlined.svg',
+                      tooltip: 'Urutkan',
+                      onPressed: sortMeetings,
+                    ),
+                  ],
                 ),
-                SliverPadding(
-                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
-                  sliver: Builder(
-                    builder: (context) {
+              ),
+              bottom: const PreferredSize(
+                preferredSize: Size.fromHeight(20),
+                child: SizedBox(),
+              ),
+            ),
+            SliverPadding(
+              padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
+              sliver: Consumer(
+                builder: (context, ref, child) {
+                  final query = ref.watch(queryProvider);
+                  final asc = ref.watch(ascendingProvider);
+
+                  final meetings = ref.watch(
+                    MeetingsProvider(
+                      widget.practicum.id!,
+                      query: query,
+                      asc: asc,
+                    ),
+                  );
+
+                  ref.listen(
+                    MeetingsProvider(
+                      widget.practicum.id!,
+                      query: query,
+                      asc: asc,
+                    ),
+                    (_, state) => state.whenOrNull(error: context.responseError),
+                  );
+
+                  return meetings.when(
+                    loading: () => const SliverFillRemaining(
+                      child: LoadingIndicator(),
+                    ),
+                    error: (_, __) => const SliverFillRemaining(),
+                    data: (meetings) {
+                      if (meetings == null) return const SliverFillRemaining();
+
                       if (meetings.isEmpty && query.isNotEmpty) {
                         return const SliverFillRemaining(
                           child: CustomInformation(
@@ -196,37 +207,40 @@ class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage>
                         ),
                       );
                     },
-                  ),
-                ),
-              ],
-            ),
-          ),
-          floatingActionButton: AnimatedFloatingActionButton(
-            animationController: fabAnimationController,
-            onPressed: () => navigatorKey.currentState!.pushNamed(
-              meetingFormRoute,
-              arguments: MeetingFormPageArgs(
-                practicumId: widget.practicum.id!,
-                meetingNumber: meetings.isEmpty
-                    ? 1
-                    : ascendingOrder
-                        ? meetings.last.number! + 1
-                        : meetings.first.number! + 1,
+                  );
+                },
               ),
             ),
-            tooltip: 'Tambah',
-            child: const Icon(
-              Icons.add_rounded,
-              size: 28,
-            ),
-          ),
-        );
-      },
+          ],
+        ),
+      ),
+      floatingActionButton: meetings != null
+          ? AnimatedFloatingActionButton(
+              animationController: fabAnimationController,
+              onPressed: () => navigatorKey.currentState!.pushNamed(
+                meetingFormRoute,
+                arguments: MeetingFormPageArgs(
+                  practicumId: widget.practicum.id!,
+                  meetingNumber: meetings.isEmpty ? 1 : meetings.last.number! + 1,
+                ),
+              ),
+              tooltip: 'Tambah',
+              child: const Icon(
+                Icons.add_rounded,
+                size: 28,
+              ),
+            )
+          : null,
     );
   }
 
-  void sortMeeting() {
-    ref.read(queryProvider.notifier).state = '';
+  void searchMeetings(String query) {
+    ref.read(queryProvider.notifier).state = query;
+    ref.invalidate(ascendingProvider);
+  }
+
+  void sortMeetings() {
     ref.read(ascendingProvider.notifier).update((state) => !state);
+    ref.invalidate(queryProvider);
   }
 }
