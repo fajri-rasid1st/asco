@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 
 // Project imports:
 import 'package:asco/core/connections/network_info.dart';
+import 'package:asco/core/enums/model_attributes.dart';
 import 'package:asco/core/errors/failures.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/src/data/datasources/profile_data_source.dart';
@@ -12,11 +13,11 @@ import 'package:asco/src/data/models/profiles/profile_post.dart';
 abstract class ProfileRepository {
   /// Get Profiles
   Future<Either<Failure, List<Profile>>> getProfiles({
-    String query = '',
     String role = '',
-    String sortBy = '',
-    String orderBy = '',
     String practicum = '',
+    String query = '',
+    UserAttribute sortedBy = UserAttribute.username,
+    bool asc = true,
   });
 
   /// Get profile detail
@@ -46,20 +47,20 @@ class ProfileRepositoryImpl implements ProfileRepository {
 
   @override
   Future<Either<Failure, List<Profile>>> getProfiles({
-    String query = '',
     String role = '',
-    String sortBy = '',
-    String orderBy = '',
     String practicum = '',
+    String query = '',
+    UserAttribute sortedBy = UserAttribute.username,
+    bool asc = true,
   }) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await profileDataSource.getProfiles(
-          query: query,
           role: role,
-          sortBy: sortBy,
-          orderBy: orderBy,
           practicum: practicum,
+          query: query,
+          sortedBy: sortedBy,
+          asc: asc,
         );
 
         return Right(result);

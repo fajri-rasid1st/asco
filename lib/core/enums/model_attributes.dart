@@ -1,0 +1,4 @@
+enum UserAttribute {
+  username,
+  fullname,
+}

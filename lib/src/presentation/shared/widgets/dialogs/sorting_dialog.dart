@@ -1,4 +1,5 @@
 // Flutter imports:
+import 'package:asco/core/utils/keys.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -10,20 +11,24 @@ import 'package:asco/src/presentation/shared/widgets/input_fields/custom_dropdow
 
 class SortingDialog extends StatelessWidget {
   final List<String> items;
-  final List<String> values;
+  final List values;
+  final Enum sortedBy;
+  final bool asc;
   final void Function(Map<String, dynamic> value)? onSubmitted;
 
   const SortingDialog({
     super.key,
     required this.items,
     required this.values,
+    required this.sortedBy,
+    required this.asc,
     this.onSubmitted,
   });
 
   @override
   Widget build(BuildContext context) {
     final formKey = GlobalKey<FormBuilderState>();
-    final orders = {'Meningkat': 'asc', 'Menurun': 'desc'};
+    final orders = {'Meningkat': true, 'Menurun': false};
 
     return CustomDialog(
       title: 'Urutkan Data',
@@ -33,21 +38,21 @@ class SortingDialog extends StatelessWidget {
         child: Column(
           children: [
             CustomDropdownField(
-              name: 'sortingBy',
+              name: 'sortedBy',
               label: 'Urutkan Berdasarkan',
               isSmall: true,
               items: items,
               values: values,
-              initialValue: values.first,
+              initialValue: sortedBy,
             ),
             const SizedBox(height: 12),
             CustomDropdownField(
-              name: 'sortingOrder',
+              name: 'asc',
               label: 'Urutkan Secara',
               isSmall: true,
               items: orders.keys.toList(),
               values: orders.values.toList(),
-              initialValue: orders.values.first,
+              initialValue: asc,
             ),
           ],
         ),
@@ -62,6 +67,8 @@ class SortingDialog extends StatelessWidget {
       formKey.currentState!.save();
 
       onSubmitted!(formKey.currentState!.value);
+
+      navigatorKey.currentState!.pop();
     }
   }
 }

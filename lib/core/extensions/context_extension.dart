@@ -78,7 +78,9 @@ extension DialogExtension on BuildContext {
 
   Future<Object?> showSortingDialog({
     required List<String> items,
-    required List<String> values,
+    required List values,
+    required Enum sortedBy,
+    required bool asc,
     void Function(Map<String, dynamic> value)? onSubmitted,
   }) {
     return showDialog(
@@ -87,6 +89,8 @@ extension DialogExtension on BuildContext {
       builder: (_) => SortingDialog(
         items: items,
         values: values,
+        sortedBy: sortedBy,
+        asc: asc,
         onSubmitted: onSubmitted,
       ),
     );

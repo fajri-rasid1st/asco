@@ -7,7 +7,9 @@ import 'package:http/http.dart' as http;
 
 // Project imports:
 import 'package:asco/core/configs/api_configs.dart';
+import 'package:asco/core/enums/model_attributes.dart';
 import 'package:asco/core/errors/exceptions.dart';
+import 'package:asco/core/extensions/iterable_extension.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/data_response.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
@@ -16,11 +18,11 @@ import 'package:asco/src/data/models/profiles/profile_post.dart';
 abstract class ProfileDataSource {
   /// Get Profiles
   Future<List<Profile>> getProfiles({
-    String query = '',
     String role = '',
-    String sortBy = '',
-    String orderBy = '',
     String practicum = '',
+    String query = '',
+    UserAttribute sortedBy = UserAttribute.username,
+    bool asc = true,
   });
 
   /// Get profile detail
@@ -46,20 +48,16 @@ class ProfileDataSourceImpl implements ProfileDataSource {
 
   @override
   Future<List<Profile>> getProfiles({
-    String query = '',
     String role = '',
-    String sortBy = '',
-    String orderBy = '',
     String practicum = '',
+    String query = '',
+    UserAttribute sortedBy = UserAttribute.username,
+    bool asc = true,
   }) async {
     try {
-      final searchParam = query.isEmpty ? query : '&query=$query';
       final roleParam = role.isEmpty ? role : '&role=$role';
-      final sortByParam = sortBy.isEmpty ? sortBy : '&sortBy=$sortBy';
-      final orderByParam = orderBy.isEmpty ? orderBy : '&orderBy=$orderBy';
       final practicumParam = practicum.isEmpty ? practicum : '&practicum=$practicum';
-
-      final queryParams = '$searchParam$roleParam$sortByParam$orderByParam$practicumParam';
+      final queryParams = '$roleParam$practicumParam';
 
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/users/master?$queryParams'),
@@ -74,7 +72,22 @@ class ProfileDataSourceImpl implements ProfileDataSource {
       if (response.statusCode == 200) {
         final data = result.data as List;
 
-        return data.map((e) => Profile.fromJson(e)).toList();
+        return data.map((e) {
+          return Profile.fromJson(e);
+        }).where((e) {
+          final username = e.username!.toLowerCase();
+          final fullname = e.fullname!.toLowerCase();
+          final keyword = query.toLowerCase();
+
+          return username.contains(keyword) || fullname.contains(keyword);
+        }).sortedBy((e) {
+          switch (sortedBy) {
+            case UserAttribute.username:
+              return e.username!;
+            case UserAttribute.fullname:
+              return e.fullname!;
+          }
+        }, asc: asc);
       } else {
         throw ServerException(result.error?.code, result.error?.message);
       }

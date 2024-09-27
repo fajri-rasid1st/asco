@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:asco/core/enums/model_attributes.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
@@ -13,7 +14,9 @@ import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/features/admin/user/providers/user_actions_provider.dart';
 import 'package:asco/src/presentation/features/admin/user/providers/users_provider.dart';
+import 'package:asco/src/presentation/providers/manual_providers/ascending_provider.dart';
 import 'package:asco/src/presentation/providers/manual_providers/query_provider.dart';
+import 'package:asco/src/presentation/providers/manual_providers/user_attribute_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/animated_fab.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
@@ -89,18 +92,27 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Data Pengguna',
-        action: IconButton(
-          onPressed: () => context.showSortingDialog(
-            items: ['Tanggal Ditambahkan', 'Nama Lengkap', 'Username'],
-            values: ['dateCreated', 'fullname', 'username'],
-            onSubmitted: (value) {},
-          ),
-          icon: const Icon(Icons.filter_list_rounded),
-          tooltip: 'Urutkan',
-          style: IconButton.styleFrom(
-            backgroundColor: Colors.transparent,
-            shape: const CircleBorder(),
-          ),
+        action: Consumer(
+          builder: (context, ref, child) {
+            final userAttribute = ref.watch(userAttributeProvider);
+            final asc = ref.watch(ascendingProvider);
+
+            return IconButton(
+              onPressed: () => context.showSortingDialog(
+                items: ['Username', 'Nama Lengkap'],
+                values: [UserAttribute.username, UserAttribute.fullname],
+                sortedBy: userAttribute,
+                asc: asc,
+                onSubmitted: (value) => sortUsers(value),
+              ),
+              icon: const Icon(Icons.filter_list_rounded),
+              tooltip: 'Urutkan',
+              style: IconButton.styleFrom(
+                backgroundColor: Colors.transparent,
+                shape: const CircleBorder(),
+              ),
+            );
+          },
         ),
       ),
       body: NotificationListener<UserScrollNotification>(
@@ -123,10 +135,7 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
                     return SearchField(
                       text: ref.watch(queryProvider),
                       hintText: 'Cari nama atau username',
-                      onChanged: (value) {
-                        ref.read(queryProvider.notifier).state = value;
-                        ref.read(selectedRoleProvider.notifier).state = '';
-                      },
+                      onChanged: (query) => searchUsers(query),
                     );
                   },
                 ),
@@ -159,13 +168,29 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
               padding: const EdgeInsets.fromLTRB(20, 4, 20, 20),
               sliver: Consumer(
                 builder: (context, ref, child) {
-                  final query = ref.watch(queryProvider);
                   final role = ref.watch(selectedRoleProvider);
-                  final users = ref.watch(UsersProvider(role: role));
+                  final query = ref.watch(queryProvider);
+                  final sortedBy = ref.watch(userAttributeProvider);
+                  final asc = ref.watch(ascendingProvider);
 
-                  ref.listen(UsersProvider(role: role), (_, state) {
-                    state.whenOrNull(error: context.responseError);
-                  });
+                  final users = ref.watch(
+                    UsersProvider(
+                      role: role,
+                      query: query,
+                      sortedBy: sortedBy,
+                      asc: asc,
+                    ),
+                  );
+
+                  ref.listen(
+                    UsersProvider(
+                      role: role,
+                      query: query,
+                      sortedBy: sortedBy,
+                      asc: asc,
+                    ),
+                    (_, state) => state.whenOrNull(error: context.responseError),
+                  );
 
                   return users.when(
                     loading: () => const SliverFillRemaining(
@@ -239,8 +264,24 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
     );
   }
 
-  void filterUsers(String role) {
+  void sortUsers(Map<String, dynamic> value) {
+    ref.read(userAttributeProvider.notifier).state = value['sortedBy'];
+    ref.read(ascendingProvider.notifier).state = value['asc'];
     ref.read(queryProvider.notifier).state = '';
+    ref.read(selectedRoleProvider.notifier).state = '';
+  }
+
+  void filterUsers(String role) {
     ref.read(selectedRoleProvider.notifier).state = role;
+    ref.read(userAttributeProvider.notifier).state = UserAttribute.username;
+    ref.read(ascendingProvider.notifier).state = true;
+    ref.read(queryProvider.notifier).state = '';
+  }
+
+  void searchUsers(String query) {
+    ref.read(queryProvider.notifier).state = query;
+    ref.read(userAttributeProvider.notifier).state = UserAttribute.username;
+    ref.read(ascendingProvider.notifier).state = true;
+    ref.read(selectedRoleProvider.notifier).state = '';
   }
 }

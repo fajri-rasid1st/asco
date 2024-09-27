@@ -15,8 +15,8 @@ import 'package:asco/src/presentation/features/admin/meeting/pages/meeting_detai
 import 'package:asco/src/presentation/features/admin/meeting/pages/meeting_form_page.dart';
 import 'package:asco/src/presentation/features/admin/meeting/providers/meeting_actions_provider.dart';
 import 'package:asco/src/presentation/features/admin/meeting/providers/meetings_provider.dart';
+import 'package:asco/src/presentation/providers/manual_providers/ascending_provider.dart';
 import 'package:asco/src/presentation/providers/manual_providers/query_provider.dart';
-import 'package:asco/src/presentation/providers/manual_providers/sorting_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/animated_fab.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/meeting_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
@@ -62,7 +62,7 @@ class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage>
   @override
   Widget build(BuildContext context) {
     final query = ref.watch(queryProvider);
-    final ascendingOrder = ref.watch(ascendingOrderProvider);
+    final ascendingOrder = ref.watch(ascendingProvider);
     final meetings = ref.watch(
       MeetingsProvider(
         widget.practicum.id!,
@@ -93,7 +93,7 @@ class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage>
 
             ref.invalidate(meetingsProvider);
             ref.invalidate(queryProvider);
-            ref.invalidate(ascendingOrderProvider);
+            ref.invalidate(ascendingProvider);
 
             context.showSnackBar(
               title: 'Berhasil',
@@ -227,6 +227,6 @@ class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage>
 
   void sortMeeting() {
     ref.read(queryProvider.notifier).state = '';
-    ref.read(ascendingOrderProvider.notifier).update((state) => !state);
+    ref.read(ascendingProvider.notifier).update((state) => !state);
   }
 }

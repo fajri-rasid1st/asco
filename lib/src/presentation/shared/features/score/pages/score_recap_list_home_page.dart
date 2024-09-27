@@ -9,6 +9,7 @@ import 'package:excel/excel.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:asco/core/enums/model_attributes.dart';
 import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
@@ -76,6 +77,8 @@ class _ScoreRecapListHomePageState extends State<ScoreRecapListHomePage>
         title: 'Rekap Nilai (${widget.practicum.course})',
         action: IconButton(
           onPressed: () => context.showSortingDialog(
+            asc: true,
+            sortedBy: UserAttribute.fullname,
             items: ['Nilai', 'NIM', 'Nama Lengkap'],
             values: ['score', 'username', 'fullname'],
             onSubmitted: (value) {},

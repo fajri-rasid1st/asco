@@ -18,7 +18,7 @@ import 'package:asco/src/data/models/classrooms/classroom.dart';
 import 'package:asco/src/presentation/features/assistant/meeting/pages/assistant_meeting_detail_page.dart';
 import 'package:asco/src/presentation/features/common/menu/providers/classroom_meetings_provider.dart';
 import 'package:asco/src/presentation/features/student/meeting/pages/student_meeting_detail_page.dart';
-import 'package:asco/src/presentation/providers/manual_providers/sorting_provider.dart';
+import 'package:asco/src/presentation/providers/manual_providers/ascending_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/meeting_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_icon_button.dart';
@@ -186,7 +186,7 @@ class MeetingPage extends StatelessWidget {
                       size: 20,
                       tooltip: 'Urutkan',
                       onPressed: () {
-                        ref.read(ascendingOrderProvider.notifier).update((state) => !state);
+                        ref.read(ascendingProvider.notifier).update((state) => !state);
                       },
                     );
                   },
@@ -196,7 +196,7 @@ class MeetingPage extends StatelessWidget {
             const SizedBox(height: 6),
             Consumer(
               builder: (context, ref, child) {
-                final ascendingOrder = ref.watch(ascendingOrderProvider);
+                final ascendingOrder = ref.watch(ascendingProvider);
                 final meetings = ref.watch(
                   ClassroomMeetingsProvider(
                     classroom.id!,
