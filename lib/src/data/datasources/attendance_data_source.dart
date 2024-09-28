@@ -23,7 +23,7 @@ abstract class AttendanceDataSource {
   /// Admin: Get attendances by meeting id
   Future<List<Attendance>> getMeetingAttendances(
     String meetingId, {
-    String classroomId = '',
+    String classroom = '',
     String query = '',
   });
 
@@ -89,12 +89,14 @@ class AttendanceDataSourceImpl implements AttendanceDataSource {
   @override
   Future<List<Attendance>> getMeetingAttendances(
     String meetingId, {
-    String classroomId = '',
+    String classroom = '',
     String query = '',
   }) async {
     try {
+      final queryParam = classroom.isEmpty ? '' : 'classroom=$classroom';
+
       final response = await client.get(
-        Uri.parse('${ApiConfigs.baseUrl}/meetings/$meetingId/attendances'),
+        Uri.parse('${ApiConfigs.baseUrl}/meetings/$meetingId/attendances?$queryParam'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'

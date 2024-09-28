@@ -19,7 +19,7 @@ abstract class AttendanceRepository {
   /// Admin: Get attendances by meeting id
   Future<Either<Failure, List<Attendance>>> getMeetingAttendances(
     String meetingId, {
-    String classroomId = '',
+    String classroom = '',
     String query = '',
   });
 
@@ -69,14 +69,14 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
   @override
   Future<Either<Failure, List<Attendance>>> getMeetingAttendances(
     String meetingId, {
-    String classroomId = '',
+    String classroom = '',
     String query = '',
   }) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await attendanceDataSource.getMeetingAttendances(
           meetingId,
-          classroomId: classroomId,
+          classroom: classroom,
           query: query,
         );
 

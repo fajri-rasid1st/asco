@@ -269,12 +269,10 @@ class _ScoreRecapListHomePageState extends State<ScoreRecapListHomePage>
 
     final excel = Excel.createExcel();
 
-    for (var i = 0; i < scores.length; i++) {
-      ExcelHelper.insertScoreToExcel(
-        excel: excel,
-        scores: scores,
-      );
-    }
+    ExcelHelper.insertScoreToExcel(
+      excel: excel,
+      scores: scores,
+    );
 
     final excelBytes = excel.save();
 

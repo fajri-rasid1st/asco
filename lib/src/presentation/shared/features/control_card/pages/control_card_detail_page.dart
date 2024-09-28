@@ -171,7 +171,7 @@ class ControlCardDetailPage extends StatelessWidget {
                                   cards[index].secondAssistanceStatus!,
                                 ],
                                 meeting: cards[index].meeting!,
-                                locked: cards[index].meeting!.date! >=
+                                locked: cards[index].meeting!.date! >
                                     DateTime.now().millisecondsSinceEpoch ~/ 1000,
                               ),
                             ),

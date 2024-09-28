@@ -260,10 +260,10 @@ class MeetingDataSourceImpl implements MeetingDataSource {
   @override
   Future<List<MeetingSchedule>> getMeetingSchedules({String practicum = ''}) async {
     try {
-      final queryParam = practicum.isEmpty ? practicum : '?practicum=$practicum';
+      final queryParam = practicum.isEmpty ? practicum : 'practicum=$practicum';
 
       final response = await client.get(
-        Uri.parse('${ApiConfigs.baseUrl}/users/meetings$queryParam'),
+        Uri.parse('${ApiConfigs.baseUrl}/users/meetings?$queryParam'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'

@@ -12,7 +12,7 @@ class MeetingAttendances extends _$MeetingAttendances {
   @override
   Future<List<Attendance>?> build(
     String meetingId, {
-    String classroomId = '',
+    String classroom = '',
     String query = '',
   }) async {
     List<Attendance>? attendances;
@@ -21,7 +21,7 @@ class MeetingAttendances extends _$MeetingAttendances {
 
     final result = await ref.watch(attendanceRepositoryProvider).getMeetingAttendances(
           meetingId,
-          classroomId: classroomId,
+          classroom: classroom,
           query: query,
         );
 

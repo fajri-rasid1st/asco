@@ -20,9 +20,11 @@ import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/data/models/classrooms/classroom.dart';
 import 'package:asco/src/data/models/meetings/meeting.dart';
 import 'package:asco/src/data/models/meetings/meeting_post.dart';
 import 'package:asco/src/presentation/features/admin/meeting/providers/meeting_actions_provider.dart';
+import 'package:asco/src/presentation/features/assistant/meeting/providers/insert_meeting_attendances_provider.dart';
 import 'package:asco/src/presentation/providers/manual_providers/query_provider.dart';
 import 'package:asco/src/presentation/shared/features/meeting/providers/meeting_attendances_provider.dart';
 import 'package:asco/src/presentation/shared/features/meeting/providers/meeting_detail_provider.dart';
@@ -65,6 +67,17 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
     scrollController = ScrollController();
 
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // If meeting already begin
+      if (widget.args.meeting.date! < DateTime.now().millisecondsSinceEpoch ~/ 1000) {
+        // If attendances still empty
+        if (await isAttendancesEmpty(ref)) {
+          // Insert attendances
+          await insertAttendances(ref);
+        }
+      }
+    });
   }
 
   @override
@@ -77,9 +90,9 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
 
   @override
   Widget build(BuildContext context) {
-    final meeting = ref.watch(MeetingDetailProvider(widget.args.id));
+    final meeting = ref.watch(MeetingDetailProvider(widget.args.meeting.id!));
 
-    ref.listen(MeetingDetailProvider(widget.args.id), (_, state) {
+    ref.listen(MeetingDetailProvider(widget.args.meeting.id!), (_, state) {
       state.whenOrNull(error: context.responseError);
     });
 
@@ -268,16 +281,16 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
 
                   final attendances = ref.watch(
                     MeetingAttendancesProvider(
-                      widget.args.id,
-                      classroomId: widget.args.classroomId,
+                      widget.args.meeting.id!,
+                      classroom: widget.args.classroom.id!,
                       query: query,
                     ),
                   );
 
                   ref.listen(
                     MeetingAttendancesProvider(
-                      widget.args.id,
-                      classroomId: widget.args.classroomId,
+                      widget.args.meeting.id!,
+                      classroom: widget.args.classroom.id!,
                       query: query,
                     ),
                     (_, state) => state.whenOrNull(error: context.responseError),
@@ -364,6 +377,31 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
     ref.read(queryProvider.notifier).state = query;
   }
 
+  Future<bool> isAttendancesEmpty(WidgetRef ref) async {
+    try {
+      final attendances = await ref.watch(
+        MeetingAttendancesProvider(
+          widget.args.meeting.id!,
+          classroom: widget.args.classroom.id!,
+        ).future,
+      );
+
+      if (attendances == null || attendances.isEmpty) return true;
+
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<void> insertAttendances(WidgetRef ref) async {
+    try {
+      await ref.watch(InsertMeetingAttendancesProvider(widget.args.meeting.id!).future);
+    } catch (e) {
+      return;
+    }
+  }
+
   Future<void> showAttendanceDialog(
     BuildContext context, {
     required int meetingNumber,
@@ -397,11 +435,11 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
 }
 
 class AssistantMeetingDetailPageArgs {
-  final String id;
-  final String classroomId;
+  final Meeting meeting;
+  final Classroom classroom;
 
   const AssistantMeetingDetailPageArgs({
-    required this.id,
-    required this.classroomId,
+    required this.meeting,
+    required this.classroom,
   });
 }

@@ -240,8 +240,8 @@ class MeetingPage extends StatelessWidget {
                                       id: meetings[index].id!,
                                     )
                                   : AssistantMeetingDetailPageArgs(
-                                      id: meetings[index].id!,
-                                      classroomId: classroom.id!,
+                                      meeting: meetings[index],
+                                      classroom: classroom,
                                     ),
                             ),
                           ),

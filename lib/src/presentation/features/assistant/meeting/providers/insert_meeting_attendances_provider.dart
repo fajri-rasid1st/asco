@@ -6,13 +6,10 @@ import 'package:asco/src/presentation/providers/repository_providers/attendance_
 
 part 'insert_meeting_attendances_provider.g.dart';
 
-// TODO: need implemented in UI
 @riverpod
 class InsertMeetingAttendances extends _$InsertMeetingAttendances {
   @override
-  Future<bool> build(String meetingId) async {
-    bool success = false;
-
+  Future<Null> build(String meetingId) async {
     state = const AsyncValue.loading();
 
     final result =
@@ -20,12 +17,7 @@ class InsertMeetingAttendances extends _$InsertMeetingAttendances {
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
-      (r) {
-        success = true;
-        state = AsyncValue.data(success);
-      },
+      (r) => state = const AsyncValue.data(null),
     );
-
-    return success;
   }
 }
