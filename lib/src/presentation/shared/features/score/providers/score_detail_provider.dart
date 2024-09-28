@@ -26,21 +26,7 @@ class ScoreDetail extends _$ScoreDetail {
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
-        score = r.copyWith(
-          assignmentScores: r.assignmentScores
-            ?..sort(
-              (a, b) => a.meetingNumber!.compareTo(b.meetingNumber!),
-            ),
-          quizScores: r.quizScores
-            ?..sort(
-              (a, b) => a.meetingNumber!.compareTo(b.meetingNumber!),
-            ),
-          responseScores: r.responseScores
-            ?..sort(
-              (a, b) => a.meetingNumber!.compareTo(b.meetingNumber!),
-            ),
-        );
-
+        score = r;
         state = AsyncValue.data(score);
       },
     );

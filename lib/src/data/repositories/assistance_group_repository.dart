@@ -12,7 +12,10 @@ import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class AssistanceGroupRepository {
   /// Admin: Get assistance groups
-  Future<Either<Failure, List<AssistanceGroup>>> getAssistanceGroups(String practicumId);
+  Future<Either<Failure, List<AssistanceGroup>>> getAssistanceGroups(
+    String practicumId, {
+    String query = '',
+  });
 
   /// Admin: Get assistance group detail
   Future<Either<Failure, AssistanceGroup>> getAssistanceGroupDetail(String id);
@@ -49,10 +52,16 @@ class AssistanceGroupRepositoryImpl implements AssistanceGroupRepository {
   });
 
   @override
-  Future<Either<Failure, List<AssistanceGroup>>> getAssistanceGroups(String practicumId) async {
+  Future<Either<Failure, List<AssistanceGroup>>> getAssistanceGroups(
+    String practicumId, {
+    String query = '',
+  }) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await assistanceGroupDataSource.getAssistanceGroups(practicumId);
+        final result = await assistanceGroupDataSource.getAssistanceGroups(
+          practicumId,
+          query: query,
+        );
 
         return Right(result);
       } catch (e) {

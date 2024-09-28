@@ -9,6 +9,7 @@ import 'package:path/path.dart' as p;
 // Project imports:
 import 'package:asco/core/configs/api_configs.dart';
 import 'package:asco/core/errors/exceptions.dart';
+import 'package:asco/core/extensions/iterable_extension.dart';
 import 'package:asco/core/services/file_service.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/data_response.dart';
@@ -73,8 +74,13 @@ class PracticumDataSourceImpl implements PracticumDataSource {
 
       if (response.statusCode == 200) {
         final data = result.data as List;
+        final practicums = data.map((e) => Practicum.fromJson(e)).toList();
 
-        return data.map((e) => Practicum.fromJson(e)).toList();
+        return practicums.map((e) {
+          return e.copyWith(
+            classrooms: e.classrooms?.sortedBy((e) => e.name!),
+          );
+        }).toList();
       } else {
         throw ServerException(result.error?.code, result.error?.message);
       }
@@ -97,7 +103,11 @@ class PracticumDataSourceImpl implements PracticumDataSource {
       final result = DataResponse.fromJson(response.body);
 
       if (response.statusCode == 200) {
-        return Practicum.fromJson(result.data);
+        final practicum = Practicum.fromJson(result.data);
+
+        return practicum.copyWith(
+          classrooms: practicum.classrooms?.sortedBy((e) => e.name!),
+        );
       } else {
         throw ServerException(result.error?.code, result.error?.message);
       }

@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 // Project imports:
 import 'package:asco/core/configs/api_configs.dart';
 import 'package:asco/core/errors/exceptions.dart';
+import 'package:asco/core/extensions/iterable_extension.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/data_response.dart';
 import 'package:asco/src/data/models/control_cards/control_card.dart';
@@ -46,7 +47,7 @@ class ControlCardDataSourceImpl implements ControlCardDataSource {
       if (response.statusCode == 200) {
         final data = result.data as List;
 
-        return data.map((e) => ControlCard.fromJson(e)).toList();
+        return data.map((e) => ControlCard.fromJson(e)).sortedBy((e) => e.meeting!.number!);
       } else {
         throw ServerException(result.error?.code, result.error?.message);
       }
@@ -74,7 +75,7 @@ class ControlCardDataSourceImpl implements ControlCardDataSource {
       if (response.statusCode == 200) {
         final data = result.data as List;
 
-        return data.map((e) => ControlCard.fromJson(e)).toList();
+        return data.map((e) => ControlCard.fromJson(e)).sortedBy((e) => e.meeting!.number!);
       } else {
         throw ServerException(result.error?.code, result.error?.message);
       }

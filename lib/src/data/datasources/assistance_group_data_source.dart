@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 // Project imports:
 import 'package:asco/core/configs/api_configs.dart';
 import 'package:asco/core/errors/exceptions.dart';
+import 'package:asco/core/extensions/iterable_extension.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/data_response.dart';
 import 'package:asco/src/data/models/assistance_groups/assistance_group.dart';
@@ -16,7 +17,10 @@ import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class AssistanceGroupDataSource {
   /// Admin: Get assistance groups
-  Future<List<AssistanceGroup>> getAssistanceGroups(String practicumId);
+  Future<List<AssistanceGroup>> getAssistanceGroups(
+    String practicumId, {
+    String query = '',
+  });
 
   /// Admin: Get assistance group detail
   Future<AssistanceGroup> getAssistanceGroupDetail(String id);
@@ -49,7 +53,10 @@ class AssistanceGroupDataSourceImpl implements AssistanceGroupDataSource {
   const AssistanceGroupDataSourceImpl({required this.client});
 
   @override
-  Future<List<AssistanceGroup>> getAssistanceGroups(String practicumId) async {
+  Future<List<AssistanceGroup>> getAssistanceGroups(
+    String practicumId, {
+    String query = '',
+  }) async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/practicums/$practicumId/groups'),
@@ -64,7 +71,22 @@ class AssistanceGroupDataSourceImpl implements AssistanceGroupDataSource {
       if (response.statusCode == 200) {
         final data = result.data as List;
 
-        return data.map((e) => AssistanceGroup.fromJson(e)).toList();
+        return data.map((e) {
+          return AssistanceGroup.fromJson(e);
+        }).where((e) {
+          final keyword = query.toLowerCase();
+
+          final students = e.students!.where((p) {
+            final username = p.username!.toLowerCase();
+            final fullname = p.fullname!.toLowerCase();
+
+            return username.contains(keyword) || fullname.contains(keyword);
+          });
+
+          return students.isNotEmpty;
+        }).sortedBy((e) {
+          return e.number!;
+        });
       } else {
         throw ServerException(result.error?.code, result.error?.message);
       }

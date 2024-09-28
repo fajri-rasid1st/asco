@@ -29,6 +29,7 @@ class StudentMeetingDetail extends _$StudentMeetingDetail {
           StudentScoreDetailProvider(r.practicum!.id!),
           (_, state) => state.whenData((data) {
             score = data;
+
             this.state = AsyncValue.data((meeting: meeting, score: score));
           }),
         );

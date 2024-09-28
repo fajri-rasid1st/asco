@@ -96,6 +96,7 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
             navigatorKey.currentState!.pop();
 
             ref.invalidate(meetingDetailProvider);
+            ref.invalidate(queryProvider);
 
             context.showSnackBar(
               title: 'Berhasil',
@@ -251,9 +252,7 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
                               return SearchField(
                                 text: ref.watch(queryProvider),
                                 hintText: 'Cari nama atau username',
-                                onChanged: (value) {
-                                  ref.read(queryProvider.notifier).state = value;
-                                },
+                                onChanged: (query) => searchStudents(query),
                               );
                             },
                           ),
@@ -265,10 +264,13 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
               },
               body: Consumer(
                 builder: (context, ref, child) {
+                  final query = ref.watch(queryProvider);
+
                   final attendances = ref.watch(
                     MeetingAttendancesProvider(
                       widget.args.id,
                       classroomId: widget.args.classroomId,
+                      query: query,
                     ),
                   );
 
@@ -276,6 +278,7 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
                     MeetingAttendancesProvider(
                       widget.args.id,
                       classroomId: widget.args.classroomId,
+                      query: query,
                     ),
                     (_, state) => state.whenOrNull(error: context.responseError),
                   );
@@ -355,6 +358,10 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
     );
 
     ref.read(meetingActionsProvider.notifier).editMeeting(meeting, updatedMeeting);
+  }
+
+  void searchStudents(String query) {
+    ref.read(queryProvider.notifier).state = query;
   }
 
   Future<void> showAttendanceDialog(

@@ -21,7 +21,7 @@ class MeetingSchedules extends _$MeetingSchedules {
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
-        schedules = r..sort((a, b) => a.number!.compareTo(b.number!));
+        schedules = r;
         state = AsyncValue.data(schedules);
       },
     );

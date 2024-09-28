@@ -20,7 +20,7 @@ class AttendanceMeetings extends _$AttendanceMeetings {
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
-        attendanceMeetings = r..sort((a, b) => a.number!.compareTo(b.number!));
+        attendanceMeetings = r;
         state = AsyncValue.data(attendanceMeetings);
       },
     );

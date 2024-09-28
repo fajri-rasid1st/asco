@@ -20,12 +20,7 @@ class Practicums extends _$Practicums {
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
-        practicums = r.map((e) {
-          return e.copyWith(
-            classrooms: e.classrooms?..sort((a, b) => a.name!.compareTo(b.name!)),
-          );
-        }).toList();
-
+        practicums = r;
         state = AsyncValue.data(practicums);
       },
     );

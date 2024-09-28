@@ -185,9 +185,7 @@ class MeetingPage extends StatelessWidget {
                       color: Palette.primaryText,
                       size: 20,
                       tooltip: 'Urutkan',
-                      onPressed: () {
-                        ref.read(ascendingProvider.notifier).update((state) => !state);
-                      },
+                      onPressed: () => sortMeetings(ref),
                     );
                   },
                 ),
@@ -196,18 +194,19 @@ class MeetingPage extends StatelessWidget {
             const SizedBox(height: 6),
             Consumer(
               builder: (context, ref, child) {
-                final ascendingOrder = ref.watch(ascendingProvider);
+                final asc = ref.watch(ascendingProvider);
+
                 final meetings = ref.watch(
                   ClassroomMeetingsProvider(
                     classroom.id!,
-                    ascendingOrder: ascendingOrder,
+                    asc: asc,
                   ),
                 );
 
                 ref.listen(
                   ClassroomMeetingsProvider(
                     classroom.id!,
-                    ascendingOrder: ascendingOrder,
+                    asc: asc,
                   ),
                   (_, state) => state.whenOrNull(error: context.responseError),
                 );
@@ -257,6 +256,10 @@ class MeetingPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void sortMeetings(WidgetRef ref) {
+    ref.read(ascendingProvider.notifier).update((state) => !state);
   }
 }
 

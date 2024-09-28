@@ -20,10 +20,7 @@ class PracticumDetail extends _$PracticumDetail {
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
-        practicum = r.copyWith(
-          classrooms: r.classrooms?..sort((a, b) => a.name!.compareTo(b.name!)),
-        );
-
+        practicum = r;
         state = AsyncValue.data(practicum);
       },
     );

@@ -44,7 +44,10 @@ abstract class MeetingDataSource {
   Future<void> deleteMeeting(String id);
 
   /// Student, Assistant: Get classroom meetings
-  Future<List<Meeting>> getClassroomMeetings(String classroomId);
+  Future<List<Meeting>> getClassroomMeetings(
+    String classroomId, {
+    bool asc = true,
+  });
 
   /// Assistant: Get meeting schedules
   Future<List<MeetingSchedule>> getMeetingSchedules({String practicum = ''});
@@ -227,7 +230,10 @@ class MeetingDataSourceImpl implements MeetingDataSource {
   }
 
   @override
-  Future<List<Meeting>> getClassroomMeetings(String classroomId) async {
+  Future<List<Meeting>> getClassroomMeetings(
+    String classroomId, {
+    bool asc = true,
+  }) async {
     try {
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/classes/$classroomId/meetings'),
@@ -242,7 +248,7 @@ class MeetingDataSourceImpl implements MeetingDataSource {
       if (response.statusCode == 200) {
         final data = result.data as List;
 
-        return data.map((e) => Meeting.fromJson(e)).toList();
+        return data.map((e) => Meeting.fromJson(e)).sortedBy((e) => e.number!, asc: asc);
       } else {
         throw ServerException(result.error?.code, result.error?.message);
       }
@@ -269,7 +275,7 @@ class MeetingDataSourceImpl implements MeetingDataSource {
       if (response.statusCode == 200) {
         final data = result.data as List;
 
-        return data.map((e) => MeetingSchedule.fromJson(e)).toList();
+        return data.map((e) => MeetingSchedule.fromJson(e)).sortedBy((e) => e.number!);
       } else {
         throw ServerException(result.error?.code, result.error?.message);
       }

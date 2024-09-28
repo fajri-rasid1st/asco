@@ -103,7 +103,13 @@ class ScoreDataSourceImpl implements ScoreDataSource {
       final result = DataResponse.fromJson(response.body);
 
       if (response.statusCode == 200) {
-        return ScoreRecap.fromJson(result.data);
+        final score = ScoreRecap.fromJson(result.data);
+
+        return score.copyWith(
+          assignmentScores: score.assignmentScores?.sortedBy((e) => e.meetingNumber!),
+          quizScores: score.quizScores?.sortedBy((e) => e.meetingNumber!),
+          responseScores: score.responseScores?.sortedBy((e) => e.meetingNumber!),
+        );
       } else {
         throw ServerException(result.error?.code, result.error?.message);
       }
@@ -126,7 +132,13 @@ class ScoreDataSourceImpl implements ScoreDataSource {
       final result = DataResponse.fromJson(response.body);
 
       if (response.statusCode == 200) {
-        return ScoreRecap.fromJson(result.data);
+        final score = ScoreRecap.fromJson(result.data);
+
+        return score.copyWith(
+          assignmentScores: score.assignmentScores?.sortedBy((e) => e.meetingNumber!),
+          quizScores: score.quizScores?.sortedBy((e) => e.meetingNumber!),
+          responseScores: score.responseScores?.sortedBy((e) => e.meetingNumber!),
+        );
       } else {
         throw ServerException(result.error?.code, result.error?.message);
       }

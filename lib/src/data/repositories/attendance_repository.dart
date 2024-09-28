@@ -20,6 +20,7 @@ abstract class AttendanceRepository {
   Future<Either<Failure, List<Attendance>>> getMeetingAttendances(
     String meetingId, {
     String classroomId = '',
+    String query = '',
   });
 
   /// Assistant: Insert all attendances in a meeting
@@ -69,12 +70,14 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
   Future<Either<Failure, List<Attendance>>> getMeetingAttendances(
     String meetingId, {
     String classroomId = '',
+    String query = '',
   }) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await attendanceDataSource.getMeetingAttendances(
           meetingId,
           classroomId: classroomId,
+          query: query,
         );
 
         return Right(result);

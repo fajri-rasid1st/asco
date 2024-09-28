@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 // Project imports:
 import 'package:asco/core/configs/api_configs.dart';
 import 'package:asco/core/errors/exceptions.dart';
+import 'package:asco/core/extensions/iterable_extension.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/data_response.dart';
 import 'package:asco/src/data/models/classrooms/classroom.dart';
@@ -54,7 +55,7 @@ class ClassroomDataSourceImpl implements ClassroomDataSource {
       if (response.statusCode == 200) {
         final data = result.data as List;
 
-        return data.map((e) => Classroom.fromJson(e)).toList();
+        return data.map((e) => Classroom.fromJson(e)).sortedBy((e) => e.name!);
       } else {
         throw ServerException(result.error?.code, result.error?.message);
       }

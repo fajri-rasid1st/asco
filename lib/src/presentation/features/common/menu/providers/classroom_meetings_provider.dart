@@ -12,23 +12,21 @@ class ClassroomMeetings extends _$ClassroomMeetings {
   @override
   Future<List<Meeting>?> build(
     String classroomId, {
-    bool ascendingOrder = true,
+    bool asc = true,
   }) async {
     List<Meeting>? meetings;
 
     state = const AsyncValue.loading();
 
-    final result = await ref.watch(meetingRepositoryProvider).getClassroomMeetings(classroomId);
+    final result = await ref.watch(meetingRepositoryProvider).getClassroomMeetings(
+          classroomId,
+          asc: asc,
+        );
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
-        if (ascendingOrder) {
-          meetings = r..sort((a, b) => a.number!.compareTo(b.number!));
-        } else {
-          meetings = r..sort((a, b) => a.number!.compareTo(b.number!) * -1);
-        }
-
+        meetings = r;
         state = AsyncValue.data(meetings);
       },
     );

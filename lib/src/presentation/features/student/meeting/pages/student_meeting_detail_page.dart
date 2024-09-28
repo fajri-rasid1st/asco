@@ -44,14 +44,14 @@ class StudentMeetingDetailPage extends ConsumerWidget {
 
         if (meeting == null || score == null) return const Scaffold();
 
-        // is meeting already complete or not
+        // Is meeting already complete or not
         final completed = meeting.date! < DateTime.now().millisecondsSinceEpoch ~/ 1000;
 
-        // get quiz score in current meeting from list of quiz scores
+        // Get quiz score in current meeting from list of quiz scores
         final quizzes = score.quizScores!.where((e) => e.meetingNumber == meeting.number);
         final quizScore = quizzes.isNotEmpty ? quizzes.first.quizScore! : 0.0;
 
-        // get response score in current meeting from list of response scores
+        // Get response score in current meeting from list of response scores
         final responses = score.responseScores!.where((e) => e.meetingNumber == meeting.number);
         final responseScore = responses.isNotEmpty ? responses.first.responseScore! : 0.0;
 

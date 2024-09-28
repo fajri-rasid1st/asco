@@ -21,7 +21,7 @@ class StudentControlCards extends _$StudentControlCards {
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
-        cards = r..sort((a, b) => a.meeting!.number!.compareTo(b.meeting!.number!));
+        cards = r;
         state = AsyncValue.data(cards);
       },
     );

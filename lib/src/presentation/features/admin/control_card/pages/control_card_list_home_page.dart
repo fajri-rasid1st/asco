@@ -48,7 +48,7 @@ class ControlCardListHomePage extends StatelessWidget {
                   return SearchField(
                     text: ref.watch(queryProvider),
                     hintText: 'Cari nama atau username',
-                    onChanged: (value) => ref.read(queryProvider.notifier).state = value,
+                    onChanged: (query) => searchGroups(ref, query),
                   );
                 },
               ),
@@ -63,11 +63,21 @@ class ControlCardListHomePage extends StatelessWidget {
             sliver: Consumer(
               builder: (context, ref, child) {
                 final query = ref.watch(queryProvider);
-                final groups = ref.watch(AssistanceGroupsProvider(practicum.id!));
 
-                ref.listen(AssistanceGroupsProvider(practicum.id!), (_, state) {
-                  state.whenOrNull(error: context.responseError);
-                });
+                final groups = ref.watch(
+                  AssistanceGroupsProvider(
+                    practicum.id!,
+                    query: query,
+                  ),
+                );
+
+                ref.listen(
+                  AssistanceGroupsProvider(
+                    practicum.id!,
+                    query: query,
+                  ),
+                  (_, state) => state.whenOrNull(error: context.responseError),
+                );
 
                 return groups.when(
                   loading: () => const SliverFillRemaining(
@@ -134,5 +144,9 @@ class ControlCardListHomePage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void searchGroups(WidgetRef ref, String query) {
+    ref.read(queryProvider.notifier).state = query;
   }
 }

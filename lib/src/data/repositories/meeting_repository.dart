@@ -37,7 +37,10 @@ abstract class MeetingRepository {
   Future<Either<Failure, void>> deleteMeeting(String id);
 
   /// Student, Assistant: Get classroom meetings
-  Future<Either<Failure, List<Meeting>>> getClassroomMeetings(String classroomId);
+  Future<Either<Failure, List<Meeting>>> getClassroomMeetings(
+    String classroomId, {
+    bool asc = true,
+  });
 
   /// Assistant: Get meeting schedules
   Future<Either<Failure, List<MeetingSchedule>>> getMeetingSchedules({String practicum = ''});
@@ -145,10 +148,16 @@ class MeetingRepositoryImpl implements MeetingRepository {
   }
 
   @override
-  Future<Either<Failure, List<Meeting>>> getClassroomMeetings(String classroomId) async {
+  Future<Either<Failure, List<Meeting>>> getClassroomMeetings(
+    String classroomId, {
+    bool asc = true,
+  }) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await meetingDataSource.getClassroomMeetings(classroomId);
+        final result = await meetingDataSource.getClassroomMeetings(
+          classroomId,
+          asc: asc,
+        );
 
         return Right(result);
       } catch (e) {

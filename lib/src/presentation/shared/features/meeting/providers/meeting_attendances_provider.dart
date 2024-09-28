@@ -13,6 +13,7 @@ class MeetingAttendances extends _$MeetingAttendances {
   Future<List<Attendance>?> build(
     String meetingId, {
     String classroomId = '',
+    String query = '',
   }) async {
     List<Attendance>? attendances;
 
@@ -21,12 +22,13 @@ class MeetingAttendances extends _$MeetingAttendances {
     final result = await ref.watch(attendanceRepositoryProvider).getMeetingAttendances(
           meetingId,
           classroomId: classroomId,
+          query: query,
         );
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),
       (r) {
-        attendances = r..sort((a, b) => a.student!.username!.compareTo(b.student!.username!));
+        attendances = r;
         state = AsyncValue.data(attendances);
       },
     );
