@@ -54,66 +54,72 @@ class StudentMeetingHistoryPage extends StatelessWidget {
 
               return ListView.separated(
                 padding: const EdgeInsets.all(20),
-                itemBuilder: (context, index) => InkWellContainer(
-                  radius: 99,
-                  color: Palette.background,
-                  padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
-                  onTap: () => navigatorKey.currentState!.pushNamed(
-                    studentMeetingDetailRoute,
-                    arguments: StudentMeetingDetailPageArgs(
-                      id: attendances[index].meeting!.id!,
-                      attendance: attendances[index],
+                itemBuilder: (context, index) {
+                  final attendance = attendances[index];
+
+                  return InkWellContainer(
+                    radius: 99,
+                    color: Palette.background,
+                    padding: const EdgeInsets.fromLTRB(8, 8, 16, 8),
+                    onTap: () => navigatorKey.currentState!.pushNamed(
+                      studentMeetingDetailRoute,
+                      arguments: StudentMeetingDetailPageArgs(
+                        id: attendance.meeting!.id!,
+                        attendance: attendance,
+                      ),
                     ),
-                  ),
-                  child: Row(
-                    children: [
-                      CircleBorderContainer(
-                        size: 60,
-                        withBorder: false,
-                        fillColor: MapHelper.getAttendanceStatusColor(attendances[index].status),
-                        child: Text(
-                          '#${attendances[index].meeting?.number}',
-                          style: textTheme.titleMedium!.copyWith(
-                            color: Palette.background,
+                    child: Row(
+                      children: [
+                        CircleBorderContainer(
+                          size: 60,
+                          withBorder: false,
+                          fillColor: MapHelper.getAttendanceStatusColor(attendance.status),
+                          child: Text(
+                            '#${attendance.meeting?.number}',
+                            style: textTheme.titleMedium!.copyWith(
+                              color: Palette.background,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${attendances[index].meeting?.lesson}',
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: textTheme.titleSmall!.copyWith(
-                                color: Palette.purple2,
-                              ),
-                            ),
-                            const SizedBox(height: 1),
-                            Text(
-                              '${MapHelper.getReadableAttendanceStatus(attendances[index].status)}',
-                              style: textTheme.bodySmall!.copyWith(
-                                color: MapHelper.getAttendanceStatusColor(
-                                  attendances[index].status,
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${attendance.meeting?.lesson}',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: textTheme.titleSmall!.copyWith(
+                                  color: Palette.purple2,
                                 ),
-                                fontWeight: FontWeight.w500,
                               ),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              'Waktu absensi ${attendances[index].time?.to24TimeFormat()}, ${attendances[index].meeting?.date?.toDateTimeFormat('d/M/yyyy')}',
-                              style: textTheme.labelSmall!.copyWith(
-                                color: Palette.secondaryText,
+                              const SizedBox(height: 1),
+                              Text(
+                                '${MapHelper.getReadableAttendanceStatus(attendance.status)}',
+                                style: textTheme.bodySmall!.copyWith(
+                                  color: MapHelper.getAttendanceStatusColor(attendance.status),
+                                  fontWeight: FontWeight.w500,
+                                ),
                               ),
-                            ),
-                          ],
+                              const SizedBox(height: 2),
+                              Text(
+                                attendance.status == 'ATTEND'
+                                    ? 'Waktu absensi ${attendance.time?.to24TimeFormat()}, ${attendance.meeting?.date?.toDateTimeFormat('d/M/yyyy')}'
+                                    : attendance.note != null && attendance.note!.isNotEmpty
+                                        ? attendance.note!
+                                        : 'Tidak ada keterangan',
+                                style: textTheme.labelSmall!.copyWith(
+                                  color: Palette.secondaryText,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
+                      ],
+                    ),
+                  );
+                },
                 separatorBuilder: (context, index) => const SizedBox(height: 10),
                 itemCount: attendances.length,
               );

@@ -62,11 +62,7 @@ class LabExamInfoPage extends StatelessWidget {
                     child: FilledButton(
                       onPressed: () => navigatorKey.currentState!.pushNamed(
                         scoreInputRoute,
-                        arguments: const ScoreInputPageArgs(
-                          title: 'Ujian Lab',
-                          scoreType: ScoreType.exam,
-                          practicumName: 'Pemrograman Mobile',
-                        ),
+                        arguments: const ScoreInputPageArgs(scoreType: ScoreType.exam),
                       ),
                       style: FilledButton.styleFrom(
                         padding: EdgeInsets.zero,

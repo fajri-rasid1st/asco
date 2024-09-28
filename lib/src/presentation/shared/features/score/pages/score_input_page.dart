@@ -12,6 +12,9 @@ import 'package:asco/core/enums/score_type.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/data/models/classrooms/classroom.dart';
+import 'package:asco/src/data/models/meetings/meeting.dart';
+import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/presentation/providers/manual_providers/field_value_provider.dart';
 import 'package:asco/src/presentation/providers/manual_providers/query_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
@@ -28,7 +31,7 @@ class ScoreInputPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'Nilai ${args.title}',
+        title: 'Nilai $title',
       ),
       body: NestedScrollView(
         floatHeaderSlivers: true,
@@ -51,7 +54,7 @@ class ScoreInputPage extends StatelessWidget {
                         SearchField(
                           text: ref.watch(queryProvider),
                           hintText: 'Cari nama atau username',
-                          onChanged: (value) => ref.read(queryProvider.notifier).state = value,
+                          onChanged: (query) => searchStudents(ref, query),
                         ),
                       ],
                     );
@@ -85,7 +88,7 @@ class ScoreInputPage extends StatelessWidget {
                             Expanded(
                               flex: 3,
                               child: Text(
-                                args.practicumName,
+                                '${args.practicum?.course} ${args.classroom?.name ?? ''}',
                                 textAlign: TextAlign.right,
                                 style: textTheme.bodySmall!.copyWith(
                                   color: Palette.background,
@@ -95,7 +98,7 @@ class ScoreInputPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        if (args.meetingName != null) ...[
+                        if (args.meeting != null) ...[
                           const SizedBox(height: 4),
                           Row(
                             children: [
@@ -110,7 +113,7 @@ class ScoreInputPage extends StatelessWidget {
                               Expanded(
                                 flex: 3,
                                 child: Text(
-                                  args.meetingName!,
+                                  '#${args.meeting?.number} ${args.meeting?.lesson}',
                                   textAlign: TextAlign.right,
                                   style: textTheme.bodySmall!.copyWith(
                                     color: Palette.background,
@@ -127,7 +130,7 @@ class ScoreInputPage extends StatelessWidget {
                 ),
               ),
               bottom: PreferredSize(
-                preferredSize: Size.fromHeight(args.meetingName != null ? 86 : 60),
+                preferredSize: Size.fromHeight(args.meeting != null ? 86 : 60),
                 child: const SizedBox(),
               ),
             ),
@@ -146,6 +149,23 @@ class ScoreInputPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void searchStudents(WidgetRef ref, String query) {
+    ref.read(queryProvider.notifier).state = query;
+  }
+
+  String get title {
+    switch (args.scoreType) {
+      case ScoreType.assistance:
+        return 'Asistensi';
+      case ScoreType.quiz:
+        return 'Kuis';
+      case ScoreType.response:
+        return 'Respon';
+      case ScoreType.exam:
+        return 'Ujian Lab';
+    }
   }
 }
 
@@ -364,15 +384,15 @@ class StudentScoreCard extends StatelessWidget {
 }
 
 class ScoreInputPageArgs {
-  final String title;
   final ScoreType scoreType;
-  final String practicumName;
-  final String? meetingName;
+  final Practicum? practicum;
+  final Classroom? classroom;
+  final Meeting? meeting;
 
   const ScoreInputPageArgs({
-    required this.title,
     required this.scoreType,
-    required this.practicumName,
-    this.meetingName,
+    this.practicum,
+    this.classroom,
+    this.meeting,
   });
 }

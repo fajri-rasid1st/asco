@@ -223,11 +223,11 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
                                 child: FilledButton(
                                   onPressed: () => navigatorKey.currentState!.pushNamed(
                                     scoreInputRoute,
-                                    arguments: const ScoreInputPageArgs(
-                                      title: 'Respon',
+                                    arguments: ScoreInputPageArgs(
                                       scoreType: ScoreType.response,
-                                      practicumName: 'Pemrograman Mobile A',
-                                      meetingName: '1. Tipe Data & Attribute',
+                                      practicum: widget.args.classroom.practicum,
+                                      classroom: widget.args.classroom,
+                                      meeting: widget.args.meeting,
                                     ),
                                   ),
                                   style: FilledButton.styleFrom(
@@ -243,11 +243,11 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
                                 child: FilledButton(
                                   onPressed: () => navigatorKey.currentState!.pushNamed(
                                     scoreInputRoute,
-                                    arguments: const ScoreInputPageArgs(
-                                      title: 'Quiz',
+                                    arguments: ScoreInputPageArgs(
                                       scoreType: ScoreType.quiz,
-                                      practicumName: 'Pemrograman Mobile A',
-                                      meetingName: '1. Tipe Data & Attribute',
+                                      practicum: widget.args.classroom.practicum,
+                                      classroom: widget.args.classroom,
+                                      meeting: widget.args.meeting,
                                     ),
                                   ),
                                   style: FilledButton.styleFrom(

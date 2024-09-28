@@ -319,7 +319,7 @@ class AttendanceStatusInfo extends StatelessWidget {
             const SizedBox(height: 2),
             Text(
               attendance.status == 'ATTEND'
-                  ? 'Waktu absensi ${attendance.time?.to24TimeFormat()}'
+                  ? 'Waktu absensi ${attendance.time?.to24TimeFormat()}, ${attendance.meeting?.date?.toDateTimeFormat('d MMMM yyyy')}'
                   : attendance.note != null && attendance.note!.isNotEmpty
                       ? attendance.note!
                       : 'Tidak ada keterangan',

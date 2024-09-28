@@ -83,7 +83,7 @@ class _SelectUsersPageState extends State<SelectUsersPage> {
                     return SearchField(
                       text: ref.watch(queryProvider),
                       hintText: 'Cari nama atau username',
-                      onChanged: (value) => ref.read(queryProvider.notifier).state = value,
+                      onChanged: (query) => searchUsers(ref, query),
                     );
                   },
                 ),
@@ -98,10 +98,12 @@ class _SelectUsersPageState extends State<SelectUsersPage> {
               sliver: Consumer(
                 builder: (context, ref, child) {
                   final query = ref.watch(queryProvider);
+
                   final users = ref.watch(
                     UsersProvider(
                       role: widget.args.role,
                       practicum: widget.args.practicum,
+                      query: query,
                     ),
                   );
 
@@ -109,6 +111,7 @@ class _SelectUsersPageState extends State<SelectUsersPage> {
                     UsersProvider(
                       role: widget.args.role,
                       practicum: widget.args.practicum,
+                      query: query,
                     ),
                     (_, state) => state.whenOrNull(error: context.responseError),
                   );
@@ -183,6 +186,10 @@ class _SelectUsersPageState extends State<SelectUsersPage> {
         ),
       ),
     );
+  }
+
+  void searchUsers(WidgetRef ref, String query) {
+    ref.read(queryProvider.notifier).state = query;
   }
 
   void updateSelectedUsers(Profile user) {
