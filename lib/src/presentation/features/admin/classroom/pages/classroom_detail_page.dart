@@ -197,14 +197,14 @@ class ClassroomDetailPage extends ConsumerWidget {
   void assignStudents(WidgetRef ref, List<Profile> students) {
     ref.read(classroomActionsProvider.notifier).addStudentsToClassroom(
           args.id,
-          students: students,
+          students: students.map((e) => e.username!).toList(),
         );
   }
 
   void removeStudent(WidgetRef ref, Profile student) {
     ref.read(classroomActionsProvider.notifier).removeStudentFromClassroom(
           args.id,
-          student: student,
+          username: student.username!,
         );
   }
 }

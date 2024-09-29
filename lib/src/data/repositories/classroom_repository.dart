@@ -7,7 +7,6 @@ import 'package:asco/core/errors/failures.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/src/data/datasources/classroom_data_source.dart';
 import 'package:asco/src/data/models/classrooms/classroom.dart';
-import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class ClassroomRepository {
   /// Student: Get classrooms
@@ -19,13 +18,13 @@ abstract class ClassroomRepository {
   /// Admin: Add students to classroom
   Future<Either<Failure, void>> addStudentsToClassroom(
     String id, {
-    required List<Profile> students,
+    required List<String> students,
   });
 
   /// Admin: Remove student from classroom
   Future<Either<Failure, void>> removeStudentFromClassroom(
     String id, {
-    required Profile student,
+    required String username,
   });
 }
 
@@ -71,7 +70,7 @@ class ClassroomRepositoryImpl implements ClassroomRepository {
   @override
   Future<Either<Failure, void>> addStudentsToClassroom(
     String id, {
-    required List<Profile> students,
+    required List<String> students,
   }) async {
     if (await networkInfo.isConnected) {
       try {
@@ -89,11 +88,11 @@ class ClassroomRepositoryImpl implements ClassroomRepository {
   @override
   Future<Either<Failure, void>> removeStudentFromClassroom(
     String id, {
-    required Profile student,
+    required String username,
   }) async {
     if (await networkInfo.isConnected) {
       try {
-        final result = await classroomDataSource.removeStudentFromClassroom(id, student: student);
+        final result = await classroomDataSource.removeStudentFromClassroom(id, username: username);
 
         return Right(result);
       } catch (e) {

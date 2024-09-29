@@ -174,7 +174,7 @@ class _AssistanceGroupFormPageState extends State<AssistanceGroupFormPage> {
     if (widget.args.group != null) {
       ref
           .read(assistanceGroupActionsProvider.notifier)
-          .editAssistanceGroup(widget.args.group!, group);
+          .editAssistanceGroup(widget.args.group!.id!, group);
     } else {
       ref
           .read(assistanceGroupActionsProvider.notifier)

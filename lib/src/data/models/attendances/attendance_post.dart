@@ -11,10 +11,9 @@ part 'attendance_post.g.dart';
 class AttendancePost with _$AttendancePost {
   @JsonSerializable(includeIfNull: false)
   const factory AttendancePost({
-    @JsonKey(name: 'profileId') required String studentId,
     @JsonKey(name: 'attendanceStatus') required String status,
-    String? note,
     int? extraPoint,
+    String? note,
   }) = _AttendancePost;
 
   factory AttendancePost.fromJson(Map<String, Object?> json) => _$AttendancePostFromJson(json);

@@ -3,7 +3,6 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
 import 'package:asco/core/enums/action_type.dart';
-import 'package:asco/src/data/models/profiles/profile.dart';
 import 'package:asco/src/presentation/providers/repository_providers/classroom_repository_provider.dart';
 
 part 'classroom_actions_provider.g.dart';
@@ -17,7 +16,7 @@ class ClassroomActions extends _$ClassroomActions {
 
   Future<void> addStudentsToClassroom(
     String id, {
-    required List<Profile> students,
+    required List<String> students,
   }) async {
     state = const AsyncValue.loading();
 
@@ -37,13 +36,13 @@ class ClassroomActions extends _$ClassroomActions {
 
   Future<void> removeStudentFromClassroom(
     String id, {
-    required Profile student,
+    required String username,
   }) async {
     state = const AsyncValue.loading();
 
     final result = await ref.watch(classroomRepositoryProvider).removeStudentFromClassroom(
           id,
-          student: student,
+          username: username,
         );
 
     result.fold(

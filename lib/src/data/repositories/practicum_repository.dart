@@ -9,7 +9,6 @@ import 'package:asco/src/data/datasources/practicum_data_source.dart';
 import 'package:asco/src/data/models/classrooms/classroom_post.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/data/models/practicums/practicum_post.dart';
-import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class PracticumRepository {
   /// Admin, Assistant: Get Practicums
@@ -34,7 +33,7 @@ abstract class PracticumRepository {
   Future<Either<Failure, void>> createClassroomsAndAssistants(
     String id, {
     required List<ClassroomPost> classrooms,
-    required List<Profile> assistants,
+    required List<String> assistants,
   });
 
   /// Admin: Remove classroom from practicum
@@ -43,7 +42,7 @@ abstract class PracticumRepository {
   /// Admin: Remove assistant from practicum
   Future<Either<Failure, void>> removeAssistantFromPracticum(
     String id, {
-    required Profile assistant,
+    required String username,
   });
 }
 
@@ -138,7 +137,7 @@ class PracticumRepositoryImpl implements PracticumRepository {
   Future<Either<Failure, void>> createClassroomsAndAssistants(
     String id, {
     required List<ClassroomPost> classrooms,
-    required List<Profile> assistants,
+    required List<String> assistants,
   }) async {
     if (await networkInfo.isConnected) {
       try {
@@ -175,13 +174,13 @@ class PracticumRepositoryImpl implements PracticumRepository {
   @override
   Future<Either<Failure, void>> removeAssistantFromPracticum(
     String id, {
-    required Profile assistant,
+    required String username,
   }) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await practicumDataSource.removeAssistantFromPracticum(
           id,
-          assistant: assistant,
+          username: username,
         );
 
         return Right(result);

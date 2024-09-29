@@ -172,7 +172,7 @@ class _AttendanceDialogState extends State<AttendanceDialog> {
 
     formKey.currentState?.save();
 
-    // final status = statusNotifier.value;
+    // final status = MapHelper.attendanceMap[statusNotifier.value.name]!;
     // final extraPoint = pointNotifier.value;
     // final note = formKey.currentState?.value['note'];
 

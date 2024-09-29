@@ -29,6 +29,9 @@ abstract class AttendanceDataSource {
 
   /// Assistant: Insert all attendances in a meeting
   Future<void> insertMeetingAttendances(String meetingId);
+
+  /// Assistant: Update attendance
+  // Future<void> insertMeetingAttendances(String meetingId);
 }
 
 class AttendanceDataSourceImpl implements AttendanceDataSource {

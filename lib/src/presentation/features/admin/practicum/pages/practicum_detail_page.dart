@@ -175,7 +175,7 @@ class PracticumDetailPage extends ConsumerWidget {
                               .read(practicumActionsProvider.notifier)
                               .removeAssistantFromPracticum(
                                 id,
-                                assistant: practicum.assistants![index],
+                                username: practicum.assistants![index].username!,
                               ),
                         ),
                       ),

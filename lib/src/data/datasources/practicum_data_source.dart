@@ -16,7 +16,6 @@ import 'package:asco/core/utils/data_response.dart';
 import 'package:asco/src/data/models/classrooms/classroom_post.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/data/models/practicums/practicum_post.dart';
-import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class PracticumDataSource {
   /// Admin, Assistant: Get Practicums
@@ -41,7 +40,7 @@ abstract class PracticumDataSource {
   Future<void> createClassroomsAndAssistants(
     String id, {
     required List<ClassroomPost> classrooms,
-    required List<Profile> assistants,
+    required List<String> assistants,
   });
 
   /// Admin: Remove classroom from practicum
@@ -50,7 +49,7 @@ abstract class PracticumDataSource {
   /// Admin: Remove assistant from practicum
   Future<void> removeAssistantFromPracticum(
     String id, {
-    required Profile assistant,
+    required String username,
   });
 }
 
@@ -229,7 +228,7 @@ class PracticumDataSourceImpl implements PracticumDataSource {
   Future<void> createClassroomsAndAssistants(
     String id, {
     required List<ClassroomPost> classrooms,
-    required List<Profile> assistants,
+    required List<String> assistants,
   }) async {
     try {
       final response = await client.post(
@@ -240,7 +239,7 @@ class PracticumDataSourceImpl implements PracticumDataSource {
         },
         body: jsonEncode({
           'classrooms': classrooms.map((e) => e.toJson()).toList(),
-          'assistants': assistants.map((e) => e.username).toList(),
+          'assistants': assistants,
         }),
       );
 
@@ -278,11 +277,11 @@ class PracticumDataSourceImpl implements PracticumDataSource {
   @override
   Future<void> removeAssistantFromPracticum(
     String id, {
-    required Profile assistant,
+    required String username,
   }) async {
     try {
       final response = await client.delete(
-        Uri.parse('${ApiConfigs.baseUrl}/practicums/$id/assistants/${assistant.username}'),
+        Uri.parse('${ApiConfigs.baseUrl}/practicums/$id/assistants/$username'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'

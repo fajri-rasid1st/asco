@@ -3,9 +3,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
 import 'package:asco/core/enums/action_type.dart';
-import 'package:asco/src/data/models/assistance_groups/assistance_group.dart';
 import 'package:asco/src/data/models/assistance_groups/assistance_group_post.dart';
-import 'package:asco/src/data/models/profiles/profile.dart';
 import 'package:asco/src/presentation/providers/repository_providers/assistance_group_repository_provider.dart';
 
 part 'assistance_group_actions_provider.g.dart';
@@ -38,14 +36,14 @@ class AssistanceGroupActions extends _$AssistanceGroupActions {
   }
 
   Future<void> editAssistanceGroup(
-    AssistanceGroup oldAssistanceGroup,
-    AssistanceGroupPost newAssistanceGroup,
+    String id,
+    AssistanceGroupPost assistanceGroup,
   ) async {
     state = const AsyncValue.loading();
 
     final result = await ref.watch(assistanceGroupRepositoryProvider).editAssistanceGroup(
-          oldAssistanceGroup,
-          newAssistanceGroup,
+          id,
+          assistanceGroup,
         );
 
     result.fold(
@@ -73,14 +71,14 @@ class AssistanceGroupActions extends _$AssistanceGroupActions {
 
   Future<void> removeStudentFromAssistanceGroup(
     String id, {
-    required Profile student,
+    required String username,
   }) async {
     state = const AsyncValue.loading();
 
     final result =
         await ref.watch(assistanceGroupRepositoryProvider).removeStudentFromAssistanceGroup(
               id,
-              student: student,
+              username: username,
             );
 
     result.fold(

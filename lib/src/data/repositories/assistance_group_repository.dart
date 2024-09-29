@@ -8,7 +8,6 @@ import 'package:asco/core/utils/const.dart';
 import 'package:asco/src/data/datasources/assistance_group_data_source.dart';
 import 'package:asco/src/data/models/assistance_groups/assistance_group.dart';
 import 'package:asco/src/data/models/assistance_groups/assistance_group_post.dart';
-import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class AssistanceGroupRepository {
   /// Admin: Get assistance groups
@@ -28,8 +27,8 @@ abstract class AssistanceGroupRepository {
 
   /// Admin: Edit assistance group
   Future<Either<Failure, void>> editAssistanceGroup(
-    AssistanceGroup oldAssistanceGroup,
-    AssistanceGroupPost newAssistanceGroup,
+    String id,
+    AssistanceGroupPost assistanceGroup,
   );
 
   /// Admin: Delete assistance group
@@ -38,7 +37,7 @@ abstract class AssistanceGroupRepository {
   /// Admin: Remove student from assistance group
   Future<Either<Failure, void>> removeStudentFromAssistanceGroup(
     String id, {
-    required Profile student,
+    required String username,
   });
 }
 
@@ -110,14 +109,14 @@ class AssistanceGroupRepositoryImpl implements AssistanceGroupRepository {
 
   @override
   Future<Either<Failure, void>> editAssistanceGroup(
-    AssistanceGroup oldAssistanceGroup,
-    AssistanceGroupPost newAssistanceGroup,
+    String id,
+    AssistanceGroupPost assistanceGroup,
   ) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await assistanceGroupDataSource.editAssistanceGroup(
-          oldAssistanceGroup,
-          newAssistanceGroup,
+          id,
+          assistanceGroup,
         );
 
         return Right(result);
@@ -147,13 +146,13 @@ class AssistanceGroupRepositoryImpl implements AssistanceGroupRepository {
   @override
   Future<Either<Failure, void>> removeStudentFromAssistanceGroup(
     String id, {
-    required Profile student,
+    required String username,
   }) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await assistanceGroupDataSource.removeStudentFromAssistanceGroup(
           id,
-          student: student,
+          username: username,
         );
 
         return Right(result);

@@ -148,7 +148,7 @@ class AssistanceGroupDetailPage extends ConsumerWidget {
                             .read(assistanceGroupActionsProvider.notifier)
                             .removeStudentFromAssistanceGroup(
                               args.id,
-                              student: group.students![index],
+                              username: group.students![index].username!,
                             ),
                       ),
                     ),

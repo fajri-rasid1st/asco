@@ -12,7 +12,6 @@ import 'package:asco/core/extensions/iterable_extension.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/data_response.dart';
 import 'package:asco/src/data/models/classrooms/classroom.dart';
-import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class ClassroomDataSource {
   /// Student: Get classrooms
@@ -24,13 +23,13 @@ abstract class ClassroomDataSource {
   /// Admin: Add students to classroom
   Future<void> addStudentsToClassroom(
     String id, {
-    required List<Profile> students,
+    required List<String> students,
   });
 
   /// Admin: Remove student from classroom
   Future<void> removeStudentFromClassroom(
     String id, {
-    required Profile student,
+    required String username,
   });
 }
 
@@ -90,7 +89,7 @@ class ClassroomDataSourceImpl implements ClassroomDataSource {
   @override
   Future<void> addStudentsToClassroom(
     String id, {
-    required List<Profile> students,
+    required List<String> students,
   }) async {
     try {
       final response = await client.put(
@@ -99,9 +98,7 @@ class ClassroomDataSourceImpl implements ClassroomDataSource {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
-        body: jsonEncode({
-          'students': students.map((e) => e.username).toList(),
-        }),
+        body: jsonEncode({'students': students}),
       );
 
       final result = DataResponse.fromJson(response.body);
@@ -117,11 +114,11 @@ class ClassroomDataSourceImpl implements ClassroomDataSource {
   @override
   Future<void> removeStudentFromClassroom(
     String id, {
-    required Profile student,
+    required String username,
   }) async {
     try {
       final response = await client.delete(
-        Uri.parse('${ApiConfigs.baseUrl}/classes/$id/students/${student.username}'),
+        Uri.parse('${ApiConfigs.baseUrl}/classes/$id/students/$username'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'

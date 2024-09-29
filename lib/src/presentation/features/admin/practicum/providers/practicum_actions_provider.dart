@@ -6,7 +6,6 @@ import 'package:asco/core/enums/action_type.dart';
 import 'package:asco/src/data/models/classrooms/classroom_post.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
 import 'package:asco/src/data/models/practicums/practicum_post.dart';
-import 'package:asco/src/data/models/profiles/profile.dart';
 import 'package:asco/src/presentation/providers/repository_providers/practicum_repository_provider.dart';
 
 part 'practicum_actions_provider.g.dart';
@@ -83,7 +82,7 @@ class PracticumActions extends _$PracticumActions {
   Future<void> createClassroomsAndAssistants(
     String id, {
     required List<ClassroomPost> classrooms,
-    required List<Profile> assistants,
+    required List<String> assistants,
   }) async {
     state = const AsyncValue.loading();
 
@@ -119,13 +118,13 @@ class PracticumActions extends _$PracticumActions {
 
   Future<void> removeAssistantFromPracticum(
     String id, {
-    required Profile assistant,
+    required String username,
   }) async {
     state = const AsyncValue.loading();
 
     final result = await ref.watch(practicumRepositoryProvider).removeAssistantFromPracticum(
           id,
-          assistant: assistant,
+          username: username,
         );
 
     result.fold(

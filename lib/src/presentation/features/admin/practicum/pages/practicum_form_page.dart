@@ -287,7 +287,7 @@ class _PracticumSecondFormPageState extends ConsumerState<PracticumSecondFormPag
     ref.read(practicumActionsProvider.notifier).createClassroomsAndAssistants(
           widget.args.id!,
           classrooms: classroomPosts,
-          assistants: assistants,
+          assistants: assistants.map((e) => e.username!).toList(),
         );
   }
 }

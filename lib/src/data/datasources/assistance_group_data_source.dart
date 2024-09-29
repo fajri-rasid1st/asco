@@ -13,7 +13,6 @@ import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/data_response.dart';
 import 'package:asco/src/data/models/assistance_groups/assistance_group.dart';
 import 'package:asco/src/data/models/assistance_groups/assistance_group_post.dart';
-import 'package:asco/src/data/models/profiles/profile.dart';
 
 abstract class AssistanceGroupDataSource {
   /// Admin: Get assistance groups
@@ -33,8 +32,8 @@ abstract class AssistanceGroupDataSource {
 
   /// Admin: Edit assistance group
   Future<void> editAssistanceGroup(
-    AssistanceGroup oldAssistanceGroup,
-    AssistanceGroupPost newAssistanceGroup,
+    String id,
+    AssistanceGroupPost assistanceGroup,
   );
 
   /// Admin: Delete assistance group
@@ -43,7 +42,7 @@ abstract class AssistanceGroupDataSource {
   /// Admin: Remove student from assistance group
   Future<void> removeStudentFromAssistanceGroup(
     String id, {
-    required Profile student,
+    required String username,
   });
 }
 
@@ -145,17 +144,17 @@ class AssistanceGroupDataSourceImpl implements AssistanceGroupDataSource {
 
   @override
   Future<void> editAssistanceGroup(
-    AssistanceGroup oldAssistanceGroup,
-    AssistanceGroupPost newAssistanceGroup,
+    String id,
+    AssistanceGroupPost assistanceGroup,
   ) async {
     try {
       final response = await client.put(
-        Uri.parse('${ApiConfigs.baseUrl}/groups/${oldAssistanceGroup.id}'),
+        Uri.parse('${ApiConfigs.baseUrl}/groups/$id'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
-        body: jsonEncode(newAssistanceGroup.toJson()),
+        body: jsonEncode(assistanceGroup.toJson()),
       );
 
       final result = DataResponse.fromJson(response.body);
@@ -192,11 +191,11 @@ class AssistanceGroupDataSourceImpl implements AssistanceGroupDataSource {
   @override
   Future<void> removeStudentFromAssistanceGroup(
     String id, {
-    required Profile student,
+    required String username,
   }) async {
     try {
       final response = await client.delete(
-        Uri.parse('${ApiConfigs.baseUrl}/groups/$id/students/${student.username}'),
+        Uri.parse('${ApiConfigs.baseUrl}/groups/$id/students/$username'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
