@@ -1,4 +1,5 @@
 // Dart imports:
+import 'dart:convert';
 import 'dart:io';
 
 // Package imports:
@@ -12,6 +13,7 @@ import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/data_response.dart';
 import 'package:asco/src/data/models/attendances/attendance.dart';
 import 'package:asco/src/data/models/attendances/attendance_meeting.dart';
+import 'package:asco/src/data/models/attendances/attendance_post.dart';
 
 abstract class AttendanceDataSource {
   /// Student: Get attendances
@@ -31,7 +33,10 @@ abstract class AttendanceDataSource {
   Future<void> insertMeetingAttendances(String meetingId);
 
   /// Assistant: Update attendance
-  // Future<void> insertMeetingAttendances(String meetingId);
+  Future<void> updateAttendance(
+    String id,
+    AttendancePost attendance,
+  );
 }
 
 class AttendanceDataSourceImpl implements AttendanceDataSource {
@@ -144,6 +149,31 @@ class AttendanceDataSourceImpl implements AttendanceDataSource {
       final result = DataResponse.fromJson(response.body);
 
       if (response.statusCode != 201) {
+        throw ServerException(result.error?.code, result.error?.message);
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<void> updateAttendance(
+    String id,
+    AttendancePost attendance,
+  ) async {
+    try {
+      final response = await client.put(
+        Uri.parse('${ApiConfigs.baseUrl}/attendances/$id'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: jsonEncode(attendance.toJson()),
+      );
+
+      final result = DataResponse.fromJson(response.body);
+
+      if (response.statusCode != 200) {
         throw ServerException(result.error?.code, result.error?.message);
       }
     } catch (e) {

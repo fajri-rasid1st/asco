@@ -8,6 +8,7 @@ import 'package:asco/core/utils/const.dart';
 import 'package:asco/src/data/datasources/attendance_data_source.dart';
 import 'package:asco/src/data/models/attendances/attendance.dart';
 import 'package:asco/src/data/models/attendances/attendance_meeting.dart';
+import 'package:asco/src/data/models/attendances/attendance_post.dart';
 
 abstract class AttendanceRepository {
   /// Student: Get attendances
@@ -25,6 +26,12 @@ abstract class AttendanceRepository {
 
   /// Assistant: Insert all attendances in a meeting
   Future<Either<Failure, void>> insertMeetingAttendances(String meetingId);
+
+  /// Assistant: Update attendance
+  Future<Either<Failure, void>> updateAttendance(
+    String id,
+    AttendancePost attendance,
+  );
 }
 
 class AttendanceRepositoryImpl implements AttendanceRepository {
@@ -94,6 +101,27 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
     if (await networkInfo.isConnected) {
       try {
         final result = await attendanceDataSource.insertMeetingAttendances(meetingId);
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updateAttendance(
+    String id,
+    AttendancePost attendance,
+  ) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await attendanceDataSource.updateAttendance(
+          id,
+          attendance,
+        );
 
         return Right(result);
       } catch (e) {

@@ -16,9 +16,11 @@ import 'package:asco/core/extensions/number_extension.dart';
 import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/helpers/function_helper.dart';
+import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/attendances/attendance.dart';
 import 'package:asco/src/data/models/classrooms/classroom.dart';
@@ -322,15 +324,17 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
                         itemBuilder: (context, index) {
                           final attendance = attendances[index];
                           final isAttend = attendance.status == 'ATTEND';
+                          final clickable = (CredentialSaver.credential?.username ==
+                                  meeting.assistant?.username) ||
+                              (CredentialSaver.credential?.username ==
+                                  meeting.coAssistant?.username);
 
                           return UserCard(
                             user: attendance.student!,
                             badgeType: UserBadgeType.text,
                             badgeText: isAttend
                                 ? 'Waktu absensi ${attendance.time?.to24TimeFormat()}'
-                                : attendance.note != null && attendance.note!.isNotEmpty
-                                    ? attendance.note!
-                                    : 'Tidak ada keterangan',
+                                : '${MapHelper.readableAttendanceMap[attendance.status]}',
                             trailing: CircleBorderContainer(
                               size: 28,
                               borderColor: isAttend ? Palette.purple2 : Palette.pink2,
@@ -341,11 +345,13 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
                                 size: 18,
                               ),
                             ),
-                            onTap: () => showAttendanceDialog(
-                              context,
-                              meeting: meeting,
-                              attendance: attendance,
-                            ),
+                            onTap: clickable
+                                ? () => showAttendanceDialog(
+                                      context,
+                                      meeting: meeting,
+                                      attendance: attendance,
+                                    )
+                                : null,
                           );
                         },
                         separatorBuilder: (context, index) => const SizedBox(height: 10),
@@ -411,24 +417,23 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
     }
   }
 
-  // TODO: update antendance (manual)
   Future<void> showAttendanceDialog(
     BuildContext context, {
     required Meeting meeting,
     required Attendance attendance,
   }) async {
-    final isAttend = await showDialog<bool?>(
+    final status = await showDialog<String?>(
       context: context,
       barrierDismissible: false,
       builder: (context) => AttendanceDialog(
-        number: meeting.number!,
         attendance: attendance,
+        meeting: meeting,
       ),
     );
 
     if (!context.mounted) return;
 
-    if (isAttend != null) {
+    if (status == 'ATTEND') {
       Timer? timer = Timer(
         const Duration(seconds: 3),
         () => navigatorKey.currentState!.pop(),
@@ -437,8 +442,10 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
       showDialog(
         context: context,
         builder: (context) => AttendanceStatusDialog(
+          attendance: attendance,
+          meeting: meeting,
           attendanceType: AttendanceType.meeting,
-          isAttend: isAttend,
+          isAttend: true,
         ),
       ).then((_) {
         timer?.cancel();

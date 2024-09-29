@@ -9,7 +9,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 // Project imports:
-import 'package:asco/core/enums/attendance_type.dart';
 import 'package:asco/core/extensions/button_extension.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/app_size.dart';
@@ -22,8 +21,6 @@ import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/shared/widgets/assistance_status_icon.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
-import 'package:asco/src/presentation/shared/widgets/dialogs/assistance_dialog.dart';
-import 'package:asco/src/presentation/shared/widgets/dialogs/attendance_status_dialog.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/file_upload_field.dart';
 import 'package:asco/src/presentation/shared/widgets/section_title.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
@@ -230,31 +227,31 @@ class AssistantAssistanceDetailPage extends StatelessWidget {
     BuildContext context, {
     required int assistanceNumber,
   }) async {
-    final isAttend = await showDialog<bool?>(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => AssistanceDialog(assistanceNumber: assistanceNumber),
-    );
+    // final isAttend = await showDialog<bool?>(
+    //   context: context,
+    //   barrierDismissible: false,
+    //   builder: (context) => AssistanceDialog(assistanceNumber: assistanceNumber),
+    // );
 
-    if (!context.mounted) return;
+    // if (!context.mounted) return;
 
-    if (isAttend != null) {
-      Timer? timer = Timer(
-        const Duration(seconds: 3),
-        () => navigatorKey.currentState!.pop(),
-      );
+    // if (isAttend != null) {
+    //   Timer? timer = Timer(
+    //     const Duration(seconds: 3),
+    //     () => navigatorKey.currentState!.pop(),
+    //   );
 
-      showDialog(
-        context: context,
-        builder: (context) => AttendanceStatusDialog(
-          attendanceType: AttendanceType.assistance,
-          isAttend: isAttend,
-        ),
-      ).then((_) {
-        timer?.cancel();
-        timer = null;
-      });
-    }
+    //   showDialog(
+    //     context: context,
+    //     builder: (context) => AttendanceStatusDialog(
+    //       attendanceType: AttendanceType.assistance,
+    //       isAttend: isAttend,
+    //     ),
+    //   ).then((_) {
+    //     timer?.cancel();
+    //     timer = null;
+    //   });
+    // }
   }
 
   void updateAssistanceDeadline(BuildContext context, DateTime deadlineDate) async {

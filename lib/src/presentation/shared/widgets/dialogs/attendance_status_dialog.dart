@@ -9,13 +9,19 @@ import 'package:asco/core/enums/attendance_type.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/src/data/models/attendances/attendance.dart';
+import 'package:asco/src/data/models/meetings/meeting.dart';
 
 class AttendanceStatusDialog extends StatelessWidget {
+  final Attendance attendance;
+  final Meeting meeting;
   final AttendanceType attendanceType;
   final bool isAttend;
 
   const AttendanceStatusDialog({
     super.key,
+    required this.attendance,
+    required this.meeting,
     required this.attendanceType,
     required this.isAttend,
   });
@@ -46,13 +52,15 @@ class AttendanceStatusDialog extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                  'Tipe Data dan Attribute',
+                Text(
+                  '${meeting.lesson}',
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  attendanceType == AttendanceType.meeting ? 'Pertemuan 1' : 'Asistensi 1',
+                  attendanceType == AttendanceType.meeting
+                      ? 'Pertemuan ${meeting.number}'
+                      : 'Asistensi ${meeting.number}',
                   textAlign: TextAlign.center,
                   style: textTheme.titleLarge!.copyWith(
                     color: Palette.purple2,
@@ -67,7 +75,7 @@ class AttendanceStatusDialog extends StatelessWidget {
                 ),
                 const SizedBox(height: 28),
                 Text(
-                  'Wd. Ananda Lesmono',
+                  '${attendance.student?.fullname}',
                   textAlign: TextAlign.center,
                   style: textTheme.titleSmall!.copyWith(
                     color: Palette.purple2,
@@ -75,7 +83,7 @@ class AttendanceStatusDialog extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  'H071211074',
+                  '${attendance.student?.username}',
                   textAlign: TextAlign.center,
                   style: textTheme.bodySmall!.copyWith(
                     color: Palette.secondaryText,
