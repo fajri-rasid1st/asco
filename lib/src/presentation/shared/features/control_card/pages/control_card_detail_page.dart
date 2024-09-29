@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:asco/core/enums/attendance_type.dart';
 import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
+import 'package:asco/core/extensions/datetime_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/styles/color_scheme.dart';
@@ -160,21 +161,24 @@ class ControlCardDetailPage extends StatelessWidget {
                           ),
                           ...List<Padding>.generate(
                             cards.length,
-                            (index) => Padding(
-                              padding: EdgeInsets.only(
-                                bottom: index == cards.length - 1 ? 0 : 10,
-                              ),
-                              child: AttendanceCard(
-                                attendanceType: AttendanceType.assistance,
-                                assistanceStatus: [
-                                  cards[index].firstAssistanceStatus!,
-                                  cards[index].secondAssistanceStatus!,
-                                ],
-                                meeting: cards[index].meeting!,
-                                locked: cards[index].meeting!.date! >
-                                    DateTime.now().millisecondsSinceEpoch ~/ 1000,
-                              ),
-                            ),
+                            (index) {
+                              final card = cards[index];
+
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                  bottom: index == cards.length - 1 ? 0 : 10,
+                                ),
+                                child: AttendanceCard(
+                                  attendanceType: AttendanceType.assistance,
+                                  assistanceStatus: [
+                                    card.firstAssistanceStatus!,
+                                    card.secondAssistanceStatus!,
+                                  ],
+                                  meeting: card.meeting!,
+                                  locked: card.meeting!.date! > DateTime.now().secondsSinceEpoch,
+                                ),
+                              );
+                            },
                           ),
                         ],
                       ),

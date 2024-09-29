@@ -73,7 +73,7 @@ class ExtrasPage extends StatelessWidget {
 
     return Scaffold(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20 + kBottomNavigationBarHeight),
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 76),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

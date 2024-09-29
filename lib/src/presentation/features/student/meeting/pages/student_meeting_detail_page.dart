@@ -8,6 +8,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 // Project imports:
 import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
+import 'package:asco/core/extensions/datetime_extension.dart';
 import 'package:asco/core/extensions/number_extension.dart';
 import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/core/helpers/asset_path.dart';
@@ -46,7 +47,7 @@ class StudentMeetingDetailPage extends ConsumerWidget {
         if (meeting == null || score == null) return const Scaffold();
 
         // Is meeting already complete or not
-        final completed = meeting.date! < DateTime.now().millisecondsSinceEpoch ~/ 1000;
+        final completed = meeting.date! < DateTime.now().secondsSinceEpoch;
 
         // Get quiz score in current meeting from list of quiz scores
         final quizzes = score.quizScores!.where((e) => e.meetingNumber == meeting.number);
@@ -147,7 +148,11 @@ class StudentMeetingDetailPage extends ConsumerWidget {
                       const SizedBox(width: 8),
                       IconButton(
                         onPressed: meeting.modulePath != null && meeting.modulePath!.isNotEmpty
-                            ? () => saveModule(context, meeting.modulePath!)
+                            ? () => saveModule(
+                                  context,
+                                  modulePath: meeting.modulePath!,
+                                  filename: 'modul_pertemuan_${meeting.number}',
+                                )
                             : () => context.showSnackBar(
                                   title: 'File Tidak Ada',
                                   message: 'File modul belum dimasukkan.',
@@ -208,10 +213,17 @@ class StudentMeetingDetailPage extends ConsumerWidget {
     );
   }
 
-  Future<void> saveModule(BuildContext context, String modulePath) async {
+  Future<void> saveModule(
+    BuildContext context, {
+    required String modulePath,
+    required String filename,
+  }) async {
     context.showLoadingDialog();
 
-    final isSaved = await FileService.saveFileFromUrl(modulePath);
+    final isSaved = await FileService.saveFileFromUrl(
+      modulePath,
+      name: '$filename.${modulePath.split('.').last}',
+    );
 
     if (!context.mounted) return;
 

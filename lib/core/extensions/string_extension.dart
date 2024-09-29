@@ -1,6 +1,9 @@
 // Package imports:
 import 'package:intl/intl.dart';
 
+// Project imports:
+import 'package:asco/core/extensions/datetime_extension.dart';
+
 extension Capitalize on String {
   String toCapitalize([String separator = ' ']) {
     return split(separator).map((e) {
@@ -22,6 +25,6 @@ extension IntDateTime on String {
     final dateFormat = DateFormat('d/M/yyyy');
     final date = dateFormat.parse(this);
 
-    return date.millisecondsSinceEpoch ~/ 1000;
+    return date.secondsSinceEpoch;
   }
 }

@@ -7,7 +7,6 @@ import 'package:asco/src/presentation/providers/repository_providers/control_car
 
 part 'student_control_card_detail_provider.g.dart';
 
-// TODO: need implemented in UI
 @riverpod
 class StudentControlCardDetail extends _$StudentControlCardDetail {
   @override

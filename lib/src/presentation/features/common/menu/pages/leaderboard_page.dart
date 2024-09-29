@@ -203,8 +203,10 @@ class Leaderboard extends ConsumerWidget {
                 if (MapHelper.roleMap[CredentialSaver.credential?.role] == 1)
                   Builder(
                     builder: (context) {
-                      final myScore = scores.firstWhere(
-                          (e) => e.student?.username == CredentialSaver.credential?.username);
+                      final myScore = scores.firstWhere((e) {
+                        return e.student?.username == CredentialSaver.credential?.username;
+                      });
+
                       final myRank = scores.indexOf(myScore) + 1;
 
                       return LeaderboardContainer(
@@ -341,7 +343,7 @@ class Leaderboard extends ConsumerWidget {
                     subScores.length,
                     (index) => Padding(
                       padding: EdgeInsets.only(
-                        bottom: index == subScores.length - 1 ? kBottomNavigationBarHeight : 10,
+                        bottom: index == subScores.length - 1 ? 56 : 10,
                       ),
                       child: UserCard(
                         user: subScores[index].student!,

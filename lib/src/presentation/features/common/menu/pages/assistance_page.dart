@@ -1,7 +1,13 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 // Project imports:
+import 'package:asco/core/enums/attendance_type.dart';
+import 'package:asco/core/extensions/context_extension.dart';
+import 'package:asco/core/extensions/datetime_extension.dart';
 import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/helpers/function_helper.dart';
@@ -11,18 +17,27 @@ import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/data/models/classrooms/classroom.dart';
+import 'package:asco/src/presentation/features/common/menu/providers/student_control_cards_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
+import 'package:asco/src/presentation/shared/widgets/cards/attendance_card.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_icon_button.dart';
+import 'package:asco/src/presentation/shared/widgets/custom_information.dart';
 import 'package:asco/src/presentation/shared/widgets/dialogs/github_repository_dialog.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
+import 'package:asco/src/presentation/shared/widgets/loading_indicator.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class AssistancePage extends StatelessWidget {
-  const AssistancePage({super.key});
+  final Classroom classroom;
+
+  const AssistancePage({super.key, required this.classroom});
 
   @override
   Widget build(BuildContext context) {
+    final roleId = MapHelper.roleMap[CredentialSaver.credential?.role];
+
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(vertical: 20),
@@ -104,7 +119,7 @@ class AssistancePage extends StatelessWidget {
                             right: 12,
                           ),
                           leading: const CircleNetworkImage(
-                            imageUrl: 'https://placehold.co/100x100/png',
+                            imageUrl: null,
                             size: 56,
                             withBorder: true,
                             borderColor: Palette.purple3,
@@ -118,12 +133,12 @@ class AssistancePage extends StatelessWidget {
                             ),
                           ),
                           subtitle: Text(
-                            'Wd. Ananda Lesmono',
+                            'Rafly Ramadhani Putra',
                             style: textTheme.titleSmall!.copyWith(
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          trailing: MapHelper.roleMap[CredentialSaver.credential?.role] == 1
+                          trailing: roleId == 1
                               ? CustomIconButton(
                                   'github_filled.svg',
                                   color: Palette.purple2,
@@ -191,12 +206,12 @@ class AssistancePage extends StatelessWidget {
                       child: Column(
                         children: [
                           const CircleNetworkImage(
-                            imageUrl: 'https://placehold.co/100x100/png',
+                            imageUrl: null,
                             size: 56,
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Richard',
+                            'Ananda',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
@@ -213,27 +228,75 @@ class AssistancePage extends StatelessWidget {
               text: 'Kartu Kontrol',
               trailingText: '12 Materi',
             ),
-            ...List<Padding>.generate(
-              10,
-              (index) => Padding(
-                padding: EdgeInsets.fromLTRB(
-                  20,
-                  0,
-                  20,
-                  index == 9 ? kBottomNavigationBarHeight : 10,
-                ),
-                // child: AttendanceCard(
-                //   attendanceType: AttendanceType.meeting,
-                //   meetingStatus: const {
-                //     'Selesai': 8,
-                //     'Belum': 4,
-                //   },
-                //   onTap: () => navigatorKey.currentState!.pushNamed(
-                //     roleId == 1 ? studentAssistanceDetailRoute : assistantAssistanceDetailRoute,
-                //   ),
-                // ),
-              ),
-            ),
+            if (roleId == 1)
+              Consumer(
+                builder: (context, ref, child) {
+                  final cards = ref.watch(StudentControlCardsProvider(classroom.practicum!.id!));
+
+                  ref.listen(StudentControlCardsProvider(classroom.practicum!.id!), (_, state) {
+                    return state.whenOrNull(error: context.responseError);
+                  });
+
+                  return cards.when(
+                    loading: () => const LoadingIndicator(),
+                    error: (_, __) => const SizedBox(),
+                    data: (cards) {
+                      if (cards == null) return const SizedBox();
+
+                      if (cards.isEmpty) {
+                        return const CustomInformation(
+                          title: 'Kartu kontrol masih kosong',
+                          subtitle: 'Anda belum memiliki kartu kontrol',
+                        );
+                      }
+
+                      return Column(
+                        children: List<Padding>.generate(
+                          cards.length,
+                          (index) {
+                            final card = cards[index];
+                            final bottom = index == cards.length - 1 ? 56.0 : 10.0;
+
+                            return Padding(
+                              padding: EdgeInsets.fromLTRB(20, 0, 20, bottom),
+                              child: AttendanceCard(
+                                attendanceType: AttendanceType.assistance,
+                                assistanceStatus: [
+                                  card.firstAssistanceStatus!,
+                                  card.secondAssistanceStatus!,
+                                ],
+                                meeting: card.meeting!,
+                                locked: card.meeting!.date! > DateTime.now().secondsSinceEpoch,
+                                onTap: () => navigatorKey.currentState!.pushNamed(
+                                  studentAssistanceDetailRoute,
+                                  arguments: card.id,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  );
+                },
+              )
+            // else
+            // ...List<Padding>.generate(
+            //   10,
+            //   (index) => Padding(
+            //     padding: EdgeInsets.fromLTRB(20, 0, 20, index == 9 ? 56 : 10),
+            //     child: AttendanceCard(
+            //       attendanceType: AttendanceType.meeting,
+            //       meetingStatus: const {
+            //         'Selesai': 8,
+            //         'Belum': 4,
+            //       },
+            //       onTap: () => navigatorKey.currentState!.pushNamed(
+            //         assistantAssistanceDetailRoute,
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

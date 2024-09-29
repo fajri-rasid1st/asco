@@ -38,7 +38,7 @@ class _MainMenuPageState extends ConsumerState<MainMenuPage> {
 
     pages = [
       MeetingPage(classroom: widget.classroom),
-      const AssistancePage(),
+      AssistancePage(classroom: widget.classroom),
       LeaderboardPage(classroom: widget.classroom),
       const ExtrasPage(),
       const PeoplePage(),

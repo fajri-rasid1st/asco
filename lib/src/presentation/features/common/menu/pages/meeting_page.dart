@@ -229,7 +229,7 @@ class MeetingPage extends StatelessWidget {
                         meetings.length,
                         (index) => Padding(
                           padding: EdgeInsets.only(
-                            bottom: index == meetings.length - 1 ? kBottomNavigationBarHeight : 10,
+                            bottom: index == meetings.length - 1 ? 56 : 10,
                           ),
                           child: MeetingCard(
                             meeting: meetings[index],

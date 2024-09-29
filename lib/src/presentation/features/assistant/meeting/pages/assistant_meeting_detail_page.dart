@@ -12,6 +12,7 @@ import 'package:asco/core/enums/attendance_type.dart';
 import 'package:asco/core/enums/score_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
+import 'package:asco/core/extensions/datetime_extension.dart';
 import 'package:asco/core/extensions/number_extension.dart';
 import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/core/helpers/asset_path.dart';
@@ -73,7 +74,7 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       // If meeting already begin
-      if (widget.args.meeting.date! < DateTime.now().millisecondsSinceEpoch ~/ 1000) {
+      if (widget.args.meeting.date! < DateTime.now().secondsSinceEpoch) {
         // If attendances still empty
         if (await isAttendancesEmpty(ref)) {
           // Insert attendances
@@ -324,10 +325,10 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
                         itemBuilder: (context, index) {
                           final attendance = attendances[index];
                           final isAttend = attendance.status == 'ATTEND';
-                          final clickable = (CredentialSaver.credential?.username ==
-                                  meeting.assistant?.username) ||
-                              (CredentialSaver.credential?.username ==
-                                  meeting.coAssistant?.username);
+                          final clickable = (meeting.assistant?.username ==
+                                  CredentialSaver.credential?.username) ||
+                              (meeting.coAssistant?.username ==
+                                  CredentialSaver.credential?.username);
 
                           return UserCard(
                             user: attendance.student!,

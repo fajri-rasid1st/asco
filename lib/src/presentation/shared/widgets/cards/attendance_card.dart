@@ -47,7 +47,7 @@ class AttendanceCard extends StatelessWidget {
         vertical: 14,
         horizontal: 12,
       ),
-      onTap: onTap,
+      onTap: locked ? null : onTap,
       child: Row(
         crossAxisAlignment: attendanceType == AttendanceType.meeting
             ? CrossAxisAlignment.start

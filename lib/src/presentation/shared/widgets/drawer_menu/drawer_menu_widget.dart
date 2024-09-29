@@ -205,11 +205,11 @@ class _DrawerMenuWidgetState extends State<DrawerMenuWidget> with SingleTickerPr
                       AnimatedPositioned(
                         left: 0,
                         right: 0,
-                        bottom: closed ? 0 : -kBottomNavigationBarHeight,
+                        bottom: closed ? 0 : -56,
                         duration: kThemeAnimationDuration,
                         curve: Curves.fastOutSlowIn,
                         child: Container(
-                          height: kBottomNavigationBarHeight,
+                          height: 56,
                           decoration: const BoxDecoration(
                             color: Palette.black2,
                             borderRadius: BorderRadius.vertical(

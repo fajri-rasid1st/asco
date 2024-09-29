@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Project imports:
 import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
+import 'package:asco/core/extensions/datetime_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/styles/color_scheme.dart';
@@ -194,7 +195,7 @@ class _AttendanceDialogState extends ConsumerState<AttendanceDialog> {
   }
 
   void submit() {
-    if ((DateTime.now().millisecondsSinceEpoch ~/ 1000) < (widget.meeting.date! + 86400)) {
+    if (DateTime.now().secondsSinceEpoch < widget.meeting.date! + 86400) {
       FocusManager.instance.primaryFocus?.unfocus();
 
       formKey.currentState?.save();
