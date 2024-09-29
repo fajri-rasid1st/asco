@@ -110,7 +110,7 @@ class FileService {
     }
   }
 
-  static Future<bool> saveFileFromRawBytes(
+  static Future<bool> saveFileFromBytes(
     Uint8List bytes, {
     String? extension,
     String? name,

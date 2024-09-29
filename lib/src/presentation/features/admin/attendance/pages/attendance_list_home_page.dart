@@ -148,19 +148,19 @@ class AttendanceListHomePage extends StatelessWidget {
 
       if (excelBytes == null) return;
 
-      if (await FileService.saveFileFromRawBytes(
+      final isSaved = await FileService.saveFileFromBytes(
         Uint8List.fromList(excelBytes),
         name: 'Kehadiran ${practicum.course}.xlsx',
-      )) {
-        if (!context.mounted) return;
+      );
 
+      if (!context.mounted) return;
+
+      if (isSaved) {
         context.showSnackBar(
           title: 'Berhasil',
           message: 'Data kehadiran praktikum berhasil diekspor pada folder Download.',
         );
       } else {
-        if (!context.mounted) return;
-
         context.showSnackBar(
           title: 'Terjadi Kesalahan',
           message: 'Data kehadiran praktikum gagal diekspor.',
@@ -170,15 +170,13 @@ class AttendanceListHomePage extends StatelessWidget {
 
       navigatorKey.currentState!.pop();
     } catch (e) {
-      navigatorKey.currentState!.pop();
-
-      if (!context.mounted) return;
-
       context.showSnackBar(
         title: 'Terjadi Kesalahan',
         message: 'Data kehadiran praktikum gagal diekspor.',
         type: SnackBarType.error,
       );
+
+      navigatorKey.currentState!.pop();
     }
   }
 }

@@ -16,7 +16,7 @@ abstract class AttendanceRepository {
   /// Admin: Get attendance meetings
   Future<Either<Failure, List<AttendanceMeeting>>> getAttendanceMeetings(String practicumId);
 
-  /// Admin: Get attendances by meeting id
+  /// Admin, Assistant: Get attendances by meeting id
   Future<Either<Failure, List<Attendance>>> getMeetingAttendances(
     String meetingId, {
     String classroom = '',

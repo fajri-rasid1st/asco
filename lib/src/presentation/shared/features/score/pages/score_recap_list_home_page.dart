@@ -278,19 +278,19 @@ class _ScoreRecapListHomePageState extends State<ScoreRecapListHomePage>
 
     if (excelBytes == null) return;
 
-    if (await FileService.saveFileFromRawBytes(
+    final isSaved = await FileService.saveFileFromBytes(
       Uint8List.fromList(excelBytes),
       name: 'Rekap Nilai ${widget.practicum.course}.xlsx',
-    )) {
-      if (!context.mounted) return;
+    );
 
+    if (!context.mounted) return;
+
+    if (isSaved) {
       context.showSnackBar(
         title: 'Berhasil',
         message: 'Rekap nilai praktikum berhasil diekspor pada folder Download.',
       );
     } else {
-      if (!context.mounted) return;
-
       context.showSnackBar(
         title: 'Terjadi Kesalahan',
         message: 'Rekap nilai praktikum gagal diekspor.',

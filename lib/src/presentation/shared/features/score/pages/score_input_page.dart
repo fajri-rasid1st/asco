@@ -9,18 +9,23 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 
 // Project imports:
 import 'package:asco/core/enums/score_type.dart';
+import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/classrooms/classroom.dart';
 import 'package:asco/src/data/models/meetings/meeting.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
+import 'package:asco/src/data/models/scores/score.dart';
 import 'package:asco/src/presentation/providers/manual_providers/field_value_provider.dart';
 import 'package:asco/src/presentation/providers/manual_providers/query_provider.dart';
-import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
+import 'package:asco/src/presentation/shared/features/score/providers/meeting_scores_provider.dart';
+import 'package:asco/src/presentation/shared/features/score/providers/practicum_exam_scores_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
+import 'package:asco/src/presentation/shared/widgets/custom_information.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/search_field.dart';
+import 'package:asco/src/presentation/shared/widgets/loading_indicator.dart';
 
 class ScoreInputPage extends StatelessWidget {
   final ScoreInputPageArgs args;
@@ -53,7 +58,7 @@ class ScoreInputPage extends StatelessWidget {
                         const SizedBox(height: 10),
                         SearchField(
                           text: ref.watch(queryProvider),
-                          hintText: 'Cari nama atau username',
+                          hintText: 'Cari nama atau NIM',
                           onChanged: (query) => searchStudents(ref, query),
                         ),
                       ],
@@ -136,16 +141,62 @@ class ScoreInputPage extends StatelessWidget {
             ),
           ];
         },
-        body: GridView.builder(
-          padding: const EdgeInsets.all(20),
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 14,
-            mainAxisSpacing: 14,
-            childAspectRatio: 0.78,
-          ),
-          itemBuilder: (context, index) => const StudentScoreCard(score: 80.0),
-          itemCount: 10,
+        body: Consumer(
+          builder: (context, ref, child) {
+            final query = ref.watch(queryProvider);
+
+            final scoresProvider = args.scoreType != ScoreType.exam
+                ? MeetingScoresProvider(
+                    args.meeting!.id!,
+                    type: args.scoreType.name.toUpperCase(),
+                    classroom: args.classroom!.id!,
+                    query: query,
+                  )
+                : PracticumExamScoresProvider(
+                    args.practicum!.id!,
+                    query: query,
+                  );
+
+            final scores = ref.watch(scoresProvider);
+
+            ref.listen(scoresProvider, (_, state) {
+              state.whenOrNull(error: context.responseError);
+            });
+
+            return scores.when(
+              loading: () => const LoadingIndicator(),
+              error: (_, __) => const SizedBox(),
+              data: (scores) {
+                if (scores == null) return const SizedBox();
+
+                if (scores.isEmpty && query.isNotEmpty) {
+                  return const CustomInformation(
+                    title: 'Peserta tidak ditemukan',
+                    subtitle: 'Silahkan cari dengan keyword lain',
+                  );
+                }
+
+                if (scores.isEmpty) {
+                  return CustomInformation(
+                    title: 'Daftar nilai masih kosong',
+                    subtitle: 'Nilai ${args.scoreType.name} pada pertemuan ini belum ada',
+                  );
+                }
+
+                return GridView.builder(
+                  padding: const EdgeInsets.all(20),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 14,
+                    mainAxisSpacing: 14,
+                    childAspectRatio: 0.78,
+                  ),
+                  itemBuilder: (context, index) => StudentScoreCard(score: scores[index]),
+                  itemCount: scores.length,
+                );
+              },
+            );
+          },
         ),
       ),
     );
@@ -157,8 +208,8 @@ class ScoreInputPage extends StatelessWidget {
 
   String get title {
     switch (args.scoreType) {
-      case ScoreType.assistance:
-        return 'Asistensi';
+      case ScoreType.assignment:
+        return 'Tugas Praktikum';
       case ScoreType.quiz:
         return 'Kuis';
       case ScoreType.response:
@@ -170,14 +221,9 @@ class ScoreInputPage extends StatelessWidget {
 }
 
 class StudentScoreCard extends StatelessWidget {
-  final double score;
-  final int? poinPlus;
+  final Score score;
 
-  const StudentScoreCard({
-    super.key,
-    required this.score,
-    this.poinPlus,
-  });
+  const StudentScoreCard({super.key, required this.score});
 
   @override
   Widget build(BuildContext context) {
@@ -204,7 +250,7 @@ class StudentScoreCard extends StatelessWidget {
               alignment: Alignment.topRight,
               children: [
                 CircularPercentIndicator(
-                  percent: score / 100,
+                  percent: score.score ?? 0 / 100,
                   radius: 50,
                   lineWidth: 9,
                   progressColor: Palette.purple3,
@@ -218,7 +264,7 @@ class StudentScoreCard extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        '$score',
+                        score.score != null ? score.score!.toStringAsFixed(1) : '0.0',
                         style: textTheme.titleLarge!.copyWith(
                           color: Palette.background,
                         ),
@@ -226,25 +272,12 @@ class StudentScoreCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                if (poinPlus != null)
-                  CircleBorderContainer(
-                    size: 32,
-                    borderColor: const Color(0xFFE3B640),
-                    fillColor: const Color(0xFFF2CF74),
-                    child: Text(
-                      '+$poinPlus',
-                      style: textTheme.bodySmall!.copyWith(
-                        color: Palette.background,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
               ],
             ),
           ),
           const SizedBox(height: 12),
           Text(
-            'H071191051',
+            '${score.student?.username}',
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: textTheme.bodySmall!.copyWith(
@@ -252,7 +285,7 @@ class StudentScoreCard extends StatelessWidget {
             ),
           ),
           Text(
-            'Wd. Ananda Lesmono',
+            '${score.student?.fullname}',
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: textTheme.titleSmall!.copyWith(
@@ -301,13 +334,13 @@ class StudentScoreCard extends StatelessWidget {
                 const SizedBox(height: 12),
                 FormBuilder(
                   key: formKey,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Consumer(
-                          builder: (context, ref, child) {
-                            return FormBuilderTextField(
+                  child: Consumer(
+                    builder: (context, ref, child) {
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: FormBuilderTextField(
                               name: 'score',
                               keyboardType: TextInputType.number,
                               textInputAction: TextInputAction.done,
@@ -344,14 +377,10 @@ class StudentScoreCard extends StatelessWidget {
                                   errorText: 'Nilai maksimal adalah 100',
                                 ),
                               ]),
-                            );
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Consumer(
-                        builder: (context, ref, child) {
-                          return IconButton(
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          IconButton(
                             onPressed: ref.watch(fieldValueProvider).isEmpty ? null : inputScore,
                             icon: const Icon(Icons.check_rounded),
                             style: IconButton.styleFrom(
@@ -362,10 +391,10 @@ class StudentScoreCard extends StatelessWidget {
                               minimumSize: const Size(48, 48),
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
-                          );
-                        },
-                      ),
-                    ],
+                          ),
+                        ],
+                      );
+                    },
                   ),
                 ),
               ],

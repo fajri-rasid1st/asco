@@ -1,5 +1,5 @@
 enum ScoreType {
-  assistance,
+  assignment,
   response,
   quiz,
   exam,

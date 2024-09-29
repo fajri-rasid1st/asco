@@ -20,6 +20,7 @@ import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/data/models/attendances/attendance.dart';
 import 'package:asco/src/data/models/classrooms/classroom.dart';
 import 'package:asco/src/data/models/meetings/meeting.dart';
 import 'package:asco/src/data/models/meetings/meeting_post.dart';
@@ -227,7 +228,7 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
                                       scoreType: ScoreType.response,
                                       practicum: widget.args.classroom.practicum,
                                       classroom: widget.args.classroom,
-                                      meeting: widget.args.meeting,
+                                      meeting: meeting,
                                     ),
                                   ),
                                   style: FilledButton.styleFrom(
@@ -247,7 +248,7 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
                                       scoreType: ScoreType.quiz,
                                       practicum: widget.args.classroom.practicum,
                                       classroom: widget.args.classroom,
-                                      meeting: widget.args.meeting,
+                                      meeting: meeting,
                                     ),
                                   ),
                                   style: FilledButton.styleFrom(
@@ -281,7 +282,7 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
 
                   final attendances = ref.watch(
                     MeetingAttendancesProvider(
-                      widget.args.meeting.id!,
+                      meeting.id!,
                       classroom: widget.args.classroom.id!,
                       query: query,
                     ),
@@ -289,7 +290,7 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
 
                   ref.listen(
                     MeetingAttendancesProvider(
-                      widget.args.meeting.id!,
+                      meeting.id!,
                       classroom: widget.args.classroom.id!,
                       query: query,
                     ),
@@ -302,10 +303,17 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
                     data: (attendances) {
                       if (attendances == null) return const SizedBox();
 
+                      if (attendances.isEmpty && query.isNotEmpty) {
+                        return const CustomInformation(
+                          title: 'Peserta tidak ditemukan',
+                          subtitle: 'Silahkan cari dengan keyword lain',
+                        );
+                      }
+
                       if (attendances.isEmpty) {
                         return const CustomInformation(
                           title: 'Data absensi kosong',
-                          subtitle: 'Belum ada data absensi pada pertemuan ini.',
+                          subtitle: 'Belum ada data absensi pada pertemuan ini',
                         );
                       }
 
@@ -335,7 +343,8 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
                             ),
                             onTap: () => showAttendanceDialog(
                               context,
-                              meetingNumber: 1,
+                              meeting: meeting,
+                              attendance: attendance,
                             ),
                           );
                         },
@@ -402,14 +411,16 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
     }
   }
 
+  // TODO: update antendance (manual)
   Future<void> showAttendanceDialog(
     BuildContext context, {
-    required int meetingNumber,
+    required Meeting meeting,
+    required Attendance attendance,
   }) async {
     final isAttend = await showDialog<bool?>(
       context: context,
       barrierDismissible: false,
-      builder: (context) => AttendanceDialog(meetingNumber: meetingNumber),
+      builder: (context) => AttendanceDialog(number: meeting.number!),
     );
 
     if (!context.mounted) return;

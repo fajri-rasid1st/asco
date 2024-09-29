@@ -15,9 +15,9 @@ import 'package:asco/src/presentation/shared/widgets/input_fields/custom_text_fi
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class AttendanceDialog extends StatefulWidget {
-  final int meetingNumber;
+  final int number;
 
-  const AttendanceDialog({super.key, required this.meetingNumber});
+  const AttendanceDialog({super.key, required this.number});
 
   @override
   State<AttendanceDialog> createState() => _AttendanceDialogState();
@@ -73,7 +73,7 @@ class _AttendanceDialogState extends State<AttendanceDialog> {
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
-      title: 'Pertemuan ${widget.meetingNumber}',
+      title: 'Pertemuan ${widget.number}',
       backgroundColor: Palette.background,
       onPressedPrimaryAction: submit,
       child: Column(

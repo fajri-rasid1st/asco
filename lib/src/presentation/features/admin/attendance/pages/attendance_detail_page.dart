@@ -40,7 +40,7 @@ class AttendanceDetailPage extends ConsumerWidget {
         if (attendances.isEmpty) {
           return CustomInformation(
             title: 'Data kehadiran kosong',
-            subtitle: 'Belum ada data kehadiran pada pertemuan ${attendanceMeeting.number}.',
+            subtitle: 'Belum ada data kehadiran pada pertemuan ${attendanceMeeting.number}',
             withScaffold: true,
           );
         }

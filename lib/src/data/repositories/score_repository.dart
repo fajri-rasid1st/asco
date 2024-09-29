@@ -7,6 +7,7 @@ import 'package:asco/core/enums/model_attributes.dart';
 import 'package:asco/core/errors/failures.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/src/data/datasources/score_data_source.dart';
+import 'package:asco/src/data/models/scores/score.dart';
 import 'package:asco/src/data/models/scores/score_recap.dart';
 
 abstract class ScoreRepository {
@@ -26,6 +27,20 @@ abstract class ScoreRepository {
 
   /// Student: Get score detail
   Future<Either<Failure, ScoreRecap>> getScoreDetail(String practicumId);
+
+  /// Assistant: Get meeting scores
+  Future<Either<Failure, List<Score>>> getMeetingScores(
+    String meetingId, {
+    String type = '',
+    String classroom = '',
+    String query = '',
+  });
+
+  /// Assistant: Get practicum exam scores
+  Future<Either<Failure, List<Score>>> getPracticumExamScores(
+    String practicumId, {
+    String query = '',
+  });
 }
 
 class ScoreRepositoryImpl implements ScoreRepository {
@@ -85,6 +100,52 @@ class ScoreRepositoryImpl implements ScoreRepository {
     if (await networkInfo.isConnected) {
       try {
         final result = await scoreDataSource.getScoreDetail(practicumId);
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Score>>> getMeetingScores(
+    String meetingId, {
+    String type = '',
+    String classroom = '',
+    String query = '',
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await scoreDataSource.getMeetingScores(
+          meetingId,
+          type: type,
+          classroom: classroom,
+          query: query,
+        );
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Score>>> getPracticumExamScores(
+    String practicumId, {
+    String query = '',
+  }) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await scoreDataSource.getPracticumExamScores(
+          practicumId,
+          query: query,
+        );
 
         return Right(result);
       } catch (e) {

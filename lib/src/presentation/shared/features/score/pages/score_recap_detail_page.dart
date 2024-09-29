@@ -184,7 +184,7 @@ class ScoreRecapDetailPage extends ConsumerWidget {
                           children: [
                             MeetingScoreList(
                               scores: score.assignmentScores!,
-                              type: ScoreType.assistance,
+                              type: ScoreType.assignment,
                             ),
                             MeetingScoreList(
                               scores: score.quizScores!,
@@ -328,7 +328,7 @@ class MeetingScoreList extends StatelessWidget {
         ),
         subtitle: Text(
           switch (type) {
-            ScoreType.assistance => '${scores[index].assignmentScore}',
+            ScoreType.assignment => '${scores[index].assignmentScore}',
             ScoreType.quiz => '${scores[index].quizScore}',
             ScoreType.response => '${scores[index].responseScore}',
             ScoreType.exam => '',

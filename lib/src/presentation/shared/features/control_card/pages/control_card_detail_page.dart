@@ -199,7 +199,7 @@ class ControlCardDetailPage extends StatelessWidget {
     } else {
       context.showSnackBar(
         title: '$name Tidak Ada',
-        message: 'Pengguna belum memasukkan username $name',
+        message: 'Pengguna belum memasukkan username $name.',
         type: SnackBarType.info,
       );
     }

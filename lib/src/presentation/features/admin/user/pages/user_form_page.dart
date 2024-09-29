@@ -194,16 +194,16 @@ class UserFormPage extends StatelessWidget {
   }
 
   void downloadExcelTemplate(BuildContext context) async {
-    if (await FileService.saveFileFromAsset('create_users_template.xlsx')) {
-      if (!context.mounted) return;
+    final isSaved = await FileService.saveFileFromAsset('create_users_template.xlsx');
 
+    if (!context.mounted) return;
+
+    if (isSaved) {
       context.showSnackBar(
         title: 'Berhasil',
         message: 'Template file excel berhasil di-download.',
       );
     } else {
-      if (!context.mounted) return;
-
       context.showSnackBar(
         title: 'Terjadi Kesalahan',
         message: 'Terjadi kesalahan saat mendownload file.',

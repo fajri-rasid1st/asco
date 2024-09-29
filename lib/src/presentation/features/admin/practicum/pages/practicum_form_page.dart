@@ -124,7 +124,7 @@ class PracticumFirstFormPage extends ConsumerWidget {
     if (!formKey.currentState!.saveAndValidate()) {
       context.showSnackBar(
         title: 'Terjadi Kesalahan',
-        message: 'Matakuliah & badge wajib diisi',
+        message: 'Matakuliah & badge wajib diisi.',
         type: SnackBarType.error,
       );
 

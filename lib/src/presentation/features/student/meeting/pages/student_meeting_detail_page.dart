@@ -15,6 +15,7 @@ import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/services/file_service.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/attendances/attendance.dart';
 import 'package:asco/src/presentation/features/student/meeting/providers/student_meeting_detail_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
@@ -145,33 +146,13 @@ class StudentMeetingDetailPage extends ConsumerWidget {
                       ),
                       const SizedBox(width: 8),
                       IconButton(
-                        onPressed: meeting.modulePath != null && meeting.modulePath!.isEmpty
-                            ? () async {
-                                if (await FileService.saveFileFromUrl(meeting.modulePath!)) {
-                                  if (!context.mounted) return;
-
-                                  context.showSnackBar(
-                                    title: 'Berhasil',
-                                    message: 'File modul telah disimpan di folder Download.',
-                                    type: SnackBarType.success,
-                                  );
-                                } else {
-                                  if (!context.mounted) return;
-
-                                  context.showSnackBar(
-                                    title: 'Terjadi Kesalahan',
-                                    message: 'File modul gagal di-download.',
-                                    type: SnackBarType.error,
-                                  );
-                                }
-                              }
-                            : () {
-                                context.showSnackBar(
+                        onPressed: meeting.modulePath != null && meeting.modulePath!.isNotEmpty
+                            ? () => saveModule(context, meeting.modulePath!)
+                            : () => context.showSnackBar(
                                   title: 'File Tidak Ada',
                                   message: 'File modul belum dimasukkan.',
                                   type: SnackBarType.info,
-                                );
-                              },
+                                ),
                         icon: const Icon(
                           Icons.file_download_outlined,
                           color: Palette.purple2,
@@ -225,6 +206,30 @@ class StudentMeetingDetailPage extends ConsumerWidget {
         );
       },
     );
+  }
+
+  Future<void> saveModule(BuildContext context, String modulePath) async {
+    context.showLoadingDialog();
+
+    final isSaved = await FileService.saveFileFromUrl(modulePath);
+
+    if (!context.mounted) return;
+
+    if (isSaved) {
+      context.showSnackBar(
+        title: 'Berhasil',
+        message: 'File modul telah disimpan di folder Download.',
+        type: SnackBarType.success,
+      );
+    } else {
+      context.showSnackBar(
+        title: 'Terjadi Kesalahan',
+        message: 'File modul gagal di-download.',
+        type: SnackBarType.error,
+      );
+    }
+
+    navigatorKey.currentState!.pop();
   }
 }
 

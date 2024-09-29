@@ -55,7 +55,7 @@ class ProfileDataSourceImpl implements ProfileDataSource {
     bool asc = true,
   }) async {
     try {
-      final roleParam = role.isEmpty ? role : '&role=$role';
+      final roleParam = role.isEmpty ? role : 'role=$role';
       final practicumParam = practicum.isEmpty ? practicum : '&practicum=$practicum';
       final queryParams = '$roleParam$practicumParam';
 

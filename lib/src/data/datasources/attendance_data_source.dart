@@ -20,7 +20,7 @@ abstract class AttendanceDataSource {
   /// Admin: Get attendance meetings
   Future<List<AttendanceMeeting>> getAttendanceMeetings(String practicumId);
 
-  /// Admin: Get attendances by meeting id
+  /// Admin, Assistant: Get attendances by meeting id
   Future<List<Attendance>> getMeetingAttendances(
     String meetingId, {
     String classroom = '',
@@ -93,7 +93,7 @@ class AttendanceDataSourceImpl implements AttendanceDataSource {
     String query = '',
   }) async {
     try {
-      final queryParam = classroom.isEmpty ? '' : 'classroom=$classroom';
+      final queryParam = classroom.isEmpty ? classroom : 'classroom=$classroom';
 
       final response = await client.get(
         Uri.parse('${ApiConfigs.baseUrl}/meetings/$meetingId/attendances?$queryParam'),

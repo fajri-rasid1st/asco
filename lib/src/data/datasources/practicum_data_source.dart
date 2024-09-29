@@ -74,7 +74,7 @@ class PracticumDataSourceImpl implements PracticumDataSource {
 
       if (response.statusCode == 200) {
         final data = result.data as List;
-        final practicums = data.map((e) => Practicum.fromJson(e)).toList();
+        final practicums = data.map((e) => Practicum.fromJson(e));
 
         return practicums.map((e) {
           return e.copyWith(

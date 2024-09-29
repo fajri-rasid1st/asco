@@ -68,12 +68,12 @@ class _PracticumAssignmentScoreDialogState extends State<PracticumAssignmentScor
           const SizedBox(height: 8),
           ValueListenableBuilder(
             valueListenable: scoreNotifier,
-            builder: (context, scoreType, child) {
+            builder: (context, score, child) {
               return Center(
                 child: Column(
                   children: [
                     RatingBar(
-                      initialRating: scoreType.rate.toDouble(),
+                      initialRating: score.rate.toDouble(),
                       minRating: 1,
                       itemCount: 7,
                       itemSize: 34,
@@ -82,12 +82,12 @@ class _PracticumAssignmentScoreDialogState extends State<PracticumAssignmentScor
                       ratingWidget: RatingWidget(
                         full: Icon(
                           Icons.star_rounded,
-                          color: scoreType.color,
+                          color: score.color,
                         ),
                         half: const SizedBox(),
                         empty: Icon(
                           Icons.star_outline_rounded,
-                          color: scoreType.color,
+                          color: score.color,
                         ),
                       ),
                       onRatingUpdate: (value) {
@@ -98,9 +98,9 @@ class _PracticumAssignmentScoreDialogState extends State<PracticumAssignmentScor
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      '"${scoreType.description}"',
+                      '"${score.description}"',
                       style: textTheme.titleMedium!.copyWith(
-                        color: scoreType.color,
+                        color: score.color,
                       ),
                     ),
                   ],
@@ -133,6 +133,6 @@ class PracticumAssignmentScore {
 
   @override
   String toString() {
-    return 'PracticumScoreType(rate: $rate, color: $color, value: $value, description: $description)';
+    return 'PracticumAssignmentScore(rate: $rate, color: $color, value: $value, description: $description)';
   }
 }

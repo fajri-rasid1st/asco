@@ -173,7 +173,7 @@ class MeetingFormPage extends StatelessWidget {
     if (data['assistantId'] == data['coAssistantId']) {
       context.showSnackBar(
         title: 'Terjadi Kesalahan',
-        message: 'Pemateri & Pendamping tidak boleh asisten yang sama',
+        message: 'Pemateri & Pendamping tidak boleh asisten yang sama.',
         type: SnackBarType.error,
       );
 
