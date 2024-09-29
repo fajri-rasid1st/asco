@@ -36,7 +36,7 @@ class LabExamInfoPage extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            if (MapHelper.getRoleId(CredentialSaver.credential?.role) == 2) ...[
+            if (MapHelper.roleMap[CredentialSaver.credential?.role] == 2) ...[
               Row(
                 children: [
                   Expanded(

@@ -127,7 +127,7 @@ class _SelectUsersPageState extends State<SelectUsersPage> {
                       if (users.isEmpty && query.isNotEmpty) {
                         return SliverFillRemaining(
                           child: CustomInformation(
-                            title: '${MapHelper.getReadableRole(widget.args.role)} tidak ditemukan',
+                            title: '${MapHelper.readableRoleMap[widget.args.role]} tidak ditemukan',
                             subtitle: 'Silahkan cari dengan keyword lain',
                           ),
                         );
@@ -136,9 +136,9 @@ class _SelectUsersPageState extends State<SelectUsersPage> {
                       if (users.isEmpty) {
                         return SliverFillRemaining(
                           child: CustomInformation(
-                            title: '${MapHelper.getReadableRole(widget.args.role)} tidak tersedia',
+                            title: '${MapHelper.readableRoleMap[widget.args.role]} tidak tersedia',
                             subtitle:
-                                'Tidak ada data ${MapHelper.getReadableRole(widget.args.role)} yang dapat ditambahkan',
+                                'Tidak ada data ${MapHelper.readableRoleMap[widget.args.role]} yang dapat ditambahkan',
                           ),
                         );
                       }
@@ -204,9 +204,9 @@ class _SelectUsersPageState extends State<SelectUsersPage> {
 
   void showCancelMessage(BuildContext context) {
     context.showConfirmDialog(
-      title: 'Batalkan Pilih ${MapHelper.getReadableRole(widget.args.role)}?',
+      title: 'Batalkan Pilih ${MapHelper.readableRoleMap[widget.args.role]}?',
       message:
-          'Daftar ${MapHelper.getReadableRole(widget.args.role)} yang telah dipilih tidak akan tersimpan. Harap tekan tombol Submit setelah selesai memilih.',
+          'Daftar ${MapHelper.readableRoleMap[widget.args.role]} yang telah dipilih tidak akan tersimpan. Harap tekan tombol Submit setelah selesai memilih.',
       primaryButtonText: 'Batalkan',
       onPressedPrimaryButton: () {
         navigatorKey.currentState!.pop();

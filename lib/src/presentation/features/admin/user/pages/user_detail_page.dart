@@ -102,7 +102,7 @@ class UserDetailPage extends ConsumerWidget {
                 ),
                 const SizedBox(height: 4),
                 CustomBadge(
-                  text: '${MapHelper.getReadableRole(user.role)}',
+                  text: '${MapHelper.readableRoleMap[user.role]}',
                   verticalPadding: 6,
                   horizontalPadding: 12,
                   textStyle: textTheme.bodySmall!.copyWith(

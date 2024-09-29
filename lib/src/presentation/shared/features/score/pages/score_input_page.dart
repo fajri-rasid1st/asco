@@ -240,7 +240,7 @@ class StudentScoreCard extends StatelessWidget {
           color: Palette.purple2,
         ),
       ],
-      onTap: () => showScoreInputModalBottomSheet(context),
+      onTap: () => showScoreInputModalBottomSheet(context, score),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -299,7 +299,7 @@ class StudentScoreCard extends StatelessWidget {
     );
   }
 
-  Future<void> showScoreInputModalBottomSheet(BuildContext context) async {
+  Future<void> showScoreInputModalBottomSheet(BuildContext context, Score score) async {
     return showModalBottomSheet(
       context: context,
       enableDrag: false,
@@ -319,14 +319,14 @@ class StudentScoreCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Wd. Ananda Lesmono',
+                  '${score.student?.fullname}',
                   style: textTheme.titleMedium!.copyWith(
                     color: Palette.purple2,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
                 Text(
-                  'H071191051',
+                  '${score.student?.username}',
                   style: textTheme.bodySmall!.copyWith(
                     color: Palette.purple3,
                   ),
@@ -336,12 +336,15 @@ class StudentScoreCard extends StatelessWidget {
                   key: formKey,
                   child: Consumer(
                     builder: (context, ref, child) {
+                      final value = ref.watch(fieldValueProvider);
+
                       return Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Expanded(
                             child: FormBuilderTextField(
                               name: 'score',
+                              initialValue: score.score?.toStringAsFixed(1),
                               keyboardType: TextInputType.number,
                               textInputAction: TextInputAction.done,
                               textAlignVertical: TextAlignVertical.center,
@@ -381,7 +384,7 @@ class StudentScoreCard extends StatelessWidget {
                           ),
                           const SizedBox(width: 10),
                           IconButton(
-                            onPressed: ref.watch(fieldValueProvider).isEmpty ? null : inputScore,
+                            onPressed: value.isEmpty ? null : () => inputScore(ref, score),
                             icon: const Icon(Icons.check_rounded),
                             style: IconButton.styleFrom(
                               disabledBackgroundColor: Palette.divider,
@@ -405,10 +408,12 @@ class StudentScoreCard extends StatelessWidget {
     );
   }
 
-  void inputScore() {
+  void inputScore(WidgetRef ref, Score score) {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (!formKey.currentState!.saveAndValidate()) return;
+
+    // TODO: Create or update score
   }
 }
 

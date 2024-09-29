@@ -29,7 +29,7 @@ class ExtrasPage extends StatelessWidget {
         description: 'Isian singkat di akhir kelas',
         iconName: 'game_controller_outlined.svg',
         iconBackgroundColor: Palette.purple3,
-        onTap: MapHelper.getRoleId(CredentialSaver.credential?.role) == 1
+        onTap: MapHelper.roleMap[CredentialSaver.credential?.role] == 1
             ? () => FunctionHelper.openUrl('https://quizizz.com/?lng=id')
             : () => navigatorKey.currentState!.pushNamed(
                   editExtraRoute,
@@ -46,7 +46,7 @@ class ExtrasPage extends StatelessWidget {
         description: 'Isi form seputar praktikum',
         iconName: 'form_outlined.svg',
         iconBackgroundColor: Palette.errorText,
-        onTap: MapHelper.getRoleId(CredentialSaver.credential?.role) == 1
+        onTap: MapHelper.roleMap[CredentialSaver.credential?.role] == 1
             ? () => context.showSnackBar(
                   title: 'Segera Hadir',
                   message: 'Kuesioner belum tersedia.',

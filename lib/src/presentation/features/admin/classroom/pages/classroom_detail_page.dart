@@ -127,7 +127,7 @@ class ClassroomDetailPage extends ConsumerWidget {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              'Setiap ${MapHelper.getReadableDay(classroom.meetingDay)}, Pukul ${classroom.startTime?.to24TimeFormat()} - ${classroom.endTime?.to24TimeFormat()}',
+                              'Setiap ${MapHelper.readableDayMap[classroom.meetingDay]}, Pukul ${classroom.startTime?.to24TimeFormat()} - ${classroom.endTime?.to24TimeFormat()}',
                               style: textTheme.bodySmall!.copyWith(
                                 color: Palette.secondaryText,
                               ),

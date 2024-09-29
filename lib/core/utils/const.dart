@@ -1,6 +1,3 @@
-// Project imports:
-import 'package:asco/core/styles/color_scheme.dart';
-
 // error messages
 const kNoInternetConnection = 'no internet connection';
 const kUnauthorized = 'you are not authorized';
@@ -19,27 +16,3 @@ const kStudentsAlreadyExists =
 // shared preferences keys
 const accessTokenKey = 'ACCESS_TOKEN';
 const credentialKey = 'CREDENTIAL';
-
-// maps
-const userRoleFilter = {
-  'Semua': '',
-  'Praktikan': 'STUDENT',
-  'Asisten': 'ASSISTANT',
-};
-
-const dayOfWeek = {
-  'Minggu': 'SUNDAY',
-  'Senin': 'MONDAY',
-  'Selasa': 'TUESDAY',
-  'Rabu': 'WEDNESDAY',
-  'Kamis': 'THURSDAY',
-  'Jum\'at': 'FRIDAY',
-  'Sabtu': 'SATURDAY',
-};
-
-const attendanceStatusColor = {
-  'Hadir': Palette.success,
-  'Alpa': Palette.error,
-  'Sakit': Palette.warning,
-  'Izin': Palette.info,
-};

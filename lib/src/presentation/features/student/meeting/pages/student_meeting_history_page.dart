@@ -73,7 +73,7 @@ class StudentMeetingHistoryPage extends StatelessWidget {
                         CircleBorderContainer(
                           size: 60,
                           withBorder: false,
-                          fillColor: MapHelper.getAttendanceStatusColor(attendance.status),
+                          fillColor: MapHelper.attendanceColorMap[attendance.status],
                           child: Text(
                             '#${attendance.meeting?.number}',
                             style: textTheme.titleMedium!.copyWith(
@@ -96,9 +96,9 @@ class StudentMeetingHistoryPage extends StatelessWidget {
                               ),
                               const SizedBox(height: 1),
                               Text(
-                                '${MapHelper.getReadableAttendanceStatus(attendance.status)}',
+                                '${MapHelper.readableAttendanceMap[attendance.status]}',
                                 style: textTheme.bodySmall!.copyWith(
-                                  color: MapHelper.getAttendanceStatusColor(attendance.status),
+                                  color: MapHelper.attendanceColorMap[attendance.status],
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),

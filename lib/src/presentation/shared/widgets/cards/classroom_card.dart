@@ -52,7 +52,7 @@ class ClassroomCard extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   subtitleType == ClassroomSubtitleType.schedule
-                      ? 'Setiap ${MapHelper.getReadableDay(classroom.meetingDay)}, Pukul ${classroom.startTime?.to24TimeFormat()} - ${classroom.endTime?.to24TimeFormat()}'
+                      ? 'Setiap ${MapHelper.readableDayMap[classroom.meetingDay]}, Pukul ${classroom.startTime?.to24TimeFormat()} - ${classroom.endTime?.to24TimeFormat()}'
                       : '${classroom.studentsLength} Peserta',
                   style: textTheme.bodySmall!.copyWith(
                     color: Palette.secondaryText,

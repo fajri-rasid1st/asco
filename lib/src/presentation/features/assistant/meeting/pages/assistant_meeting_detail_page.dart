@@ -420,7 +420,10 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
     final isAttend = await showDialog<bool?>(
       context: context,
       barrierDismissible: false,
-      builder: (context) => AttendanceDialog(number: meeting.number!),
+      builder: (context) => AttendanceDialog(
+        number: meeting.number!,
+        attendance: attendance,
+      ),
     );
 
     if (!context.mounted) return;

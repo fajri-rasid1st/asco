@@ -123,7 +123,7 @@ class AssistancePage extends StatelessWidget {
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          trailing: MapHelper.getRoleId(CredentialSaver.credential?.role) == 1
+                          trailing: MapHelper.roleMap[CredentialSaver.credential?.role] == 1
                               ? CustomIconButton(
                                   'github_filled.svg',
                                   color: Palette.purple2,

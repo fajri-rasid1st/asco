@@ -9,6 +9,7 @@ import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/data/models/attendances/attendance.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/dialogs/custom_dialog.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/custom_text_field.dart';
@@ -16,8 +17,13 @@ import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
 class AttendanceDialog extends StatefulWidget {
   final int number;
+  final Attendance attendance;
 
-  const AttendanceDialog({super.key, required this.number});
+  const AttendanceDialog({
+    super.key,
+    required this.number,
+    required this.attendance,
+  });
 
   @override
   State<AttendanceDialog> createState() => _AttendanceDialogState();
@@ -39,14 +45,14 @@ class _AttendanceDialogState extends State<AttendanceDialog> {
         color: Palette.error,
       ),
       const FaceStatus(
-        name: 'Izin',
-        icon: 'face_neutral.svg',
-        color: Palette.info,
-      ),
-      const FaceStatus(
         name: 'Sakit',
         icon: 'face_sick.svg',
         color: Palette.warning,
+      ),
+      const FaceStatus(
+        name: 'Izin',
+        icon: 'face_neutral.svg',
+        color: Palette.info,
       ),
       const FaceStatus(
         name: 'Hadir',
@@ -55,8 +61,8 @@ class _AttendanceDialogState extends State<AttendanceDialog> {
       ),
     ];
     points = [5, 10, 15, 20, 25, 30];
-    statusNotifier = ValueNotifier(status.last);
-    pointNotifier = ValueNotifier(null);
+    statusNotifier = ValueNotifier(status[faceStatusIndex]);
+    pointNotifier = ValueNotifier(widget.attendance.extraPoint);
     formKey = GlobalKey<FormBuilderState>();
 
     super.initState();
@@ -80,13 +86,13 @@ class _AttendanceDialogState extends State<AttendanceDialog> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'H071191049',
+            '${widget.attendance.student?.username}',
             style: textTheme.bodyMedium!.copyWith(
               color: Palette.purple3,
             ),
           ),
           Text(
-            'Muh. Ikhsan',
+            '${widget.attendance.student?.fullname}',
             style: textTheme.titleLarge!.copyWith(
               color: Palette.purple2,
             ),
@@ -139,9 +145,10 @@ class _AttendanceDialogState extends State<AttendanceDialog> {
 
                         return FormBuilder(
                           key: formKey,
-                          child: const CustomTextField(
+                          child: CustomTextField(
                             name: 'note',
                             label: 'Catatan',
+                            initialValue: widget.attendance.note,
                             isSmall: true,
                             hintText: 'Tambahkan catatan',
                             maxLines: 4,
@@ -165,9 +172,26 @@ class _AttendanceDialogState extends State<AttendanceDialog> {
 
     formKey.currentState?.save();
 
-    // Update attendance meeting here ...
+    // final status = statusNotifier.value;
+    // final extraPoint = pointNotifier.value;
+    // final note = formKey.currentState?.value['note'];
 
     navigatorKey.currentState!.pop<bool>(statusNotifier.value == status.last);
+  }
+
+  int get faceStatusIndex {
+    switch (widget.attendance.status) {
+      case 'ATTEND':
+        return 3;
+      case 'ABSENT':
+        return 0;
+      case 'SICK':
+        return 1;
+      case 'PERMISSION':
+        return 2;
+      default:
+        return 3;
+    }
   }
 }
 

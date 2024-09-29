@@ -9,7 +9,6 @@ import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/core/utils/const.dart';
 import 'package:asco/src/data/models/attendances/attendance_meeting.dart';
 import 'package:asco/src/presentation/shared/features/meeting/providers/meeting_attendances_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
@@ -57,28 +56,33 @@ class AttendanceDetailPage extends ConsumerWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: List<Flexible>.generate(
-                      attendanceStatusColor.length,
-                      (index) => Flexible(
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            CircleBorderContainer(
-                              size: 16,
-                              withBorder: false,
-                              fillColor: attendanceStatusColor.values.toList()[index],
-                            ),
-                            const SizedBox(width: 6),
-                            Flexible(
-                              child: Text(
-                                attendanceStatusColor.keys.toList()[index],
-                                style: textTheme.bodyMedium!.copyWith(
-                                  color: attendanceStatusColor.values.toList()[index],
+                      MapHelper.readableAttendanceColorMap.length,
+                      (index) {
+                        final label = MapHelper.readableAttendanceColorMap.keys.toList()[index];
+                        final color = MapHelper.readableAttendanceColorMap.values.toList()[index];
+
+                        return Flexible(
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              CircleBorderContainer(
+                                size: 16,
+                                withBorder: false,
+                                fillColor: color,
+                              ),
+                              const SizedBox(width: 6),
+                              Flexible(
+                                child: Text(
+                                  label,
+                                  style: textTheme.bodyMedium!.copyWith(
+                                    color: color,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
+                            ],
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ),
@@ -97,7 +101,7 @@ class AttendanceDetailPage extends ConsumerWidget {
                         trailing: CircleBorderContainer(
                           size: 28,
                           withBorder: false,
-                          fillColor: MapHelper.getAttendanceStatusColor(attendances[index].status),
+                          fillColor: MapHelper.attendanceColorMap[attendances[index].status],
                         ),
                       ),
                     ),

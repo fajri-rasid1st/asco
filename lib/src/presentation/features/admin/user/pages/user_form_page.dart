@@ -11,10 +11,10 @@ import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/button_extension.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/excel_helper.dart';
+import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/services/file_service.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
 import 'package:asco/src/data/models/profiles/profile_post.dart';
@@ -105,9 +105,9 @@ class UserFormPage extends StatelessWidget {
               CustomDropdownField(
                 name: 'role',
                 label: 'Role',
-                items: userRoleFilter.keys.toList().sublist(1),
-                values: userRoleFilter.values.toList().sublist(1),
-                initialValue: user?.role ?? userRoleFilter.values.toList()[1],
+                items: MapHelper.roleFilterMap.keys.toList().sublist(1),
+                values: MapHelper.roleFilterMap.values.toList().sublist(1),
+                initialValue: user?.role ?? MapHelper.roleFilterMap.values.toList()[1],
               ),
               if (user == null) ...[
                 Padding(

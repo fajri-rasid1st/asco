@@ -200,7 +200,7 @@ class Leaderboard extends ConsumerWidget {
               ),
               if (type == LeaderboardType.practicum) ...[
                 const SizedBox(height: 12),
-                if (MapHelper.getRoleId(CredentialSaver.credential?.role) == 1)
+                if (MapHelper.roleMap[CredentialSaver.credential?.role] == 1)
                   Builder(
                     builder: (context) {
                       final myScore = scores.firstWhere(

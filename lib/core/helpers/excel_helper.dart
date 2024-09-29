@@ -111,7 +111,7 @@ class ExcelHelper {
         (i + 1).toString(),
         attendance.student!.username!,
         attendance.student!.fullname!,
-        MapHelper.getReadableAttendanceStatus(attendance.status)!,
+        MapHelper.readableAttendanceMap[attendance.status]!,
       ];
 
       // Row looping

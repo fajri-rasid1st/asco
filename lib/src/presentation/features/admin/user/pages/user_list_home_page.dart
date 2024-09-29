@@ -8,9 +8,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:asco/core/enums/model_attributes.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/function_helper.dart';
+import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
-import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/features/admin/user/providers/user_actions_provider.dart';
 import 'package:asco/src/presentation/features/admin/user/providers/users_provider.dart';
@@ -61,7 +61,7 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
 
   @override
   Widget build(BuildContext context) {
-    final labels = userRoleFilter.keys.toList();
+    final labels = MapHelper.roleFilterMap.keys.toList();
 
     ref.listen(userActionsProvider, (_, state) {
       state.when(
@@ -157,7 +157,7 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) => Consumer(
                       builder: (context, ref, child) {
-                        final userRole = userRoleFilter[labels[index]]!;
+                        final userRole = MapHelper.roleFilterMap[labels[index]]!;
 
                         return CustomFilterChip(
                           label: labels[index],

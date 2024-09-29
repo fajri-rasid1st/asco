@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:asco/core/enums/attendance_type.dart';
 import 'package:asco/core/extensions/number_extension.dart';
+import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/core/utils/const.dart';
 import 'package:asco/src/data/models/meetings/meeting.dart';
 import 'package:asco/src/presentation/shared/widgets/assistance_status_icon.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
@@ -110,7 +110,7 @@ class AttendanceCard extends StatelessWidget {
                                       right: index == meetingStatus!.length ? 0 : 2,
                                     ),
                                     decoration: BoxDecoration(
-                                      color: attendanceStatusColor[keys[index]]!,
+                                      color: MapHelper.readableAttendanceColorMap[keys[index]]!,
                                       borderRadius: BorderRadius.circular(3),
                                     ),
                                   ),
@@ -130,7 +130,7 @@ class AttendanceCard extends StatelessWidget {
                                   child: Text(
                                     '${values[index]} ${keys[index]}',
                                     style: textTheme.labelSmall!.copyWith(
-                                      color: attendanceStatusColor[keys[index]]!,
+                                      color: MapHelper.readableAttendanceColorMap[keys[index]]!,
                                       fontWeight: FontWeight.w600,
                                     ),
                                   ),

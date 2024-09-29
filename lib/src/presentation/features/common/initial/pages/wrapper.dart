@@ -59,7 +59,7 @@ class Wrapper extends ConsumerWidget {
 
     if (isLogin) {
       navigatorKey.currentState!.pushReplacementNamed(
-        MapHelper.getRoleId(CredentialSaver.credential?.role) == 0 ? adminHomeRoute : homeRoute,
+        MapHelper.roleMap[CredentialSaver.credential?.role] == 0 ? adminHomeRoute : homeRoute,
       );
     } else {
       navigatorKey.currentState!.pushReplacementNamed(onBoardingRoute);

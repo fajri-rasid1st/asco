@@ -109,7 +109,7 @@ class _ScoreRecapListHomePageState extends State<ScoreRecapListHomePage>
         ),
       ),
       body: NotificationListener<UserScrollNotification>(
-        onNotification: (notification) => MapHelper.getRoleId(CredentialSaver.credential?.role) == 0
+        onNotification: (notification) => MapHelper.roleMap[CredentialSaver.credential?.role] == 0
             ? FunctionHelper.handleFabVisibilityOnScroll(fabAnimationController, notification)
             : false,
         child: CustomScrollView(
@@ -228,7 +228,7 @@ class _ScoreRecapListHomePageState extends State<ScoreRecapListHomePage>
           ],
         ),
       ),
-      floatingActionButton: MapHelper.getRoleId(CredentialSaver.credential?.role) == 0
+      floatingActionButton: MapHelper.roleMap[CredentialSaver.credential?.role] == 0
           ? Consumer(
               builder: (context, ref, child) {
                 final scores = ref.watch(ScoresProvider(widget.practicum.id!)).valueOrNull;

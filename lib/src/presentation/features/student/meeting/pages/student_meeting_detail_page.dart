@@ -313,11 +313,11 @@ class AttendanceStatusInfo extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${MapHelper.getReadableAttendanceStatus(attendance.status)}',
+              '${MapHelper.readableAttendanceMap[attendance.status]}',
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: textTheme.titleMedium!.copyWith(
-                color: MapHelper.getAttendanceStatusColor(attendance.status),
+                color: MapHelper.attendanceColorMap[attendance.status],
                 fontWeight: FontWeight.w600,
               ),
             ),

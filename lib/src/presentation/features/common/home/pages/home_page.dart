@@ -37,7 +37,7 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final roleId = MapHelper.getRoleId(CredentialSaver.credential?.role);
+    final roleId = MapHelper.roleMap[CredentialSaver.credential?.role];
     final selectedIndex = ref.watch(selectedMenuProvider);
 
     ref.listen(
@@ -284,7 +284,7 @@ class CourseCard extends StatelessWidget {
                             const SizedBox(height: 8),
                             Text(
                               roleId == 1
-                                  ? 'Setiap hari ${MapHelper.getReadableDay(classroom?.meetingDay)}, Pukul ${classroom?.startTime?.to24TimeFormat()} - ${classroom?.endTime?.to24TimeFormat()}'
+                                  ? 'Setiap hari ${MapHelper.readableDayMap[classroom?.meetingDay]}, Pukul ${classroom?.startTime?.to24TimeFormat()} - ${classroom?.endTime?.to24TimeFormat()}'
                                   : '${practicum?.classroomsLength} Kelas ● ${practicum?.meetingsLength} Pertemuan',
                               style: textTheme.bodySmall!.copyWith(
                                 color: Palette.background,

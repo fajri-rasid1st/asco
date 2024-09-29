@@ -9,7 +9,7 @@ import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/extensions/number_extension.dart';
 import 'package:asco/core/extensions/string_extension.dart';
 import 'package:asco/core/helpers/function_helper.dart';
-import 'package:asco/core/utils/const.dart';
+import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/classrooms/classroom.dart';
 import 'package:asco/src/presentation/shared/widgets/dialogs/custom_dialog.dart';
@@ -52,9 +52,9 @@ class ClassroomFormDialog extends StatelessWidget {
               name: 'meetingDay',
               label: 'Setiap Hari',
               isSmall: true,
-              items: dayOfWeek.keys.toList(),
-              values: dayOfWeek.values.toList(),
-              initialValue: classroom?.meetingDay ?? dayOfWeek.values.first,
+              items: MapHelper.dayMap.keys.toList(),
+              values: MapHelper.dayMap.values.toList(),
+              initialValue: classroom?.meetingDay ?? MapHelper.dayMap.values.first,
             ),
             const SizedBox(height: 12),
             Row(

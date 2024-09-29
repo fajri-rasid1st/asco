@@ -47,7 +47,7 @@ class OnBoardingPage extends ConsumerWidget {
         data: (data) {
           if (data.$1 != null && data.$2 != null) {
             navigatorKey.currentState!.pushNamedAndRemoveUntil(
-              MapHelper.getRoleId(data.$2!.role) == 0 ? adminHomeRoute : homeRoute,
+              MapHelper.roleMap[data.$2!.role] == 0 ? adminHomeRoute : homeRoute,
               (route) => false,
             );
           }

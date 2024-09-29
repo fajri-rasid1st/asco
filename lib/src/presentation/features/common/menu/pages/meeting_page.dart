@@ -34,7 +34,7 @@ class MeetingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final roleId = MapHelper.getRoleId(CredentialSaver.credential?.role);
+    final roleId = MapHelper.roleMap[CredentialSaver.credential?.role];
 
     final meetingMenuCards = [
       MeetingMenuCard(
@@ -132,7 +132,7 @@ class MeetingPage extends StatelessWidget {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                'Setiap hari ${MapHelper.getReadableDay(classroom.meetingDay)}, Pukul ${classroom.startTime?.to24TimeFormat()} - ${classroom.endTime?.to24TimeFormat()}',
+                                'Setiap hari ${MapHelper.readableDayMap[classroom.meetingDay]}, Pukul ${classroom.startTime?.to24TimeFormat()} - ${classroom.endTime?.to24TimeFormat()}',
                                 style: textTheme.bodySmall!.copyWith(
                                   color: Palette.scaffoldBackground,
                                 ),
