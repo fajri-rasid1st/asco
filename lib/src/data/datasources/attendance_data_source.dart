@@ -32,9 +32,15 @@ abstract class AttendanceDataSource {
   /// Assistant: Insert all attendances in a meeting
   Future<void> insertMeetingAttendances(String meetingId);
 
-  /// Assistant: Update attendance
+  /// Assistant: Update attendance (manual)
   Future<void> updateAttendance(
     String id,
+    AttendancePost attendance,
+  );
+
+  /// Assistant: Update attendance by profile id (qr-scan)
+  Future<void> updateAttendanceScanner(
+    String meetingId,
     AttendancePost attendance,
   );
 }
@@ -164,6 +170,31 @@ class AttendanceDataSourceImpl implements AttendanceDataSource {
     try {
       final response = await client.put(
         Uri.parse('${ApiConfigs.baseUrl}/attendances/$id'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: jsonEncode(attendance.toJson()),
+      );
+
+      final result = DataResponse.fromJson(response.body);
+
+      if (response.statusCode != 200) {
+        throw ServerException(result.error?.code, result.error?.message);
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<void> updateAttendanceScanner(
+    String meetingId,
+    AttendancePost attendance,
+  ) async {
+    try {
+      final response = await client.put(
+        Uri.parse('${ApiConfigs.baseUrl}/meetings/$meetingId/attendances'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'

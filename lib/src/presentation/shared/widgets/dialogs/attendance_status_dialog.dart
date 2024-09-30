@@ -9,18 +9,18 @@ import 'package:asco/core/enums/attendance_type.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/src/data/models/attendances/attendance.dart';
 import 'package:asco/src/data/models/meetings/meeting.dart';
+import 'package:asco/src/data/models/profiles/profile.dart';
 
 class AttendanceStatusDialog extends StatelessWidget {
-  final Attendance attendance;
+  final Profile student;
   final Meeting meeting;
   final AttendanceType attendanceType;
   final bool isAttend;
 
   const AttendanceStatusDialog({
     super.key,
-    required this.attendance,
+    required this.student,
     required this.meeting,
     required this.attendanceType,
     required this.isAttend,
@@ -75,7 +75,7 @@ class AttendanceStatusDialog extends StatelessWidget {
                 ),
                 const SizedBox(height: 28),
                 Text(
-                  '${attendance.student?.fullname}',
+                  '${student.fullname}',
                   textAlign: TextAlign.center,
                   style: textTheme.titleSmall!.copyWith(
                     color: Palette.purple2,
@@ -83,7 +83,7 @@ class AttendanceStatusDialog extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  '${attendance.student?.username}',
+                  '${student.username}',
                   textAlign: TextAlign.center,
                   style: textTheme.bodySmall!.copyWith(
                     color: Palette.secondaryText,

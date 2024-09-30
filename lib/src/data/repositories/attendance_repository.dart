@@ -27,9 +27,15 @@ abstract class AttendanceRepository {
   /// Assistant: Insert all attendances in a meeting
   Future<Either<Failure, void>> insertMeetingAttendances(String meetingId);
 
-  /// Assistant: Update attendance
+  /// Assistant: Update attendance (manual)
   Future<Either<Failure, void>> updateAttendance(
     String id,
+    AttendancePost attendance,
+  );
+
+  /// Assistant: Update attendance by profile id (qr-scan)
+  Future<Either<Failure, void>> updateAttendanceScanner(
+    String meetingId,
     AttendancePost attendance,
   );
 }
@@ -120,6 +126,27 @@ class AttendanceRepositoryImpl implements AttendanceRepository {
       try {
         final result = await attendanceDataSource.updateAttendance(
           id,
+          attendance,
+        );
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updateAttendanceScanner(
+    String meetingId,
+    AttendancePost attendance,
+  ) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await attendanceDataSource.updateAttendanceScanner(
+          meetingId,
           attendance,
         );
 

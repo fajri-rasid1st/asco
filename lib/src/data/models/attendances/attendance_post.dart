@@ -14,6 +14,7 @@ class AttendancePost with _$AttendancePost {
     @JsonKey(name: 'attendanceStatus') required String status,
     int? extraPoint,
     String? note,
+    @JsonKey(name: 'profileId') String? studentId,
   }) = _AttendancePost;
 
   factory AttendancePost.fromJson(Map<String, Object?> json) => _$AttendancePostFromJson(json);

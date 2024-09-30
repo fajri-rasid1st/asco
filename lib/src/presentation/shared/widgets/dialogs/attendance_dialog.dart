@@ -182,16 +182,22 @@ class _AttendanceDialogState extends ConsumerState<AttendanceDialog> {
       formKey.currentState?.save();
 
       final isAttend = statusNotifier.value == status.last;
+      final String? note = formKey.currentState?.value['note'];
 
       final attendance = AttendancePost(
         status: MapHelper.attendanceMap[statusNotifier.value.name]!,
         extraPoint: isAttend ? pointNotifier.value : 0,
-        note: isAttend ? 'Tidak ada keterangan' : formKey.currentState?.value['note'],
+        note: isAttend
+            ? null
+            : note != null && note.isNotEmpty
+                ? note
+                : null,
       );
 
-      ref
-          .read(updateAttendanceProvider.notifier)
-          .updateAttendance(widget.attendance.id!, attendance);
+      ref.read(updateAttendanceProvider.notifier).updateAttendance(
+            widget.attendance.id!,
+            attendance,
+          );
     } else {
       context.showSnackBar(
         title: 'Pertemuan Telah Selesai',

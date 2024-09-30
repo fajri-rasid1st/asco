@@ -10,6 +10,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Project imports:
 import 'package:asco/core/enums/attendance_type.dart';
 import 'package:asco/core/enums/score_type.dart';
+import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/extensions/datetime_extension.dart';
@@ -28,6 +29,7 @@ import 'package:asco/src/data/models/classrooms/classroom.dart';
 import 'package:asco/src/data/models/meetings/meeting.dart';
 import 'package:asco/src/data/models/meetings/meeting_post.dart';
 import 'package:asco/src/presentation/features/admin/meeting/providers/meeting_actions_provider.dart';
+import 'package:asco/src/presentation/features/assistant/meeting/pages/assistant_meeting_scanner_page.dart';
 import 'package:asco/src/presentation/features/assistant/meeting/providers/insert_meeting_attendances_provider.dart';
 import 'package:asco/src/presentation/features/assistant/meeting/providers/update_attendance_provider.dart';
 import 'package:asco/src/presentation/providers/manual_providers/query_provider.dart';
@@ -316,13 +318,11 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
                       error: (error, stackTrace) {
                         navigatorKey.currentState!.pop();
                         navigatorKey.currentState!.pop();
-
                         context.responseError(error, stackTrace);
                       },
                       data: (data) {
                         navigatorKey.currentState!.pop();
                         navigatorKey.currentState!.pop<String?>(data);
-
                         ref.invalidate(meetingAttendancesProvider);
                       },
                     );
@@ -399,11 +399,29 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
               ),
             ),
           ),
-          floatingActionButton: AnimatedFloatingActionButton(
-            animationController: fabAnimationController,
-            onPressed: () => navigatorKey.currentState!.pushNamed(assistantMeetingScannerRoute),
-            tooltip: 'Scan QR',
-            child: const Icon(Icons.qr_code_scanner_outlined),
+          floatingActionButton: Consumer(
+            builder: (context, ref, child) {
+              final attendances = ref.watch(MeetingAttendancesProvider(meeting.id!)).valueOrNull;
+
+              return AnimatedFloatingActionButton(
+                animationController: fabAnimationController,
+                onPressed: attendances != null && attendances.isNotEmpty
+                    ? () => navigatorKey.currentState!.pushNamed(
+                          assistantMeetingScannerRoute,
+                          arguments: AssistantMeetingScannerPageArgs(
+                            meeting: meeting,
+                            attendances: attendances,
+                          ),
+                        )
+                    : () => context.showSnackBar(
+                          title: 'Informasi',
+                          message: 'Scanner hanya dapat digunakan saat pertemuan telah dimulai',
+                          type: SnackBarType.info,
+                        ),
+                tooltip: 'Scan QR',
+                child: const Icon(Icons.qr_code_scanner_outlined),
+              );
+            },
           ),
         );
       },
@@ -477,7 +495,7 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
       showDialog(
         context: context,
         builder: (context) => AttendanceStatusDialog(
-          attendance: attendance,
+          student: attendance.student!,
           meeting: meeting,
           attendanceType: AttendanceType.meeting,
           isAttend: true,

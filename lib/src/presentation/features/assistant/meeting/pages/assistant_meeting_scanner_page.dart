@@ -9,21 +9,64 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:rive/rive.dart';
 
 // Project imports:
+import 'package:asco/core/enums/attendance_type.dart';
+import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/button_extension.dart';
+import 'package:asco/core/extensions/context_extension.dart';
+import 'package:asco/core/extensions/datetime_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/data/models/attendances/attendance.dart';
+import 'package:asco/src/data/models/attendances/attendance_post.dart';
+import 'package:asco/src/data/models/meetings/meeting.dart';
+import 'package:asco/src/data/models/profiles/profile.dart';
+import 'package:asco/src/presentation/features/assistant/meeting/providers/update_attendance_scanner_provider.dart';
 import 'package:asco/src/presentation/providers/manual_providers/qr_scanner_provider.dart';
+import 'package:asco/src/presentation/shared/features/meeting/providers/meeting_attendances_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
+import 'package:asco/src/presentation/shared/widgets/dialogs/attendance_status_dialog.dart';
 import 'package:asco/src/presentation/shared/widgets/qr_code_scanner.dart';
 
 class AssistantMeetingScannerPage extends ConsumerWidget {
-  const AssistantMeetingScannerPage({super.key});
+  final AssistantMeetingScannerPageArgs args;
+
+  const AssistantMeetingScannerPage({super.key, required this.args});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final qrScannerNotifier = ref.watch(qrScannerProvider);
+
+    ref.listen(updateAttendanceScannerProvider, (_, state) {
+      state.whenOrNull(
+        loading: () => context.showLoadingDialog(),
+        error: (error, stackTrace) {
+          if (!qrScannerNotifier.autoConfirm) {
+            navigatorKey.currentState!.pop();
+          }
+
+          navigatorKey.currentState!.pop();
+          context.responseError(error, stackTrace);
+        },
+        data: (data) {
+          if (data != null) {
+            if (!qrScannerNotifier.autoConfirm) {
+              navigatorKey.currentState!.pop();
+            }
+
+            navigatorKey.currentState!.pop();
+            ref.invalidate(meetingAttendancesProvider);
+
+            final attendance = args.attendances.where((e) => e.student!.id == data);
+
+            if (attendance.isNotEmpty) {
+              showAttendanceStatusDialog(context, ref, attendance.first.student!);
+            }
+          }
+        },
+      );
+    });
 
     return Scaffold(
       backgroundColor: Palette.purple2,
@@ -34,12 +77,16 @@ class AssistantMeetingScannerPage extends ConsumerWidget {
               navigatorKey.currentState!.pop();
             }
 
-            if (!qrScannerNotifier.autoConfirm && !qrScannerNotifier.isError) {
-              showConfirmModalBottomSheet(context, ref);
-            } else if (qrScannerNotifier.isError) {
-              showErrorModalBottomSheet(context, ref);
+            final attendance = args.attendances.where((e) => e.student!.id == value);
+
+            if (attendance.isNotEmpty) {
+              if (qrScannerNotifier.autoConfirm) {
+                submit(context, ref, attendance.first.student!.id!);
+              } else {
+                showConfirmModalBottomSheet(context, ref, attendance.first.student!);
+              }
             } else {
-              showAttendanceStatusDialog(context, ref);
+              showErrorModalBottomSheet(context, ref);
             }
 
             ref.read(qrScannerProvider.notifier).isPaused = true;
@@ -49,7 +96,35 @@ class AssistantMeetingScannerPage extends ConsumerWidget {
     );
   }
 
-  Future<void> showConfirmModalBottomSheet(BuildContext context, WidgetRef ref) async {
+  void submit(BuildContext context, WidgetRef ref, String studentId) {
+    if (DateTime.now().secondsSinceEpoch < args.meeting.date! + 86400) {
+      final attendance = AttendancePost(
+        status: 'ATTEND',
+        studentId: studentId,
+      );
+
+      ref.read(updateAttendanceScannerProvider.notifier).updateAttendanceScanner(
+            args.meeting.id!,
+            attendance,
+          );
+    } else {
+      context.showSnackBar(
+        title: 'Pertemuan Telah Selesai',
+        message: 'Kamu sudah tidak bisa mengabsen peserta pada pertemuan ini.',
+        type: SnackBarType.error,
+      );
+
+      if (!ref.watch(qrScannerProvider).autoConfirm) {
+        navigatorKey.currentState!.pop();
+      }
+    }
+  }
+
+  Future<void> showConfirmModalBottomSheet(
+    BuildContext context,
+    WidgetRef ref,
+    Profile student,
+  ) async {
     return showModalBottomSheet(
       context: context,
       enableDrag: false,
@@ -65,14 +140,14 @@ class AssistantMeetingScannerPage extends ConsumerWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Pemrograman Mobile A',
+                '${args.meeting.lesson}',
                 style: textTheme.bodyMedium!.copyWith(
                   color: Palette.purple3,
                 ),
               ),
               const SizedBox(height: 2),
               Text(
-                'Pertemuan 1',
+                'Pertemuan ${args.meeting.number}',
                 style: textTheme.titleLarge!.copyWith(
                   color: Palette.purple2,
                   fontWeight: FontWeight.w600,
@@ -82,25 +157,25 @@ class AssistantMeetingScannerPage extends ConsumerWidget {
                 contentPadding: EdgeInsets.zero,
                 minLeadingWidth: 48,
                 horizontalTitleGap: 14,
-                leading: const CircleNetworkImage(
-                  imageUrl: 'https://placehold.co/100x100/png',
+                leading: CircleNetworkImage(
+                  imageUrl: student.profilePicturePath,
                   size: 48,
                 ),
                 title: Text(
-                  'Eurico Devon Bura Pakilaran',
+                  '${student.fullname}',
                   style: textTheme.titleMedium!.copyWith(
                     color: Palette.disabledText,
                   ),
                 ),
                 subtitle: Text(
-                  'H071191051',
+                  '${student.username}',
                   style: textTheme.bodySmall!.copyWith(
                     color: Palette.disabledText,
                   ),
                 ),
               ),
               FilledButton(
-                onPressed: () => navigatorKey.currentState!.pop(),
+                onPressed: () => submit(context, ref, student.id!),
                 child: const Text('Konfirmasi'),
               ).fullWidth(),
             ],
@@ -110,7 +185,34 @@ class AssistantMeetingScannerPage extends ConsumerWidget {
     ).whenComplete(() => ref.read(qrScannerProvider.notifier).reset());
   }
 
-  Future<void> showErrorModalBottomSheet(BuildContext context, WidgetRef ref) async {
+  Future<void> showAttendanceStatusDialog(
+    BuildContext context,
+    WidgetRef ref,
+    Profile student,
+  ) async {
+    Timer? timer = Timer(
+      const Duration(seconds: 3),
+      () => navigatorKey.currentState!.pop(),
+    );
+
+    showDialog(
+      context: context,
+      builder: (context) => AttendanceStatusDialog(
+        student: student,
+        meeting: args.meeting,
+        attendanceType: AttendanceType.meeting,
+        isAttend: true,
+      ),
+    ).then((_) {
+      timer?.cancel();
+      timer = null;
+    }).whenComplete(() => ref.read(qrScannerProvider.notifier).reset());
+  }
+
+  Future<void> showErrorModalBottomSheet(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
     return showModalBottomSheet(
       context: context,
       enableDrag: false,
@@ -142,7 +244,7 @@ class AssistantMeetingScannerPage extends ConsumerWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'NIM Tidak Ditemukan!',
+                      'Peserta Tidak Ditemukan!',
                       textAlign: TextAlign.center,
                       style: textTheme.titleLarge!.copyWith(
                         color: Palette.purple2,
@@ -150,7 +252,7 @@ class AssistantMeetingScannerPage extends ConsumerWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      'NIM tidak ada dalam database. Silahkan coba lagi.',
+                      'Peserta tidak ditemukan. Silahkan coba lagi.',
                       textAlign: TextAlign.center,
                       style: textTheme.bodySmall!.copyWith(
                         color: Palette.error,
@@ -165,22 +267,14 @@ class AssistantMeetingScannerPage extends ConsumerWidget {
       ),
     ).whenComplete(() => ref.read(qrScannerProvider.notifier).reset());
   }
+}
 
-  Future<void> showAttendanceStatusDialog(BuildContext context, WidgetRef ref) async {
-    // Timer? timer = Timer(
-    //   const Duration(seconds: 3),
-    //   () => navigatorKey.currentState!.pop(),
-    // );
+class AssistantMeetingScannerPageArgs {
+  final Meeting meeting;
+  final List<Attendance> attendances;
 
-    // // showDialog(
-    // //   context: context,
-    // //   builder: (context) => const AttendanceStatusDialog(
-    // //     attendanceType: AttendanceType.meeting,
-    // //     isAttend: true,
-    // //   ),
-    // // ).then((_) {
-    // //   timer?.cancel();
-    // //   timer = null;
-    // // }).whenComplete(() => ref.read(qrScannerProvider.notifier).reset());
-  }
+  const AssistantMeetingScannerPageArgs({
+    required this.meeting,
+    required this.attendances,
+  });
 }

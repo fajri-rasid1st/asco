@@ -170,13 +170,11 @@ class ScoreInputPage extends StatelessWidget {
                 error: (error, stackTrace) {
                   navigatorKey.currentState!.pop();
                   navigatorKey.currentState!.pop();
-
                   context.responseError(error, stackTrace);
                 },
                 data: (data) {
                   navigatorKey.currentState!.pop();
                   navigatorKey.currentState!.pop();
-
                   ref.invalidate(scoresProvider);
                 },
               );
