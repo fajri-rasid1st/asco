@@ -8,6 +8,7 @@ import 'package:asco/core/errors/failures.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/src/data/datasources/score_data_source.dart';
 import 'package:asco/src/data/models/scores/score.dart';
+import 'package:asco/src/data/models/scores/score_post.dart';
 import 'package:asco/src/data/models/scores/score_recap.dart';
 
 abstract class ScoreRepository {
@@ -41,6 +42,18 @@ abstract class ScoreRepository {
     String practicumId, {
     String query = '',
   });
+
+  /// Assistant: Add score
+  Future<Either<Failure, void>> addScore(
+    String meetingId,
+    ScorePost score,
+  );
+
+  /// Assistant: Update score
+  Future<Either<Failure, void>> updateScore(
+    String id,
+    double score,
+  );
 }
 
 class ScoreRepositoryImpl implements ScoreRepository {
@@ -145,6 +158,48 @@ class ScoreRepositoryImpl implements ScoreRepository {
         final result = await scoreDataSource.getPracticumExamScores(
           practicumId,
           query: query,
+        );
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> addScore(
+    String meetingId,
+    ScorePost score,
+  ) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await scoreDataSource.addScore(
+          meetingId,
+          score,
+        );
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updateScore(
+    String id,
+    double score,
+  ) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await scoreDataSource.updateScore(
+          id,
+          score,
         );
 
         return Right(result);

@@ -1,4 +1,5 @@
 // Dart imports:
+import 'dart:convert';
 import 'dart:io';
 
 // Package imports:
@@ -12,6 +13,7 @@ import 'package:asco/core/extensions/iterable_extension.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/data_response.dart';
 import 'package:asco/src/data/models/scores/score.dart';
+import 'package:asco/src/data/models/scores/score_post.dart';
 import 'package:asco/src/data/models/scores/score_recap.dart';
 
 abstract class ScoreDataSource {
@@ -45,6 +47,18 @@ abstract class ScoreDataSource {
     String practicumId, {
     String query = '',
   });
+
+  /// Assistant: Add score
+  Future<void> addScore(
+    String meetingId,
+    ScorePost score,
+  );
+
+  /// Assistant: Update score
+  Future<void> updateScore(
+    String id,
+    double score,
+  );
 }
 
 class ScoreDataSourceImpl implements ScoreDataSource {
@@ -237,6 +251,56 @@ class ScoreDataSourceImpl implements ScoreDataSource {
           return e.student!.username!;
         });
       } else {
+        throw ServerException(result.error?.code, result.error?.message);
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<void> addScore(
+    String meetingId,
+    ScorePost score,
+  ) async {
+    try {
+      final response = await client.post(
+        Uri.parse('${ApiConfigs.baseUrl}/meetings/$meetingId/scores'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: jsonEncode(score.toJson()),
+      );
+
+      final result = DataResponse.fromJson(response.body);
+
+      if (response.statusCode != 201) {
+        throw ServerException(result.error?.code, result.error?.message);
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<void> updateScore(
+    String id,
+    double score,
+  ) async {
+    try {
+      final response = await client.put(
+        Uri.parse('${ApiConfigs.baseUrl}/scores/$id'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: jsonEncode({'score': score}),
+      );
+
+      final result = DataResponse.fromJson(response.body);
+
+      if (response.statusCode != 200) {
         throw ServerException(result.error?.code, result.error?.message);
       }
     } catch (e) {

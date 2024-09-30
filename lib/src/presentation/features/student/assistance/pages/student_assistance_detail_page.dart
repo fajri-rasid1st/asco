@@ -256,7 +256,7 @@ class StudentAssistanceDetailPage extends ConsumerWidget {
     final elapsedTime = currentDate - meetingDate;
     final percentage = elapsedTime / totalDuration;
 
-    return percentage.clamp(0.0, 1.0);
+    return percentage.clamp(0.1, 1.0);
   }
 }
 

@@ -16,11 +16,14 @@ import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/classrooms/classroom.dart';
 import 'package:asco/src/data/models/meetings/meeting.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
+import 'package:asco/src/data/models/profiles/profile.dart';
 import 'package:asco/src/data/models/scores/score.dart';
+import 'package:asco/src/data/models/scores/score_post.dart';
 import 'package:asco/src/presentation/providers/manual_providers/field_value_provider.dart';
 import 'package:asco/src/presentation/providers/manual_providers/query_provider.dart';
 import 'package:asco/src/presentation/shared/features/score/providers/meeting_scores_provider.dart';
 import 'package:asco/src/presentation/shared/features/score/providers/practicum_exam_scores_provider.dart';
+import 'package:asco/src/presentation/shared/features/score/providers/score_actions_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_information.dart';
 import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
@@ -157,11 +160,29 @@ class ScoreInputPage extends StatelessWidget {
                     query: query,
                   );
 
-            final scores = ref.watch(scoresProvider);
-
             ref.listen(scoresProvider, (_, state) {
               state.whenOrNull(error: context.responseError);
             });
+
+            ref.listen(scoreActionsProvider, (_, state) {
+              state.whenOrNull(
+                loading: () => context.showLoadingDialog(),
+                error: (error, stackTrace) {
+                  navigatorKey.currentState!.pop();
+                  navigatorKey.currentState!.pop();
+
+                  context.responseError(error, stackTrace);
+                },
+                data: (data) {
+                  navigatorKey.currentState!.pop();
+                  navigatorKey.currentState!.pop();
+
+                  ref.invalidate(scoresProvider);
+                },
+              );
+            });
+
+            final scores = ref.watch(scoresProvider);
 
             return scores.when(
               loading: () => const LoadingIndicator(),
@@ -191,7 +212,10 @@ class ScoreInputPage extends StatelessWidget {
                     mainAxisSpacing: 14,
                     childAspectRatio: 0.78,
                   ),
-                  itemBuilder: (context, index) => StudentScoreCard(score: scores[index]),
+                  itemBuilder: (context, index) => StudentScoreCard(
+                    score: scores[index],
+                    args: args,
+                  ),
                   itemCount: scores.length,
                 );
               },
@@ -222,8 +246,13 @@ class ScoreInputPage extends StatelessWidget {
 
 class StudentScoreCard extends StatelessWidget {
   final Score score;
+  final ScoreInputPageArgs args;
 
-  const StudentScoreCard({super.key, required this.score});
+  const StudentScoreCard({
+    super.key,
+    required this.score,
+    required this.args,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -240,7 +269,11 @@ class StudentScoreCard extends StatelessWidget {
           color: Palette.purple2,
         ),
       ],
-      onTap: () => showScoreInputModalBottomSheet(context, score),
+      onTap: () => showScoreInputModalBottomSheet(
+        context,
+        score: score,
+        args: args,
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -250,7 +283,7 @@ class StudentScoreCard extends StatelessWidget {
               alignment: Alignment.topRight,
               children: [
                 CircularPercentIndicator(
-                  percent: score.score ?? 0 / 100,
+                  percent: score.score != null ? score.score! / 100 : 0,
                   radius: 50,
                   lineWidth: 9,
                   progressColor: Palette.purple3,
@@ -299,7 +332,11 @@ class StudentScoreCard extends StatelessWidget {
     );
   }
 
-  Future<void> showScoreInputModalBottomSheet(BuildContext context, Score score) async {
+  Future<void> showScoreInputModalBottomSheet(
+    BuildContext context, {
+    required Score score,
+    required ScoreInputPageArgs args,
+  }) async {
     return showModalBottomSheet(
       context: context,
       enableDrag: false,
@@ -384,7 +421,7 @@ class StudentScoreCard extends StatelessWidget {
                           ),
                           const SizedBox(width: 10),
                           IconButton(
-                            onPressed: value.isEmpty ? null : () => inputScore(ref, score),
+                            onPressed: value.isEmpty ? null : () => inputScore(ref, score, args),
                             icon: const Icon(Icons.check_rounded),
                             style: IconButton.styleFrom(
                               disabledBackgroundColor: Palette.divider,
@@ -408,12 +445,28 @@ class StudentScoreCard extends StatelessWidget {
     );
   }
 
-  void inputScore(WidgetRef ref, Score score) {
+  void inputScore(WidgetRef ref, Score score, ScoreInputPageArgs args) {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (!formKey.currentState!.saveAndValidate()) return;
 
-    // TODO: Create or update score
+    final value = double.tryParse(formKey.currentState?.value['score']) ?? 0.0;
+
+    if (score.id != null) {
+      ref.read(scoreActionsProvider.notifier).updateScore(score.id!, value);
+    } else {
+      final student = args.students.where((e) => e.username == score.student!.username);
+
+      if (student.isNotEmpty) {
+        final scorePost = ScorePost(
+          studentId: student.first.id!,
+          score: value,
+          type: args.scoreType.name.toUpperCase(),
+        );
+
+        ref.read(scoreActionsProvider.notifier).addScore(args.meeting!.id!, scorePost);
+      }
+    }
   }
 }
 
@@ -422,11 +475,13 @@ class ScoreInputPageArgs {
   final Practicum? practicum;
   final Classroom? classroom;
   final Meeting? meeting;
+  final List<Profile> students;
 
   const ScoreInputPageArgs({
     required this.scoreType,
     this.practicum,
     this.classroom,
     this.meeting,
+    required this.students,
   });
 }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:asco/core/configs/api_configs.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/extensions/number_extension.dart';
 import 'package:asco/core/helpers/app_size.dart';
@@ -54,7 +55,7 @@ class MeetingPage extends StatelessWidget {
         icon: Icons.description_outlined,
         onTap: () => context.openFile(
           name: 'Kontrak Kuliah',
-          path: classroom.practicum?.courseContractPath,
+          path: '${ApiConfigs.baseFileUrl}/${classroom.practicum?.courseContractPath}',
         ),
       ),
       if (roleId == 1)

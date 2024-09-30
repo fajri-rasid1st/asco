@@ -29,6 +29,7 @@ import 'package:asco/src/data/models/meetings/meeting.dart';
 import 'package:asco/src/data/models/meetings/meeting_post.dart';
 import 'package:asco/src/presentation/features/admin/meeting/providers/meeting_actions_provider.dart';
 import 'package:asco/src/presentation/features/assistant/meeting/providers/insert_meeting_attendances_provider.dart';
+import 'package:asco/src/presentation/features/assistant/meeting/providers/update_attendance_provider.dart';
 import 'package:asco/src/presentation/providers/manual_providers/query_provider.dart';
 import 'package:asco/src/presentation/shared/features/meeting/providers/meeting_attendances_provider.dart';
 import 'package:asco/src/presentation/shared/features/meeting/providers/meeting_detail_provider.dart';
@@ -79,6 +80,8 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
         if (await isAttendancesEmpty(ref)) {
           // Insert attendances
           await insertAttendances(ref);
+          // Update state
+          setState(() {});
         }
       }
     });
@@ -113,7 +116,6 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
             navigatorKey.currentState!.pop();
 
             ref.invalidate(meetingDetailProvider);
-            ref.invalidate(queryProvider);
 
             context.showSnackBar(
               title: 'Berhasil',
@@ -221,47 +223,62 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
                             ),
                           ),
                           const SectionTitle(text: 'Respon & Quiz'),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: FilledButton(
-                                  onPressed: () => navigatorKey.currentState!.pushNamed(
-                                    scoreInputRoute,
-                                    arguments: ScoreInputPageArgs(
-                                      scoreType: ScoreType.response,
-                                      practicum: widget.args.classroom.practicum,
-                                      classroom: widget.args.classroom,
-                                      meeting: meeting,
+                          Consumer(
+                            builder: (context, ref, child) {
+                              final attendances =
+                                  ref.watch(MeetingAttendancesProvider(meeting.id!)).valueOrNull;
+
+                              return Row(
+                                children: [
+                                  Expanded(
+                                    child: FilledButton(
+                                      onPressed: attendances != null && attendances.isNotEmpty
+                                          ? () => navigatorKey.currentState!.pushNamed(
+                                                scoreInputRoute,
+                                                arguments: ScoreInputPageArgs(
+                                                  scoreType: ScoreType.response,
+                                                  practicum: widget.args.classroom.practicum,
+                                                  classroom: widget.args.classroom,
+                                                  meeting: meeting,
+                                                  students:
+                                                      attendances.map((e) => e.student!).toList(),
+                                                ),
+                                              )
+                                          : null,
+                                      style: FilledButton.styleFrom(
+                                        padding: EdgeInsets.zero,
+                                        backgroundColor: Palette.secondary,
+                                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                      ),
+                                      child: const Text('Nilai Respon'),
                                     ),
                                   ),
-                                  style: FilledButton.styleFrom(
-                                    padding: EdgeInsets.zero,
-                                    backgroundColor: Palette.secondary,
-                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                  ),
-                                  child: const Text('Nilai Respon'),
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              Expanded(
-                                child: FilledButton(
-                                  onPressed: () => navigatorKey.currentState!.pushNamed(
-                                    scoreInputRoute,
-                                    arguments: ScoreInputPageArgs(
-                                      scoreType: ScoreType.quiz,
-                                      practicum: widget.args.classroom.practicum,
-                                      classroom: widget.args.classroom,
-                                      meeting: meeting,
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: FilledButton(
+                                      onPressed: attendances != null && attendances.isNotEmpty
+                                          ? () => navigatorKey.currentState!.pushNamed(
+                                                scoreInputRoute,
+                                                arguments: ScoreInputPageArgs(
+                                                  scoreType: ScoreType.quiz,
+                                                  practicum: widget.args.classroom.practicum,
+                                                  classroom: widget.args.classroom,
+                                                  meeting: meeting,
+                                                  students:
+                                                      attendances.map((e) => e.student!).toList(),
+                                                ),
+                                              )
+                                          : null,
+                                      style: FilledButton.styleFrom(
+                                        padding: EdgeInsets.zero,
+                                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                      ),
+                                      child: const Text('Nilai Quiz'),
                                     ),
                                   ),
-                                  style: FilledButton.styleFrom(
-                                    padding: EdgeInsets.zero,
-                                    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                  ),
-                                  child: const Text('Nilai Quiz'),
-                                ),
-                              ),
-                            ],
+                                ],
+                              );
+                            },
                           ),
                           const SectionTitle(text: 'Absensi'),
                           Consumer(
@@ -283,21 +300,39 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
                 builder: (context, ref, child) {
                   final query = ref.watch(queryProvider);
 
-                  final attendances = ref.watch(
-                    MeetingAttendancesProvider(
-                      meeting.id!,
-                      classroom: widget.args.classroom.id!,
-                      query: query,
-                    ),
-                  );
-
                   ref.listen(
                     MeetingAttendancesProvider(
                       meeting.id!,
-                      classroom: widget.args.classroom.id!,
                       query: query,
                     ),
-                    (_, state) => state.whenOrNull(error: context.responseError),
+                    (_, state) {
+                      state.whenOrNull(error: context.responseError);
+                    },
+                  );
+
+                  ref.listen(updateAttendanceProvider, (_, state) {
+                    state.whenOrNull(
+                      loading: () => context.showLoadingDialog(),
+                      error: (error, stackTrace) {
+                        navigatorKey.currentState!.pop();
+                        navigatorKey.currentState!.pop();
+
+                        context.responseError(error, stackTrace);
+                      },
+                      data: (data) {
+                        navigatorKey.currentState!.pop();
+                        navigatorKey.currentState!.pop<String?>(data);
+
+                        ref.invalidate(meetingAttendancesProvider);
+                      },
+                    );
+                  });
+
+                  final attendances = ref.watch(
+                    MeetingAttendancesProvider(
+                      meeting.id!,
+                      query: query,
+                    ),
                   );
 
                   return attendances.when(
@@ -396,10 +431,7 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
   Future<bool> isAttendancesEmpty(WidgetRef ref) async {
     try {
       final attendances = await ref.watch(
-        MeetingAttendancesProvider(
-          widget.args.meeting.id!,
-          classroom: widget.args.classroom.id!,
-        ).future,
+        MeetingAttendancesProvider(widget.args.meeting.id!).future,
       );
 
       if (attendances == null || attendances.isEmpty) return true;
@@ -412,7 +444,9 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
 
   Future<void> insertAttendances(WidgetRef ref) async {
     try {
-      await ref.watch(InsertMeetingAttendancesProvider(widget.args.meeting.id!).future);
+      await ref.watch(
+        InsertMeetingAttendancesProvider(widget.args.meeting.id!).future,
+      );
     } catch (e) {
       return;
     }

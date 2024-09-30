@@ -6,7 +6,6 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 
 // Project imports:
 import 'package:asco/core/enums/extra_type.dart';
-import 'package:asco/core/enums/score_type.dart';
 import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/helpers/function_helper.dart';
@@ -18,7 +17,6 @@ import 'package:asco/core/themes/light_theme.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/presentation/features/assistant/extra/pages/edit_extra_page.dart';
-import 'package:asco/src/presentation/shared/features/score/pages/score_input_page.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/practicum_badge_image.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
@@ -62,7 +60,7 @@ class LabExamInfoPage extends StatelessWidget {
                     child: FilledButton(
                       onPressed: () => navigatorKey.currentState!.pushNamed(
                         scoreInputRoute,
-                        arguments: const ScoreInputPageArgs(scoreType: ScoreType.exam),
+                        // arguments: const ScoreInputPageArgs(scoreType: ScoreType.exam),
                       ),
                       style: FilledButton.styleFrom(
                         padding: EdgeInsets.zero,

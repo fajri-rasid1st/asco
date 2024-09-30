@@ -18,7 +18,6 @@ import 'package:asco/src/data/models/attendances/attendance.dart';
 import 'package:asco/src/data/models/attendances/attendance_post.dart';
 import 'package:asco/src/data/models/meetings/meeting.dart';
 import 'package:asco/src/presentation/features/assistant/meeting/providers/update_attendance_provider.dart';
-import 'package:asco/src/presentation/shared/features/meeting/providers/meeting_attendances_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/dialogs/custom_dialog.dart';
 import 'package:asco/src/presentation/shared/widgets/input_fields/custom_text_field.dart';
@@ -87,24 +86,6 @@ class _AttendanceDialogState extends ConsumerState<AttendanceDialog> {
 
   @override
   Widget build(BuildContext context) {
-    ref.listen(updateAttendanceProvider, (_, state) {
-      state.whenOrNull(
-        loading: () => context.showLoadingDialog(),
-        error: (error, stackTrace) {
-          navigatorKey.currentState!.pop();
-          navigatorKey.currentState!.pop();
-
-          context.responseError(error, stackTrace);
-        },
-        data: (data) {
-          navigatorKey.currentState!.pop();
-          navigatorKey.currentState!.pop<String?>(data);
-
-          ref.invalidate(meetingAttendancesProvider);
-        },
-      );
-    });
-
     return CustomDialog(
       title: 'Pertemuan ${widget.meeting.number}',
       backgroundColor: Palette.background,
@@ -200,10 +181,12 @@ class _AttendanceDialogState extends ConsumerState<AttendanceDialog> {
 
       formKey.currentState?.save();
 
+      final isAttend = statusNotifier.value == status.last;
+
       final attendance = AttendancePost(
         status: MapHelper.attendanceMap[statusNotifier.value.name]!,
-        extraPoint: pointNotifier.value,
-        note: formKey.currentState?.value['note'],
+        extraPoint: isAttend ? pointNotifier.value : 0,
+        note: isAttend ? 'Tidak ada keterangan' : formKey.currentState?.value['note'],
       );
 
       ref

@@ -284,7 +284,7 @@ class MeetingStatusInfo extends StatelessWidget {
       ),
       child: Center(
         child: Text(
-          completed ? 'Selesai' : 'Belum Dimulai',
+          completed ? 'Telah Dimulai' : 'Belum Dimulai',
           style: textTheme.labelLarge!.copyWith(
             color: completed ? Palette.purple2 : Palette.disabledText,
           ),
@@ -336,7 +336,7 @@ class AttendanceStatusInfo extends StatelessWidget {
             const SizedBox(height: 2),
             Text(
               attendance.status == 'ATTEND'
-                  ? 'Waktu absensi ${attendance.time?.to24TimeFormat()}, ${attendance.meeting?.date?.toDateTimeFormat('d MMMM yyyy')}'
+                  ? 'Waktu absensi ${attendance.time?.to24TimeFormat()}, ${attendance.meeting?.date?.toDateTimeFormat('d MMM yyyy')}'
                   : attendance.note != null && attendance.note!.isNotEmpty
                       ? attendance.note!
                       : 'Tidak ada keterangan',
