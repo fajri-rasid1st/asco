@@ -22,7 +22,6 @@ import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
 import 'package:asco/src/data/models/attendances/attendance.dart';
 import 'package:asco/src/data/models/classrooms/classroom.dart';
@@ -360,10 +359,6 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
                         itemBuilder: (context, index) {
                           final attendance = attendances[index];
                           final isAttend = attendance.status == 'ATTEND';
-                          final clickable = (meeting.assistant?.username ==
-                                  CredentialSaver.credential?.username) ||
-                              (meeting.coAssistant?.username ==
-                                  CredentialSaver.credential?.username);
 
                           return UserCard(
                             user: attendance.student!,
@@ -381,13 +376,11 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
                                 size: 18,
                               ),
                             ),
-                            onTap: clickable
-                                ? () => showAttendanceDialog(
-                                      context,
-                                      meeting: meeting,
-                                      attendance: attendance,
-                                    )
-                                : null,
+                            onTap: () => showAttendanceDialog(
+                              context,
+                              meeting: meeting,
+                              attendance: attendance,
+                            ),
                           );
                         },
                         separatorBuilder: (context, index) => const SizedBox(height: 10),
@@ -436,7 +429,6 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
       assistantId: meeting.assistant!.id!,
       coAssistantId: meeting.coAssistant!.id!,
       modulePath: path,
-      assignmentPath: meeting.assignmentPath,
     );
 
     ref.read(meetingActionsProvider.notifier).editMeeting(meeting, updatedMeeting);

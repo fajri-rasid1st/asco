@@ -2,11 +2,12 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
+import 'package:asco/core/enums/snack_bar_type.dart';
+import 'package:asco/core/enums/user_badge_type.dart';
+import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/function_helper.dart';
-import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
-import 'package:asco/core/utils/credential_saver.dart';
-import 'package:asco/core/utils/keys.dart';
+import 'package:asco/dummies_data.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_icon_button.dart';
@@ -25,19 +26,39 @@ class PractitionerListPage extends StatelessWidget {
       body: ListView.separated(
         padding: const EdgeInsets.all(20),
         itemBuilder: (context, index) => UserCard(
-          user: CredentialSaver.credential!,
-          badgeText: 'Kelas A',
+          user: studentDummies[index],
+          badgeType: UserBadgeType.text,
           trailing: CustomIconButton(
             'github_filled.svg',
-            color: Palette.purple2,
             tooltip: 'Github',
-            onPressed: () => FunctionHelper.openUrl('https://github.com/fajri-rasid1st'),
+            color: Palette.purple2,
+            onPressed: () => openUrl(
+              context,
+              name: 'Github',
+              url: 'https://github.com/${studentDummies[index].githubUsername}',
+            ),
           ),
-          onTap: () => navigatorKey.currentState!.pushNamed(controlCardDetailRoute),
+          // onTap: () => navigatorKey.currentState!.pushNamed(controlCardDetailRoute),
         ),
         separatorBuilder: (context, index) => const SizedBox(height: 10),
-        itemCount: 10,
+        itemCount: studentDummies.length,
       ),
     );
+  }
+
+  void openUrl(
+    BuildContext context, {
+    required String name,
+    required String url,
+  }) {
+    if (url.split('/').last.isNotEmpty) {
+      FunctionHelper.openUrl(url);
+    } else {
+      context.showSnackBar(
+        title: '$name Tidak Ada',
+        message: 'Pengguna belum memasukkan username $name.',
+        type: SnackBarType.info,
+      );
+    }
   }
 }

@@ -251,7 +251,11 @@ class StudentAssistanceDetailPage extends ConsumerWidget {
     navigatorKey.currentState!.pop();
   }
 
-  double calculateAssistanceDeadline(int meetingDate, int deadlineDate, int currentDate) {
+  double calculateAssistanceDeadline(
+    int meetingDate,
+    int deadlineDate,
+    int currentDate,
+  ) {
     final totalDuration = (meetingDate - deadlineDate).abs();
     final elapsedTime = currentDate - meetingDate;
     final percentage = elapsedTime / totalDuration;

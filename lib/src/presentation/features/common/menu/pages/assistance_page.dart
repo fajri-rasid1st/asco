@@ -17,7 +17,9 @@ import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/dummies_data.dart';
 import 'package:asco/src/data/models/classrooms/classroom.dart';
+import 'package:asco/src/presentation/features/common/menu/providers/classroom_meetings_provider.dart';
 import 'package:asco/src/presentation/features/common/menu/providers/student_control_cards_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/attendance_card.dart';
@@ -196,22 +198,22 @@ class AssistancePage extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: List<Padding>.generate(
-                  10,
+                  studentDummies.length,
                   (index) => Padding(
                     padding: EdgeInsets.only(
-                      right: index == 9 ? 0 : 10,
+                      right: index == studentDummies.length - 1 ? 0 : 10,
                     ),
                     child: SizedBox(
                       width: 64,
                       child: Column(
                         children: [
-                          const CircleNetworkImage(
-                            imageUrl: null,
+                          CircleNetworkImage(
+                            imageUrl: studentDummies[index].profilePicturePath,
                             size: 56,
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Ananda',
+                            '${studentDummies[index].nickname}',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center,
@@ -224,17 +226,13 @@ class AssistancePage extends StatelessWidget {
                 ),
               ),
             ),
-            const SectionTitle(
-              text: 'Kartu Kontrol',
-              trailingText: '12 Materi',
-            ),
             if (roleId == 1)
               Consumer(
                 builder: (context, ref, child) {
                   final cards = ref.watch(StudentControlCardsProvider(classroom.practicum!.id!));
 
                   ref.listen(StudentControlCardsProvider(classroom.practicum!.id!), (_, state) {
-                    return state.whenOrNull(error: context.responseError);
+                    state.whenOrNull(error: context.responseError);
                   });
 
                   return cards.when(
@@ -251,52 +249,99 @@ class AssistancePage extends StatelessWidget {
                       }
 
                       return Column(
-                        children: List<Padding>.generate(
-                          cards.length,
-                          (index) {
-                            final card = cards[index];
-                            final bottom = index == cards.length - 1 ? 56.0 : 10.0;
+                        children: [
+                          SectionTitle(
+                            text: 'Kartu Kontrol',
+                            trailingText: '${cards.length} Materi',
+                          ),
+                          ...List<Padding>.generate(
+                            cards.length,
+                            (index) {
+                              final card = cards[index];
+                              final bottom = index == cards.length - 1 ? 56.0 : 10.0;
 
-                            return Padding(
-                              padding: EdgeInsets.fromLTRB(20, 0, 20, bottom),
-                              child: AttendanceCard(
-                                attendanceType: AttendanceType.assistance,
-                                assistanceStatus: [
-                                  card.firstAssistanceStatus!,
-                                  card.secondAssistanceStatus!,
-                                ],
-                                meeting: card.meeting!,
-                                locked: card.meeting!.date! > DateTime.now().secondsSinceEpoch,
-                                onTap: () => navigatorKey.currentState!.pushNamed(
-                                  studentAssistanceDetailRoute,
-                                  arguments: card.id,
+                              return Padding(
+                                padding: EdgeInsets.fromLTRB(20, 0, 20, bottom),
+                                child: AttendanceCard(
+                                  attendanceType: AttendanceType.assistance,
+                                  assistanceStatus: [
+                                    card.firstAssistanceStatus!,
+                                    card.secondAssistanceStatus!,
+                                  ],
+                                  meeting: card.meeting!,
+                                  locked: card.meeting!.date! > DateTime.now().secondsSinceEpoch,
+                                  onTap: () => navigatorKey.currentState!.pushNamed(
+                                    studentAssistanceDetailRoute,
+                                    arguments: card.id,
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                        ),
+                              );
+                            },
+                          ),
+                        ],
                       );
                     },
                   );
                 },
               )
-            // else
-            // ...List<Padding>.generate(
-            //   10,
-            //   (index) => Padding(
-            //     padding: EdgeInsets.fromLTRB(20, 0, 20, index == 9 ? 56 : 10),
-            //     child: AttendanceCard(
-            //       attendanceType: AttendanceType.meeting,
-            //       meetingStatus: const {
-            //         'Selesai': 8,
-            //         'Belum': 4,
-            //       },
-            //       onTap: () => navigatorKey.currentState!.pushNamed(
-            //         assistantAssistanceDetailRoute,
-            //       ),
-            //     ),
-            //   ),
-            // ),
+            else
+              Consumer(
+                builder: (context, ref, child) {
+                  final meetings = ref.watch(ClassroomMeetingsProvider(classroom.id!));
+
+                  ref.listen(ClassroomMeetingsProvider(classroom.id!), (_, state) {
+                    state.whenOrNull(error: context.responseError);
+                  });
+
+                  return meetings.when(
+                    loading: () => const LoadingIndicator(),
+                    error: (_, __) => const SizedBox(),
+                    data: (meetings) {
+                      if (meetings == null) return const SizedBox();
+
+                      if (meetings.isEmpty) {
+                        return const CustomInformation(
+                          title: 'Pertemuan masih kosong',
+                          subtitle: 'Belum terdapat pertemuan pada praktikum ini',
+                        );
+                      }
+
+                      return Column(
+                        children: [
+                          SectionTitle(
+                            text: 'Kartu Kontrol',
+                            trailingText: '${meetings.length} Materi',
+                          ),
+                          ...List<Padding>.generate(
+                            meetings.length,
+                            (index) {
+                              final meeting = meetings[index];
+                              final bottom = index == meetings.length - 1 ? 56.0 : 10.0;
+
+                              return Padding(
+                                padding: EdgeInsets.fromLTRB(20, 0, 20, bottom),
+                                child: AttendanceCard(
+                                  attendanceType: AttendanceType.meeting,
+                                  meetingStatus: const {
+                                    'Selesai': 0,
+                                    'Belum': 5,
+                                  },
+                                  meeting: meeting,
+                                  locked: meeting.date! > DateTime.now().secondsSinceEpoch,
+                                  onTap: () => navigatorKey.currentState!.pushNamed(
+                                    assistantAssistanceDetailRoute,
+                                    arguments: meeting.id,
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
           ],
         ),
       ),

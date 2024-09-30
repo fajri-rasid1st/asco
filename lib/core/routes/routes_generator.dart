@@ -218,8 +218,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => StudentAssistanceDetailPage(id: id),
       );
     case assistantAssistanceDetailRoute:
+      final id = settings.arguments as String;
+
       return MaterialPageRoute(
-        builder: (_) => const AssistantAssistanceDetailPage(),
+        builder: (_) => AssistantAssistanceDetailPage(id: id),
       );
     case assistantAssistanceScoreRoute:
       return MaterialPageRoute(

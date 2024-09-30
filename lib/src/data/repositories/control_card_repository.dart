@@ -6,6 +6,7 @@ import 'package:asco/core/connections/network_info.dart';
 import 'package:asco/core/errors/failures.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/src/data/datasources/control_card_data_source.dart';
+import 'package:asco/src/data/models/assistances/assistance_post.dart';
 import 'package:asco/src/data/models/control_cards/control_card.dart';
 
 abstract class ControlCardRepository {
@@ -20,6 +21,15 @@ abstract class ControlCardRepository {
 
   /// Student: Get control card detail
   Future<Either<Failure, ControlCard>> getControlCardDetail(String id);
+
+  /// Assistant: Get assistance group meeting control cards
+  Future<Either<Failure, List<ControlCard>>> getMeetingControlCards(String meetingId);
+
+  /// Assistant: Update student assistance
+  Future<Either<Failure, void>> updateAssistance(
+    String assistanceId,
+    AssistancePost assistance,
+  );
 }
 
 class ControlCardRepositoryImpl implements ControlCardRepository {
@@ -69,6 +79,39 @@ class ControlCardRepositoryImpl implements ControlCardRepository {
     if (await networkInfo.isConnected) {
       try {
         final result = await controlCardDataSource.getControlCardDetail(id);
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ControlCard>>> getMeetingControlCards(String meetingId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await controlCardDataSource.getMeetingControlCards(meetingId);
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updateAssistance(
+    String assistanceId,
+    AssistancePost assistance,
+  ) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await controlCardDataSource.updateAssistance(assistanceId, assistance);
 
         return Right(result);
       } catch (e) {
