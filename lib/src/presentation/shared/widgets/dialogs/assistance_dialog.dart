@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // Package imports:
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
 
 // Project imports:
 import 'package:asco/core/enums/snack_bar_type.dart';
@@ -65,10 +66,11 @@ class AssistanceDialog extends ConsumerWidget {
                   name: 'date',
                   label: 'Tanggal Asistensi',
                   isSmall: true,
-                  initialValue: assistance.date == 0
-                      ? DateTime.now().toIso8601String()
-                      : DateTime.fromMillisecondsSinceEpoch(assistance.date! * 1000)
-                          .toIso8601String(),
+                  initialValue: DateFormat('d/M/yyyy').format(
+                    assistance.date == 0
+                        ? DateTime.now()
+                        : DateTime.fromMillisecondsSinceEpoch(assistance.date! * 1000),
+                  ),
                   prefixIconName: 'calendar_month_outlined.svg',
                   suffixIconName: 'close_outlined.svg',
                   textInputType: TextInputType.none,

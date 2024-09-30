@@ -15,7 +15,11 @@ class ProfilePost with _$ProfilePost {
     required String fullname,
     required String classOf,
     required String role,
+    String? nickname,
+    String? githubUsername,
+    String? instagramUsername,
     String? password,
+    @JsonKey(name: 'profilePic') String? profilePicturePath,
   }) = _ProfilePost;
 
   factory ProfilePost.fromJson(Map<String, Object?> json) => _$ProfilePostFromJson(json);

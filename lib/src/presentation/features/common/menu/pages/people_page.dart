@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 // Project imports:
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/dummies_data.dart';
+import 'package:asco/src/data/models/profiles/profile.dart';
 import 'package:asco/src/presentation/shared/widgets/asco_app_bar.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/section_header.dart';
@@ -32,9 +34,15 @@ class PeoplePage extends StatelessWidget {
                 ),
               ),
             ),
-            const SectionContainer(title: 'Asisten'),
+            const SectionContainer(
+              title: 'Asisten',
+              profiles: assistantDummies,
+            ),
             const SizedBox(height: 16),
-            const SectionContainer(title: 'Praktikan'),
+            const SectionContainer(
+              title: 'Praktikan',
+              profiles: studentDummies,
+            ),
           ],
         ),
       ),
@@ -44,8 +52,13 @@ class PeoplePage extends StatelessWidget {
 
 class SectionContainer extends StatelessWidget {
   final String title;
+  final List<Profile> profiles;
 
-  const SectionContainer({super.key, required this.title});
+  const SectionContainer({
+    super.key,
+    required this.title,
+    required this.profiles,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -66,15 +79,15 @@ class SectionContainer extends StatelessWidget {
             ),
           ),
           ...List<Padding>.generate(
-            5,
+            profiles.length,
             (index) => Padding(
               padding: EdgeInsets.only(
-                bottom: index == 4 ? 0 : 12,
+                bottom: index == profiles.length - 1 ? 0 : 12,
               ),
               child: Row(
                 children: [
-                  const CircleNetworkImage(
-                    imageUrl: 'https://placehold.co/100x100/png',
+                  CircleNetworkImage(
+                    imageUrl: profiles[index].profilePicturePath,
                     size: 50,
                     withBorder: true,
                     borderColor: Palette.purple3,
@@ -86,7 +99,7 @@ class SectionContainer extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Muh. Sultan Nazhim Latenri Tatta S.H',
+                          '${profiles[index].fullname}',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: textTheme.titleSmall!.copyWith(
@@ -96,7 +109,7 @@ class SectionContainer extends StatelessWidget {
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          'H071211074',
+                          '${profiles[index].username}',
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                           style: textTheme.bodySmall!.copyWith(

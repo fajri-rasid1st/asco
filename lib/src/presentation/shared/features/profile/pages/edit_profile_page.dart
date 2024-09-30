@@ -14,8 +14,13 @@ import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/services/image_service.dart';
 import 'package:asco/core/styles/color_scheme.dart';
+import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/keys.dart';
+import 'package:asco/src/data/models/profiles/profile.dart';
+import 'package:asco/src/data/models/profiles/profile_post.dart';
+import 'package:asco/src/presentation/features/common/initial/providers/credential_provider.dart';
 import 'package:asco/src/presentation/providers/manual_providers/field_value_provider.dart';
+import 'package:asco/src/presentation/shared/features/profile/providers/update_profile_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_border_container.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/custom_app_bar.dart';
@@ -29,7 +34,28 @@ class EditProfilePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final profile = CredentialSaver.credential!;
     final updatePasswordFormKey = GlobalKey<FormBuilderState>();
+
+    ref.listen(updateProfileProvider, (_, state) {
+      state.whenOrNull(
+        loading: () => context.showLoadingDialog(),
+        error: (error, stackTrace) {
+          navigatorKey.currentState!.pop();
+          context.responseError(error, stackTrace);
+        },
+        data: (data) {
+          navigatorKey.currentState!.pop();
+          navigatorKey.currentState!.pop();
+          ref.invalidate(credentialProvider);
+
+          context.showSnackBar(
+            title: 'Berhasil',
+            message: 'Profile berhasil diperbarui',
+          );
+        },
+      );
+    });
 
     return PopScope(
       canPop: false,
@@ -51,7 +77,7 @@ class EditProfilePage extends ConsumerWidget {
             ),
           ),
           action: IconButton(
-            onPressed: updateProfile,
+            onPressed: () => updateProfile(ref, profile),
             icon: const Icon(Icons.check_rounded),
             tooltip: 'Submit',
             style: IconButton.styleFrom(
@@ -67,8 +93,8 @@ class EditProfilePage extends ConsumerWidget {
               Stack(
                 alignment: Alignment.bottomRight,
                 children: [
-                  const CircleNetworkImage(
-                    imageUrl: 'https://placehold.co/300x300/png',
+                  CircleNetworkImage(
+                    imageUrl: profile.profilePicturePath,
                     size: 128,
                     withBorder: true,
                     borderWidth: 2,
@@ -79,7 +105,7 @@ class EditProfilePage extends ConsumerWidget {
                     size: 36,
                     withBorder: false,
                     fillColor: Palette.background,
-                    onTap: () => showActionsModalBottomSheet(context),
+                    onTap: () => showActionsModalBottomSheet(context, ref, profile),
                     child: SvgAsset(
                       AssetPath.getIcon('camera_filled.svg'),
                       width: 20,
@@ -102,7 +128,7 @@ class EditProfilePage extends ConsumerWidget {
                     CustomTextField(
                       name: 'fullname',
                       label: 'Nama Lengkap',
-                      initialValue: 'Muhammad Fajri Rasid',
+                      initialValue: profile.fullname,
                       hintText: 'Masukkan nama lengkap',
                       textCapitalization: TextCapitalization.words,
                       validators: [
@@ -119,7 +145,7 @@ class EditProfilePage extends ConsumerWidget {
                     CustomTextField(
                       name: 'nickname',
                       label: 'Nama Panggilan',
-                      initialValue: 'Fajri',
+                      initialValue: profile.nickname,
                       hintText: 'Masukkan nama panggilan',
                       validators: [
                         FormBuilderValidators.match(
@@ -129,18 +155,18 @@ class EditProfilePage extends ConsumerWidget {
                       ],
                     ),
                     const SizedBox(height: 12),
-                    const CustomTextField(
+                    CustomTextField(
                       name: 'githubUsername',
                       label: 'Username Github',
-                      initialValue: 'fajri-rasid1st',
+                      initialValue: profile.githubUsername,
                       hintText: 'Masukkan username Github',
                       textCapitalization: TextCapitalization.none,
                     ),
                     const SizedBox(height: 12),
-                    const CustomTextField(
+                    CustomTextField(
                       name: 'instagramUsername',
                       label: 'Username Instagram',
-                      initialValue: 'fajri_rasid1st',
+                      initialValue: profile.instagramUsername,
                       hintText: 'Masukkan username Instagram',
                       textInputAction: TextInputAction.done,
                       textCapitalization: TextCapitalization.none,
@@ -204,7 +230,7 @@ class EditProfilePage extends ConsumerWidget {
                     ),
                     const SizedBox(height: 16),
                     FilledButton(
-                      onPressed: () => updatePassword(updatePasswordFormKey),
+                      onPressed: () => updatePassword(ref, profile, updatePasswordFormKey),
                       style: FilledButton.styleFrom(
                         backgroundColor: Palette.secondary,
                       ),
@@ -220,16 +246,46 @@ class EditProfilePage extends ConsumerWidget {
     );
   }
 
-  void updateProfile() {
+  void updateProfile(
+    WidgetRef ref,
+    Profile profile,
+  ) {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (!formKey.currentState!.saveAndValidate()) return;
+
+    final value = formKey.currentState!.value;
+
+    final updatedProfile = ProfilePost(
+      username: profile.username!,
+      classOf: profile.classOf!,
+      role: profile.role!,
+      fullname: value['fullname'],
+      githubUsername: value['githubUsername'],
+      instagramUsername: value['instagramUsername'],
+    );
+
+    ref.read(updateProfileProvider.notifier).updateProfile(updatedProfile);
   }
 
-  void updatePassword(GlobalKey<FormBuilderState> formKey) {
+  void updatePassword(
+    WidgetRef ref,
+    Profile profile,
+    GlobalKey<FormBuilderState> formKey,
+  ) {
     FocusManager.instance.primaryFocus?.unfocus();
 
     if (!formKey.currentState!.saveAndValidate()) return;
+
+    final updatedProfile = ProfilePost(
+      username: profile.username!,
+      fullname: profile.fullname!,
+      classOf: profile.classOf!,
+      role: profile.role!,
+      password: formKey.currentState!.value['confirmPassword'],
+    );
+
+    ref.read(updateProfileProvider.notifier).updateProfile(updatedProfile);
   }
 
   void showCancelMessage(BuildContext context) {
@@ -244,7 +300,11 @@ class EditProfilePage extends ConsumerWidget {
     );
   }
 
-  Future<void> showActionsModalBottomSheet(BuildContext context) async {
+  Future<void> showActionsModalBottomSheet(
+    BuildContext context,
+    WidgetRef ref,
+    Profile profile,
+  ) async {
     return showModalBottomSheet(
       context: context,
       enableDrag: false,
@@ -260,12 +320,12 @@ class EditProfilePage extends ConsumerWidget {
               ActionListTile(
                 icon: Icons.photo_camera_outlined,
                 text: 'Ambil Gambar',
-                onTap: () => getAndSetProfilePicture(ImageSource.camera),
+                onTap: () => getAndSetProfilePicture(ref, profile, ImageSource.camera),
               ),
               ActionListTile(
                 icon: Icons.photo_library_outlined,
                 text: 'Pilih File Gambar',
-                onTap: () => getAndSetProfilePicture(ImageSource.gallery),
+                onTap: () => getAndSetProfilePicture(ref, profile, ImageSource.gallery),
               ),
             ],
           ),
@@ -274,7 +334,11 @@ class EditProfilePage extends ConsumerWidget {
     );
   }
 
-  Future<void> getAndSetProfilePicture(ImageSource source) async {
+  Future<void> getAndSetProfilePicture(
+    WidgetRef ref,
+    Profile profile,
+    ImageSource source,
+  ) async {
     final imagePath = await ImageService.pickImage(source);
 
     if (imagePath != null) {
@@ -286,7 +350,15 @@ class EditProfilePage extends ConsumerWidget {
       if (croppedImagePath != null) {
         navigatorKey.currentState!.pop();
 
-        debugPrint(croppedImagePath);
+        // final updatedProfile = ProfilePost(
+        //   username: profile.username!,
+        //   fullname: profile.fullname!,
+        //   classOf: profile.classOf!,
+        //   role: profile.role!,
+        //   profilePicturePath: croppedImagePath,
+        // );
+
+        // ref.read(updateProfileProvider.notifier).updateProfile(updatedProfile);
       }
     }
   }

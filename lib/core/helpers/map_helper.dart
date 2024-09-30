@@ -72,4 +72,14 @@ class MapHelper {
     'Praktikan': 'STUDENT',
     'Asisten': 'ASSISTANT',
   };
+
+  static Map<double, int> assignmentScoreMap = {
+    50.0: 1,
+    65.0: 2,
+    75.0: 3,
+    80.0: 4,
+    85.0: 5,
+    92.0: 6,
+    98.0: 7,
+  };
 }

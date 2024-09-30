@@ -10,6 +10,7 @@ import 'package:asco/core/configs/api_configs.dart';
 import 'package:asco/core/enums/model_attributes.dart';
 import 'package:asco/core/errors/exceptions.dart';
 import 'package:asco/core/extensions/iterable_extension.dart';
+import 'package:asco/core/services/file_service.dart';
 import 'package:asco/core/utils/credential_saver.dart';
 import 'package:asco/core/utils/data_response.dart';
 import 'package:asco/src/data/models/profiles/profile.dart';
@@ -39,6 +40,9 @@ abstract class ProfileDataSource {
 
   /// Delete profile
   Future<void> deleteProfile(String username);
+
+  /// Update self profile
+  Future<void> updateProfile(ProfilePost profile);
 }
 
 class ProfileDataSourceImpl implements ProfileDataSource {
@@ -177,6 +181,34 @@ class ProfileDataSourceImpl implements ProfileDataSource {
           HttpHeaders.contentTypeHeader: 'application/json',
           HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
         },
+      );
+
+      final result = DataResponse.fromJson(response.body);
+
+      if (response.statusCode != 200) {
+        throw ServerException(result.error?.code, result.error?.message);
+      }
+    } catch (e) {
+      exception(e);
+    }
+  }
+
+  @override
+  Future<void> updateProfile(ProfilePost profile) async {
+    try {
+      String? profilePicturePath;
+
+      if (profile.profilePicturePath != null) {
+        profilePicturePath = await FileService.uploadFile(profile.profilePicturePath!);
+      }
+
+      final response = await client.put(
+        Uri.parse('${ApiConfigs.baseUrl}/users'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+          HttpHeaders.authorizationHeader: 'Bearer ${CredentialSaver.accessToken}'
+        },
+        body: jsonEncode(profile.copyWith(profilePicturePath: profilePicturePath).toJson()),
       );
 
       final result = DataResponse.fromJson(response.body);

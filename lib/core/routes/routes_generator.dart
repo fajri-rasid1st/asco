@@ -224,8 +224,10 @@ Route<dynamic>? generateAppRoutes(RouteSettings settings) {
         builder: (_) => AssistantAssistanceDetailPage(id: id),
       );
     case assistantAssistanceScoreRoute:
+      final args = settings.arguments as AssistantAssistanceScorePageArgs;
+
       return MaterialPageRoute(
-        builder: (_) => const AssistantAssistanceScorePage(),
+        builder: (_) => AssistantAssistanceScorePage(args: args),
       );
     case controlCardDetailRoute:
       final args = settings.arguments as ControlCardDetailPageArgs;

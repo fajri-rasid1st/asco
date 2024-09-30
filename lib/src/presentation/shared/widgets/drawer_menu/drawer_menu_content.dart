@@ -1,12 +1,16 @@
 // Flutter imports:
 import 'package:flutter/material.dart';
 
+// Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 // Project imports:
+import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/app_size.dart';
 import 'package:asco/core/helpers/asset_path.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
-import 'package:asco/core/utils/credential_saver.dart';
+import 'package:asco/src/presentation/features/common/initial/providers/credential_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/circle_network_image.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
@@ -128,39 +132,57 @@ class UserProfileListTile extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(20, 20, 36, 20),
       child: GestureDetector(
         onTap: onTap,
-        child: Row(
-          children: [
-            CircleNetworkImage(
-              imageUrl: CredentialSaver.credential?.profilePicturePath,
-              size: 40,
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${CredentialSaver.credential?.fullname}',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: textTheme.titleSmall!.copyWith(
-                      color: Palette.background,
-                      fontWeight: FontWeight.w600,
+        child: Consumer(
+          builder: (context, ref, child) {
+            final profile = ref.watch(credentialProvider);
+
+            ref.listen(credentialProvider, (_, state) {
+              state.whenOrNull(error: context.responseError);
+            });
+
+            return profile.when(
+              loading: () => const SizedBox(),
+              error: (_, __) => const SizedBox(),
+              data: (profile) {
+                if (profile == null) return const SizedBox();
+
+                return Row(
+                  children: [
+                    CircleNetworkImage(
+                      imageUrl: profile.profilePicturePath,
+                      size: 40,
                     ),
-                  ),
-                  Text(
-                    '${CredentialSaver.credential?.username}',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: textTheme.bodySmall!.copyWith(
-                      color: Palette.purple4,
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${profile.fullname}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: textTheme.titleSmall!.copyWith(
+                              color: Palette.background,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          Text(
+                            '${profile.username}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: textTheme.bodySmall!.copyWith(
+                              color: Palette.purple4,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+                  ],
+                );
+              },
+            );
+          },
         ),
       ),
     );

@@ -59,8 +59,8 @@ class AttendanceStatusDialog extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   attendanceType == AttendanceType.meeting
-                      ? 'Pertemuan ${meeting.number}'
-                      : 'Asistensi ${meeting.number}',
+                      ? 'Kehadiran Pertemuan ${meeting.number}'
+                      : 'Asistensi Pertemuan ${meeting.number}',
                   textAlign: TextAlign.center,
                   style: textTheme.titleLarge!.copyWith(
                     color: Palette.purple2,

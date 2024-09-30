@@ -34,6 +34,9 @@ abstract class ProfileRepository {
 
   /// Delete profile
   Future<Either<Failure, void>> deleteProfile(String username);
+
+  /// Update self profile
+  Future<Either<Failure, void>> updateProfile(ProfilePost profile);
 }
 
 class ProfileRepositoryImpl implements ProfileRepository {
@@ -125,6 +128,21 @@ class ProfileRepositoryImpl implements ProfileRepository {
     if (await networkInfo.isConnected) {
       try {
         final result = await profileDataSource.deleteProfile(username);
+
+        return Right(result);
+      } catch (e) {
+        return Left(failure(e));
+      }
+    } else {
+      return const Left(ConnectionFailure(kNoInternetConnection));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> updateProfile(ProfilePost profile) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await profileDataSource.updateProfile(profile);
 
         return Right(result);
       } catch (e) {

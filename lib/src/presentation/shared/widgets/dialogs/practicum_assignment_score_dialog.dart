@@ -3,28 +3,42 @@ import 'package:flutter/material.dart';
 
 // Package imports:
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
+import 'package:asco/core/helpers/map_helper.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
+import 'package:asco/src/data/models/meetings/meeting.dart';
+import 'package:asco/src/data/models/scores/score.dart';
+import 'package:asco/src/data/models/scores/score_post.dart';
+import 'package:asco/src/presentation/shared/features/score/providers/score_actions_provider.dart';
 import 'package:asco/src/presentation/shared/widgets/dialogs/custom_dialog.dart';
 
-class PracticumAssignmentScoreDialog extends StatefulWidget {
-  final int meetingNumber;
+class PracticumAssignmentScoreDialog extends ConsumerStatefulWidget {
+  final Meeting meeting;
+  final Score score;
+  final String studentId;
 
-  const PracticumAssignmentScoreDialog({super.key, required this.meetingNumber});
+  const PracticumAssignmentScoreDialog({
+    super.key,
+    required this.meeting,
+    required this.score,
+    required this.studentId,
+  });
 
   @override
-  State<PracticumAssignmentScoreDialog> createState() => _PracticumAssignmentScoreDialogState();
+  ConsumerState<PracticumAssignmentScoreDialog> createState() =>
+      _PracticumAssignmentScoreDialogState();
 }
 
-class _PracticumAssignmentScoreDialogState extends State<PracticumAssignmentScoreDialog> {
-  late final List<PracticumAssignmentScore> practicumScores;
+class _PracticumAssignmentScoreDialogState extends ConsumerState<PracticumAssignmentScoreDialog> {
+  late final List<PracticumAssignmentScore> assignmentScores;
   late final ValueNotifier<PracticumAssignmentScore> scoreNotifier;
 
   @override
   void initState() {
-    practicumScores = [
+    assignmentScores = [
       const PracticumAssignmentScore(1, Palette.errorText, 50.0, "Sangat Rendah"),
       const PracticumAssignmentScore(2, Palette.error, 65.0, "Rendah"),
       const PracticumAssignmentScore(3, Palette.warning, 75.0, "Cukup"),
@@ -33,7 +47,10 @@ class _PracticumAssignmentScoreDialogState extends State<PracticumAssignmentScor
       const PracticumAssignmentScore(6, Palette.success, 92.0, "Bagus"),
       const PracticumAssignmentScore(7, Palette.success, 98.0, "Sangat Bagus"),
     ];
-    scoreNotifier = ValueNotifier(practicumScores[4]);
+
+    final index = MapHelper.assignmentScoreMap[widget.score.score];
+
+    scoreNotifier = ValueNotifier(assignmentScores[index != null ? index - 1 : 4]);
 
     super.initState();
   }
@@ -48,19 +65,19 @@ class _PracticumAssignmentScoreDialogState extends State<PracticumAssignmentScor
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
-      title: 'Tugas Praktikum ${widget.meetingNumber}',
+      title: 'Tugas Praktikum ${widget.meeting.number}',
       onPressedPrimaryAction: submit,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'H071191001',
+            '${widget.score.student?.username}',
             style: textTheme.bodyMedium!.copyWith(
               color: Palette.purple3,
             ),
           ),
           Text(
-            'Siti Nisrina Nabilah Putri Sulfi Yudo',
+            '${widget.score.student?.fullname}',
             style: textTheme.titleLarge!.copyWith(
               color: Palette.purple2,
             ),
@@ -92,7 +109,7 @@ class _PracticumAssignmentScoreDialogState extends State<PracticumAssignmentScor
                       ),
                       onRatingUpdate: (value) {
                         if (value > 0 && value <= 7) {
-                          scoreNotifier.value = practicumScores[value.toInt() - 1];
+                          scoreNotifier.value = assignmentScores[value.toInt() - 1];
                         }
                       },
                     ),
@@ -114,7 +131,19 @@ class _PracticumAssignmentScoreDialogState extends State<PracticumAssignmentScor
   }
 
   void submit() {
-    debugPrint(scoreNotifier.value.toString());
+    final assignmentScore = scoreNotifier.value.value;
+
+    if (widget.score.id != null) {
+      ref.read(scoreActionsProvider.notifier).updateScore(widget.score.id!, assignmentScore);
+    } else {
+      final scorePost = ScorePost(
+        studentId: widget.studentId,
+        score: assignmentScore,
+        type: 'ASSIGNMENT',
+      );
+
+      ref.read(scoreActionsProvider.notifier).addScore(widget.meeting.id!, scorePost);
+    }
   }
 }
 
@@ -130,9 +159,4 @@ class PracticumAssignmentScore {
     this.value,
     this.description,
   );
-
-  @override
-  String toString() {
-    return 'PracticumAssignmentScore(rate: $rate, color: $color, value: $value, description: $description)';
-  }
 }

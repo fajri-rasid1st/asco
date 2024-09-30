@@ -26,6 +26,7 @@ import 'package:asco/src/data/models/control_cards/control_card.dart';
 import 'package:asco/src/data/models/meetings/meeting.dart';
 import 'package:asco/src/data/models/meetings/meeting_post.dart';
 import 'package:asco/src/presentation/features/admin/meeting/providers/meeting_actions_provider.dart';
+import 'package:asco/src/presentation/features/assistant/assistance/pages/assistant_assistance_score_page.dart';
 import 'package:asco/src/presentation/features/assistant/assistance/providers/meeting_control_cards_provider.dart';
 import 'package:asco/src/presentation/features/assistant/assistance/providers/update_assistance_provider.dart';
 import 'package:asco/src/presentation/shared/features/meeting/providers/meeting_detail_provider.dart';
@@ -230,16 +231,27 @@ class AssistantAssistanceDetailPage extends ConsumerWidget {
                     ],
                   ),
                   const SectionTitle(text: 'Nilai Tugas Praktikum'),
-                  FilledButton(
-                    onPressed: () => navigatorKey.currentState!.pushNamed(
-                      assistantAssistanceScoreRoute,
-                      arguments: null,
-                    ),
-                    style: FilledButton.styleFrom(
-                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    ),
-                    child: const Text('Input Nilai'),
-                  ).fullWidth(),
+                  Consumer(
+                    builder: (context, ref, child) {
+                      final cards = ref.watch(MeetingControlCardsProvider(id)).valueOrNull;
+
+                      return FilledButton(
+                        onPressed: cards != null && cards.isNotEmpty
+                            ? () => navigatorKey.currentState!.pushNamed(
+                                  assistantAssistanceScoreRoute,
+                                  arguments: AssistantAssistanceScorePageArgs(
+                                    meeting: meeting,
+                                    cards: cards,
+                                  ),
+                                )
+                            : null,
+                        style: FilledButton.styleFrom(
+                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        ),
+                        child: const Text('Input Nilai'),
+                      ).fullWidth();
+                    },
+                  ),
                   const SectionTitle(text: 'Asistensi'),
                   Consumer(
                     builder: (context, ref, child) {
