@@ -7,7 +7,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Project imports:
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
-import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
@@ -72,16 +71,18 @@ class AssistantProfilePage extends ConsumerWidget {
                                   'github_filled.svg',
                                   color: Palette.background,
                                   tooltip: 'Github',
-                                  onPressed: () => FunctionHelper.openUrl(
-                                    'https://github.com/${profile.githubUsername}',
+                                  onPressed: () => context.openUrl(
+                                    name: 'Github',
+                                    url: 'https://github.com/${profile.githubUsername}',
                                   ),
                                 ),
                                 const SizedBox(width: 2),
                                 CustomIconButton(
                                   'instagram_filled.svg',
                                   tooltip: 'Instagram',
-                                  onPressed: () => FunctionHelper.openUrl(
-                                    'https://instagram.com/${profile.instagramUsername}',
+                                  onPressed: () => context.openUrl(
+                                    name: 'Instagram',
+                                    url: 'https://instagram.com/${profile.instagramUsername}',
                                   ),
                                 ),
                               ],

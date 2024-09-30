@@ -6,11 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Project imports:
 import 'package:asco/core/enums/attendance_type.dart';
-import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/extensions/datetime_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
-import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
 import 'package:asco/src/data/models/practicums/practicum.dart';
@@ -85,8 +83,7 @@ class ControlCardDetailPage extends StatelessWidget {
                                       'github_filled.svg',
                                       color: Palette.background,
                                       tooltip: 'Github',
-                                      onPressed: () => openUrl(
-                                        context,
+                                      onPressed: () => context.openUrl(
                                         name: 'Github',
                                         url: 'https://github.com/${student.githubUsername}',
                                       ),
@@ -95,8 +92,7 @@ class ControlCardDetailPage extends StatelessWidget {
                                     CustomIconButton(
                                       'instagram_filled.svg',
                                       tooltip: 'Instagram',
-                                      onPressed: () => openUrl(
-                                        context,
+                                      onPressed: () => context.openUrl(
                                         name: 'Instagram',
                                         url: 'https://instagram.com/${student.instagramUsername}',
                                       ),
@@ -191,22 +187,6 @@ class ControlCardDetailPage extends StatelessWidget {
         },
       ),
     );
-  }
-
-  void openUrl(
-    BuildContext context, {
-    required String name,
-    required String url,
-  }) {
-    if (url.split('/').last.isNotEmpty) {
-      FunctionHelper.openUrl(url);
-    } else {
-      context.showSnackBar(
-        title: '$name Tidak Ada',
-        message: 'Pengguna belum memasukkan username $name.',
-        type: SnackBarType.info,
-      );
-    }
   }
 }
 

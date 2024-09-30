@@ -56,7 +56,7 @@ class AttendanceDetailPage extends ConsumerWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: List<Flexible>.generate(
-                      MapHelper.readableAttendanceColorMap.length,
+                      MapHelper.readableAttendanceColorMap.length - 2,
                       (index) {
                         final label = MapHelper.readableAttendanceColorMap.keys.toList()[index];
                         final color = MapHelper.readableAttendanceColorMap.values.toList()[index];

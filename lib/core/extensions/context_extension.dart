@@ -2,6 +2,7 @@
 import 'dart:async';
 
 // Flutter imports:
+import 'package:asco/core/helpers/function_helper.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -181,7 +182,7 @@ extension DatePickerExtension on BuildContext {
   }
 }
 
-extension ProviderResponse on BuildContext {
+extension ProviderResponseExtension on BuildContext {
   Null responseError(Object e, StackTrace st) {
     if (e == kNoInternetConnection) {
       showNoConnectionSnackBar();
@@ -205,6 +206,18 @@ extension FileExtension on BuildContext {
       showSnackBar(
         title: 'File Tidak Ada',
         message: 'File ${name.toLowerCase()} belum dimasukkan.',
+        type: SnackBarType.info,
+      );
+    }
+  }
+
+  void openUrl({required String name, required String url}) {
+    if (url.split('/').last.isNotEmpty) {
+      FunctionHelper.openUrl(url);
+    } else {
+      showSnackBar(
+        title: '$name Tidak Ada',
+        message: 'Pengguna belum memasukkan username $name.',
         type: SnackBarType.info,
       );
     }

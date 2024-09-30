@@ -11,7 +11,6 @@ import 'package:qr/qr.dart';
 // Project imports:
 import 'package:asco/core/extensions/context_extension.dart';
 import 'package:asco/core/helpers/asset_path.dart';
-import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/routes/route_names.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/core/styles/text_style.dart';
@@ -256,8 +255,9 @@ class IdCardFrontSide extends ConsumerWidget {
                               Row(
                                 children: [
                                   GestureDetector(
-                                    onTap: () => FunctionHelper.openUrl(
-                                      'https://github.com/${profile.githubUsername}',
+                                    onTap: () => context.openUrl(
+                                      name: 'Github',
+                                      url: 'https://github.com/${profile.githubUsername}',
                                     ),
                                     child: SvgAsset(
                                       AssetPath.getIcon('github_filled.svg'),
@@ -284,8 +284,9 @@ class IdCardFrontSide extends ConsumerWidget {
                               Row(
                                 children: [
                                   GestureDetector(
-                                    onTap: () => FunctionHelper.openUrl(
-                                      'https://instagram.com/${profile.instagramUsername}',
+                                    onTap: () => context.openUrl(
+                                      name: 'Instagram',
+                                      url: 'https://instagram.com/${profile.instagramUsername}',
                                     ),
                                     child: SvgAsset(
                                       AssetPath.getIcon('instagram_filled.svg'),

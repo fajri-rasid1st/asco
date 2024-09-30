@@ -323,8 +323,8 @@ class AssistancePage extends StatelessWidget {
                                 child: AttendanceCard(
                                   attendanceType: AttendanceType.meeting,
                                   meetingStatus: const {
-                                    'Selesai': 0,
-                                    'Belum': 5,
+                                    'Selesai': 2,
+                                    'Belum': 3,
                                   },
                                   meeting: meeting,
                                   locked: meeting.date! > DateTime.now().secondsSinceEpoch,

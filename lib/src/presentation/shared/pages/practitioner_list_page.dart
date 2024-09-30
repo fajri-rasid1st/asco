@@ -2,10 +2,8 @@
 import 'package:flutter/material.dart';
 
 // Project imports:
-import 'package:asco/core/enums/snack_bar_type.dart';
 import 'package:asco/core/enums/user_badge_type.dart';
 import 'package:asco/core/extensions/context_extension.dart';
-import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/styles/color_scheme.dart';
 import 'package:asco/dummies_data.dart';
 import 'package:asco/src/presentation/shared/widgets/cards/user_card.dart';
@@ -32,8 +30,7 @@ class PractitionerListPage extends StatelessWidget {
             'github_filled.svg',
             tooltip: 'Github',
             color: Palette.purple2,
-            onPressed: () => openUrl(
-              context,
+            onPressed: () => context.openUrl(
               name: 'Github',
               url: 'https://github.com/${studentDummies[index].githubUsername}',
             ),
@@ -44,21 +41,5 @@ class PractitionerListPage extends StatelessWidget {
         itemCount: studentDummies.length,
       ),
     );
-  }
-
-  void openUrl(
-    BuildContext context, {
-    required String name,
-    required String url,
-  }) {
-    if (url.split('/').last.isNotEmpty) {
-      FunctionHelper.openUrl(url);
-    } else {
-      context.showSnackBar(
-        title: '$name Tidak Ada',
-        message: 'Pengguna belum memasukkan username $name.',
-        type: SnackBarType.info,
-      );
-    }
   }
 }
