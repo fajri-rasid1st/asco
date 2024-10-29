@@ -49,9 +49,7 @@ class _SelectUsersPageState extends State<SelectUsersPage> {
         appBar: CustomAppBar(
           title: widget.args.title,
           leading: IconButton(
-            onPressed: () => selectedUsers.isEmpty
-                ? navigatorKey.currentState!.pop()
-                : showCancelMessage(context),
+            onPressed: () => selectedUsers.isEmpty ? navigatorKey.currentState!.pop() : showCancelMessage(context),
             icon: const Icon(Icons.close_rounded),
             tooltip: 'Batalkan',
             style: IconButton.styleFrom(
@@ -156,10 +154,7 @@ class _SelectUsersPageState extends State<SelectUsersPage> {
                             child: UserCard(
                               user: users[index],
                               badgeType: UserBadgeType.text,
-                              trailing: selectedUsers
-                                      .map((e) => e.username)
-                                      .toList()
-                                      .contains(users[index].username)
+                              trailing: selectedUsers.map((e) => e.username).toList().contains(users[index].username)
                                   ? const CircleBorderContainer(
                                       size: 28,
                                       borderColor: Palette.purple2,

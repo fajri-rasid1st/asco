@@ -15,8 +15,7 @@ class MeetingSchedules extends _$MeetingSchedules {
 
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(meetingRepositoryProvider).getMeetingSchedules(practicum: practicum);
+    final result = await ref.watch(meetingRepositoryProvider).getMeetingSchedules(practicum: practicum);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),

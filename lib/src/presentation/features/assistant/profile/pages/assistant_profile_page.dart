@@ -112,8 +112,7 @@ class AssistantProfilePage extends ConsumerWidget {
                               CustomIconButton(
                                 'edit_outlined.svg',
                                 tooltip: 'Edit Profil',
-                                onPressed: () =>
-                                    navigatorKey.currentState!.pushNamed(editProfileRoute),
+                                onPressed: () => navigatorKey.currentState!.pushNamed(editProfileRoute),
                               ),
                             ],
                           ),

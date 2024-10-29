@@ -104,8 +104,7 @@ class PracticumActions extends _$PracticumActions {
   Future<void> removeClassroomFromPracticum(String classroomId) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(practicumRepositoryProvider).removeClassroomFromPracticum(classroomId);
+    final result = await ref.watch(practicumRepositoryProvider).removeClassroomFromPracticum(classroomId);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),

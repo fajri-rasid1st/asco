@@ -171,12 +171,11 @@ class PracticumDetailPage extends ConsumerWidget {
                           title: 'Keluarkan Asisten?',
                           message: 'Anda yakin ingin mengeluarkan asisten ini?',
                           primaryButtonText: 'Keluarkan',
-                          onPressedPrimaryButton: () => ref
-                              .read(practicumActionsProvider.notifier)
-                              .removeAssistantFromPracticum(
-                                id,
-                                username: practicum.assistants![index].username!,
-                              ),
+                          onPressedPrimaryButton: () =>
+                              ref.read(practicumActionsProvider.notifier).removeAssistantFromPracticum(
+                                    id,
+                                    username: practicum.assistants![index].username!,
+                                  ),
                         ),
                       ),
                     ),

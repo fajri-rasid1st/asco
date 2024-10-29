@@ -20,6 +20,5 @@ class AttendanceMeeting with _$AttendanceMeeting {
     int? attend,
   }) = _AttendanceMeeting;
 
-  factory AttendanceMeeting.fromJson(Map<String, Object?> json) =>
-      _$AttendanceMeetingFromJson(json);
+  factory AttendanceMeeting.fromJson(Map<String, Object?> json) => _$AttendanceMeetingFromJson(json);
 }

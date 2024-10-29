@@ -169,8 +169,7 @@ class MeetingRepositoryImpl implements MeetingRepository {
   }
 
   @override
-  Future<Either<Failure, List<MeetingSchedule>>> getMeetingSchedules(
-      {String practicum = ''}) async {
+  Future<Either<Failure, List<MeetingSchedule>>> getMeetingSchedules({String practicum = ''}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await meetingDataSource.getMeetingSchedules(practicum: practicum);

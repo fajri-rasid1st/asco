@@ -65,9 +65,7 @@ class _MainMenuPageState extends ConsumerState<MainMenuPage> {
           ref.read(selectedMainMenuProvider.notifier).state = previous ?? 0;
 
           navigatorKey.currentState!.pushNamed(
-            MapHelper.roleMap[CredentialSaver.credential?.role] == 1
-                ? studentProfileRoute
-                : assistantProfileRoute,
+            MapHelper.roleMap[CredentialSaver.credential?.role] == 1 ? studentProfileRoute : assistantProfileRoute,
           );
         }
 

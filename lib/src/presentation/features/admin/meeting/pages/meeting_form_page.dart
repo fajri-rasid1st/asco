@@ -29,9 +29,8 @@ class MeetingFormPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var meetingDate = args.meeting?.date != null
-        ? DateTime.fromMillisecondsSinceEpoch(args.meeting!.date! * 1000)
-        : DateTime.now();
+    var meetingDate =
+        args.meeting?.date != null ? DateTime.fromMillisecondsSinceEpoch(args.meeting!.date! * 1000) : DateTime.now();
 
     final isExpired = meetingDate.isBefore(DateTime.now());
 
@@ -126,8 +125,8 @@ class MeetingFormPage extends StatelessWidget {
                         label: 'Pemateri',
                         items: assistants.map((e) => '${e.nickname} (${e.classOf})').toList(),
                         values: assistants.map((e) => e.id).toList(),
-                        initialValue: args.meeting?.assistant?.id ??
-                            (assistants.isNotEmpty ? assistants.first.id : null),
+                        initialValue:
+                            args.meeting?.assistant?.id ?? (assistants.isNotEmpty ? assistants.first.id : null),
                       ),
                       const SizedBox(height: 12),
                       CustomDropdownField(
@@ -135,8 +134,8 @@ class MeetingFormPage extends StatelessWidget {
                         label: 'Pendamping',
                         items: assistants.map((e) => '${e.nickname} (${e.classOf})').toList(),
                         values: assistants.map((e) => e.id).toList(),
-                        initialValue: args.meeting?.coAssistant?.id ??
-                            (assistants.isNotEmpty ? assistants.first.id : null),
+                        initialValue:
+                            args.meeting?.coAssistant?.id ?? (assistants.isNotEmpty ? assistants.first.id : null),
                       ),
                       const SizedBox(height: 12),
                       FileUploadField(

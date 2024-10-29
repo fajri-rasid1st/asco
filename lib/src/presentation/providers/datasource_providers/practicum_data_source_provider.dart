@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
@@ -8,6 +9,6 @@ import 'package:asco/src/data/datasources/practicum_data_source.dart';
 part 'practicum_data_source_provider.g.dart';
 
 @riverpod
-PracticumDataSource practicumDataSource(PracticumDataSourceRef ref) {
+PracticumDataSource practicumDataSource(Ref ref) {
   return PracticumDataSourceImpl(client: HttpClient.client);
 }

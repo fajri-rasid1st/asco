@@ -64,8 +64,7 @@ class ClassroomFormDialog extends StatelessWidget {
                     name: 'startTime',
                     label: 'Waktu Mulai',
                     isSmall: true,
-                    initialValue:
-                        classroom?.startTime?.to24TimeFormat() ?? startTime.format(context),
+                    initialValue: classroom?.startTime?.to24TimeFormat() ?? startTime.format(context),
                     textInputType: TextInputType.none,
                     onTap: () async {
                       final time = await context.showCustomTimePicker(

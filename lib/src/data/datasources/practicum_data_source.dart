@@ -120,9 +120,8 @@ class PracticumDataSourceImpl implements PracticumDataSource {
     try {
       final badgePath = await FileService.uploadFile(practicum.badgePath) ?? '';
 
-      final courseContractPath = practicum.courseContractPath != null
-          ? await FileService.uploadFile(practicum.courseContractPath!)
-          : null;
+      final courseContractPath =
+          practicum.courseContractPath != null ? await FileService.uploadFile(practicum.courseContractPath!) : null;
 
       final response = await client.post(
         Uri.parse('${ApiConfigs.baseUrl}/practicums'),
@@ -158,12 +157,10 @@ class PracticumDataSourceImpl implements PracticumDataSource {
     PracticumPost newPracticum,
   ) async {
     try {
-      final isBadgeUpdated =
-          p.basename(oldPracticum.badgePath!) != p.basename(newPracticum.badgePath);
+      final isBadgeUpdated = p.basename(oldPracticum.badgePath!) != p.basename(newPracticum.badgePath);
 
       final isCourseContractUpdated = newPracticum.courseContractPath != null &&
-          p.basename(oldPracticum.courseContractPath ?? '') !=
-              p.basename(newPracticum.courseContractPath!);
+          p.basename(oldPracticum.courseContractPath ?? '') != p.basename(newPracticum.courseContractPath!);
 
       final badgePath = isBadgeUpdated
           ? await FileService.uploadFile(newPracticum.badgePath) ?? ''

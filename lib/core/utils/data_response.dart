@@ -26,8 +26,7 @@ class DataResponse extends Equatable {
     );
   }
 
-  factory DataResponse.fromJson(String source) =>
-      DataResponse.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory DataResponse.fromJson(String source) => DataResponse.fromMap(json.decode(source) as Map<String, dynamic>);
 }
 
 class ErrorResponse extends Equatable {
@@ -49,6 +48,5 @@ class ErrorResponse extends Equatable {
     );
   }
 
-  factory ErrorResponse.fromJson(String source) =>
-      ErrorResponse.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory ErrorResponse.fromJson(String source) => ErrorResponse.fromMap(json.decode(source) as Map<String, dynamic>);
 }

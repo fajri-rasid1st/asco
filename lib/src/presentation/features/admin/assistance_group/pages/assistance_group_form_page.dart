@@ -106,8 +106,8 @@ class _AssistanceGroupFormPageState extends State<AssistanceGroupFormPage> {
                         label: 'Asisten',
                         items: assistants.map((e) => '${e.nickname} (${e.classOf})').toList(),
                         values: assistants.map((e) => e.id).toList(),
-                        initialValue: widget.args.group?.assistant?.id ??
-                            (assistants.isNotEmpty ? assistants.first.id : null),
+                        initialValue:
+                            widget.args.group?.assistant?.id ?? (assistants.isNotEmpty ? assistants.first.id : null),
                       ),
                       SectionHeader(
                         title: 'Peserta',
@@ -172,9 +172,7 @@ class _AssistanceGroupFormPageState extends State<AssistanceGroupFormPage> {
     );
 
     if (widget.args.group != null) {
-      ref
-          .read(assistanceGroupActionsProvider.notifier)
-          .editAssistanceGroup(widget.args.group!.id!, group);
+      ref.read(assistanceGroupActionsProvider.notifier).editAssistanceGroup(widget.args.group!.id!, group);
     } else {
       ref
           .read(assistanceGroupActionsProvider.notifier)

@@ -34,8 +34,7 @@ class MeetingListHomePage extends ConsumerStatefulWidget {
   ConsumerState<MeetingListHomePage> createState() => _MeetingListHomePageState();
 }
 
-class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage>
-    with SingleTickerProviderStateMixin {
+class _MeetingListHomePageState extends ConsumerState<MeetingListHomePage> with SingleTickerProviderStateMixin {
   late final AnimationController fabAnimationController;
   late final ScrollController scrollController;
 

@@ -83,11 +83,13 @@ class _PasswordFieldState extends State<PasswordField> {
                     size: 20,
                   ),
                   onPressed: () => this.isVisible.value = !isVisible,
+                  style: IconButton.styleFrom(
+                    backgroundColor: Colors.transparent,
+                    shape: const CircleBorder(),
+                  ),
                 ),
               ),
-              validator: widget.validators != null
-                  ? FormBuilderValidators.compose(widget.validators!)
-                  : null,
+              validator: widget.validators != null ? FormBuilderValidators.compose(widget.validators!) : null,
               onChanged: widget.onChanged,
             );
           },

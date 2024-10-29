@@ -4,8 +4,7 @@ import 'package:flutter/foundation.dart';
 // Package imports:
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final qrScannerProvider =
-    ChangeNotifierProvider.autoDispose<QrScannerNotifier>((ref) => QrScannerNotifier());
+final qrScannerProvider = ChangeNotifierProvider.autoDispose<QrScannerNotifier>((ref) => QrScannerNotifier());
 
 class QrScannerNotifier extends ChangeNotifier {
   bool _isPaused = false;

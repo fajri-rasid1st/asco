@@ -49,8 +49,7 @@ class AuthDataSourceImpl implements AuthDataSource {
         Uri.parse('${ApiConfigs.baseUrl}/users/login'),
         headers: {
           HttpHeaders.contentTypeHeader: 'application/json',
-          HttpHeaders.authorizationHeader:
-              'Basic ${base64Encode(utf8.encode('$username:$password'))}',
+          HttpHeaders.authorizationHeader: 'Basic ${base64Encode(utf8.encode('$username:$password'))}',
         },
       );
 

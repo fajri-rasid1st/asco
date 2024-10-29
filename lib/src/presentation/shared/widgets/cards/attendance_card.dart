@@ -49,9 +49,8 @@ class AttendanceCard extends StatelessWidget {
       ),
       onTap: locked ? null : onTap,
       child: Row(
-        crossAxisAlignment: attendanceType == AttendanceType.meeting
-            ? CrossAxisAlignment.start
-            : CrossAxisAlignment.center,
+        crossAxisAlignment:
+            attendanceType == AttendanceType.meeting ? CrossAxisAlignment.start : CrossAxisAlignment.center,
         children: [
           CircleBorderContainer(
             size: 54,

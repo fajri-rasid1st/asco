@@ -75,11 +75,10 @@ class AssistanceGroupActions extends _$AssistanceGroupActions {
   }) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(assistanceGroupRepositoryProvider).removeStudentFromAssistanceGroup(
-              id,
-              username: username,
-            );
+    final result = await ref.watch(assistanceGroupRepositoryProvider).removeStudentFromAssistanceGroup(
+          id,
+          username: username,
+        );
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),

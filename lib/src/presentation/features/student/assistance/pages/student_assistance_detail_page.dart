@@ -127,8 +127,7 @@ class StudentAssistanceDetailPage extends ConsumerWidget {
                       ),
                       const SizedBox(width: 8),
                       IconButton(
-                        onPressed: card.meeting?.assignmentPath != null &&
-                                card.meeting!.assignmentPath!.isNotEmpty
+                        onPressed: card.meeting?.assignmentPath != null && card.meeting!.assignmentPath!.isNotEmpty
                             ? () => saveAssignment(
                                   context,
                                   assignmentPath: card.meeting!.assignmentPath!,
@@ -304,9 +303,7 @@ class AttendanceAssistanceCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        assistance.date == 0
-                            ? 'Belum Asistensi'
-                            : assistance.date!.toDateTimeFormat('d MMMM yyyy'),
+                        assistance.date == 0 ? 'Belum Asistensi' : assistance.date!.toDateTimeFormat('d MMMM yyyy'),
                         style: textTheme.bodySmall!.copyWith(
                           color: Palette.secondaryText,
                         ),

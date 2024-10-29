@@ -80,9 +80,7 @@ class FileService {
   }) async {
     try {
       final isPermitted = await FunctionHelper.requestPermission(
-        await FunctionHelper.androidApiLevel >= 30
-            ? Permission.manageExternalStorage
-            : Permission.storage,
+        await FunctionHelper.androidApiLevel >= 30 ? Permission.manageExternalStorage : Permission.storage,
       );
 
       if (isPermitted) {
@@ -117,9 +115,7 @@ class FileService {
   }) async {
     try {
       final isPermitted = await FunctionHelper.requestPermission(
-        await FunctionHelper.androidApiLevel >= 30
-            ? Permission.manageExternalStorage
-            : Permission.storage,
+        await FunctionHelper.androidApiLevel >= 30 ? Permission.manageExternalStorage : Permission.storage,
       );
 
       if (isPermitted) {
@@ -149,9 +145,7 @@ class FileService {
   static Future<bool> saveFileFromAsset(String assetName) async {
     try {
       final isPermitted = await FunctionHelper.requestPermission(
-        await FunctionHelper.androidApiLevel >= 30
-            ? Permission.manageExternalStorage
-            : Permission.storage,
+        await FunctionHelper.androidApiLevel >= 30 ? Permission.manageExternalStorage : Permission.storage,
       );
 
       if (isPermitted) {

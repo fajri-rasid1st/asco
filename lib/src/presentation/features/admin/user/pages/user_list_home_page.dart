@@ -34,8 +34,7 @@ class UserListHomePage extends ConsumerStatefulWidget {
   ConsumerState<UserListHomePage> createState() => _UserListHomePageState();
 }
 
-class _UserListHomePageState extends ConsumerState<UserListHomePage>
-    with SingleTickerProviderStateMixin {
+class _UserListHomePageState extends ConsumerState<UserListHomePage> with SingleTickerProviderStateMixin {
   late final AnimationController fabAnimationController;
   late final ScrollController scrollController;
 
@@ -243,9 +242,8 @@ class _UserListHomePageState extends ConsumerState<UserListHomePage>
                                 title: 'Hapus Pengguna?',
                                 message: 'Anda yakin ingin menghapus user ini?',
                                 primaryButtonText: 'Hapus',
-                                onPressedPrimaryButton: () => ref
-                                    .read(userActionsProvider.notifier)
-                                    .deleteUser(users[index].username!),
+                                onPressedPrimaryButton: () =>
+                                    ref.read(userActionsProvider.notifier).deleteUser(users[index].username!),
                               ),
                             ),
                           ),

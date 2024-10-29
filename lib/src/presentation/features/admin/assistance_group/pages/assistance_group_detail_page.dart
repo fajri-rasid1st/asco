@@ -144,12 +144,11 @@ class AssistanceGroupDetailPage extends ConsumerWidget {
                         title: 'Keluarkan Peserta?',
                         message: 'Anda yakin ingin mengeluarkan peserta ini?',
                         primaryButtonText: 'Keluarkan',
-                        onPressedPrimaryButton: () => ref
-                            .read(assistanceGroupActionsProvider.notifier)
-                            .removeStudentFromAssistanceGroup(
-                              args.id,
-                              username: group.students![index].username!,
-                            ),
+                        onPressedPrimaryButton: () =>
+                            ref.read(assistanceGroupActionsProvider.notifier).removeStudentFromAssistanceGroup(
+                                  args.id,
+                                  username: group.students![index].username!,
+                                ),
                       ),
                     ),
                   ),

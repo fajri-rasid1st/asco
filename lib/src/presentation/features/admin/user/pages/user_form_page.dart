@@ -71,7 +71,7 @@ class UserFormPage extends StatelessWidget {
                     errorText: 'Field wajib diisi',
                   ),
                   FormBuilderValidators.match(
-                    r'^(?=.*[a-zA-Z])\d*[a-zA-Z\d]*$',
+                    RegExp(r'^(?=.*[a-zA-Z])\d*[a-zA-Z\d]*$'),
                     errorText: 'Username tidak valid',
                   ),
                 ],
@@ -88,7 +88,7 @@ class UserFormPage extends StatelessWidget {
                     errorText: 'Field wajib diisi',
                   ),
                   FormBuilderValidators.match(
-                    r'^(?=.*[a-zA-Z])[a-zA-Z\s.]*$',
+                    RegExp(r'^(?=.*[a-zA-Z])[a-zA-Z\s.]*$'),
                     errorText: 'Nama tidak valid',
                   ),
                 ],
@@ -184,9 +184,7 @@ class UserFormPage extends StatelessWidget {
       );
 
       if (this.user != null) {
-        ref
-            .read(userActionsProvider.notifier)
-            .editUser(this.user!.username!, user.copyWith(password: null));
+        ref.read(userActionsProvider.notifier).editUser(this.user!.username!, user.copyWith(password: null));
       } else {
         ref.read(userActionsProvider.notifier).createUser([user]);
       }

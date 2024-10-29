@@ -25,8 +25,7 @@ class PracticumListHomePage extends ConsumerStatefulWidget {
   ConsumerState<PracticumListHomePage> createState() => _PracticumListHomePageState();
 }
 
-class _PracticumListHomePageState extends ConsumerState<PracticumListHomePage>
-    with SingleTickerProviderStateMixin {
+class _PracticumListHomePageState extends ConsumerState<PracticumListHomePage> with SingleTickerProviderStateMixin {
   late final AnimationController fabAnimationController;
   late final ScrollController scrollController;
 

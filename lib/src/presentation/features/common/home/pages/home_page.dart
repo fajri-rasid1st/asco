@@ -295,9 +295,7 @@ class CourseCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 16),
                       PracticumBadgeImage(
-                        badgeUrl: roleId == 1
-                            ? '${classroom?.practicum?.badgePath}'
-                            : '${practicum?.badgePath}',
+                        badgeUrl: roleId == 1 ? '${classroom?.practicum?.badgePath}' : '${practicum?.badgePath}',
                         width: 44,
                         height: 48,
                       ),

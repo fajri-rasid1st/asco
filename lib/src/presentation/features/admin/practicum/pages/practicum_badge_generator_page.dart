@@ -18,10 +18,8 @@ import 'package:asco/src/presentation/shared/widgets/ink_well_container.dart';
 import 'package:asco/src/presentation/shared/widgets/section_header.dart';
 import 'package:asco/src/presentation/shared/widgets/svg_asset.dart';
 
-final selectedIconProvider =
-    StateProvider.autoDispose<BadgeIcon>((ref) => BadgeIcon.getIcons.first);
-final selectedPaletteProvider =
-    StateProvider.autoDispose<BadgePalette>((ref) => BadgePalette.getPalettes.last);
+final selectedIconProvider = StateProvider.autoDispose<BadgeIcon>((ref) => BadgeIcon.getIcons.first);
+final selectedPaletteProvider = StateProvider.autoDispose<BadgePalette>((ref) => BadgePalette.getPalettes.last);
 
 class PracticumBadgeGeneratorPage extends StatelessWidget {
   const PracticumBadgeGeneratorPage({super.key});

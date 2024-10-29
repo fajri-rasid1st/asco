@@ -118,9 +118,7 @@ class LabRuleListTile extends StatelessWidget {
             context: context,
             barrierDismissible: false,
             builder: (context) => LabRuleDialog(
-              title: attendanceType == AttendanceType.assistance
-                  ? 'Sanksi Nilai Asistensi'
-                  : 'Sanksi Nilai Quiz',
+              title: attendanceType == AttendanceType.assistance ? 'Sanksi Nilai Asistensi' : 'Sanksi Nilai Quiz',
               subtitle: title,
               fieldName: fieldName,
             ),

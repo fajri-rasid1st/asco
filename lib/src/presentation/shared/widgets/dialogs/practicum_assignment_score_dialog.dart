@@ -28,8 +28,7 @@ class PracticumAssignmentScoreDialog extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<PracticumAssignmentScoreDialog> createState() =>
-      _PracticumAssignmentScoreDialogState();
+  ConsumerState<PracticumAssignmentScoreDialog> createState() => _PracticumAssignmentScoreDialogState();
 }
 
 class _PracticumAssignmentScoreDialogState extends ConsumerState<PracticumAssignmentScoreDialog> {

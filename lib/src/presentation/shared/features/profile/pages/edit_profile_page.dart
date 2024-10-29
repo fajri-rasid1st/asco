@@ -136,7 +136,7 @@ class EditProfilePage extends ConsumerWidget {
                           errorText: 'Field wajib diisi',
                         ),
                         FormBuilderValidators.match(
-                          r'^(?=.*[a-zA-Z])[a-zA-Z\s.]*$',
+                          RegExp(r'^(?=.*[a-zA-Z])[a-zA-Z\s.]*$'),
                           errorText: 'Nama tidak valid',
                         ),
                       ],
@@ -149,7 +149,7 @@ class EditProfilePage extends ConsumerWidget {
                       hintText: 'Masukkan nama panggilan',
                       validators: [
                         FormBuilderValidators.match(
-                          r'^(?=.*[a-zA-Z])[a-zA-Z.]*$',
+                          RegExp(r'^(?=.*[a-zA-Z])[a-zA-Z.]*$'),
                           errorText: 'Nama tidak valid',
                         ),
                       ],
@@ -261,8 +261,8 @@ class EditProfilePage extends ConsumerWidget {
       classOf: profile.classOf!,
       role: profile.role!,
       fullname: value['fullname'],
-      githubUsername: value['githubUsername'],
-      instagramUsername: value['instagramUsername'],
+      githubUsername: (value['githubUsername'] as String).isEmpty ? null : value['githubUsername'],
+      instagramUsername: (value['instagramUsername'] as String).isEmpty ? null : value['instagramUsername'],
     );
 
     ref.read(updateProfileProvider.notifier).updateProfile(updatedProfile);
@@ -350,15 +350,15 @@ class EditProfilePage extends ConsumerWidget {
       if (croppedImagePath != null) {
         navigatorKey.currentState!.pop();
 
-        // final updatedProfile = ProfilePost(
-        //   username: profile.username!,
-        //   fullname: profile.fullname!,
-        //   classOf: profile.classOf!,
-        //   role: profile.role!,
-        //   profilePicturePath: croppedImagePath,
-        // );
+        final updatedProfile = ProfilePost(
+          username: profile.username!,
+          fullname: profile.fullname!,
+          classOf: profile.classOf!,
+          role: profile.role!,
+          profilePicturePath: croppedImagePath,
+        );
 
-        // ref.read(updateProfileProvider.notifier).updateProfile(updatedProfile);
+        ref.read(updateProfileProvider.notifier).updateProfile(updatedProfile);
       }
     }
   }

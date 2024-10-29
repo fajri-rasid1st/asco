@@ -17,6 +17,5 @@ class AssistanceGroupPost with _$AssistanceGroupPost {
     String? githubRepoLink,
   }) = _AssistanceGroupPost;
 
-  factory AssistanceGroupPost.fromJson(Map<String, Object?> json) =>
-      _$AssistanceGroupPostFromJson(json);
+  factory AssistanceGroupPost.fromJson(Map<String, Object?> json) => _$AssistanceGroupPostFromJson(json);
 }

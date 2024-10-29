@@ -125,12 +125,10 @@ class MeetingDataSourceImpl implements MeetingDataSource {
     required MeetingPost meeting,
   }) async {
     try {
-      final modulePath =
-          meeting.modulePath != null ? await FileService.uploadFile(meeting.modulePath!) : null;
+      final modulePath = meeting.modulePath != null ? await FileService.uploadFile(meeting.modulePath!) : null;
 
-      final assignmentPath = meeting.assignmentPath != null
-          ? await FileService.uploadFile(meeting.assignmentPath!)
-          : null;
+      final assignmentPath =
+          meeting.assignmentPath != null ? await FileService.uploadFile(meeting.assignmentPath!) : null;
 
       final response = await client.post(
         Uri.parse('${ApiConfigs.baseUrl}/practicums/$practicumId/meetings'),

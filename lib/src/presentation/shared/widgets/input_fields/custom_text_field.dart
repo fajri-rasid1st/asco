@@ -159,8 +159,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               )
             : null,
       ),
-      validator:
-          widget.validators != null ? FormBuilderValidators.compose(widget.validators!) : null,
+      validator: widget.validators != null ? FormBuilderValidators.compose(widget.validators!) : null,
       onTap: widget.onTap,
       onChanged: widget.onChanged,
     );

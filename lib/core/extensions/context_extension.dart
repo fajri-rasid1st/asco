@@ -2,7 +2,6 @@
 import 'dart:async';
 
 // Flutter imports:
-import 'package:asco/core/helpers/function_helper.dart';
 import 'package:flutter/material.dart';
 
 // Package imports:
@@ -11,6 +10,7 @@ import 'package:intl/intl.dart';
 
 // Project imports:
 import 'package:asco/core/enums/snack_bar_type.dart';
+import 'package:asco/core/helpers/function_helper.dart';
 import 'package:asco/core/services/file_service.dart';
 import 'package:asco/core/utils/const.dart';
 import 'package:asco/core/utils/keys.dart';

@@ -50,9 +50,7 @@ class SelectPracticumPage extends StatelessWidget {
                 itemBuilder: (context, index) => PracticumCard(
                   practicum: practicums[index],
                   showClassroomAndMeetingButtons: args.showClassroomAndMeetingButtons,
-                  onTap: args.onItemTapped != null
-                      ? () => args.onItemTapped!(practicums[index])
-                      : null,
+                  onTap: args.onItemTapped != null ? () => args.onItemTapped!(practicums[index]) : null,
                 ),
                 separatorBuilder: (context, index) => const SizedBox(height: 10),
                 itemCount: practicums.length,

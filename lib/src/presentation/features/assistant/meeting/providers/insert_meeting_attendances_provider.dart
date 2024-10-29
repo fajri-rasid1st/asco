@@ -12,8 +12,7 @@ class InsertMeetingAttendances extends _$InsertMeetingAttendances {
   Future<Null> build(String meetingId) async {
     state = const AsyncValue.loading();
 
-    final result =
-        await ref.watch(attendanceRepositoryProvider).insertMeetingAttendances(meetingId);
+    final result = await ref.watch(attendanceRepositoryProvider).insertMeetingAttendances(meetingId);
 
     result.fold(
       (l) => state = AsyncValue.error(l.message!, StackTrace.current),

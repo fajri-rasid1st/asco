@@ -110,9 +110,8 @@ class PracticumCard extends StatelessWidget {
                         title: 'Hapus Praktikum?',
                         message: 'Anda yakin ingin menghapus praktikum ini?',
                         primaryButtonText: 'Hapus',
-                        onPressedPrimaryButton: () => ref
-                            .read(practicumActionsProvider.notifier)
-                            .deletePracticum(practicum.id!),
+                        onPressedPrimaryButton: () =>
+                            ref.read(practicumActionsProvider.notifier).deletePracticum(practicum.id!),
                       ),
                       child: const Icon(
                         Icons.remove_rounded,

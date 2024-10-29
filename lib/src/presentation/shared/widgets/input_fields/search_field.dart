@@ -98,9 +98,7 @@ class _SearchFieldState extends State<SearchField> {
                     ),
                   ),
           ),
-          onChanged: widget.delayOnChanged
-              ? (text) => debounce(() => widget.onChanged(text))
-              : widget.onChanged,
+          onChanged: widget.delayOnChanged ? (text) => debounce(() => widget.onChanged(text)) : widget.onChanged,
         ),
       ),
     );

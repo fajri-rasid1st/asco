@@ -1,4 +1,5 @@
 // Package imports:
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 // Project imports:
@@ -9,7 +10,7 @@ import 'package:asco/src/presentation/providers/generated_providers/network_info
 part 'practicum_repository_provider.g.dart';
 
 @riverpod
-PracticumRepository practicumRepository(PracticumRepositoryRef ref) {
+PracticumRepository practicumRepository(Ref ref) {
   return PracticumRepositoryImpl(
     practicumDataSource: ref.watch(practicumDataSourceProvider),
     networkInfo: ref.watch(networkInfoProvider),

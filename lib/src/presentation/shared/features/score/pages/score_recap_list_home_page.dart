@@ -47,8 +47,7 @@ class ScoreRecapListHomePage extends StatefulWidget {
   State<ScoreRecapListHomePage> createState() => _ScoreRecapListHomePageState();
 }
 
-class _ScoreRecapListHomePageState extends State<ScoreRecapListHomePage>
-    with SingleTickerProviderStateMixin {
+class _ScoreRecapListHomePageState extends State<ScoreRecapListHomePage> with SingleTickerProviderStateMixin {
   late final AnimationController fabAnimationController;
   late final ScrollController scrollController;
 

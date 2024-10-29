@@ -226,8 +226,7 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
                           const SectionTitle(text: 'Respon & Quiz'),
                           Consumer(
                             builder: (context, ref, child) {
-                              final attendances =
-                                  ref.watch(MeetingAttendancesProvider(meeting.id!)).valueOrNull;
+                              final attendances = ref.watch(MeetingAttendancesProvider(meeting.id!)).valueOrNull;
 
                               return Row(
                                 children: [
@@ -241,8 +240,7 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
                                                   practicum: widget.args.classroom.practicum,
                                                   classroom: widget.args.classroom,
                                                   meeting: meeting,
-                                                  students:
-                                                      attendances.map((e) => e.student!).toList(),
+                                                  students: attendances.map((e) => e.student!).toList(),
                                                 ),
                                               )
                                           : null,
@@ -265,8 +263,7 @@ class _AssistantMeetingDetailPageState extends ConsumerState<AssistantMeetingDet
                                                   practicum: widget.args.classroom.practicum,
                                                   classroom: widget.args.classroom,
                                                   meeting: meeting,
-                                                  students:
-                                                      attendances.map((e) => e.student!).toList(),
+                                                  students: attendances.map((e) => e.student!).toList(),
                                                 ),
                                               )
                                           : null,

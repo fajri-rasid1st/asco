@@ -182,6 +182,10 @@ class _LoginFormState extends State<LoginForm> {
                       size: 20,
                     ),
                     onPressed: () => this.isVisible.value = !isVisible,
+                    style: IconButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shape: const CircleBorder(),
+                    ),
                   ),
                 ),
                 validator: FormBuilderValidators.required(

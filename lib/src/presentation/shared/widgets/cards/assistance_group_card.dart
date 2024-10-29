@@ -76,9 +76,8 @@ class AssistanceGroupCard extends StatelessWidget {
                   title: 'Hapus Grup Asistensi?',
                   message: 'Anda yakin ingin menghapus grup asistensi ini?',
                   primaryButtonText: 'Hapus',
-                  onPressedPrimaryButton: () => ref
-                      .read(assistanceGroupActionsProvider.notifier)
-                      .deleteAssistanceGroup(group.id!),
+                  onPressedPrimaryButton: () =>
+                      ref.read(assistanceGroupActionsProvider.notifier).deleteAssistanceGroup(group.id!),
                 ),
                 child: const Icon(
                   Icons.remove_rounded,
