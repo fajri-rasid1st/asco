@@ -1,6 +1,6 @@
 # ASCO (Assistance Coordination)
 #### Aplikasi Pengelolaan Praktikum dan Asistensi pada Laboratiorium RPL Program Studi Sistem Informasi Universitas Hasanuddin 
-Feature: 
+Features: 
 - Pengelolaan Praktikum, Kelas, Pertemuan, dan Grup Asistensi
 - Absensi Pertemuan (manual atau QR code) 
 - Penilaian (input nilai dan export nilai ke Excel) 
