@@ -182,8 +182,7 @@ class IdCardFrontSide extends ConsumerWidget {
                             ),
                           ),
                           child: GestureDetector(
-                            onTap: () =>
-                                context.showProfilePictureDialog(profile.profilePicturePath),
+                            onTap: () => context.showProfilePictureDialog(profile.profilePicturePath),
                             child: profile.profilePicturePath != null
                                 ? CachedNetworkImage(
                                     imageUrl: profile.profilePicturePath!,
